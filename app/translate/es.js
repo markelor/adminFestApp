@@ -1,0 +1,235 @@
+module.exports = {
+    general: {
+        generalError: "Algo salió mal. Este error ha sido registrado y será dirigido a nuestro personal. ¡Pedimos disculpas por este inconveniente!"
+    },
+    validation: {
+        emailLength: "El correo electrónico debe tener al menos 5 caracteres pero no más de 30.",
+        emailValid: "Debe ser un correo electrónico válido.",
+        nameLength: "El nombre debe tener al menos 5 caracteres pero no más de 35.",
+        nameValid: "El nombre no debe tener caracteres especiales.",
+        usernameLength: "El nombre de usuario debe tener al menos 3 caracteres pero no más de 15.",
+        usernameValid: "El nombre de usuario no debe tener caracteres especiales.",
+        passwordLength: "La contraseña debe tener al menos 8 caracteres pero no más de 35.",
+        passwordValid: "Debe tener al menos una mayúscula, minúscula, carácter especial y número.",
+        aboutYourselfLength: "Acerca de ti no debe tener más de 500 caracteres.",
+        titleLength: "El título debe tener al menos 5 caracteres pero no más de 35.",
+        titleValid: "El título no debe tener caracteres especiales.",
+        locationLength: "La localización no debe tener más de 1000 caracteres.",
+        descriptionLength: "La descripción debe tener al menos 50 caracteres pero no más de 20000.",
+        observationLength: "Observaciones no debe tener más de 1000 caracteres.",
+        discoveryLength: "El descubrimiento no debe tener más de 1000 caracteres.",
+        bibliographyLength: "La bibliografía no debe tener más de 1000 caracteres.",
+        latitudeValid: "Por favor, inserte la latitud en formato decimal.",
+        longitudeValid: "Por favor, inserte la longitud en formato decimal.",
+        commentLength: "El comentario no debe tener más de 1500 caracteres."
+    },
+    register: {
+        nameProvidedError: "Debe proporcionar un nombre.",
+        emailProvidedError: "Debe proporcionar un correo electrónico.",
+        usernameProvidedError: "Debe proporcionar un nombre de usuario.",
+        passwordProvidedError: "Debe proporcionar una contraseña.",
+        duplicateError: "El nombre de usuario o correo electrónico ya existe.",
+        saveError: "No se pudo guardar el usuario. Error: ",
+        emailSubject: "Tu link de activación",
+        emailTextOne: "Hola ",
+        emailTextTwo: ", Gracias por registrarse en localhost.com. Haga clic en el siguiente enlace para completar su activación: http://localhost:4200/es/activar/",
+        emailHtmlOne: "Hola<strong> ",
+        emailHtmlTwo: '</strong>,<br><br>Gracias por registrarse en localhost.com. Haga clic en el siguiente enlace para completar su activación:<br><br><a href="http://localhost:4200/es/activar/',
+        emailHtmlThree: '">http://localhost:4200/es/activar/</a>',
+        success: "Cuenta registrada! Compruebe su enlace de activación por correo electrónico."
+    },
+    checkEmail: {
+        emailProvidedError: "El correo electrónico no fue proporcionado.",
+        emailTakenError: "El correo electronico ya ha sido tomado.",
+        success: "El correo electrónico está disponible."
+    },
+    checkUsername: {
+        usernameProvidedError: "El nombre de usuario no fue proporcionado.",
+        usernameTakenError: "El nombre de usuario ya ha sido tomado.",
+        success: "El nombre de usuario está disponible."
+    },
+    login: {
+        usernameProvidedError: "El nombre de usuario no fue proporcionado.",
+        usernameError: "Usuario no encontrado.",
+        passwordError: "La contraseña no fue proporcionada.",
+        passwordValidError: "No se pudo autentificar la contraseña.",
+        activatedError: "La cuenta aún no está activada. Compruebe su enlace de activación por correo electrónico.",
+        success: "Usuario autentificado!"
+    },
+    activate: {
+        temporaryTokenProvidedError:"El token temporal no fue proporcionado.",
+        expiredError: "El enlace de activación ha caducado.",
+        passwordError: "La contraseña no fue proporcionada.",
+        passwordValidError: "No se pudo autentificar la contraseña.",
+        activatedError: "La cuenta aún no está activada. Compruebe su enlace de activación por correo electrónico.",
+        emailSubject: "Cuenta activada",
+        emailTextOne: "Hola ",
+        emailTextTwo: ", Su cuenta ha sido activada exitosamente!",
+        emailHtmlOne: "Hola<strong> ",
+        emailHtmlTwo: "</strong>,<br><br>Su cuenta ha sido activada exitosamente!",
+        success: "Cuenta activada!"
+    },
+    resend: {
+        usernameProvidedError: "El nombre de usuario no fue proporcionado.",
+        passwordProvidedError: "La contraseña no fue proporcionada.",
+        userError: "No se pudo autentificar el usuario.",
+        validPasswordError: "No se pudo autentificar la contraseña.",
+        accountError: "La cuenta ya está activada.",
+        emailSubject: "Solicitud de enlace de activación",
+        emailTextOne: "Hola ",
+        emailTextTwo: ", Recientemente has solicitado un enlace para la nueva cuenta. Haga clic en el siguiente enlace para completar su activación: http://localhost:4200/es/activar/",
+        emailHtmlOne: "Hola<strong> ",
+        emailHtmlTwo: '</strong>,<br><br>Recientemente has solicitado un enlace para la nueva cuenta. Haga clic en el siguiente enlace para completar su activación:<br><br><a href="http://localhost:4200/es/activar/',
+        emailHtmlThree: '">http://localhost:4200/es/activar/</a>',
+        success: "El enlace de activación ha sido enviado a "
+    },
+    resetUsername: {
+        emailProvidedError: "El correo electrónico no fue proporcionado.",
+        emailError: "El correo electrónico no fue encontrado.",
+        emailSubject: "Solicitud de nombre de usuario",
+        emailTextOne: "Hola ",
+        emailTextTwo: ", Recientemente has solicitado tu nombre de usuario. Guárdelo en sus archivos: ",
+        emailHtmlOne: "Hola<strong> ",
+        emailHtmlTwo: "</strong>,<br><br>Recientemente has solicitado tu nombre de usuario. Guárdelo en sus archivos: ",
+        success: "El nombre de usuario se ha enviado al correo electrónico!"
+    },
+    resetPassword: {
+        tokenProvidedError: "El token no fue proporcionado.",
+        usernameError: "No se encontró el nombre de usuario.",
+        accountError: "La cuenta aún no se ha activado.",
+        emailSubject: "Solicitud para restablecer la contraseña",
+        emailTextOne: "Hola ",
+        emailTextTwo: ', Recientemente has solicitado un enlace de restablecimiento de contraseña. Haga clic en el enlace de abajo para restablecer su contraseña:<br><br><a href="http://localhost:4200/es/nueva-contraseña/',
+        emailHtmlOne: "Hola<strong> ",
+        emailHtmlTwo: '</strong>,<br><br>Recientemente has solicitado un enlace de restablecimiento de contraseña. Haga clic en el enlace de abajo para restablecer su contraseña:<br><br><a href="http://localhost:4200/es/nueva-contraseña/',
+        emailHtmlThree: '">http://localhost:4200/es/nueva-contraseña/</a>',
+        success: "Por favor, compruebe su correo electrónico para el enlace de restablecimiento de contraseña.",
+        expiredError: "El enlace de la contraseña ha caducado.",
+
+    },
+    savePassword: {
+        usernameProvidedError: "El nombre de usuario no fue proporcionado.",
+        passwordProvidedError: "La contraseña no fue proporcionada.",
+        emailSubject: "Contraseña restablecida recientemente",
+        emailTextOne: "Hola ",
+        emailTextTwo: ", TEste correo electrónico es para notificarle que su contraseña se ha restablecido recientemente.",
+        emailHtmlOne: "Hola<strong> ",
+        emailHtmlTwo: "</strong>,<br><br>Este correo electrónico es para notificarle que su contraseña se ha restablecido recientemente.",
+        success: "La contraseña se ha restablecido!"
+    },
+    usersImages:{
+        usernamesError:"La lista con nombres de usuario no fue proporcionado."
+    },
+    headers: {
+        tokenError: "No se proporciono ningún token.",
+        validError: "Token invalido."
+    },
+    renewToken: {
+        usernameProvidedError: "El nombre de usuario no fue proporcionado.",
+        userError: "No se encontró el nombre de usuario."
+    },
+    permission: {
+        userError: "No se encontró el nombre de usuario."
+    },
+    management: {
+        usernameProvidedError: "El nombre de usuario no fue proporcionado.",
+        userError: "No se encontró el nombre de usuario.",
+        usersError: "Usuarios no encontrados.",
+        permissionError: "Permisos insuficientes."
+    },
+    editUser: {
+        idProvidedError: "El ID no fue proporcionado.",
+        userError: "No se encontró el nombre de usuario.",
+        permissionError: "Permisos insuficientes.",
+        nameUpdated: "¡El nombre ha sido actualizado!",
+        usernameUpdated: "¡El nombre de usuario ha sido actualizado!",
+        emailUpdated: "¡El correo electrónico ha sido actualizado!",
+        aboutYourselfUpdated: "¡Acerca de ti ha sido actualizado!",
+        adminOneError: "Permisos insuficientes. Debes ser administrador para bajar de grado a otro administrador.",
+        adminTwoError: "Permisos insuficientes. Debes ser administrador para subir de grado a otro administrador.",
+        success: "Se han actualizado los permisos.!"
+    },
+    fileUpload: {
+        uploadError: "¡Se ha producido un error al subir imágenes!",
+        uploadSuccess: "Imágenes subidas correctamente.",
+        deleteError: "¡Se ha producido un error al eliminar imágenes!",
+        deleteSuccess: "Imágenes eliminadas correctamente.",
+        keyError: "Debe proporcionar la llave.",
+        bucketError: "Debe proporcionar el contenedor de la imagen."
+    },
+    newTheme: {
+        archeology: "Arqueología",
+        createdByProvidedError: "El creador del tema es requerido.",
+        thematicProvidedError: "La temática es requerida.",
+        titleProvidedError: "El título del tema es requerido.",
+        themeProvidedError: "El tema es requerido.",
+        continentProvidedError: "El coninente es requerido.",
+        countryProvidedError: "El país es requerido.",
+        regionProvidedError: "La región es requerida.",
+        descriptionProvidedError: "La descripción del tema es requerida.",
+        latitudeProvidedError: "La latitud es requerida.",
+        longitudeProvidedError: "La longitud es requerida.",
+        imageProvidedError: "La imagen es requerida.",
+        saveError: "No se pudo guardar el tema. Error:",
+        success: "¡Tema guardado!"
+    },
+    allThemes: {
+        themesError: "No se encontraron temas.",
+        thematicProvidedError: "La temática no fue proporcionada.",
+        visibleProvidedError:"El parametro visible no fue proporcionado.",
+        themeProvidedError: "El tema no fue proporcionado.",
+        classProvidedError: "La clase no fue proporcionada.",
+        countryProvidedError:"El país no fue proporcionado.",
+        regionProvidedError:"La región no fue proporcionada."
+    },
+    singleTheme: {
+        paramProvidedError: "El ID del tema, no fue proporcionado.",
+        themeError: "No se encontró ningun tema."
+    },
+    editTheme: {
+        idProvidedError: 'El ID del tema, no fue proporcionado.',
+        themeError: "No se encontró el tema.",
+        userError: "No se encontró el nombre de usuario.",
+        permissionError: "No estás autorizado para editar esta publicación de tema.",
+        saveError: "No se pudo editar el tema. Error: ",
+        success: "¡Tema editado!"
+    },
+    deleteTheme: {
+        idProvidedError: 'El ID del tema, no fue proporcionado.',
+        themeError: "No se encontró el tema.",
+        userError: "No se encontró el nombre de usuario.",
+        permissionError: "No estás autorizado para eliminar esta publicación de tema.",
+        saveError: "No se pudo eliminar el tema. Error: ",
+        success: "¡Tema eliminado!"
+    },
+    addThemeReaction: {
+        idProvidedError: 'El ID del tema, no fue proporcionado.',
+        reactionProvidedError: 'La reacción del tema no fue proporcionada.',
+        themeError: "No se encontró el tema.",
+        userError: "No se encontró el nombre de usuario.",
+        ownError: "No puedes reaccionar a tu propia publicación.",
+        likedBeforeError: "Ya has reaacionado a esta publicación. ",
+        saveError: "No se pudo añadir la reacción. Error: ",  
+        success: "!Reacción añadida!"
+    },
+     deleteThemeReaction: {
+        idProvidedError: 'El ID del tema, no fue proporcionado.',
+        themeError: "No se encontró el tema.",
+        userError: "No se encontró el nombre de usuario.",
+        ownError: "No puedes reaccionar a tu propia publicación.",
+        quitBeforeError: "Ya has dejado de reaccionar este post",
+        saveError: "No se pudo eliminar la reacción. Error: ",
+        success: "¡Reacción eliminada!"
+    },
+     newComment: {
+        createdByProvidedError: "El creador del comentario es requerido.",
+        themeIdProvidedError: "El ID del tema es requerido.",
+        commentProvidedError: "El comentario es requerido.",
+        saveError: "No se pudo guardar el comentario. Error:",
+        success: "¡Comentario guardado!"
+    },
+    comments: {
+        commentsError: "No se encontraron comentarios."
+    }
+
+};

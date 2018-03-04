@@ -1,0 +1,236 @@
+module.exports = {
+    general: {
+        generalError: "Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!"
+    },
+    validation: {
+        emailLength: "E-mail must be at least 5 characters but no more than 30.",
+        emailValid: "Must be a valid e-mail.",
+        nameLength: "Name must be at least 5 characters but no more than 35.",
+        nameValid: "Name must not have any special characters.",
+        usernameLength: "Username must be at least 3 characters but no more than 15.",
+        usernameValid: "Username must not have any special characters.",
+        passwordLength: "Password must be at least 8 characters but no more than 35.",
+        passwordValid: "Must have at least one uppercase, lowercase, special character, and number.",
+        aboutYourselfLength: "About Yourself must be no longer than 500 characters.",
+        titleLength: "Title must be more than 5 characters but no more than 35.",
+        titleValid: "Title must not have any special characters.",
+        locationLength: "Location must be no longer than 1000 characters.",
+        descriptionLength: "Description must be more than 50 characters but no more than 20000.",
+        observationLength: "Observation must be no longer than 1000 characters.",
+        discoveryLength: "Discovery must be no longer than 1000 characters.",
+        bibliographyLength: "Bibliography must be no longer than 1000 characters.",
+        latitudeValid: "Please, insert latitude in decimal format.",
+        longitudeValid: "Please, insert longitude in decimal format.",
+        commentLength: "Comment must be no longer than 1500 characters."
+    },
+    register: {
+        nameProvidedError: "You must provide a name.",
+        emailProvidedError: "You must provide an e-mail.",
+        usernameProvidedError: "You must provide a username.",
+        passwordProvidedError: "You must provide a password.",
+        duplicateError: "Username or e-mail already exists.",
+        saveError: "Could not save user. Error: ",
+        emailSubject: "Your activation link",
+        emailTextOne: "Hello ",
+        emailTextTwo: ", thank you for registering at localhost.com. Please click on the following link to complete your activation: http://localhost:4200/en/activate/",
+        emailHtmlOne: "Hello<strong> ",
+        emailHtmlTwo: '</strong>,<br><br>Thank you for registering at localhost.com. Please click on the link below to complete your activation:<br><br><a href="http://localhost:4200/en/activate/',
+        emailHtmlThree: '">http://localhost:4200/en/activate/</a>',
+        success: "Account registered! Please check your e-mail for activation link."
+    },
+    checkEmail: {
+        emailProvidedError: "E-mail was not provided.",
+        emailTakenError: "E-mail is already taken.",
+        success: "E-mail is available."
+    },
+    checkUsername: {
+        usernameProvidedError: "Username was not provided.",
+        usernameTakenError: "Username is already taken.",
+        success: "Username is available."
+    },
+    login: {
+        usernameProvidedError:"Username was not provided.",
+        usernameError: "Username not found.",
+        passwordError: "Password was not provided.",
+        passwordValidError: "Could not authenticate password.",
+        activatedError: "Account is not yet activated. Please check your e-mail for activation link.",
+        success: "User authenticated!"
+    },
+    activate: {
+        temporaryTokenProvidedError:"Temporary token was not provided.",
+        expiredError: "Activation link has expired.",
+        passwordError: "No password provided.",
+        passwordValidError: "Could not authenticate password.",
+        activatedError: "Account is not yet activated. Please check your e-mail for activation link.",
+        emailSubject: "Account activated",
+        emailTextOne: "Hello ",
+        emailTextTwo: ", Your account has been successfully activated!",
+        emailHtmlOne: "Hello<strong> ",
+        emailHtmlTwo: "</strong>,<br><br>Your account has been successfully activated!",
+        success: "Account activated!"
+    },
+    resend: {
+        usernameProvidedError:"Username was not provided.",
+        passwordProvidedError: "Password was not provided.",
+        userError: "Could not authenticate user.",
+        validPasswordError: "Could not authenticate password.",
+        accountError: "Account is already activated.",
+        emailSubject: "Activation link request",
+        emailTextOne: "Hello ",
+        emailTextTwo: ", You recently requested a new account activation link. Please click on the following link to complete your activation: http://localhost:4200/en/activate/",
+        emailHtmlOne: "Hello<strong> ",
+        emailHtmlTwo: '</strong>,<br><br>You recently requested a new account activation link. Please click on the link below to complete your activation:<br><br><a href="http://localhost:4200/en/activate/',
+        emailHtmlThree: '">http://localhost:4200/en/activate/</a>',
+        success: "Activation link has been sent to "
+    },
+    resetUsername: {
+        emailProvidedError: "E-mail was not provided.",
+        emailError: "E-mail was not found.",
+        emailSubject: "Username request",
+        emailTextOne: "Hello ",
+        emailTextTwo: ", You recently requested your username. Please save it in your files: ",
+        emailHtmlOne: "Hello<strong> ",
+        emailHtmlTwo: "</strong>,<br><br>You recently requested your username. Please save it in your files: ",
+        success: "Username has been sent to e-mail!"
+    },
+    resetPassword: {
+        tokenProvidedError: "Token was not provided.",
+        usernameError: "Username was not found.",
+        accountError: "Account has not yet been activated.",
+        emailSubject: "Reset password request",
+        emailTextOne: "Hello ",
+        emailTextTwo: ', You recently request a password reset link. Please click on the link below to reset your password:<br><br><a href="http://localhost:4200/en/new-password/',
+        emailHtmlOne: "Hello<strong> ",
+        emailHtmlTwo: '</strong>,<br><br>You recently request a password reset link. Please click on the link below to reset your password:<br><br><a href="http://localhost:4200/en/new-password/',
+        emailHtmlThree: '">http://localhost:4200/en/new-password/</a>',
+        success: "Please, check your e-mail for password reset link.",
+        expiredError: "Password link has expired.",
+
+    },
+    savePassword: {
+        usernameProvidedError:"Username was not provided.",
+        passwordProvidedError: "Password was not provided.",
+        emailSubject: "Password recently reset",
+        emailTextOne: "Hello ",
+        emailTextTwo: ", This e-mail is to notify you that your password was recently reset.",
+        emailHtmlOne: "Hello<strong> ",
+        emailHtmlTwo: "</strong>,<br><br>This e-mail is to notify you that your password was recently reset.",
+        success: "Password has been reset!"
+    },
+    usersImages:{
+        usernamesError:"The list with user names was not provided."
+    },
+    headers: {
+        tokenError: "No token provided.",
+        validError: "Token invalid."
+    },
+    renewToken: {
+        usernameProvidedError:"Username was not provided.",
+        userError: "No user was found."
+    },
+    permission: {
+        userError: "No user was found."
+    },
+    management: {
+        usernameProvidedError:"Username was not provided.",
+        userError: "No user was found.",
+        usersError: "Users not found.",
+        permissionError: "Insufficient permissions."
+    },
+    editUser: {
+        idProvidedError:"ID was not provided.",
+        userError: "No user was found.",
+        permissionError: "Insufficient permissions.",
+        nameUpdated: "Name has been updated!",
+        usernameUpdated: "Username has been updated!",
+        emailUpdated: "E-mail has been updated!",
+        aboutYourselfUpdated: "About yourself has been updated!",
+        adminOneError: "Insufficient Permissions. You must be an admin to downgrade another admin.",
+        adminTwoError: "Insufficient Permissions. You must be an admin to upgrade someone to the admin level.",
+        success: "Permissions have been updated!"
+    },
+    fileUpload: {
+        uploadError: "There was an error uploading images!",
+        uploadSuccess: "Uploaded images correctly.",
+        deleteError: "There was an error deleting images!",
+        deleteSuccess: "Deleted images correctly.",
+        keyError: "You must provide a key.",
+        bucketError: "You must provide a image bucket."
+
+    },
+    newTheme: {
+        archeology: "Archeology",
+        createdByProvidedError: "Theme creator is required.",
+        thematicProvidedError: "Thematic is required.",
+        titleProvidedError: "Theme title is required.",
+        themeProvidedError: "Theme is required.",
+        continentProvidedError: "Continent is required.",
+        countryProvidedError: "Country is required.",
+        regionProvidedError: "Region is required.",
+        descriptionProvidedError: "Theme description is required.",
+        latitudeProvidedError: "Latitude is required.",
+        longitudeProvidedError: "Longitude is required.",
+        imageProvidedError: "Image is required.",
+        saveError: "Could not save theme. Error:",
+        success: "Theme saved!"
+    },
+    allThemes: {
+        themesError: "No themes found.",
+        thematicProvidedError:"Thematic was not provided.",
+        visibleProvidedError:"Visible parameter was not provided.",
+        themeProvidedError:"Theme was not provided.",
+        classProvidedError:"Class was not provided.",
+        countryProvidedError:"Country was not provided.",
+        regionProvidedError:"Country was not provided."
+    },
+    singleTheme: {
+        paramProvidedError: "Theme ID was not provided.",
+        themeError: "Theme not found."
+    },
+    editTheme: {
+        idProvidedError: 'Theme ID was not provided',
+        themeError: "No theme was found.",
+        userError: "No user was found.",
+        permissionError: "You are not authorized to edit this theme post.",
+        saveError: "Could not edit theme. Error: ",
+        success: "Theme edited!"
+
+    },
+    deleteTheme: {
+        idProvidedError: 'Theme ID was not provided',
+        themeError: "No theme was found.",
+        userError: "No user was found.",
+        permissionError: "You are not authorized to delete this theme post.",
+        saveError: "Could not delete theme. Error: ",
+        success: "Theme deleted!"
+    },
+     addThemeReaction: {
+        idProvidedError: 'Theme ID was not provided',
+        reactionProvidedError: 'Theme reaction was not provided',
+        themeError: "No theme was found.",
+        userError: "No user was found.",
+        ownError: "You cannot react to your own publication.",
+        likedBeforeError: "You already liked this post. ",
+        saveError: "Could not save reaction. Error:",  
+        success: "Reacction added!"
+    },
+     deleteThemeReaction: {
+        idProvidedError: 'Theme ID was not provided',
+        themeError: "No theme was found.",
+        userError: "No user was found.",
+        ownError: "You cannot react to your own publication.",
+        quitBeforeError: "You already quit the reaction to this post",
+        saveError: "Could not delete reaction. Error: ",
+        success: "Reaction deleted!"
+    },
+     newComment: {
+        createdByProvidedError: "Comment creator is required.",
+        themeIdProvidedError: "Theme ID is required.",
+        commentProvidedError: "Comment is required.",
+        saveError: "Could not save comment. Error:",
+        success: "Comment saved!"
+    },
+    comments: {
+        commentsError: "Comments not found."
+    }
+};

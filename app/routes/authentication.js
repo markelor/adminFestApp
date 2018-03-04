@@ -1,9 +1,9 @@
 const User = require('../models/user'); // Import User Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
-const es = require('../config/translate/es'); // Import translate es
-const eu = require('../config/translate/eu'); // Import translate eu
-const en = require('../config/translate/en'); // Import translate en
+const es = require('../translate/es'); // Import translate es
+const eu = require('../translate/eu'); // Import translate eu
+const en = require('../translate/en'); // Import translate en
 const nodemailer = require('nodemailer');
 const emailConfig = require('../config/email'); // Mongoose Email
 module.exports = (router) => {

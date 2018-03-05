@@ -1,0 +1,239 @@
+{
+  "authentication":"authentication",
+  "sign-up-route": "sign-up",
+  "activate-route": "activate",
+  "sign-in-route": "sign-in",
+  "resend-route": "resend",
+  "reset-username-route": "reset-username",
+  "reset-password-route": "reset-password",
+  "new-password-route": "new-password",
+  "search-route": "search",
+  "create-route": "create",
+  "archeology-route": "archeology",
+  "symbology-route": "symbology",
+  "details-route": "details",
+  "region-route": "region",
+  "user-route": "user",
+  "profile-route": "profile",
+  "map-route": "map",
+  "all-route": "all",
+  "admin-route": "admin",
+  "users-route": "users",
+  "menu":
+  {
+    "home": "Home",
+    "theme": "Theme",
+    "archeology": "Archeology",
+    "symbology": "Symbology",
+    "create-theme-archeology": "Create Theme Archeology",
+    "create-theme-symbology": "Create Theme Symbology",
+    "create": "Create",
+    "map": "Map",
+    "all": "All",
+    "administrator": "Administrator",
+    "users": "Users"
+  },
+  "dashboard":
+  {
+    "acquisition_channels": "Acquisition Channels",
+    "users_by_country": "Users by Country",
+    "revenue": "Revenue",
+    "feed": "Feed",
+    "todo_list": "To Do List",
+    "calendar": "Calendar",
+    "new_visits": "New Visits",
+    "purchases": "Purchases",
+    "active_users": "Active Users",
+    "returned": "Returned",
+    "popular_app":
+    {
+      "super_app": "Super App",
+      "most_popular_app": "Most Popular App",
+      "total_visits": "Total Visits",
+      "new_visits": "New Visits",
+      "sales": "Sales"
+    },
+    "todo":
+    {
+      "task_todo": "Task to do.."
+    },
+    "traffic_chart":
+    {
+      "view_total": "Views Total"
+    }
+  },
+  "tree_view":
+  {
+    "title": "basic",
+    "programming": "Programming languages by programming paradigm",
+    "oop": "Object-oriented programming",
+    "java": "Java",
+    "c_plus_plus": "C++",
+    "c_sharp": "C#",
+    "prototype": "Prototype-based programming",
+    "java_script": "JavaScript",
+    "coffee_script": "CoffeeScript",
+    "lua": "Lua"
+  },
+  "chart":
+  {
+    "lines": "Lines",
+    "bars": "Bars",
+    "simple_line_chart": "Simple line chart",
+    "line_chart": "Line chart with area",
+    "bi_polar_line_chart": "Bi-polar line chart with area only",
+    "simple_bar_chart": "Simple bar chart",
+    "multi_line_labels_bar_chart": "Multi-line labels bar chart",
+    "stacked_bar_chart": "Stacked bar chart",
+    "pies_and_donuts": "Pies & Donuts",
+    "simple_pie": "Simple Pie",
+    "pie_with_labels": "Pie with labels",
+    "donut": "Donut"
+  },
+  "profile":
+  {
+    "settings": "Settings"
+  },
+  "top-page":
+  {
+    "es": "Spanish",
+    "en": "English",
+    "eu": "Euskara"
+
+  },
+  "theme":
+  {
+    "created-by": "Created by:",
+    "read-more": "Read More",
+    "general-info":"General Information",
+    "like":"Like",
+    "comment":"Comment",
+    "share":"Share"
+  },
+  "create-theme":
+  {
+    "thematic-archeology": "Archeology",
+    "thematic-symbology": "Symbology",
+    "title": "Title",
+    "theme": "Theme",
+    "class": "Class",
+    "megalithic-station": "Megalithic Station",
+    "images": "Images",
+    "choose-image": "Choose image",
+    "choose-images": "Choose images",
+    "list-images": "List of images: ",
+    "preview": "Preview",
+    "name": "Name",
+    "size": "Size",
+    "status": "Status",
+    "delete": "Delete",
+    "queue-progress": "Queue progress",
+    "delete-all": "Delete all",
+    "cultural-secuence": "Cultural Secuence",
+    "stage": "Stage",
+    "continent": "Continent",
+    "country": "Country",
+    "region": "Region",
+    "province": "Province",
+    "municipality": "Municipality",
+    "lat": "Coordinates N-S (Lat)",
+    "lng": "Coordinates E-W (Lng)",
+    "check": "Check",
+    "location": "Location",
+    "description": "Description",
+    "observations": "Observations",
+    "discovery": "Discovery",
+    "bibliography": "Bibliography",
+    "select-theme": "-- SELECT A THEME --",
+    "select-class": "-- SELECT A CLASS --",
+    "select-cultural-secuence": "-- SELECT AN EPOC --",
+    "select-stage": "-- SELECT A STAGE --",
+    "select-continent": "-- SELECT A CONTINENT --",
+    "select-country": "-- SELECT A COUNTRY --",
+    "select-region": "-- SELECT A REGION --",
+    "select-province": "-- SELECT A PROVINCE --",
+    "select-municipality": "-- SELECT A MUNICIPALITY --",
+    "send": "Send"
+  },
+  "comment":
+  {
+    "leaveComment":"Write a comment.",
+    "delete":"Delete",
+    "edit":"Edit",
+    "reply":"Reply",
+    "hideReplies":"Hide Replies"
+  },
+  "validation":
+  {
+    "required": "This field is required.",
+    "name-length": "Minimum characters: 5, Maximum characters: 35.",
+    "name-validation": "Name must not have any special characters.",
+    "username-length": "Minimum characters: 3, Maximum characters: 15.",
+    "username-validation": "Username must not have sapaces and any special characters.",
+    "email-length": "Minimum characters: 5, Maximum characters: 30.",
+    "email-validation": "This must be a valid e-mail.",
+    "password-length": "Minimum characters: 8, Maximum characters: 35.",
+    "password-valid": "Must have at least one uppercase, lowercase, special character, and number.",
+    "password-match": "Passwords don't match.",
+    "about-yourself-length": "Maximum characters: 500.",
+    "title-length": "Minimum characters: 5, Maximum characters: 35.",
+    "title-validation": "Title must not have any special characters.",
+    "latitude-validation": "Insert latitude in decimal format.",
+    "longitude-validation": "Insert longitude in decimal format.",
+    "location-length": "Maximum characters: 1000.",
+    "description-length": "Minimum characters: 50, Maximum characters: 20000.",
+    "observations-length": "Maximum characters: 1000.",
+    "discovery-length": "Maximum characters: 1000.",
+    "bibliography-length": "Maximum characters: 1000.",
+    "comment-length": "Maximum characters: 1500."
+  },
+  "auth-form":
+  {
+    "name": "Name",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "repeat-password": "Repeat password",
+    "about-yourself": "About yourself",
+    "sign-up-title": "Sign up to mundoarqueologia",
+    "sign-up-sign-in-link": "Already have an mundoarqueologia account? Sign in!",
+    "sign-up": "Sign up",
+    "sign-in-title": "Sign up to mundoarqueologia",
+    "sign-in-sign-up-link": "New to mundoarqueologia? Sign up!",
+    "sign-in": "Sign in",
+    "resend-link": "Resend activation link",
+    "forgot-username": "¿Forgot username?",
+    "forgot-password": "Forgot password?",
+    "activate-account-title": "Activate account",
+    "activate-account-state": "Account state.",
+    "reset-username-title": "Recoverd username.",
+    "reset-password-title": "Recoverd password",
+    "new-password": "New password.",
+    "new-password-success": "Pealse, enter a new password.",
+    "send": "Send",
+    "guard-error": "You must be logged in to view that page."
+  },
+  "map-icon":
+  {
+    "Dolmens": "Dolmen",
+    "Menhirs": "Menhir",
+    "Tumulus": "Tumulus",
+    "Cromlechs": "Cromlech",
+    "Smooths": "Smooth",
+    "Steppeds": "Stepped",
+    "Caves": "Cave",
+    "Temples": "Temple"
+  },
+  "reaction":
+  {
+    "like": "Like",
+    "love": "Love",
+    "haha": "HaHa",
+    "wow": "Wow",
+    "sad": "Sad",
+    "angry": "Angry",
+    "you": "You",
+    "you-and": "You and",
+    "others":"others"
+  }
+}

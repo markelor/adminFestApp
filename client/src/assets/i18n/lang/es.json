@@ -1,0 +1,238 @@
+{
+  "authentication":"autentificación",
+  "activate-route": "activar",
+  "sign-in-route": "iniciar-sesion",
+  "resend-route": "reenviar",
+  "reset-username-route": "reestablecer-usuario",
+  "reset-password-route": "reestablecer-contraseña",
+  "new-password-route": "nueva-contraseña",
+  "search-route": "buscar",
+  "create-route": "crear",
+  "archeology-route": "arqueología",
+  "symbology-route": "simbología",
+  "details-route": "detalles",
+  "region-route": "región",
+  "user-route": "usuario",
+  "profile-route": "perfil",
+  "map-route": "mapa",
+  "all-route": "todos",
+  "admin-route": "admin",
+  "users-route": "usuarios",
+  "menu":
+  {
+    "home": "Inicio",
+    "theme": "Tema",
+    "archeology": "Arqueología",
+    "symbology": "Simbología",
+    "create-theme-archeology": "Arqueología",
+    "create-theme-symbology": "Simbología",
+    "create": "Crear Tema",
+    "map": "Mapa",
+    "all": "Todos",
+    "administrator": "Administrador",
+    "users": "Usuarios"
+  },
+  "dashboard":
+  {
+    "acquisition_channels": "Acquisition Channels",
+    "users_by_country": "Users by Country",
+    "revenue": "Revenue",
+    "feed": "Feed",
+    "todo_list": "To Do List",
+    "calendar": "Calendar",
+    "new_visits": "New Visits",
+    "purchases": "Purchases",
+    "active_users": "Active Users",
+    "returned": "Returned",
+    "popular_app":
+    {
+      "super_app": "Super App",
+      "most_popular_app": "Most Popular App",
+      "total_visits": "Total Visits",
+      "new_visits": "New Visits",
+      "sales": "Sales"
+    },
+    "todo":
+    {
+      "task_todo": "Task to do.."
+    },
+    "traffic_chart":
+    {
+      "view_total": "Views Total"
+    }
+  },
+  "tree_view":
+  {
+    "title": "basic",
+    "programming": "Programming languages by programming paradigm",
+    "oop": "Object-oriented programming",
+    "java": "Java",
+    "c_plus_plus": "C++",
+    "c_sharp": "C#",
+    "prototype": "Prototype-based programming",
+    "java_script": "JavaScript",
+    "coffee_script": "CoffeeScript",
+    "lua": "Lua"
+  },
+  "chart":
+  {
+    "lines": "Lines",
+    "bars": "Bars",
+    "simple_line_chart": "Simple line chart",
+    "line_chart": "Line chart with area",
+    "bi_polar_line_chart": "Bi-polar line chart with area only",
+    "simple_bar_chart": "Simple bar chart",
+    "multi_line_labels_bar_chart": "Multi-line labels bar chart",
+    "stacked_bar_chart": "Stacked bar chart",
+    "pies_and_donuts": "Pies & Donuts",
+    "simple_pie": "Simple Pie",
+    "pie_with_labels": "Pie with labels",
+    "donut": "Donut"
+  },
+  "top-page":
+  {
+    "es": "Castellano",
+    "eu": "Euskara",
+    "en": "Inglés"
+  },
+  "profile":
+  {
+    "settings": "Ajustes"
+  },
+  "theme":
+  {
+    "created-by": "Creado por:",
+    "read-more": "Leer Mas",
+    "general-info":"Información General",
+    "like":"Me gusta",
+    "comment":"Comentar",
+    "share":"Compartir"
+
+  },
+  "create-theme":
+  {
+    "thematic-archeology": "Aqueología",
+    "thematic-symbology": "Simbología",
+    "title": "Titulo",
+    "theme": "Tema",
+    "class": "Clase",
+    "megalithic-station": "Estación Megalítica",
+    "images": "Imágenes",
+    "choose-image": "Elegir imagen",
+    "choose-images": "Elegir imágenes",
+    "list-images": "Lista de imágenes: ",
+    "preview": "Avance",
+    "name": "Nombre",
+    "size": "Tamaño",
+    "status": "Estado",
+    "delete": "Eliminar",
+    "queue-progress": "Progreso de la cola",
+    "delete-all": "Eliminar todos",
+    "cultural-secuence": "Secuencia Cultural",
+    "stage": "Etapas",
+    "continent": "Continente",
+    "country": "País",
+    "region": "Región",
+    "province": "Provincia",
+    "municipality": "Municipio",
+    "lat": "Coordenadas N-S (Lat)",
+    "lng": "Coordenada E-O (Lng)",
+    "check": "Comprobar",
+    "location": "Localización",
+    "description": "Descripción",
+    "observations": "Observaciones",
+    "discovery": "Descubrimiento",
+    "bibliography": "Bibliografía",
+    "select-theme": "-- SELECCIONE UN TEMA --",
+    "select-class": "-- SELECCIONE UNA CLASE --",
+    "select-cultural-secuence": "-- SELECCIONE UNA ÉPOCA --",
+    "select-stage": "-- SELECCIONE UNA ETAPA --",
+    "select-continent": "-- SELECCIONE UN CONTINENTE --",
+    "select-country": "-- SELECCIONE UN PAIS --",
+    "select-region": "-- SELECCIONE UNA REGIÓN --",
+    "select-province": "-- SELECCIONE UNA PROVINCIA --",
+    "select-municipality": "-- SELECCIONE UN MUNICIPIO --",
+    "send": "Enviar"
+  },
+  "comment":
+  {
+    "leaveComment":"Escribe un comentario.",
+    "delete":"Delete",
+    "edit":"Edit",
+    "reply":"Reply",
+    "hideReplies":"Hide Replies"
+  },
+  "validation":
+  {
+    "required": "Este campo es requerido",
+    "name-length": "Mínimo de caracteres: 5, Máximo de caracteres: 35.",
+    "name-validation": "El nombre no debe tener caracteres especiales.",
+    "username-length": "Mínimo de caracteres: 3, Máximo de caracteres: 15.",
+    "username-validation": "El nombre de usuario no debe tener espacios y caracteres especiales.",
+    "email-length": "Mínimo de caracteres: 5, Máximo de caracteres: 30.",
+    "email-validation": "Debe ser un correo electrónico válido.",
+    "password-length": "Mínimo de caracteres: 8, Máximo de caracteres: 35.",
+    "password-valid": "Debe tener al menos una mayúscula, minúscula, carácter especial y número.",
+    "password-match": "Las contraseñas no coinciden.",
+    "about-yourself-length": "Máximo de caracteres: 500.",
+    "title-length": "Mínimo de caracteres: 5, Máximo de caracteres: 35.",
+    "title-validation": "El título no debe tener caracteres especiales.",
+    "latitude-validation": "Inserte la latitud en formato decimal.",
+    "longitude-validation": "Inserte la longitud en formato decimal.",
+    "location-length": "Máximo de caracteres: 1000.",
+    "description-length": "Mínimo de caracteres: 50, Máximo de caracteres: 20000.",
+    "observations-length": "Máximo de caracteres: 1000.",
+    "discovery-length": "Máximo de caracteres: 1000.",
+    "bibliography-length": "Máximo de caracteres: 1000.",
+    "comment-length": "Máximo de caracteres: 1500."
+  },
+  "auth-form":
+  {
+    "name": "Nombre",
+    "username": "Usuario",
+    "email": "Correo",
+    "password": "Contraseña",
+    "repeat-password": "Repite la contraseña",
+    "about-yourself": "Acerca de ti",
+    "sign-up-title": "Regístrate en mundoarqueologia",
+    "sign-up-sign-in-link": "¿Ya tiene una cuenta de mundoarqueologia? ¡Inicia sesión!",
+    "sign-up": "Regístrate",
+    "sign-in-title": "Inicia sesión en mundoarqueologia",
+    "sign-in-sign-up-link": "¿Eres nuevo en mundoarqueologia? ¡Regístrate!",
+    "sign-in": "Iniciar sesión",
+    "resend-link": "Reenviar enlace de activación",
+    "forgot-username": "¿Olvidaste tu nombre de usuario?",
+    "forgot-password": "¿Olvidaste tu contraseña?",
+    "activate-account-title": "Activar la cuenta",
+    "activate-account-state": "Estado de la cuenta.",
+    "reset-username-title": "Recuperar el nombre de usuario",
+    "reset-password-title": "Recuperar la contraseña",
+    "new-password": "Nueva contraseña.",
+    "new-password-success": "Por favor, introduzca una nueva contraseña.",
+    "send": "Enviar",
+    "guard-error": "Debes iniciar sesión para ver esa página."
+  },
+  "map-icon":
+  {
+    "Dolmenes": "Dolmen",
+    "Menhires": "Menhir",
+    "Túmulos": "Tumulus",
+    "Cromleches": "Cromlech",
+    "Lisas": "Smooth",
+    "Escalonadas": "Stepped",
+    "Cuevas": "Cave",
+    "Templos": "Temple"
+  },
+  "reaction":
+  {
+    "like": "Me gusta",
+    "love": "Me encanta",
+    "haha": "Me divierte",
+    "wow": "Me asombra",
+    "sad": "Me entristece",
+    "angry": "Me enoja", 
+    "you": "Tú",
+    "you-and": "Tú y",
+    "others":"personas más"
+  }
+}

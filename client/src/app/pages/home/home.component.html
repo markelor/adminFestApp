@@ -1,0 +1,76 @@
+<div class="ks-page-content">
+  <div class="ks-page-content-body">
+    <div class="ks-nav-body-wrapper">
+      <div class="container-fluid ks-rows-section">
+        <div class="row">
+          <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <article [hidden]="theme.showAll" *ngFor="let theme of themePosts" class="card panel ks-widget ks-widget-post">
+              <h5 class="card-header">
+                <span class="ks-text"> {{theme | safeHtml : language:'title'}}</span>
+                <div class="ks-controls">
+                  <!-- showCollapse-->
+                  <a *ngIf="!theme.showCollapse" (click)="theme.showCollapse = !theme.showCollapse" class="ks-control">
+                    <span class="ks-icon la la-minus"></span>
+                  </a>
+                  <a *ngIf="theme.showCollapse" (click)="theme.showCollapse = !theme.showCollapse" class="ks-control">
+                    <span class="ks-icon la la-expand"></span>
+                  </a>
+                  <a (click)="theme.showAll = !theme.showAll" class="ks-control">
+                    <span class="ks-icon la la-close"></span>
+                  </a>
+                </div>
+              </h5>
+              <div *ngIf="!theme.showCollapse" class="card-block">
+                <!-- Date/Time -->
+                <p class="time"><span class="la la-clock-o ks-icon"></span> {{theme | safeHtml : language:'createdAt'| capitalize }} </p>
+                <img src="{{theme.images.principal[0].location}}" class="post-img ks-thumbnail img-responsive">
+                <div class="ks-text description" [innerHTML]="theme | safeHtml : language:'description'"></div>
+                <button *ngIf="!(theme | safeHtml : language:'class')" (click)="getThematicRoute(theme)" [routerLink]="['/archeology-route',theme | safeHtml : language:'theme' | lowercase,'details-route',theme | safeHtml : language:'_id'] | localize" class="btn btn-success right" translate>{{'theme.read-more'}}</button>
+                <button *ngIf="theme | safeHtml : language:'class'" [routerLink]="['/archeology-route',theme | safeHtml : language:'theme' | lowercase,theme | safeHtml : language:'class' | lowercase,'details-route',theme | safeHtml : language:'_id'] | localize" class="btn btn-success right" translate>{{'theme.read-more'}}</button>
+                <div class="ks-actions">
+                  <p class="time">
+                    <span class="la la-user ks-icon"></span>
+                    <span translate>{{'theme.created-by'}}</span> {{theme | safeHtml : language:'createdBy'}}
+                    </p>
+                  <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
+                    <span class="la la-comment-o ks-icon"></span>
+                  <span class="ks-amount">1</span>
+                  </span>
+                  <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
+                    <span class="la la-heart-o ks-icon"></span>
+                  <span class="ks-amount">3</span>
+                  </span>
+                </div>
+                <div class="ks-likes-block">
+                  <div class="ks-users">
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-1.jpg" width="26" height="26">
+                    </a>
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-7.jpg" width="26" height="26">
+                    </a>
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-11.jpg" width="26" height="26">
+                    </a>
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-2.jpg" width="26" height="26">
+                    </a>
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-6.jpg" width="26" height="26">
+                    </a>
+                  </div>
+                  <span class="ks-text">and 103 other like this</span>
+                </div>
+                <div class="ks-comments">
+                </div>
+              </div>
+            </article>
+          
+          </section>
+          <aside class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -174,7 +174,7 @@
     "email-validation": "Posta elektronikoak baliozkoa izan behar du.",
     "password-length": "Gutxienezko karaktereak: 8, Gehienezko karaktereak: 35.",
     "password-valid": "Gutxienez, maiuskula, minuskula, zenbaki eta karaktere berezi bat izan behar du.",
-    "password-match": "Pasahitzak ez datoz ba.t",
+    "password-match": "Pasahitzak ez datoz bat.",
     "about-yourself-length": "Gehienezko karaktereak: 500.",
     "title-length": "Gutxienezko karaktereak: 5, Gehienezko karaktereak: 35.",
     "title-validation": "Tituluak ezin du karaktere berezirik izan.",

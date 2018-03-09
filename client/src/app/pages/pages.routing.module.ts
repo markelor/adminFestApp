@@ -10,7 +10,7 @@ export const routes:Routes=[
 	  component: PagesComponent,canActivate:[AuthGuard],
 	  children:[
 	    { path: '', loadChildren: './home/home.module#HomeModule', pathMatch: 'full' },
-	    /*{ path: 'create-route',loadChildren: './create-theme/create-theme.module#CreateThemeModule'},*/
+	    { path: 'admin-route',loadChildren: './administrator/administrator.module#AdministratorModule'}	
 	    	
 	  ]	
 	},

@@ -41,7 +41,11 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required] // Password field
     });
     this.form.controls['username'].setValue("Markelor");
+<<<<<<< HEAD
     this.form.controls['password'].setValue('Pasahitza1!');
+=======
+    this.form.controls['password'].setValue('pasahitza');
+>>>>>>> d4c644043c52bfb9628ce7c959ccc27d7187a4c3
     this.username = this.form.controls['username'];
     this.password = this.form.controls['password'];
   }

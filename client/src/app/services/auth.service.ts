@@ -123,7 +123,7 @@ export class AuthService {
     this.route=  users+'/';
    return this.http.get<any>(this.domain + 'authentication/usersImages/'+this.route+language);
   }
-  // Function to delete a theme
+  // Function to delete a user
   public deleteUser(username,language) {
     this.route=  encodeURIComponent(username)+'/';
     return this.http.delete<any>(this.domain + 'authentication/management/' + this.route+language);

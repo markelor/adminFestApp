@@ -40,9 +40,9 @@ export class ResetUsernameComponent implements OnInit {
     this.form.enable(); 
   }
 
-  private onSubmit(values){
+  private onSubmit(){
     this.submitted = true; // Used to submit button while is being submitted
-    this.disableForm(); // Disable form while being process
+    //this.disableForm(); // Disable form while being process
     // Create user object from user's input
       this.user.setLanguage=this.localizeService.parser.currentLang;
       this.user.setEmail=this.form.get('email').value;

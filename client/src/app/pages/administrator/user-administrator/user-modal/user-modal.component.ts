@@ -2,7 +2,6 @@ import { Component, OnInit,Input } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { AlphanumericValidator, EmailValidator } from '../../../../validators';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { ObservableService } from '../../../../services/observable.service';
 import { AuthService } from '../../../../services/auth.service';
 import { LocalizeRouterService } from 'localize-router';
@@ -29,7 +28,7 @@ export class UserModalComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private authService: AuthService,
     private observableService: ObservableService,
-    private router: Router) {
+  ) {
   	this.createForm();  // Create Login Form when component is constructed
   }
   private createForm() {
@@ -80,17 +79,6 @@ export class UserModalComponent implements OnInit {
       }
     });
   }
-
-  ngOnInit() {
-    this.observableService.modalCount=this.observableService.modalCount+1;
-    this.form.controls['permission'].setValue(this.oldUser.permission);
-    this.form.controls['name'].setValue(this.oldUser.name);
-    this.form.controls['username'].setValue(this.oldUser.username);
-    this.form.controls['email'].setValue(this.oldUser.email);
-    this.form.controls['aboutYourself'].setValue(this.oldUser.aboutYourself);
-
-  }
-
   public closeModal() {
     this.activeModal.close();
     this.observableService.modalCount=this.observableService.modalCount-1;
@@ -102,15 +90,27 @@ export class UserModalComponent implements OnInit {
 
   }
   public confirmModal() {
-  	this.oldUser.language=this.localizeService.parser.currentLang;
-  	this.oldUser.permission=this.form.get('permission').value;
-  	this.oldUser.name=this.form.get('name').value;
-  	this.oldUser.username=this.form.get('username').value;
-  	this.oldUser.email=this.form.get('email').value;
-  	this.oldUser.aboutYourself=this.form.get('aboutYourself').value;
-  	this.authService.editUser(this.oldUser).subscribe(data=>{
-  	this.observableService.notifyOther({option: this.observableService.modalType,data:data});
+    this.oldUser.language=this.localizeService.parser.currentLang;
+    this.oldUser.permission=this.form.get('permission').value;
+    this.oldUser.name=this.form.get('name').value;
+    this.oldUser.username=this.form.get('username').value;
+    this.oldUser.email=this.form.get('email').value;
+    this.oldUser.aboutYourself=this.form.get('aboutYourself').value;
+    this.authService.editUser(this.oldUser).subscribe(data=>{
+    this.observableService.notifyOther({option: this.observableService.modalType,data:data});
     });
     this.closeModal();
   }
+
+  ngOnInit() {
+    this.observableService.modalCount=this.observableService.modalCount+1;
+    this.form.controls['permission'].setValue(this.oldUser.permission);
+    this.form.controls['name'].setValue(this.oldUser.name);
+    this.form.controls['username'].setValue(this.oldUser.username);
+    this.form.controls['email'].setValue(this.oldUser.email);
+    this.form.controls['aboutYourself'].setValue(this.oldUser.aboutYourself);
+
+  }
+
+  
 }

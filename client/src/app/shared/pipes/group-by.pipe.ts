@@ -16,6 +16,8 @@ export class GroupByPipe implements PipeTransform {
         console.log(cur.originCommentId[0]);
         cur.firstOriginCommentId=cur.originCommentId[0];       
         cur.reply=true;
+      }else if(field==='firstParentId'&&!cur.firstParentId){
+        cur.firstParentId=cur._id;   
       }  
       if(!prev[cur[field]]) {
         prev[cur[field]] = [cur];
@@ -24,8 +26,6 @@ export class GroupByPipe implements PipeTransform {
       }
       return prev;
     }, {});
-    console.log("-----------");
-    console.log(Object.keys(groupedObj).map(key => ({ key, value: groupedObj[key] })));
     return Object.keys(groupedObj).map(key => ({ key, value: groupedObj[key] }));
   }
 }

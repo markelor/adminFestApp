@@ -1,0 +1,86 @@
+<div class="ks-page-content">
+  <div class="ks-page-content-body">
+    <div class="ks-nav-body-wrapper">
+      <div class="container-fluid ks-rows-section">
+        <!-- Custom Success/Error Message -->
+        <div class="row">
+          <div [ngClass]="messageClass">
+            {{ message }}
+          </div>
+        </div>
+        <!-- Archeology Form -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-horizontal">
+          <div class="row">
+            <!-- Title -->
+            <div class="col-sm-12">
+              <div class="form-group required" [ngClass]="{'has-error': (!title.valid && title.dirty), 'has-success': (title.valid)}">
+                <label for="inputTitle" translate>{{'create-category.title'}}</label>
+                <input [formControl]="title" capitalize type="text" class="form-control" id="inputTitle">
+                <!-- Validation -->
+                <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                <span *ngIf="title.errors?.minlength && title.dirty || title.errors?.maxlength && title.dirty " class="help-block form-error" translate>{{'validation.title-length'}}</span>
+                <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>
+                    {{'validation.title-validation'}}</span>
+              </div>
+            </div>
+            <!-- Description -->
+            <div class="col-sm-12">
+              <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
+                <label for="textareaDescription" translate>{{'create-category.description'}}</label>
+                <textarea [formControl]="description" capitalize class="form-control"></textarea>
+                <!-- Validation -->
+                <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.description-length'}}</span>
+              </div>
+            </div>
+            <!-- Parent category-->
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{'has-success': (parentCategory.value)}">
+                <label for="selectParentCategory" translate>{{'create-category.parent-category'}}</label>
+                <select [formControl]="parentCategory" class="form-control" id="selectParentCategory" (change)="onSelectedParentCategory($event.target.selectedIndex-1)">
+                  <option value="" translate>{{'create-category.select-parent-category'}}</option>
+                  <option *ngFor="let parentCategory of parentCategories" [ngValue]="parentCategory._id">
+                    {{parentCategory.title}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Submit Button -->
+            <div class="col-sm-12">
+              <div class="form-group text-center">
+                <button [disabled]="!title.valid || !description.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'create-category.send'}}</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Parent ID</th>
+              <th>Level</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Edit/Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let categoryGroup of categories">
+              <tr *ngFor="let category of categoryGroup.value | sort :'level':false let i=index">
+                <td>{{ category._id }}</td>
+                <td>{{ category.parentId}}</td>
+                <td>{{ category.level}}</td>
+                <td>{{ category.title }}</td>
+                <td>{{ category.description }}</td>
+                <td class="ks-status">
+                  <a href="javascript:void(0)" (click)="categoryEditClick(category)"><span class="fa fa-edit ks-color-info">Edit</span></a>
+                  <a href="javascript:void(0)" (click)="categoryDeleteClick(i,category)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

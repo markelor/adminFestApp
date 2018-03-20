@@ -12,10 +12,12 @@ module.exports = {
         passwordLength: "Password must be at least 8 characters but no more than 35.",
         passwordValid: "Must have at least one uppercase, lowercase, special character, and number.",
         aboutYourselfLength: "About Yourself must be no longer than 500 characters.",
-        titleLength: "Title must be more than 5 characters but no more than 35.",
+        categoryTitleLength: "Title must be more than 3 characters but no more than 35.",
+        eventTitleLength: "Title must be more than 3 characters but no more than 35.",
         titleValid: "Title must not have any special characters.",
-        locationLength: "Location must be no longer than 1000 characters.",
-        descriptionLength: "Description must be more than 50 characters but no more than 20000.",
+        locationLength: "Location must be no longer than 1000 characters.",  
+        categoryDescriptionLength: "Description must be more than 5 characters but no more than 200.",
+        eventDescriptionLength: "Description must be more than 50 characters but no more than 20000.",
         observationLength: "Observation must be no longer than 1000 characters.",
         discoveryLength: "Discovery must be no longer than 1000 characters.",
         bibliographyLength: "Bibliography must be no longer than 1000 characters.",
@@ -49,7 +51,7 @@ module.exports = {
         success: "Username is available."
     },
     login: {
-        usernameProvidedError:"Username was not provided.",
+        usernameProvidedError: "Username was not provided.",
         usernameError: "Username not found.",
         passwordError: "Password was not provided.",
         passwordValidError: "Could not authenticate password.",
@@ -57,7 +59,7 @@ module.exports = {
         success: "User authenticated!"
     },
     activate: {
-        temporaryTokenProvidedError:"Temporary token was not provided.",
+        temporaryTokenProvidedError: "Temporary token was not provided.",
         expiredError: "Activation link has expired.",
         passwordError: "No password provided.",
         passwordValidError: "Could not authenticate password.",
@@ -70,7 +72,7 @@ module.exports = {
         success: "Account activated!"
     },
     resend: {
-        usernameProvidedError:"Username was not provided.",
+        usernameProvidedError: "Username was not provided.",
         passwordProvidedError: "Password was not provided.",
         userError: "Could not authenticate user.",
         validPasswordError: "Could not authenticate password.",
@@ -108,7 +110,7 @@ module.exports = {
 
     },
     savePassword: {
-        usernameProvidedError:"Username was not provided.",
+        usernameProvidedError: "Username was not provided.",
         passwordProvidedError: "Password was not provided.",
         emailSubject: "Password recently reset",
         emailTextOne: "Hello ",
@@ -117,28 +119,28 @@ module.exports = {
         emailHtmlTwo: "</strong>,<br><br>This e-mail is to notify you that your password was recently reset.",
         success: "Password has been reset!"
     },
-    usersImages:{
-        usernamesError:"The list with user names was not provided."
+    usersImages: {
+        usernamesError: "The list with user names was not provided."
     },
     headers: {
         tokenError: "No token provided.",
         validError: "Token invalid."
     },
     renewToken: {
-        usernameProvidedError:"Username was not provided.",
+        usernameProvidedError: "Username was not provided.",
         userError: "No user was found."
     },
     permission: {
         userError: "No user was found."
     },
     management: {
-        usernameProvidedError:"Username was not provided.",
+        usernameProvidedError: "Username was not provided.",
         userError: "No user was found.",
         usersError: "Users not found.",
         permissionError: "Insufficient permissions."
     },
     editUser: {
-        idProvidedError:"ID was not provided.",
+        idProvidedError: "ID was not provided.",
         userError: "No user was found.",
         permissionError: "Insufficient permissions.",
         nameUpdated: "Name has been updated!",
@@ -149,6 +151,7 @@ module.exports = {
         adminTwoError: "Insufficient Permissions. You must be an admin to upgrade someone to the admin level.",
         success: "Permissions have been updated!"
     },
+    //File upload
     fileUpload: {
         uploadError: "There was an error uploading images!",
         uploadSuccess: "Uploaded images correctly.",
@@ -158,34 +161,44 @@ module.exports = {
         bucketError: "You must provide a image bucket."
 
     },
-    newTheme: {
-        archeology: "Archeology",
-        createdByProvidedError: "Theme creator is required.",
-        thematicProvidedError: "Thematic is required.",
-        titleProvidedError: "Theme title is required.",
-        themeProvidedError: "Theme is required.",
-        continentProvidedError: "Continent is required.",
-        countryProvidedError: "Country is required.",
-        regionProvidedError: "Region is required.",
-        descriptionProvidedError: "Theme description is required.",
-        latitudeProvidedError: "Latitude is required.",
-        longitudeProvidedError: "Longitude is required.",
-        imageProvidedError: "Image is required.",
-        saveError: "Could not save theme. Error:",
-        success: "Theme saved!"
+    //newCategory
+    newCategory: {
+        titleProvidedError: "Category title is required.",
+        descriptionProvidedError: "Category description is required.",
+        saveError: "Could not save category. Error:",
+        success: "Category saved!"
     },
-    allThemes: {
-        themesError: "No themes found.",
-        thematicProvidedError:"Thematic was not provided.",
-        visibleProvidedError:"Visible parameter was not provided.",
-        themeProvidedError:"Theme was not provided.",
-        classProvidedError:"Class was not provided.",
-        countryProvidedError:"Country was not provided.",
-        regionProvidedError:"Country was not provided."
+    //newEvent
+    newEvent: {
+        createdByProvidedError: "Event creator is required.",
+        yearProvidedError: "Event year is required.",
+        titleProvidedError: "Event title is required.",
+        startProvidedError: "Event start is required.",
+        endProvidedError: "Event end is required.",
+        descriptionProvidedError: "Event description is required.",
+        saveError: "Could not save event. Error:",
+        success: "Event saved!"
+    },
+    allCategories: {
+        categoriesError: "No categories found.",
+        thematicProvidedError: "Thematic was not provided.",
+        visibleProvidedError: "Visible parameter was not provided.",
+        themeProvidedError: "Theme was not provided.",
+        classProvidedError: "Class was not provided.",
+        countryProvidedError: "Country was not provided.",
+        regionProvidedError: "Country was not provided."
     },
     singleTheme: {
         paramProvidedError: "Theme ID was not provided.",
         themeError: "Theme not found."
+    },
+    updateCategory: {
+        idProvidedError: 'Category ID was not provided',
+        categoryError: "No category was found.",
+        userError: "No user was found.",
+        permissionError: "You are not authorized to edit this category.",
+        saveError: "Could not edit category. Error: ",
+        success: "Category updated!"
     },
     editTheme: {
         idProvidedError: 'Theme ID was not provided',
@@ -194,7 +207,6 @@ module.exports = {
         permissionError: "You are not authorized to edit this theme post.",
         saveError: "Could not edit theme. Error: ",
         success: "Theme edited!"
-
     },
     deleteTheme: {
         idProvidedError: 'Theme ID was not provided',
@@ -204,17 +216,17 @@ module.exports = {
         saveError: "Could not delete theme. Error: ",
         success: "Theme deleted!"
     },
-     addThemeReaction: {
+    addThemeReaction: {
         idProvidedError: 'Theme ID was not provided',
         reactionProvidedError: 'Theme reaction was not provided',
         themeError: "No theme was found.",
         userError: "No user was found.",
         ownError: "You cannot react to your own publication.",
         likedBeforeError: "You already liked this post. ",
-        saveError: "Could not save reaction. Error:",  
+        saveError: "Could not save reaction. Error:",
         success: "Reacction added!"
     },
-     deleteThemeReaction: {
+    deleteThemeReaction: {
         idProvidedError: 'Theme ID was not provided',
         themeError: "No theme was found.",
         userError: "No user was found.",
@@ -223,7 +235,7 @@ module.exports = {
         saveError: "Could not delete reaction. Error: ",
         success: "Reaction deleted!"
     },
-     newComment: {
+    newComment: {
         createdByProvidedError: "Comment creator is required.",
         themeIdProvidedError: "Theme ID is required.",
         commentProvidedError: "Comment is required.",

@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
   private onSubmit(){
     if (this.form.valid) {
       this.submitted = true;
-      this.disableForm();
+      //this.disableForm();
       this.user.setLanguage=this.localizeService.parser.currentLang,
       this.user.setName=this.form.get('name').value;
       this.user.setUsername=this.form.get('username').value;
@@ -84,13 +84,13 @@ export class RegisterComponent implements OnInit {
       this.user.setAboutYourself=this.form.get('aboutYourself').value;
       this.authService.registerUser(this.user).subscribe(data=>{
         if(!data.success){
-          this.createForm(); // Reset all form fields
           this.messageClass='alert alert-danger ks-solid';
           this.message=data.message
           this.submitted = false;
           this.enableForm();
 
         }else{
+          this.createForm(); // Reset all form fields
           this.messageClass='alert alert-success ks-solid'
           this.message=data.message
          // After 2 second timeout, navigate to the login page

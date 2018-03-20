@@ -41,11 +41,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required] // Password field
     });
     this.form.controls['username'].setValue("Markelor");
-<<<<<<< HEAD
     this.form.controls['password'].setValue('Pasahitza1!');
-=======
-    this.form.controls['password'].setValue('pasahitza');
->>>>>>> d4c644043c52bfb9628ce7c959ccc27d7187a4c3
     this.username = this.form.controls['username'];
     this.password = this.form.controls['password'];
   }
@@ -59,10 +55,10 @@ export class LoginComponent implements OnInit {
     this.form.enable(); // Enable form
   }
 
-  private onSubmit(values){
+  private onSubmit(){
     if (this.form.valid) {
       this.submitted = true; // Used to submit button while is being submitted
-      this.disableForm(); // Disable form while being process
+      //this.disableForm(); // Disable form while being process
        // Create user object from user's input   
        this.user.setLanguage=this.localizeService.parser.currentLang;
        this.user.setUsername=this.form.get('username').value;

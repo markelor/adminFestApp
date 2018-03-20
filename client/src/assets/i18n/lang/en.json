@@ -9,8 +9,8 @@
   "new-password-route": "new-password",
   "search-route": "search",
   "create-route": "create",
-  "archeology-route": "archeology",
-  "symbology-route": "symbology",
+  "category-route": "category",
+  "event-route": "event",
   "details-route": "details",
   "region-route": "region",
   "user-route": "user",
@@ -22,14 +22,9 @@
   "menu":
   {
     "home": "Home",
-    "theme": "Theme",
-    "archeology": "Archeology",
-    "symbology": "Symbology",
-    "create-theme-archeology": "Create Theme Archeology",
-    "create-theme-symbology": "Create Theme Symbology",
     "create": "Create",
-    "map": "Map",
-    "all": "All",
+    "category": "Category", 
+    "event": "Event",
     "administrator": "Administrator",
     "users": "Users"
   },
@@ -110,12 +105,20 @@
     "comment":"Comment",
     "share":"Share"
   },
-  "create-theme":
+  "create-category":
+  {
+    "title": "Title",
+    "description": "Description",
+    "parent-category": "Parent Category",
+    "select-parent-category": "-- SELECT CATEGORY --",
+    "send": "Send"
+  },
+  "create-event":
   {
     "thematic-archeology": "Archeology",
     "thematic-symbology": "Symbology",
     "title": "Title",
-    "theme": "Theme",
+    "category": "Category",
     "class": "Class",
     "megalithic-station": "Megalithic Station",
     "images": "Images",
@@ -144,7 +147,7 @@
     "observations": "Observations",
     "discovery": "Discovery",
     "bibliography": "Bibliography",
-    "select-theme": "-- SELECT A THEME --",
+    "select-category": "-- SELECT A CATEGORY --",
     "select-class": "-- SELECT A CLASS --",
     "select-cultural-secuence": "-- SELECT AN EPOC --",
     "select-stage": "-- SELECT A STAGE --",

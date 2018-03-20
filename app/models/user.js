@@ -206,8 +206,8 @@ const userSchema = new Schema({
     permission: { type: String, required: true, default: 'user' },
     currentAvatar: { type: String, required: true, default: 'assets/img/avatars/default-avatar.jpg' },
     avatars: { type: Array, required: false }
-
 });
+//userSchema.index({ createdAt: -1 }); // schema level
 
 // Middleware to ensure password is encrypted before saving user to database
 userSchema.pre('save', function(next) {

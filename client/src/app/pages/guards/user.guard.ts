@@ -22,14 +22,12 @@ export class UserGuard implements CanActivate {
 
     // Get permission
     return this.authService.getPermission(this.localizeService.parser.currentLang).map(data => {
-    	console.log(data);
       // Check if response was a success or error
       if (data.success && (data.permission==='moderator' ||data.permission==='admin'||data.permission==='user')) {
         return true;       
       }else{
         this.authService.logout();
       	this.redirectUrl = state.url; // Grab previous urul
-        console.log(this.redirectUrl);
       	this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
       	return false; // Return false: user not authorized to view page
                           

@@ -8,8 +8,8 @@
   "new-password-route": "nueva-contraseña",
   "search-route": "buscar",
   "create-route": "crear",
-  "archeology-route": "arqueología",
-  "symbology-route": "simbología",
+  "category-route": "categoría",
+  "event-route": "evento",
   "details-route": "detalles",
   "region-route": "región",
   "user-route": "usuario",
@@ -21,14 +21,9 @@
   "menu":
   {
     "home": "Inicio",
-    "theme": "Tema",
-    "archeology": "Arqueología",
-    "symbology": "Simbología",
-    "create-theme-archeology": "Arqueología",
-    "create-theme-symbology": "Simbología",
-    "create": "Crear Tema",
-    "map": "Mapa",
-    "all": "Todos",
+    "create": "Crear",
+    "category": "Categoría",
+    "event": "Evento",
     "administrator": "Administrador",
     "users": "Usuarios"
   },
@@ -109,12 +104,20 @@
     "share":"Compartir"
 
   },
-  "create-theme":
+  "create-category":
+  {
+    "title": "Titulo",
+    "description": "Descripción",
+    "parent-category": "Categoría Padre",
+    "select-parent-category": "-- SELECCIONE UNA CATEGORÍA --",
+     "send": "Enviar"
+  },
+  "create-event":
   {
     "thematic-archeology": "Aqueología",
     "thematic-symbology": "Simbología",
     "title": "Titulo",
-    "theme": "Tema",
+    "caregory": "Categoría",
     "class": "Clase",
     "megalithic-station": "Estación Megalítica",
     "images": "Imágenes",
@@ -143,7 +146,7 @@
     "observations": "Observaciones",
     "discovery": "Descubrimiento",
     "bibliography": "Bibliografía",
-    "select-theme": "-- SELECCIONE UN TEMA --",
+    "select-category": "-- SELECCIONE UNA CATEGORÍA --",
     "select-class": "-- SELECCIONE UNA CLASE --",
     "select-cultural-secuence": "-- SELECCIONE UNA ÉPOCA --",
     "select-stage": "-- SELECCIONE UNA ETAPA --",

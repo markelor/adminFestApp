@@ -9,10 +9,10 @@ export class Comment{
     createdAt: number;
     updatedAt: number ; 
     reactions: object;
-     get getcreatedBy():string {
+     get getCreatedBy():string {
         return this.createdBy;
     }
-    set setcreatedBy(createdBy:string) {
+    set setCreatedBy(createdBy:string) {
         this.createdBy = createdBy;
     }
     get getThemeId():string {

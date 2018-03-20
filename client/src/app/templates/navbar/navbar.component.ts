@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
     private translate:TranslateService,
     private activatedRoute:ActivatedRoute,
     private authService:AuthService,
+    private router:Router,
     //private themeService:ThemeService,
     private observableService:ObservableService,
     private spacePipe:SpacePipe) {
@@ -126,6 +127,10 @@ export class NavbarComponent implements OnInit {
       $('.ks-search-close').click();
       this.search=false;
     }
+  }
+  private logout(){
+    this.authService.logout();
+    this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]);
   }
 
   ngOnInit() {

@@ -46,15 +46,15 @@ export class UserAdministratorComponent implements OnInit {
       dom: 'Bfrtip',
       // Configure the buttons
       buttons: [
-        'columnsToggle',
-        /*'colvis',*/
+        /*'columnsToggle',*/
+        'colvis',
         'copy',
         'print',
-        'excel'
+        'csv',
+
       ],
       responsive: true
     };
-
   }
   private userEditClick(user): void {
     this.observableService.modalType="modal-edit-user";

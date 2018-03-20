@@ -7,6 +7,21 @@
         <span translate>{{'menu.home'}}</span>
     </a>
     </li>
+    <!--Create item-->
+    <li class="nav-item dropdown">
+      <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="ks-icon la la-paw"></span>
+        <span translate>{{'menu.create'}}</span>
+      </div>
+      <!--Create category-->
+      <div class="dropdown-menu">
+        <a class="dropdown-item" [routerLink]="['/create-route','category-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.category'}}</a>
+      </div>
+      <!--Create event-->
+      <div class="dropdown-menu">
+        <a class="dropdown-item" [routerLink]="['/create-route','event-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.event'}}</a>
+      </div>
+    </li>
     <!--Administrator item-->
     <li class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
@@ -16,14 +31,6 @@
       <!--Administrator users-->
       <div class="dropdown-menu">
         <a class="dropdown-item" [routerLink]="['/admin-route','users-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.users'}}</a>
-      </div>
-      <!--Administrator archeology-->
-      <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/admin-route','archeology-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.archeology'}}</a>
-      </div>
-      <!--Administrator symbology-->
-      <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/admin-route','symbology-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.symbology'}}</a>
       </div>
     </li>
     <li class="nav-item dropdown">

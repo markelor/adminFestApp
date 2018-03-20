@@ -6,9 +6,6 @@ import { Pipe, PipeTransform } from "@angular/core";
 export class OrderByPipe  implements PipeTransform {
   transform( array: Array<any>, orderField: string, orderType: boolean ): Array<string> {
     array.sort( ( a: any, b: any ) => {
-      console.log(array);
-      console.log(orderField);
-      console.log(orderType);
         let ae = a[ orderField ];
         let be = b[ orderField ];
         if ( ae == undefined && be == undefined ) return 0;

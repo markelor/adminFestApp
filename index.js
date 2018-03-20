@@ -9,6 +9,7 @@ mongoose.Promise = global.Promise;
 const databaseConfig = require('./app/config/database'); // Mongoose Config
 const path = require('path'); // NodeJS Package for file paths
 const authentication = require('./app/routes/authentication')(router); // Import Authentication Routes
+const category = require('./app/routes/category')(router); // Import Category Routes
 var bodyParser = require('body-parser'); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 const cors = require('cors'); // CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
 
@@ -25,12 +26,12 @@ mongoose.connect(databaseConfig.uri, (err) => {
 app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json()); // parse application/json
-app.use(express.static(__dirname + '/src/angular/dist/')); // Provide static directory for frontend
+app.use(express.static(__dirname + '/client/src/')); // Provide static directory for frontend
 app.use('/authentication', authentication); // Use Authentication routes in application
-
+app.use('/category', category); // Use Authentication routes in application
 // Connect server to Angular 2 Index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/src/angular/dist/index.html'));
+    res.sendFile(path.join(__dirname + '/client/src/index.html'));
 });
 
 // Start Server: Listen on port 8080

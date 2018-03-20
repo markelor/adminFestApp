@@ -9,8 +9,8 @@
   "new-password-route": "pasahitz-berria",
   "search-route": "bilatu",
   "create-route": "sortu",
-  "archeology-route": "arkeologia",
-  "symbology-route": "sinbologia",
+  "category-route": "kategoria",
+  "event-route": "ekintza",
   "details-route": "xehetasunak",
   "region-route": "eskualdea",
   "user-route": "erabiltzailea",
@@ -22,14 +22,9 @@
   "menu":
   {
     "home": "Hasiera",
-    "theme": "Gaia",
-    "archeology": "Arkeologia",
-    "symbology": "Sinbologia",
-    "create-theme-archeology": "Arkeologia",
-    "create-theme-symbology": "Sinbologia",
-    "create": "Sortu Gaia",
-    "map": "Mapa",
-    "all": "Denak",
+    "create": "Sortu",
+    "category": "Kategoria",
+    "event": "Ekintza",
     "administrator": "Administratzailea",
     "users": "Erabiltzaileak"
   },
@@ -110,12 +105,20 @@
     "share":"Partekatu"
 
   },
-  "create-theme":
+  "create-category":
+  {
+    "title": "Izenburua",
+    "description": "Deskribapena",  
+    "parent-category": "Guraso Kategoria",
+    "select-parent-category": "-- AUKERATU KATEGORIA --",
+    "send": "Bidali"
+  },
+  "create-event":
   {
     "thematic-archeology": "Arkeologia",
     "thematic-symbology": "Sinbologia",
     "title": "Izenburua",
-    "theme": "Gaia",
+    "category": "Kategoria",
     "class": "Mota",
     "megalithic-station": "Estazio Megalitikoa",
     "images": "Irudiak",
@@ -144,7 +147,7 @@
     "observations": "Oharrak",
     "discovery": "Aurkikuntza",
     "bibliography": "Bibliografia",
-    "select-theme": "-- AUKERATU GAIA --",
+    "select-category": "-- AUKERATU KATEGORIA --",
     "select-class": "-- AUKERATU MOTA --",
     "select-cultural-secuence": "-- AUKERATU GARAIA --",
     "select-stage": "-- AUKERATU AROA --",

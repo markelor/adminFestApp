@@ -33,7 +33,7 @@ module.exports = (router) => {
         user.temporaryToken = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' }); // Create a token for activating account through e-mail
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if name was provided
             if (!user.name) {
@@ -126,7 +126,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if email was provided in paramaters
             if (!req.params.email) {
@@ -156,7 +156,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was provided in paramaters
             if (!req.params.username) {
@@ -187,7 +187,7 @@ module.exports = (router) => {
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!loginUser) {
                 res.json({ success: false, message: eval(language + '.login.usernameProvidedError') }); // Return error
@@ -253,7 +253,7 @@ module.exports = (router) => {
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.body.temporaryToken) {
                 res.json({ success: false, message: eval(language + '.activate.temporaryTokenProvidedError') }); // Return error
@@ -325,7 +325,7 @@ module.exports = (router) => {
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was provided
             if (!req.body.username) {
@@ -383,7 +383,7 @@ module.exports = (router) => {
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was provided
             if (!req.body.username) {
@@ -443,7 +443,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if email was provided
             if (!req.params.email) {
@@ -488,7 +488,7 @@ module.exports = (router) => {
         var language = req.body.language;
         // Check if lamguage was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was provided
             if (!req.body.username) {
@@ -559,7 +559,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was provided
             if (!req.params.token) {
@@ -613,7 +613,7 @@ module.exports = (router) => {
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was provided
             if (!req.body.username) {
@@ -680,7 +680,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.params.usernames) {
                 res.json({ success: false, message: eval(language + '.usersImages.usernamesError') });
@@ -769,7 +769,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was provided
             if (!req.params.username) {
@@ -816,7 +816,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             User.findOne({ _id: req.decoded.userId }, function(err, user) {
                 if (err) {
@@ -858,7 +858,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             User.find({}, function(err, users) {
                 if (err) {
@@ -932,7 +932,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was provided
             if (!req.params.username) {
@@ -1009,7 +1009,7 @@ module.exports = (router) => {
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if _id was provided
             if (!req.body._id) {
@@ -1212,7 +1212,7 @@ module.exports = (router) => {
         var language = req.params.language;
         // Check if language was provided
         if (!language) {
-            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if username was passed in the parameters
             if (!req.params.username) {

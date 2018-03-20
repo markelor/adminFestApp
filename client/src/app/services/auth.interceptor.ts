@@ -8,13 +8,13 @@ import { Observable } from 'rxjs/Observable';
 export class AuthInterceptor implements HttpInterceptor {
   private authService;
   private localizeService;
+  private domain;
   constructor(private injector: Injector) {}
-
-
    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(AuthService);
     this.localizeService=this.injector.get(LocalizeRouterService);  
-    if(request.url==="http://localhost:8080/authentication/profile"){
+    this.domain = this.authService.domain
+    if(request.url===this.domain+"authentication/profile"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
           }
         });
         
-    }else if(request.url==="http://localhost:8080/authentication/profile"){
+    }else if(request.url===this.domain+"authentication/profile"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
           }
         });
         
-    }else if(request.url==="http://localhost:8080/authentication/permission/"+this.localizeService.parser.currentLang){
+    }else if(request.url===this.domain+"authentication/permission/"+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export class AuthInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });       
-    }else if(request.url==="http://localhost:8080/authentication/management/"+this.localizeService.parser.currentLang){
+    }else if(request.url===this.domain+"authentication/management/"+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export class AuthInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });       
-    }else if(request.url==="http://localhost:8080/authentication/edit"){
+    }else if(request.url===this.domain+"authentication/edit"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export class AuthInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });       
-    }else if(request.url==="http://localhost:8080/authentication/management/"+this.authService.route+this.localizeService.parser.currentLang){
+    }else if(request.url===this.domain+"authentication/management/"+this.authService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

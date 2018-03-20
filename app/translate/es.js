@@ -12,10 +12,12 @@ module.exports = {
         passwordLength: "La contraseña debe tener al menos 8 caracteres pero no más de 35.",
         passwordValid: "Debe tener al menos una mayúscula, minúscula, carácter especial y número.",
         aboutYourselfLength: "Acerca de ti no debe tener más de 500 caracteres.",
-        titleLength: "El título debe tener al menos 5 caracteres pero no más de 35.",
+        categoryTitleLength: "El título debe tener al menos 3 caracteres pero no más de 35.",
+        eventTitleLength: "El título debe tener al menos 3 caracteres pero no más de 35.",
         titleValid: "El título no debe tener caracteres especiales.",
         locationLength: "La localización no debe tener más de 1000 caracteres.",
-        descriptionLength: "La descripción debe tener al menos 50 caracteres pero no más de 20000.",
+        categoryDescriptionLength: "La descripción debe tener al menos 5 caracteres pero no más de 200.",
+        eventDescriptionLength: "La descripción debe tener al menos 50 caracteres pero no más de 20000.",
         observationLength: "Observaciones no debe tener más de 1000 caracteres.",
         discoveryLength: "El descubrimiento no debe tener más de 1000 caracteres.",
         bibliographyLength: "La bibliografía no debe tener más de 1000 caracteres.",
@@ -57,7 +59,7 @@ module.exports = {
         success: "Usuario autentificado!"
     },
     activate: {
-        temporaryTokenProvidedError:"El token temporal no fue proporcionado.",
+        temporaryTokenProvidedError: "El token temporal no fue proporcionado.",
         expiredError: "El enlace de activación ha caducado.",
         passwordError: "La contraseña no fue proporcionada.",
         passwordValidError: "No se pudo autentificar la contraseña.",
@@ -117,8 +119,8 @@ module.exports = {
         emailHtmlTwo: "</strong>,<br><br>Este correo electrónico es para notificarle que su contraseña se ha restablecido recientemente.",
         success: "La contraseña se ha restablecido!"
     },
-    usersImages:{
-        usernamesError:"La lista con nombres de usuario no fue proporcionado."
+    usersImages: {
+        usernamesError: "La lista con nombres de usuario no fue proporcionado."
     },
     headers: {
         tokenError: "No se proporciono ningún token.",
@@ -149,6 +151,7 @@ module.exports = {
         adminTwoError: "Permisos insuficientes. Debes ser administrador para subir de grado a otro administrador.",
         success: "Se han actualizado los permisos.!"
     },
+    //File upload
     fileUpload: {
         uploadError: "¡Se ha producido un error al subir imágenes!",
         uploadSuccess: "Imágenes subidas correctamente.",
@@ -157,34 +160,44 @@ module.exports = {
         keyError: "Debe proporcionar la llave.",
         bucketError: "Debe proporcionar el contenedor de la imagen."
     },
-    newTheme: {
-        archeology: "Arqueología",
-        createdByProvidedError: "El creador del tema es requerido.",
-        thematicProvidedError: "La temática es requerida.",
-        titleProvidedError: "El título del tema es requerido.",
-        themeProvidedError: "El tema es requerido.",
-        continentProvidedError: "El coninente es requerido.",
-        countryProvidedError: "El país es requerido.",
-        regionProvidedError: "La región es requerida.",
-        descriptionProvidedError: "La descripción del tema es requerida.",
-        latitudeProvidedError: "La latitud es requerida.",
-        longitudeProvidedError: "La longitud es requerida.",
-        imageProvidedError: "La imagen es requerida.",
-        saveError: "No se pudo guardar el tema. Error:",
-        success: "¡Tema guardado!"
+    //newCategory
+    newCategory: {
+        titleProvidedError: "El título de la categoría es requerida.",
+        descriptionProvidedError: "La descripción del la categoría es requerida.",
+        saveError: "No se pudo guardar la categoría. Error:",
+        success: "¡Categoría guardada!"
     },
-    allThemes: {
-        themesError: "No se encontraron temas.",
+     //newEvent
+    newEvent: {
+        createdByProvidedError: "El creador del evento es requerido.",
+        yearProvidedError: "El año de la categoría es requerido.",
+        titleProvidedError: "El título del evento es requerido.",
+        startProvidedError: "El inicio del evento es requerido.",
+        endProvidedError: "El final del evento es requerido.",
+        descriptionProvidedError: "La descripción del evento es requerido.",
+        saveError: "No se pudo guardar el evento. Error:",
+        success: "¡Evento guardado!"
+    },
+    allCategories: {
+        categoriesError: "No se encontraron categorías.",
         thematicProvidedError: "La temática no fue proporcionada.",
-        visibleProvidedError:"El parametro visible no fue proporcionado.",
+        visibleProvidedError: "El parametro visible no fue proporcionado.",
         themeProvidedError: "El tema no fue proporcionado.",
         classProvidedError: "La clase no fue proporcionada.",
-        countryProvidedError:"El país no fue proporcionado.",
-        regionProvidedError:"La región no fue proporcionada."
+        countryProvidedError: "El país no fue proporcionado.",
+        regionProvidedError: "La región no fue proporcionada."
     },
     singleTheme: {
         paramProvidedError: "El ID del tema, no fue proporcionado.",
         themeError: "No se encontró ningun tema."
+    },
+    updateCategory: {
+        idProvidedError: 'El ID de la categoría, no fue proporcionada.',
+        categoryError: "No se encontró la categoría.",
+        userError: "No se encontró el nombre de usuario.",
+        permissionError: "No estás autorizado para editar esta categoría.",
+        saveError: "No se pudo editar la categoría. Error: ",
+        success: "¡Categoría actualizada!"
     },
     editTheme: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
@@ -209,10 +222,10 @@ module.exports = {
         userError: "No se encontró el nombre de usuario.",
         ownError: "No puedes reaccionar a tu propia publicación.",
         likedBeforeError: "Ya has reaacionado a esta publicación. ",
-        saveError: "No se pudo añadir la reacción. Error: ",  
+        saveError: "No se pudo añadir la reacción. Error: ",
         success: "!Reacción añadida!"
     },
-     deleteThemeReaction: {
+    deleteThemeReaction: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
         themeError: "No se encontró el tema.",
         userError: "No se encontró el nombre de usuario.",
@@ -221,7 +234,7 @@ module.exports = {
         saveError: "No se pudo eliminar la reacción. Error: ",
         success: "¡Reacción eliminada!"
     },
-     newComment: {
+    newComment: {
         createdByProvidedError: "El creador del comentario es requerido.",
         themeIdProvidedError: "El ID del tema es requerido.",
         commentProvidedError: "El comentario es requerido.",

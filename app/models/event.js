@@ -71,21 +71,18 @@ const descriptionValidators = [
 
 // Event Model Definition
 const eventSchema = new Schema({
-    categoryId: { type: String, required: true },
     createdBy: { type: String, required: true },
+    categoryId: { type: String, required: true },
+    aplicationIds: { type: Array,required: false },
+    sponsorIds: { type: Array,required: false },
     language: { type: String, required: true },
     visible: { type: Boolean, required: true, default: true },
-    coordinators: { type: Array }, 
-    sponsors: { type: Array },  
-    year: { type: String, required: true },
-    poster: { type: String },
+    coordinators: { type: Array,required: false },
     title: { type: String, required: true },
-    start: { type: String, required: true },
-    end: { type: String, required: true },
+    start: { type: Date, required: true },
+    end: { type: Date, required: true },
     description: { type: String, required: true },
     info: { type: String },
-    images: { type: Array },
-    aplications: { type: Array },
     reactions: {
         likeBy: { type: Array, required: false },
         loveBy: { type: Array, required: false },
@@ -94,10 +91,15 @@ const eventSchema = new Schema({
         sadBy: { type: Array, required: false },
         angryBy: { type: Array, required: false },
     },
+    images: {
+        posters: { type: Array, required: true },
+        description: { type: Array, required: false },
+    },
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });
-eventSchema.index({ updatedAt: -1 }); // schema level
+eventSchema.index({ start: -1 }); // schema level
+
 
 // Export Module/Schema
 module.exports = mongoose.model('Event', eventSchema);

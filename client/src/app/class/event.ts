@@ -1,20 +1,20 @@
 
 export class Event{
     createdBy: string;
+    categoryId:string;
+    aplicationIds: Array<string>;
+    sponsorIds: Array<string>;
     language:string;
     visible: boolean;
     coordinators: Array<string>;
-    sponsors: Array<string>;
-    year: string;
-    poster: string;
     title: string;
     start: string;
     end: string;
     description: string;
     info:string;
-    images: Array<string>;
-    aplications: Array<string>;
     reactions: object;
+    imagesPoster: Array<string>;
+    imagesDescription: Array<string>;
     createdAt: Date;
     updatedAt: Date ;   
     get getCreatedBy():string {
@@ -22,6 +22,24 @@ export class Event{
     }
     set setCreatedBy(createdBy:string) {
         this.createdBy = createdBy;
+    }
+    get getCategoryId():string {
+        return this.categoryId;
+    }
+    set setCategoryId(categoryId:string) {
+        this.categoryId = categoryId;
+    }
+    get getAplicationIds():Array<string> {
+        return this.aplicationIds;
+    }
+    set setAplicationIds(aplicationIds:Array<string>) {
+        this.aplicationIds = aplicationIds;
+    } 
+    get getSponsorIds():Array<string> {
+        return this.sponsorIds;
+    }
+    set setSponsorIds(sponsorIds:Array<string>) {
+        this.sponsorIds = sponsorIds;
     }
     get getLanguage():string {
         return this.language;
@@ -40,24 +58,6 @@ export class Event{
     }
     set setCoordinators(coordinators:Array<string>) {
         this.coordinators = coordinators;
-    }
-    get getSponsors():Array<string> {
-        return this.sponsors;
-    }
-    set setSponsors(sponsors:Array<string>) {
-        this.sponsors = sponsors;
-    }  
-    get getYear():string {
-        return this.year;
-    }
-    set setYear(year:string) {
-        this.year = year;
-    }
-    get getPoster():string {
-        return this.poster;
-    }
-    set setPoster(poster:string) {
-        this.poster = poster;
     }
     get getTitle():string {
         return this.title;
@@ -89,24 +89,24 @@ export class Event{
     set setInfo(info:string) {
         this.info = info;
     }
-    get getImages():Array<string> {
-        return this.images;
-    }
-    set setImages(images:Array<string>) {
-        this.images = images;
-    } 
-    get getAplications():Array<string> {
-        return this.aplications;
-    }
-    set setAplications(aplications:Array<string>) {
-        this.aplications = aplications;
-    } 
     get getReactions():object {
         return this.reactions;
     }
     set setReactions(reactions:object) {
         this.reactions = reactions;
     }
+    get getImagesPoster():Array<string> {
+        return this.imagesPoster;
+    }
+    set setImagesPoster(imagesPoster:Array<string>) {
+        this.imagesPoster = imagesPoster;
+    } 
+    get getImagesDescription():Array<string> {
+        return this.imagesDescription;
+    }
+    set setImagesDescription(imagesDescription:Array<string>) {
+        this.imagesDescription = imagesDescription;
+    } 
     get getCreatedAt():Date {
         return this.createdAt;
     }

@@ -16,7 +16,7 @@
                 <!-- Title -->
                 <div class="col-sm-12">
                   <div class="form-group required" [ngClass]="{'has-error': (!title.valid && title.dirty), 'has-success': (title.valid)}">
-                    <label for="inputTitle" translate>{{'create-category.title'}}</label>
+                    <label for="inputTitle" translate>{{'create-event.title'}}</label>
                     <input [formControl]="title" capitalize type="text" class="form-control" id="inputTitle">
                     <!-- Validation -->
                     <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -28,9 +28,9 @@
                 <!-- Category -->
                 <div class="col-sm-12">
                   <div class="form-group required" [ngClass]="{'has-error': (!category.valid && category.dirty), 'has-success': (category.valid)}">
-                    <label for="selectCategory" translate>{{'create-category.category'}}</label>
+                    <label for="selectCategory" translate>{{'create-event.category'}}</label>
                     <select [formControl]="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-category.select-category'}}</option>
+                      <option value="" translate>{{'create-event.select-category'}}</option>
                       <option *ngFor="let category of categories" [ngValue]="category.theme">
                         {{category.theme}}
                       </option>
@@ -42,9 +42,9 @@
                 <!-- Class -->
                 <div *ngIf="classesArcheology" class="col-sm-12">
                   <div class="form-group required" [ngClass]="{'has-error': (!class.valid && class.dirty), 'has-success': (class.valid)}">
-                    <label for="selectClassArcheology" translate>{{'create-category.class'}}</label>
+                    <label for="selectClassArcheology" translate>{{'create-event.class'}}</label>
                     <select [formControl]="class" class="form-control" id="selectClassArcheology">
-                      <option value="" translate>{{'create-category.select-class'}}</option>
+                      <option value="" translate>{{'create-event.select-class'}}</option>
                       <option *ngFor="let classArcheology of classesArcheology" [ngValue]="classArcheology.class">
                         {{classArcheology.class}}
                       </option>
@@ -57,30 +57,30 @@
                 <div *ngIf="showMegalithicStation" class="col-sm-12">
                   <div class="form-group" [ngClass]="{'has-success': (megalithicStation.value)}">
                     {{theme.index}}
-                    <label for="inputMegalithicStation" translate>{{'create-category.megalithic-station'}}</label>
+                    <label for="inputMegalithicStation" translate>{{'create-event.megalithic-station'}}</label>
                     <input [formControl]="megalithicStation" capitalize type="text" class="form-control" id="inputMegalithicStation">
                   </div>
                 </div>
                 <!-- File upload start-->
                 <div class="col-sm-12">
                   <div class="form-group required">
-                    <label for="fileUploadArcheology" translate>{{'create-category.images'}}</label>
+                    <label for="fileUploadArcheology" translate>{{'create-event.images'}}</label>
                     <button class="btn btn-primary ks-btn-file d-block">
                       <span class="la la-cloud-upload ks-icon"></span>
-                      <span class="ks-text" translate>{{'create-category.choose-images'}}</span>
+                      <span class="ks-text" translate>{{'create-event.choose-images'}}</span>
                       <input id="photos" class="form-control" type="file" ng2FileSelect [uploader]="uploader" multiple />
                     </button>
                   </div>
                   <div *ngIf="uploader?.queue?.length>0">
-                    <h3 translate>{{'create-category.list-images'}} <span>{{ uploader?.queue?.length }}</span> </h3>
+                    <h3 translate>{{'create-event.list-images'}} <span>{{ uploader?.queue?.length }}</span> </h3>
                     <table class="table">
                       <thead>
                         <tr>
-                          <th translate>{{'create-category.preview'}}</th>
-                          <th translate>{{'create-category.name'}}</th>
-                          <th translate>{{'create-category.size'}}</th>
-                          <th translate>{{'create-category.status'}}</th>
-                          <th translate>{{'create-category.delete'}}</th>
+                          <th translate>{{'create-event.preview'}}</th>
+                          <th translate>{{'create-event.name'}}</th>
+                          <th translate>{{'create-event.size'}}</th>
+                          <th translate>{{'create-event.status'}}</th>
+                          <th translate>{{'create-event.delete'}}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -99,14 +99,14 @@
                           </td>
                           <td nowrap>
                             <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                              <span class="fa fa-trash" translate>{{'create-category.delete'}}</span>
+                              <span class="fa fa-trash" translate>{{'create-event.delete'}}</span>
                             </button>
                           </td>
                         </tr>
                       </tbody>
                     </table>
                     <div>
-                      <label for="progressbar" translate>{{'create-category.queue-progress'}}</label>
+                      <label for="progressbar" translate>{{'create-event.queue-progress'}}</label>
                       <div class="card panel ks-widget-attachments">
                         <div class="ks-uploading-progress-block">
                           <div class="ks-progress ks-progress-inline">
@@ -121,7 +121,7 @@
                         <span class="glyphicon glyphicon-upload"></span> Upload all
                       </button>-->
                       <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                        <span class="fa fa-trash" translate>{{'create-category.delete-all'}}</span>
+                        <span class="fa fa-trash" translate>{{'create-event.delete-all'}}</span>
                       </button>
                     </div>
                   </div>
@@ -130,9 +130,9 @@
                 <!-- Cultural secuence-->
                 <div class="col-sm-6">
                   <div class="form-group" [ngClass]="{'has-success': (culturalSecuence.value)}">
-                    <label for="selectCulturalSecuenceArcheology" translate>{{'create-category.cultural-secuence'}}</label>
+                    <label for="selectCulturalSecuenceArcheology" translate>{{'create-event.cultural-secuence'}}</label>
                     <select [formControl]="culturalSecuence" class="form-control" id="selectCulturalSecuenceArcheology" (change)="onSelectedCulturalSecuenceArcheology($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-category.select-cultural-secuence'}}</option>
+                      <option value="" translate>{{'create-event.select-cultural-secuence'}}</option>
                       <option *ngFor="let culturalSecuenceArcheology of culturalSecuencesArcheology " [ngValue]="culturalSecuenceArcheology.culturalSecuence">
                         {{culturalSecuenceArcheology.culturalSecuence}}
                       </option>
@@ -142,85 +142,47 @@
                 <!-- Stage -->
                 <div class="col-sm-6">
                   <div class="form-group" [ngClass]="{'has-success': (stage.value)}">
-                    <label for="selectStageArcheology" translate>{{'create-category.stage'}}</label>
+                    <label for="selectStageArcheology" translate>{{'create-event.stage'}}</label>
                     <select [formControl]="stage" class="form-control" id="selectStageArcheology">
-                      <option value="" translate>{{'create-category.select-stage'}}</option>
+                      <option value="" translate>{{'create-event.select-stage'}}</option>
                       <option *ngFor="let stageArcheology of stagesArcheology " [ngValue]="stageArcheology.stage">
                         {{stageArcheology.stage}}
                       </option>
                     </select>
                   </div>
                 </div>
-                <!-- Continent -->
-                <div class="col-sm-12">
-                  <div class="form-group required" [ngClass]="{'has-error': (!continent.valid && continent.dirty), 'has-success': (continent.valid)}">
-                    <label for="selectContinentArcheology" translate>{{'create-category.continent'}}</label>
-                    <select [formControl]="continent" class="form-control" id="selectContinentArcheology" (change)="onSelectedContinentArcheology($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-category.select-continent'}}</option>
-                      <option *ngFor="let continentArcheology of continentsArcheology " [ngValue]="continentArcheology.name">
-                        {{continentArcheology.name}}
+                 <!-- Province -->
+                <div class="col-sm-6">
+                  <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">
+                    <label for="selectProvinceEvent" translate>{{'create-event.province'}}</label>
+                    <select [formControl]="province" class="form-control" id="selectProvinceEvent" (change)="onSelectedProvinceEvent($event.target.selectedIndex-1)">
+                      <option value="" translate>{{'create-event.select-province'}}</option>
+                      <option *ngFor="let provinceEvent of provincesEvent " [ngValue]="provinceEvent.name">
+                        {{provinceEvent.name}}
                       </option>
                     </select>
                     <!-- Validation -->
-                    <span *ngIf="continent.errors?.required && continent.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-                  </div>
-                </div>
-                <!-- Country -->
-                <div class="col-sm-6">
-                  <div class="form-group required" [ngClass]="{'has-error': (!country.valid && country.dirty), 'has-success': (country.valid)}">
-                    <label for="selectCountryArcheology" translate>{{'create-category.country'}}</label>
-                    <select [formControl]="country" class="form-control" id="selectCountryArcheology" (change)="onSelectedCountryArcheology($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-category.select-country'}}</option>
-                      <option *ngFor="let countryArcheology of countrysArcheology " [ngValue]="countryArcheology.name">
-                        {{countryArcheology.name}}
-                      </option>
-                    </select>
-                    <!-- Validation -->
-                    <span *ngIf="!country.valid && country.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-                  </div>
-                </div>
-                <!-- Region -->
-                <div class="col-sm-6">
-                  <div class="form-group required" [ngClass]="{'has-error': (!region.valid && region.dirty), 'has-success': (region.valid)}">
-                    <label for="selectRegionArcheology" translate>{{'create-category.region'}}</label>
-                    <select [formControl]="region" class="form-control" id="selectRegionArcheology" (change)="onSelectedRegionArcheology($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-category.select-region'}}</option>
-                      <option *ngFor="let regionArcheology of regionsArcheology " [ngValue]="regionArcheology.name">
-                        {{regionArcheology.name}}
-                      </option>
-                    </select>
-                    <!-- Validation -->
-                    <span *ngIf="!region.valid && region.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-                  </div>
-                </div>
-                <!-- Province -->
-                <div class="col-sm-6">
-                  <div class="form-group" [ngClass]="{'has-success': (province.value)}">
-                    <label for="selectProvinceArcheology" translate>{{'create-category.province'}}</label>
-                    <select [formControl]="province" class="form-control" id="selectProvinceArcheology" (change)="onSelectedProvinceArcheology($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-category.select-province'}}</option>
-                      <option *ngFor="let provinceArcheology of provincesArcheology " [ngValue]="provinceArcheology.name">
-                        {{provinceArcheology.name}}
-                      </option>
-                    </select>
+                    <span *ngIf="!province.value && province.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
                   </div>
                 </div>
                 <!-- Municipality -->
                 <div class="col-sm-6">
-                  <div class="form-group" [ngClass]="{'has-success': (municipality.value)}">
-                    <label for="selectMunicipalityArcheology" translate>{{'create-category.municipality'}}</label>
-                    <select [formControl]="municipality" class="form-control" id="selectMunicipalityArcheology">
-                      <option value="" translate>{{'create-category.select-municipality'}}</option>
-                      <option *ngFor="let municipalityArcheology of municipalitysArcheology " [ngValue]="municipalityArcheology.name">
-                        {{municipalityArcheology.name}}
+                  <div class="form-group required" [ngClass]="{'has-error': (!municipality.value && municipality.dirty), 'has-success': (municipality.value)}">
+                    <label for="selectMunicipalityEvent" translate>{{'create-event.municipality'}}</label>
+                    <select [formControl]="municipality" class="form-control" id="selectMunicipalityEvent">
+                      <option value="" translate>{{'create-event.select-municipality'}}</option>
+                      <option *ngFor="let municipalityEvent of municipalitiesEvent" [ngValue]="municipalityEvent.name">
+                        {{municipalityEvent.name}}
                       </option>
                     </select>
+                    <!-- Validation -->
+                    <span *ngIf="!municipality.value && municipality.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
                   </div>
                 </div>
                 <!-- Latitude -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!lat.valid && lat.dirty), 'has-success': (lat.valid)}">
-                    <label for="inputLat" translate>{{'create-category.lat'}}</label>
+                    <label for="inputLat" translate>{{'create-event.lat'}}</label>
                     <input [formControl]="lat" type="text" class="form-control" id="inputLat">
                     <!-- Validation -->
                     <span *ngIf="lat.errors?.required && lat.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -230,7 +192,7 @@
                 <!-- Longitude -->
                 <div class="col-sm-6 ">
                   <div class="form-group required" [ngClass]="{'has-error': (!lng.valid && lng.dirty), 'has-success': (lng.valid)}">
-                    <label for="inputLng" translate>{{'create-category.lng'}}</label>
+                    <label for="inputLng" translate>{{'create-event.lng'}}</label>
                     <input [formControl]="lng" type="text" class="form-control" id="inputLng">
                     <!-- Validation -->
                     <span *ngIf="lng.errors?.required && lng.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -239,25 +201,25 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group text-center">
-                   <!-- <create-category-map></create-category-map>-->
+                   <!-- <create-event-map></create-event-map>-->
                   </div>
                 </div>
                 <!-- Maps Button with class -->
                 <div *ngIf="classesArcheology" class="col-sm-12">
                   <div class="form-group text-center">
-                    <button [disabled]="!title.valid || !theme.valid || !lat.valid || !lng.valid || !class.valid " (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-category.check'}}</button>
+                    <button [disabled]="!title.valid || !theme.valid || !lat.valid || !lng.valid || !class.valid " (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-event.check'}}</button>
                   </div>
                 </div>
                 <!-- Maps Button without class-->
                 <div *ngIf="!classesArcheology" class="col-sm-12">
                   <div class="form-group text-center">
-                    <button [disabled]="!title.valid || !theme.valid || !lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-category.check'}}</button>
+                    <button [disabled]="!title.valid || !theme.valid || !lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-event.check'}}</button>
                   </div>
                 </div>
                 <!-- Location -->
                 <div class="col-sm-12">
                   <div class="form-group" [ngClass]="{'has-error': (!location.valid && location.dirty), 'has-success': (location.value)}">
-                    <label for="textareaLocation" translate>{{'create-category.location'}}</label>
+                    <label for="textareaLocation" translate>{{'create-event.location'}}</label>
                     <textarea [formControl]="location" capitalize class="form-control" id="textareaLocation"></textarea>
                     <span *ngIf="location.errors?.maxlength && location.dirty " class="help-block form-error" translate>{{'validation.location-length'}}</span>
                   </div>
@@ -265,7 +227,7 @@
                 <!-- Description -->
                 <div class="col-sm-12">
                   <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
-                    <label for="textareaDescription" translate>{{'create-category.description'}}</label>
+                    <label for="textareaDescription" translate>{{'create-event.description'}}</label>
                     <textarea id="textareaDescription" [froalaEditor]="froalaOptions" (froalaInit)="initialize($event)" formControlName="description" capitalize class="form-control"></textarea>
                     <!-- Validation -->
                     <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -275,7 +237,7 @@
                 <!-- Observations -->
                 <div class="col-sm-12">
                   <div class="form-group" [ngClass]="{'has-error': (!observations.valid && observations.dirty), 'has-success': (observations.value)}">
-                    <label for="textareaObservations" translate>{{'create-category.observations'}}</label>
+                    <label for="textareaObservations" translate>{{'create-event.observations'}}</label>
                     <textarea [formControl]="observations" capitalize class="form-control" id="textareaObservations"></textarea>
                     <span *ngIf="observations.errors?.maxlength && observations.dirty " class="help-block form-error" translate>{{'validation.observations-length'}}</span>
                   </div>
@@ -283,7 +245,7 @@
                 <!-- Discovery -->
                 <div class="col-sm-12">
                   <div class="form-group" [ngClass]="{'has-error': (!discovery.valid && discovery.dirty), 'has-success': (discovery.value)}">
-                    <label for="textareaDiscovery" translate>{{'create-category.discovery'}}</label>
+                    <label for="textareaDiscovery" translate>{{'create-event.discovery'}}</label>
                     <textarea [formControl]="discovery" capitalize class="form-control" id="textareaDiscovery"></textarea>
                     <span *ngIf="discovery.errors?.maxlength && discovery.dirty " class="help-block form-error" translate>{{'validation.discovery-length'}}</span>
                   </div>
@@ -291,7 +253,7 @@
                 <!-- Bibliography -->
                 <div class="col-sm-12">
                   <div class="form-group" [ngClass]="{'has-error': (!bibliography.valid && bibliography.dirty), 'has-success': (bibliography.value)}">
-                    <label for="textareaBibliography" translate>{{'create-category.bibliography'}}</label>
+                    <label for="textareaBibliography" translate>{{'create-event.bibliography'}}</label>
                     <textarea [formControl]="bibliography" class="form-control" id="textareaBibliography"></textarea>
                     <span *ngIf="bibliography.errors?.maxlength && bibliography.dirty " class="help-block form-error" translate>{{'validation.bibliography-length'}}</span>
                   </div>
@@ -299,13 +261,13 @@
                 <!-- Submit Button -->
                 <div *ngIf="classesArcheology" class="col-sm-12">
                   <div class="form-group text-center">
-                    <button [disabled]="!title.valid || !theme.valid || !class.valid || !continent.valid || !country.valid || !region.valid || !description.valid || !lat.valid || !lng.valid  ||!uploader.getNotUploadedItems().length  || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'create-category.send'}}</button>
+                    <button [disabled]="!title.valid || !theme.valid || !class.valid || !province.valid || !country.valid || !municipality.valid || !description.valid || !lat.valid || !lng.valid  ||!uploader.getNotUploadedItems().length  || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'create-event.send'}}</button>
                   </div>
                 </div>
                 <!-- Submit Button -->
                 <div *ngIf="!classesArcheology" class="col-sm-12">
                   <div class="form-group text-center">
-                    <button [disabled]="!title.valid || !theme.valid || !continent.valid || !country.valid || !region.valid || !description.valid || !lat.valid || !lng.valid  || !uploader.getNotUploadedItems().length || submitted" type="submit" class="btn btn-default btn-auth" translate>{{'create-category.send'}}</button>
+                    <button [disabled]="!title.valid || !theme.valid || !province.valid || !country.valid || !municipality.valid || !description.valid || !lat.valid || !lng.valid  || !uploader.getNotUploadedItems().length || submitted" type="submit" class="btn btn-default btn-auth" translate>{{'create-event.send'}}</button>
                   </div>
                 </div>
               </div>

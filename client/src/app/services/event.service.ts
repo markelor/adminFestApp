@@ -113,8 +113,8 @@ export class EventService {
     return this.http.get<any>('assets/json/archeology/continents/'+language+'.json');
      
   }
-  public getArcheologyGeonamesJson(geonameId,language){
-    return this.http.get<any>('http://api.geonames.org/childrenJSON?geonameId=' + geonameId + '&username=markelor&lang=' + language);
+  public getEventGeonamesJson(geonameType,language,name){
+    return this.http.get<any>('assets/json/'+geonameType+'/'+language+'/'+name+'.json');
      
   }
 }

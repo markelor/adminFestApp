@@ -53,11 +53,10 @@ export class CreateEventComponent implements OnInit {
   private classesArcheology;
   private culturalSecuencesArcheology;
   private stagesArcheology;
-  private continentsArcheology;
+  private provincesEvent;
   private countrysArcheology;
   private regionsArcheology;
-  private provincesArcheology;
-  private municipalitysArcheology;
+  private municipalitiesEvent;
   private uploadAllSuccess:Boolean=true;
   private froalaSignature;
   private froalaEvent;
@@ -301,75 +300,28 @@ export class CreateEventComponent implements OnInit {
   }  
     
   // Function on seleccted archeology Continent
-  private onSelectedContinentArcheology(index){
+  private onSelectedProvinceEvent(index){
     if (index===-1){
-      this.form.get('country').disable(); // Disable country field     
-      this.form.get('region').disable(); // Disable region field
-      this.form.get('province').disable(); // Disable province field
       this.form.get('municipality').disable(); // Disable municipality field
     }else{
-      this.form.get('country').enable(); // Enable country field
-      /*this.archeology.setContinentGeonameId=this.continentsArcheology[index].geonameId;
-      this.eventService.getArcheologyGeonamesJson(this.archeology.getContinentGeonameId,this.localizeService.parser.currentLang).subscribe(countrysArcheology => {
-      this.countrysArcheology=countrysArcheology.geonames;
-    });*/
+      this.form.get('municipality').enable(); // Enable municipality field
+      //this.archeology.setContinentGeonameId=this.provincesEvent[index].toponymName.toLowerCase();
+      this.eventService.getEventGeonamesJson('municipality',this.localizeService.parser.currentLang,this.provincesEvent[index].toponymName.toLowerCase()).subscribe(municipalitiesEvent => {
+      this.municipalitiesEvent=municipalitiesEvent.geonames;
+    });
     }
-    this.form.controls['country'].setValue("");
-    this.form.controls['region'].setValue("");
-    this.form.controls['province'].setValue("");
-    this.form.controls['municipality'].setValue("");
-
-  }
-  // Function on seleccted archeology Country
-  private onSelectedCountryArcheology(index){
-    if(index===-1){
-      this.form.controls['region'].setValue("");
-      this.form.get('region').disable(); // Disable region field
-      this.form.controls['province'].setValue("");
-      this.form.get('province').disable(); // Disable province field
-      this.form.controls['municipality'].setValue("");
-      this.form.get('municipality').disable(); // Disable municipality field
-    }else{
-      this.form.get('region').enable(); // Enable region field
-      /*this.archeology.setCountryGeonameId=this.countrysArcheology[index].geonameId;
-      this.eventService.getArcheologyGeonamesJson(this.archeology.getCountryGeonameId,this.localizeService.parser.currentLang).subscribe(regionsArcheology => {
-      this.regionsArcheology=regionsArcheology.geonames;
-    });*/
-    }
-    this.form.controls['region'].setValue("");
-    this.form.controls['province'].setValue("");
-    this.form.controls['municipality'].setValue("");
-  }
-  // Function on seleccted archeology region
-  private onSelectedRegionArcheology(index){
-    if(index===-1){
-      this.form.controls['province'].setValue("");
-      this.form.get('province').disable(); // Disable province field
-      this.form.controls['municipality'].setValue("");
-      this.form.get('municipality').disable(); // Disable municipality field
-    }else{
-    this.form.get('province').enable(); // Enable region field
-    /*this.archeology.setRegionGeonameId=this.regionsArcheology[index].geonameId;
-    this.eventService.getArcheologyGeonamesJson(this.archeology.getRegionGeonameId,this.localizeService.parser.currentLang).subscribe(provincesArcheology => {
-    this.provincesArcheology=provincesArcheology.geonames;
-    });*/
-    }
-    this.form.controls['province'].setValue("");
     this.form.controls['municipality'].setValue("");
   }
   // Function on seleccted archeology province
-  private onSelectedProvinceArcheology(index){
+  private onSelectedMunicipality(index){
     if(index===-1){
       this.form.controls['municipality'].setValue("");
       this.form.get('municipality').disable(); // Disable municipality field
     }else{
     this.form.get('municipality').enable(); // Enable region field
-    /*this.archeology.setProvinceGeonameId=this.provincesArcheology[index].geonameId;
-    this.eventService.getArcheologyGeonamesJson(this.archeology.getProvinceGeonameId,this.localizeService.parser.currentLang).subscribe(municipalitysArcheology => {
-    this.municipalitysArcheology=municipalitysArcheology.geonames;
-    });*/
+    //this.archeology.setProvinceGeonameId=this.municipalititiesEvent[index].geonameId;
+
     }
-    this.form.controls['municipality'].setValue("");
   }
   private chargeAllJsonArchives(){
     //Get categories on page load
@@ -380,9 +332,10 @@ export class CreateEventComponent implements OnInit {
     this.eventService.getArcheologyCulturalSecuenceJson(this.localizeService.parser.currentLang).subscribe(culturalSecuencesArcheology => {
       this.culturalSecuencesArcheology=culturalSecuencesArcheology;
     });
+
     //Get continents on page load
-    this.eventService.getArcheologyContinentsJson(this.localizeService.parser.currentLang).subscribe(continentsArcheology => {
-      this.continentsArcheology=continentsArcheology.geonames;
+    this.eventService.getEventGeonamesJson('province',this.localizeService.parser.currentLang,'euskal-herria').subscribe(provincesEvent => {
+      this.provincesEvent=provincesEvent.geonames;
     });
   }
   private passCoordinates(){
@@ -499,9 +452,6 @@ export class CreateEventComponent implements OnInit {
       //this.archeology.setThematic=data;
     });   
     this.form.get('stage').disable(); // Disable stage field
-    this.form.get('country').disable(); // Disable country field
-    this.form.get('region').disable(); // Disable region field
-    this.form.get('province').disable(); // Disable province field
     this.form.get('municipality').disable(); // Disable municipality field
     this.chargeAllJsonArchives();
 

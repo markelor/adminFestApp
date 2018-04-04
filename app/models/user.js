@@ -203,7 +203,7 @@ const userSchema = new Schema({
     aboutYourself:{ type: String, required: false,validate:aboutYourselfValidators },
     temporaryToken: { type: String, required: true },
     resetToken: { type: String, required: false },
-    permission: { type: String, required: true, default: 'user' },
+    permission: { type: String, required: true, default: 'contributor' },
     currentAvatar: { type: String, required: true, default: 'assets/img/avatars/default-avatar.jpg' },
     avatars: { type: Array, required: false }
 });

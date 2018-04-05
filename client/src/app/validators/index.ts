@@ -1,4 +1,5 @@
 export * from './alphanumeric.validator';
+export * from './date.validator';
 export * from './username.validator';
 export * from './email.validator';
 export * from './password.validator';

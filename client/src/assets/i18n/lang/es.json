@@ -168,6 +168,8 @@
   "validation":
   {
     "required": "Este campo es requerido",
+    "start-validation": "Fecha de inicio en formato __ / __ / ____.",
+    "end-validation": "Fecha de fin en formato __ / __ / ____.",
     "name-length": "Mínimo de caracteres: 5, Máximo de caracteres: 35.",
     "name-validation": "El nombre no debe tener caracteres especiales.",
     "username-length": "Mínimo de caracteres: 3, Máximo de caracteres: 15.",

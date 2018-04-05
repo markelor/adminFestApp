@@ -1,6 +1,6 @@
 import { Component, OnInit,ElementRef } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { AlphanumericValidator,LatitudeValidator,LongitudeValidator } from '../../../validators';
+import { AlphanumericValidator,LatitudeValidator,LongitudeValidator,DateValidator } from '../../../validators';
 import { AuthService } from '../../../services/auth.service';
 import { EventService } from '../../../services/event.service';
 import { FileUploaderService} from '../../../services/file-uploader.service';
@@ -33,15 +33,11 @@ export class CreateEventComponent implements OnInit {
   private imagesDescription=[];
   private title:AbstractControl;
   private category:AbstractControl;
-  private class:AbstractControl;
-  private megalithicStation:AbstractControl;
-  private culturalSecuence:AbstractControl;
-  private stage:AbstractControl;
-  private continent:AbstractControl;
-  private country:AbstractControl;
-  private region:AbstractControl;
   private province:AbstractControl;
   private municipality:AbstractControl;
+  private coordinators:AbstractControl;
+  private start:AbstractControl;
+  private end:AbstractControl;
   private lat:AbstractControl;
   private lng:AbstractControl;
   private location:AbstractControl;
@@ -98,24 +94,25 @@ export class CreateEventComponent implements OnInit {
       category: ['', Validators.compose([
         Validators.required
       ])],
-      class: ['', Validators.compose([
+      province: ['', Validators.compose([
         Validators.required
       ])],
-      megalithicStation: [''],
-      culturalSecuence: [''],
-      stage: [''],
-      continent: ['', Validators.compose([
+      municipality: ['', Validators.compose([
         Validators.required
       ])],
-      country: ['', Validators.compose([
-        Validators.required
+      coordinators: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(30),
+        Validators.minLength(5),
+        AlphanumericValidator.validate
       ])],
-      region: ['', Validators.compose([
-        Validators.required
+      start: ['', Validators.compose([
+        Validators.required,DateValidator.validate
       ])],
-      province: [''],
-      municipality: [''],
-      lat: ['', Validators.compose([
+      end: ['', Validators.compose([
+        Validators.required,DateValidator.validate
+      ])],
+       lat: ['', Validators.compose([
         Validators.required,LatitudeValidator.validate
       ])],
       lng: ['', Validators.compose([
@@ -142,15 +139,11 @@ export class CreateEventComponent implements OnInit {
     })
     this.title = this.form.controls['title'];
     this.category = this.form.controls['category'];
-    this.class = this.form.controls['class'];
-    this.megalithicStation = this.form.controls['megalithicStation'];
-    this.culturalSecuence = this.form.controls['culturalSecuence'];
-    this.stage = this.form.controls['stage'];
-    this.continent = this.form.controls['continent'];
-    this.country = this.form.controls['country'];
-    this.region = this.form.controls['region'];
     this.province = this.form.controls['province'];
     this.municipality = this.form.controls['municipality'];
+    this.start = this.form.controls['start'];
+    this.coordinators = this.form.controls['coordinators'];
+    this.end = this.form.controls['end'];
     this.lat = this.form.controls['lat'];
     this.lng = this.form.controls['lng'];
     this.location = this.form.controls['location'];

@@ -10,7 +10,7 @@
                 {{ message }}
               </div>
             </div>
-            <!-- Archeology Form -->
+            <!-- Event Form -->
             <form [formGroup]="form" (ngSubmit)="onThemeSubmit(form.value)" class="form-horizontal">
               <div class="row">
                 <!-- Title -->
@@ -127,31 +127,7 @@
                   </div>
                 </div>
                 <!-- File upload end-->
-                <!-- Cultural secuence-->
-                <div class="col-sm-6">
-                  <div class="form-group" [ngClass]="{'has-success': (culturalSecuence.value)}">
-                    <label for="selectCulturalSecuenceArcheology" translate>{{'create-event.cultural-secuence'}}</label>
-                    <select [formControl]="culturalSecuence" class="form-control" id="selectCulturalSecuenceArcheology" (change)="onSelectedCulturalSecuenceArcheology($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-event.select-cultural-secuence'}}</option>
-                      <option *ngFor="let culturalSecuenceArcheology of culturalSecuencesArcheology " [ngValue]="culturalSecuenceArcheology.culturalSecuence">
-                        {{culturalSecuenceArcheology.culturalSecuence}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <!-- Stage -->
-                <div class="col-sm-6">
-                  <div class="form-group" [ngClass]="{'has-success': (stage.value)}">
-                    <label for="selectStageArcheology" translate>{{'create-event.stage'}}</label>
-                    <select [formControl]="stage" class="form-control" id="selectStageArcheology">
-                      <option value="" translate>{{'create-event.select-stage'}}</option>
-                      <option *ngFor="let stageArcheology of stagesArcheology " [ngValue]="stageArcheology.stage">
-                        {{stageArcheology.stage}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                 <!-- Province -->
+                <!-- Province -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">
                     <label for="selectProvinceEvent" translate>{{'create-event.province'}}</label>
@@ -179,6 +155,47 @@
                     <span *ngIf="!municipality.value && municipality.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
                   </div>
                 </div>
+                <!-- Coordinators -->
+                <div class="col-sm-12">
+                  <div class="form-group required" [ngClass]="{'has-error': (!coordinators.valid && coordinators.dirty), 'has-success': (coordinators.valid)}">
+                    <label for="inputCoordinators" translate>{{'create-event.coordinators'}}</label>
+                    <div class="input-group icon">
+                      <input [formControl]="coordinators" capitalize type="text" class="form-control" id="inputCoordinators">
+                      <div class="input-group-append ">
+                        <button type="button" class="btn btn-success ks-light ks-no-text">
+                          <span class="la la-plus ks-icon"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Validation -->
+                    <span *ngIf="coordinators.errors?.required && coordinators.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                    <span *ngIf="coordinators.errors?.minlength && coordinators.dirty || coordinators.errors?.maxlength && coordinators.dirty " class="help-block form-error" translate>{{'validation.coordinators-length'}}</span>
+                    <span *ngIf="coordinators.errors?.validateAlphanumeric && coordinators.dirty" class="help-block form-error" translate>
+                    {{'validation.coordinators-validation'}}</span>
+                  </div>
+                </div>
+                <!-- Start -->
+                <div class="col-sm-6">
+                  <div class="form-group required" [ngClass]="{'has-error': (!start.valid && start.dirty), 'has-success': (start.valid)}">
+                    <label for="inputStart" translate>{{'create-event.start'}}</label>
+                    <input [formControl]="start" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="__/__/____" id="inputStart">
+                    <!-- Validation -->
+                    <span *ngIf="start.errors?.required && start.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                    <span *ngIf="start.errors?.validateDate && start.dirty" class="help-block form-error" translate>
+                    {{'validation.start-validation'}}</span>
+                  </div>
+                </div>
+                <!-- End -->
+                <div class="col-sm-6">
+                  <div class="form-group required" [ngClass]="{'has-error': (!end.valid && end.dirty), 'has-success': (end.valid)}">
+                    <label for="inputEnd" translate>{{'create-event.end'}}</label>
+                    <input [formControl]="end" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="__/__/____" id="inputEnd">
+                    <!-- Validation -->
+                    <span *ngIf="end.errors?.required && end.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                    <span *ngIf="end.errors?.validateDate && end.dirty" class="help-block form-error" translate>
+                    {{'validation.end-validation'}}</span>
+                  </div>
+                </div>
                 <!-- Latitude -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!lat.valid && lat.dirty), 'has-success': (lat.valid)}">
@@ -201,7 +218,7 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group text-center">
-                   <!-- <create-event-map></create-event-map>-->
+                    <!-- <create-event-map></create-event-map>-->
                   </div>
                 </div>
                 <!-- Maps Button with class -->

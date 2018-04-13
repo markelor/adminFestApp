@@ -19,12 +19,12 @@ export class EventService {
 
 
   // Function to create a new theme post
-  public newTheme(theme) {
-    return this.http.post<any>(this.domain + 'themes/newTheme', theme);
+  public newEvent(event) {
+    return this.http.post<any>(this.domain + 'event/newEvent', event);
   }
    // Function to get all themes from the database
   public getAllThemes(language) {
-    return this.http.get<any>(this.domain + 'themes/allThemes/'+language);
+    return this.http.get<any>(this.domain + 'event/allThemes/'+language);
   }
   public themeSearch(searchs: Observable<string>,language) {
     return searchs.debounceTime(400)
@@ -39,54 +39,54 @@ export class EventService {
       this.route= encodeURIComponent(search) +'/';
     }
     
-    return this.http.get<any>(this.domain + 'themes/allThemesSearch/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/allThemesSearch/'+this.route+language);
   }
   // Function to get all archeology themes from the database
   public getAllThemesThematic(thematic,visible,language) {
     this.route= encodeURIComponent(thematic) +'/'+visible +'/';
-    return this.http.get<any>(this.domain + 'themes/allThemesThematic/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/allThemesThematic/'+this.route+language);
   }
   // Function to get all archeology themes find by theme.
   public getAllThemesTheme(thematic,theme,language) {
     this.route= encodeURIComponent(thematic) +'/'+theme +'/';
-    return this.http.get<any>(this.domain + 'themes/allThemesTheme/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/allThemesTheme/'+this.route+language);
   }
   // Function to get all archeology themes find by class.
   public getAllThemesClass(thematic,theme,themeClass,language) {
     this.route= encodeURIComponent(thematic) +'/'+encodeURIComponent(theme)+'/'+encodeURIComponent(themeClass)+'/';
-    return this.http.get<any>(this.domain + 'themes/allThemesClass/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/allThemesClass/'+this.route+language);
   }
   // Function to get all archeology themes find by class.
   public getAllThemesRegion(country,region,language) {
     this.route= encodeURIComponent(country) +'/'+encodeURIComponent(region) +'/';
-    return this.http.get<any>(this.domain + 'themes/allThemesRegion/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/allThemesRegion/'+this.route+language);
   }
   // Function to get the theme using the id
   public getSingleTheme(id,language) {
     this.route= id +'/'
-    return this.http.get<any>(this.domain + 'themes/singleTheme/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/singleTheme/'+this.route+language);
   }
 
   // Function to edit/update theme post
   public editTheme(theme) {
-    return this.http.put<any>(this.domain + 'themes/updateTheme', theme);
+    return this.http.put<any>(this.domain + 'event/updateTheme', theme);
   }
   // Function to delete a theme
   public deleteTheme(id,language) {
     this.route= id +'/'
-    return this.http.delete<any>(this.domain + 'themes/deleteTheme/' +this.route+language);
+    return this.http.delete<any>(this.domain + 'event/deleteTheme/' +this.route+language);
   }
 
   // Function to like a theme post
   public addReactionTheme(id,reaction,language) {
     const themeData = { id: id,reaction:reaction,language:language };
-    return this.http.put<any>(this.domain + 'themes/addReactionTheme', themeData);
+    return this.http.put<any>(this.domain + 'event/addReactionTheme', themeData);
   }
 
   // Function to dislike a theme post
   public deleteReactionTheme(id,language) {
     const themeData = { id: id,language:language };
-    return this.http.put<any>(this.domain + 'themes/deleteReactionTheme',themeData);
+    return this.http.put<any>(this.domain + 'event/deleteReactionTheme',themeData);
   }
 
   // Function to post a comment on a theme post
@@ -96,14 +96,14 @@ export class EventService {
       id: id,
       comment: comment
     }
-    return this.http.post<any>(this.domain + 'themes/comment', themeData);
+    return this.http.post<any>(this.domain + 'event/comment', themeData);
 
   }
   public getArcheologyThemesJson(language){
-    return this.http.get<any>('assets/json/archeology/themes/'+language+'.json'); 
+    return this.http.get<any>('assets/json/archeology/event/'+language+'.json'); 
   }
   public getSymbologyThemesJson(language){
-    return this.http.get<any>('assets/json/symbology/themes/'+language+'.json'); 
+    return this.http.get<any>('assets/json/symbology/event/'+language+'.json'); 
   }
   public getArcheologyCulturalSecuenceJson(language){
     return this.http.get<any>('assets/json/archeology/culturalSecuence/'+language+'.json');

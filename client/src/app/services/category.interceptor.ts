@@ -35,6 +35,14 @@ export class CategoryInterceptor implements HttpInterceptor {
 	    'language':this.localizeService.parser.currentLang
 	  }
 	});       
+    }else if(request.url===this.domain+"category/allChildCategories/"+this.categoryService.route+this.localizeService.parser.currentLang){
+	request = request.clone({
+	  setHeaders: {
+	    'Content-Type': 'application/json',
+	    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+	    'language':this.localizeService.parser.currentLang
+	  }
+	});       
     }else if(request.url===this.domain+"category/updateCategory"){
 	request = request.clone({
 	  setHeaders: {

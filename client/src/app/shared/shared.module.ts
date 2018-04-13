@@ -18,10 +18,11 @@ import { BindContentPipe } from './pipes/bind-content.pipe';
 import { CapitalizeDirective } from './directives/capitalize.directive';
 import { GroupByPipe } from './pipes/group-by.pipe';
 import { OrderByPipe } from './pipes/order-by.pipe';
-import { UnidecodePipe } from './pipes/unidecode.pipe';
 import { SpacePipe } from './pipes/space.pipe';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { PipesPipe } from './pipes.pipe';
+import { EventCategoryPipe } from './pipes/event-category.pipe';
 
 @NgModule({
   imports: [
@@ -46,10 +47,11 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     CapitalizeDirective,
     GroupByPipe,
     OrderByPipe,
-    UnidecodePipe,
     SpacePipe,
     CapitalizePipe,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    PipesPipe,
+    EventCategoryPipe
   ],
   exports: [
     TouchspinDirective,
@@ -70,10 +72,10 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     CapitalizeDirective,
     GroupByPipe,
     OrderByPipe,
-    UnidecodePipe,
     SpacePipe,
     CapitalizePipe,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    EventCategoryPipe
   ]
 })
 export class SharedModule { }

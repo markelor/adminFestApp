@@ -17,7 +17,6 @@ import { SharedModule} from "../../shared/shared.module";
 import { FileUploadModule } from 'ng2-file-upload';
 //import { MapModule } from '../map/map.module';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
-import { GroupByPipe } from '../../shared/pipes/group-by.pipe'
 @NgModule({
   imports: [
   	CommonModule,FormsModule,ReactiveFormsModule,AgmCoreModule,

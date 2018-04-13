@@ -1,7 +1,9 @@
-import { Component, OnInit,ElementRef } from '@angular/core';
-import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit,ElementRef,Injectable } from '@angular/core';
+import { FormGroup, AbstractControl, FormBuilder,FormArray, Validators } from '@angular/forms';
+import { NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { AlphanumericValidator,LatitudeValidator,LongitudeValidator,DateValidator } from '../../../validators';
 import { AuthService } from '../../../services/auth.service';
+import { CategoryService } from '../../../services/category.service';
 import { EventService } from '../../../services/event.service';
 import { FileUploaderService} from '../../../services/file-uploader.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,20 +12,59 @@ import { Router } from '@angular/router';
 import { Event } from '../../../class/event';
 import { LocalizeRouterService } from 'localize-router';
 import { ObservableService } from '../../../services/observable.service';
+import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { AuthGuard} from '../../guards/auth.guard';
+
 declare let $: any;
-const URL = 'http://localhost:8080/fileUploader/uploadImages/event';
+const URL = 'http://localhost:8080/fileUploader/uploadImages/description';
+const I18N_VALUES = {
+  'eu': {
+    weekdays: ['As', 'As', 'As', 'Os', 'Os', 'La', 'Ig'],
+    months: ['Urt','Ots','Mar','Api','Mai','Eka','Uzt','Abu','Ira','Urr','Aza','Abe'],
+  },
+  'es': {
+    weekdays: ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Dom'],
+    months: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+  },
+  'en': {
+    weekdays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+    months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  }
+  // other languages you would support
+};
+
+// Define a service holding the language. You probably already have one if your app is i18ned. Or you could also
+// use the Angular LOCALE_ID value
+// Define custom service providing the months and weekdays translations
+@Injectable()
+export class CustomDatepickerI18n extends NgbDatepickerI18n {
+
+  constructor(private localizeService: LocalizeRouterService,) {
+    super();
+  }
+
+  getWeekdayShortName(weekday: number): string {
+    return I18N_VALUES[this.localizeService.parser.currentLang].weekdays[weekday - 1];
+  }
+  getMonthShortName(month: number): string {
+    return I18N_VALUES[this.localizeService.parser.currentLang].months[month - 1];
+  }
+  getMonthFullName(month: number): string {
+    return this.getMonthShortName(month);
+  }
+}
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
-  styleUrls: ['./create-event.component.css']
+  styleUrls: ['./create-event.component.css'],
+   providers: [{provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}] // define custom NgbDatepickerI18n provider
 })
 export class CreateEventComponent implements OnInit {
-  private archeology:Event=new Event();
+  private event:Event=new Event();
   private messageClass;
   private message;
   private newPost = false;
-  private loadingThemes = false;
+  private loadingEvents = false;
   private form:FormGroup;
   private commentForm:FormGroup;
   private submitted:boolean = false;
@@ -32,23 +73,19 @@ export class CreateEventComponent implements OnInit {
   private imagesPrincipal=[];
   private imagesDescription=[];
   private title:AbstractControl;
-  private category:AbstractControl;
+  private categories: any[] = [];
   private province:AbstractControl;
   private municipality:AbstractControl;
-  private coordinators:AbstractControl;
+  private coordinator:AbstractControl;
   private start:AbstractControl;
   private end:AbstractControl;
   private lat:AbstractControl;
   private lng:AbstractControl;
-  private location:AbstractControl;
   private description:AbstractControl;
   private observations:AbstractControl;
-  private discovery:AbstractControl;
-  private bibliography:AbstractControl;
-  private categories;
-  private classesArcheology;
-  private culturalSecuencesArcheology;
-  private stagesArcheology;
+  private categoryId=[];
+  private levelCategories=[];
+  private coordinators=[];
   private provincesEvent;
   private countrysArcheology;
   private regionsArcheology;
@@ -57,7 +94,7 @@ export class CreateEventComponent implements OnInit {
   private froalaSignature;
   private froalaEvent;
   private uploader:FileUploader = new FileUploader({
-    url: URL,itemAlias: 'category',
+    url: URL,itemAlias: 'categories',
     isHTML5: true,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
     maxFileSize: 10*1024*1024 // 10 MB
@@ -70,20 +107,29 @@ export class CreateEventComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router:Router,
+    private categoryService: CategoryService,
     private eventService: EventService,
     private fileUploaderService:FileUploaderService,
     private translate: TranslateService,
     private observableService: ObservableService,
+    private router:Router,
     private elementRef: ElementRef,
     private localizeService: LocalizeRouterService,
-    private authGuard: AuthGuard
+    private authGuard: AuthGuard,
+    private groupByPipe:GroupByPipe
   ) {
-    this.createNewThemeForm(); // Create new category form on start up
+    this.createNewEventForm(); // Create new event form on start up
+  }
+  private createItem() {
+    return this.fb.group({
+      category: ['', Validators.compose([
+        Validators.required
+      ])],
+    });
   }
 
-  // Function to create new category form
-  private createNewThemeForm() {
+  // Function to create new event form
+  private createNewEventForm() {
     this.form = this.fb.group({
       title: ['', Validators.compose([
         Validators.required,
@@ -91,35 +137,30 @@ export class CreateEventComponent implements OnInit {
         Validators.minLength(5),
         AlphanumericValidator.validate
       ])],
-      category: ['', Validators.compose([
-        Validators.required
-      ])],
+      categories: this.fb.array([ this.createItem() ]),
       province: ['', Validators.compose([
         Validators.required
       ])],
       municipality: ['', Validators.compose([
         Validators.required
       ])],
-      coordinators: ['', Validators.compose([
+      coordinator: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(30),
         Validators.minLength(5),
         AlphanumericValidator.validate
       ])],
       start: ['', Validators.compose([
-        Validators.required,DateValidator.validate
+        Validators.required/*,DateValidator.validate*/
       ])],
       end: ['', Validators.compose([
-        Validators.required,DateValidator.validate
+        Validators.required/*,DateValidator.validate*/
       ])],
        lat: ['', Validators.compose([
         Validators.required,LatitudeValidator.validate
       ])],
       lng: ['', Validators.compose([
         Validators.required,LongitudeValidator.validate
-      ])],
-      location: ['', Validators.compose([
-        Validators.maxLength(1000)
       ])],
       description: ['', Validators.compose([
         Validators.required,
@@ -128,47 +169,36 @@ export class CreateEventComponent implements OnInit {
       ])],
       observations: ['', Validators.compose([
         Validators.maxLength(1000)
-      ])],
-      discovery: ['', Validators.compose([
-        Validators.maxLength(1000)
-      ])],
-      bibliography: ['', Validators.compose([
-        Validators.maxLength(1000)
       ])]
 
     })
     this.title = this.form.controls['title'];
-    this.category = this.form.controls['category'];
     this.province = this.form.controls['province'];
     this.municipality = this.form.controls['municipality'];
     this.start = this.form.controls['start'];
-    this.coordinators = this.form.controls['coordinators'];
+    this.coordinator = this.form.controls['coordinator'];
     this.end = this.form.controls['end'];
     this.lat = this.form.controls['lat'];
     this.lng = this.form.controls['lng'];
-    this.location = this.form.controls['location'];
     this.description= this.form.controls['description'];
     this.observations = this.form.controls['observations'];
-    this.discovery = this.form.controls['discovery'];
-    this.bibliography= this.form.controls['bibliography'];
   }
-
-  // Enable new category form
-  private enableFormNewThemeForm() {
+  // Enable new categories form
+  private enableFormNewEventForm() {
     this.form.enable(); // Enable form
     $('#textareaDescription').froalaEditor('edit.on');
     this.froalaEvent.getEditor()('html.set', '');
   }
 
-  // Disable new category form
-  private disableFormNewThemeForm() {
+  // Disable new categories form
+  private disableFormNewEventForm() {
     this.form.disable(); // Disable form
     $('#textareaDescription').froalaEditor('edit.off');
   }
 
-  // Function to display new category form
-  private newThemeForm() {
-    this.newPost = true; // Show new category form
+  // Function to display new categories form
+  private newEventForm() {
+    this.newPost = true; // Show new categories form
   }
 
   private fileOverBase(e:any):void {
@@ -178,48 +208,49 @@ export class CreateEventComponent implements OnInit {
   private fileOverAnother(e:any):void {
     this.hasAnotherDropZoneOver = e;
   }
-  private onThemeSubmit(){
+  private onEventSubmit(){
     if(this.uploader.queue.length>0){
       this.submitted = false; // Disable submit button
-      this.disableFormNewThemeForm(); // Lock form
+      this.disableFormNewEventForm(); // Lock form
       this.uploader.uploadAll();
     }
   }
-  // Function to upload  category post
-  private createThemeArcheology() {
-    // Create category object from form fields
-    this.archeology.setLanguage=this.localizeService.parser.currentLang;// Language field
-    this.archeology.setCreatedBy= this.username; // CreatedBy field
-    this.archeology.setTitle= this.form.get('title').value; // Title field
-    /*this.archeology.setTheme=this.form.get('category').value; // Theme field
-    this.archeology.setClassTheme=this.form.get('class').value; // Class field
-    this.archeology.setMegalithicStation=this.form.get('megalithicStation').value; // MegalithicStation field
-    this.archeology.setCulturalSecuence=this.form.get('culturalSecuence').value; // CulturalSecuence field
-    this.archeology.setStage=this.form.get('stage').value; // Stage field
-    this.archeology.setContinent=this.form.get('continent').value; // Continent field
-    this.archeology.setCountry=this.form.get('country').value; // Country field
-    this.archeology.setRegion=this.form.get('region').value; // Region field
-    this.archeology.setProvince=this.form.get('province').value, // Province field
-    this.archeology.setMunicipality=this.form.get('municipality').value; // Municipality field
-    this.archeology.setLat=this.form.get('lat').value; // Lat field
-    this.archeology.setLng=this.form.get('lng').value; // Lng field
-    this.archeology.setLocationDescription=this.form.get('location').value; //Location field,
-    this.archeology.setDescription= this.form.get('description').value; // Description field
-    this.archeology.setObservation=this.form.get('observations').value; // Observations field
-    this.archeology.setDiscovery=this.form.get('discovery').value; // Discovery field
-    this.archeology.setBibliography=this.form.get('bibliography').value; // Bibliography field*/
-    // Function to save category into database
-    this.eventService.newTheme(this.archeology).subscribe(data => {
-      // Check if category was saved to database or not
+
+  // Function to upload  categories post
+  private createEventArcheology() {
+    // Create categories object from form fields
+    this.event.setLanguage=this.localizeService.parser.currentLang;// Language field
+    this.event.setCreatedBy= this.username; // CreatedBy field
+    this.event.setTitle= this.form.get('title').value; // Title field
+    /*this.event.setEvent=this.form.get('categories').value; // Event field
+    this.event.setClassEvent=this.form.get('class').value; // Class field
+    this.event.setMegalithicStation=this.form.get('megalithicStation').value; // MegalithicStation field
+    this.event.setCulturalSecuence=this.form.get('culturalSecuence').value; // CulturalSecuence field
+    this.event.setStage=this.form.get('stage').value; // Stage field
+    this.event.setContinent=this.form.get('continent').value; // Continent field
+    this.event.setCountry=this.form.get('country').value; // Country field
+    this.event.setRegion=this.form.get('region').value; // Region field
+    this.event.setProvince=this.form.get('province').value, // Province field
+    this.event.setMunicipality=this.form.get('municipality').value; // Municipality field
+    this.event.setLat=this.form.get('lat').value; // Lat field
+    this.event.setLng=this.form.get('lng').value; // Lng field
+    this.event.setLocationDescription=this.form.get('location').value; //Location field,
+    this.event.setDescription= this.form.get('description').value; // Description field
+    this.event.setObservation=this.form.get('observations').value; // Observations field
+    this.event.setDiscovery=this.form.get('discovery').value; // Discovery field
+    this.event.setBibliography=this.form.get('bibliography').value; // Bibliography field*/
+    // Function to save categories into database
+    this.eventService.newEvent(this.event).subscribe(data => {
+      // Check if categories was saved to database or not
       if (!data.success) {
         this.deleteUploadImages('principal',this.imagesPrincipal);
         this.deleteUploadImages('descriptionAll',this.imagesDescription);
         this.messageClass = 'alert alert-danger ks-solid'; // Return error class
         this.message = data.message; // Return error message
         this.submitted = true; // Enable submit button
-        this.enableFormNewThemeForm(); // Enable form
+        this.enableFormNewEventForm(); // Enable form
       } else {
-        this.createNewThemeForm(); // Reset all form fields
+        this.createNewEventForm(); // Reset all form fields
         this.messageClass = 'alert alert-success ks-solid'; // Return success class
         this.message = data.message; // Return success message
         // Clear form data after two seconds
@@ -228,7 +259,7 @@ export class CreateEventComponent implements OnInit {
           this.submitted = false; // Enable submit button
           this.message = false; // Erase error/success message
           this.uploader.clearQueue()//Reset uploader
-          this.enableFormNewThemeForm(); // Enable the form fields
+          this.enableFormNewEventForm(); // Enable the form fields
         }, 2000);
       }
     });  
@@ -236,7 +267,7 @@ export class CreateEventComponent implements OnInit {
   private deleteUploadImages(type,images){
     if(type==='principal'){
       for (var i = 0; i < images.length; ++i) {
-        this.fileUploaderService.deleteImages(images[i].key,"category",this.localizeService.parser.currentLang).subscribe(data=>{
+        this.fileUploaderService.deleteImages(images[i].key,"categories",this.localizeService.parser.currentLang).subscribe(data=>{
         });
       }
     }else if(type==='descriptionOne'){
@@ -246,7 +277,7 @@ export class CreateEventComponent implements OnInit {
       for (var i = 0; i < this.imagesDescription.length; i++) {
         if(this.imagesDescription[i]===images[0].currentSrc){
           this.imagesDescription.splice(i,1);
-          //this.archeology.setImagesDescription=this.imagesDescription;
+          //this.event.setImagesDescription=this.imagesDescription;
         }
       }
       this.fileUploaderService.deleteImages(urlSplit[1],urlSplit[0],this.localizeService.parser.currentLang).subscribe(data=>{
@@ -261,71 +292,82 @@ export class CreateEventComponent implements OnInit {
       }
     }
   }
-  // Function on seleccted archeology category
-  private onSelectedThemeArcheology(index){
+    // Function on seleccted categories
+  private onSelectedCategory(index,level){
     if (index===-1){
-      this.form.get('class').disable(); // Disable class field
-      this.showMegalithicStation=false;
+      // remove
+        for (var i = this.form.controls['categories'].value.length - 1; i >= level+1; i--) {
+          (this.form.controls['categories'] as FormArray).removeAt(i);
+        }
+    }else{
+      //hide categories
+      this.categoryId[level+1] = this.levelCategories[level].value[index]._id;
+      console.log(this.levelCategories);
+      console.log(this.levelCategories[level].value[index]);
+      console.log("------------------------");
+      console.log(this.levelCategories);
+      //console.log(this.levelCategories[level+1].value);
+      var newFormArray=false;
+      if(this.levelCategories[level+1]){
+         for (var i = 0; i < this.levelCategories[level+1].value.length; ++i) {
+           console.log(this.levelCategories[level+1].value[i].parentId);
+           console.log(this.levelCategories[level].value[index]._id);
+          if(this.levelCategories[level+1].value[i].parentId===this.levelCategories[level].value[index]._id){
+            newFormArray=true;
+          }
+        }
+        console.log(newFormArray);
+      }     
+      console.log(newFormArray);
+      if((this.form.controls['categories'].value.length-1 <= level) && newFormArray===true){
+              console.log("newFormArray");
+        (this.form.controls['categories'] as FormArray).push(this.createItem());
+      }else {
+        // remove
+        for (var i = this.form.controls['categories'].value.length - 1; i >= level+1; i--) {
+          (this.form.controls['categories'] as FormArray).removeAt(i);
+        }
+        if(newFormArray){
+         (this.form.controls['categories'] as FormArray).push(this.createItem()); 
+        }       
+      }    
     }
-    else if(index===0){
-      this.form.get('class').enable(); // Enable stage field
-      this.showMegalithicStation=true;
-      this.classesArcheology=this.categories[index].classes;// To appear class when select category
-    }     
-    else{
-      this.form.get('class').enable(); // Enable stage field
-      this.showMegalithicStation=false;
-      this.classesArcheology=this.categories[index].classes;// To appear class when select category
-    }
-    this.form.controls['class'].setValue("");    
   }
-   
-   // Function on seleccted archeology CulturalSecuence
-  private onSelectedCulturalSecuenceArcheology(index){
-    if (index===-1){
-      this.form.get('stage').disable(); // Disable stage field
-    }
-    else{
-      this.stagesArcheology=this.culturalSecuencesArcheology[index].stages;// To appear class when select category
-      this.form.get('stage').enable(); // Enable stage field
-    }
-    this.form.controls['stage'].setValue("");
-  }  
     
-  // Function on seleccted archeology Continent
+  // Function on seleccted event Continent
   private onSelectedProvinceEvent(index){
     if (index===-1){
       this.form.get('municipality').disable(); // Disable municipality field
     }else{
       this.form.get('municipality').enable(); // Enable municipality field
-      //this.archeology.setContinentGeonameId=this.provincesEvent[index].toponymName.toLowerCase();
+      //this.event.setContinentGeonameId=this.provincesEvent[index].toponymName.toLowerCase();
       this.eventService.getEventGeonamesJson('municipality',this.localizeService.parser.currentLang,this.provincesEvent[index].toponymName.toLowerCase()).subscribe(municipalitiesEvent => {
       this.municipalitiesEvent=municipalitiesEvent.geonames;
     });
     }
     this.form.controls['municipality'].setValue("");
   }
-  // Function on seleccted archeology province
+  // Function on seleccted event province
   private onSelectedMunicipality(index){
     if(index===-1){
       this.form.controls['municipality'].setValue("");
       this.form.get('municipality').disable(); // Disable municipality field
     }else{
     this.form.get('municipality').enable(); // Enable region field
-    //this.archeology.setProvinceGeonameId=this.municipalititiesEvent[index].geonameId;
+    //this.event.setProvinceGeonameId=this.municipalititiesEvent[index].geonameId;
 
     }
   }
-  private chargeAllJsonArchives(){
-    //Get categories on page load
-    this.eventService.getArcheologyThemesJson(this.localizeService.parser.currentLang).subscribe(categories => {
-      this.categories=categories;
+  private chargeAll(){
+    //First category parentId null on initialize
+    this.categoryId.splice(0, 0, null);
+    //Get categories
+    this.categoryService.getAllCategories(this.localizeService.parser.currentLang).subscribe(data=>{
+      if(data.success){
+        this.levelCategories=this.groupByPipe.transform(data.categories,'level');
+        console.log(this.levelCategories);
+      }   
     });
-    //Get cultural secuence on page load
-    this.eventService.getArcheologyCulturalSecuenceJson(this.localizeService.parser.currentLang).subscribe(culturalSecuencesArcheology => {
-      this.culturalSecuencesArcheology=culturalSecuencesArcheology;
-    });
-
     //Get continents on page load
     this.eventService.getEventGeonamesJson('province',this.localizeService.parser.currentLang,'euskal-herria').subscribe(provincesEvent => {
       this.provincesEvent=provincesEvent.geonames;
@@ -334,12 +376,12 @@ export class CreateEventComponent implements OnInit {
   private passCoordinates(){
     var market_info={
       title:this.form.get('title').value,
-      category:this.form.get('category').value, // Theme field
+      categories:this.form.get('categories').value, // Event field
       class:this.form.get('class').value, // Class field
       lat:this.form.get('lat').value, // Lat field
       lng:this.form.get('lng').value, // Lng field
     }
-    this.observableService.mapType="create-category-coordinates";
+    this.observableService.mapType="create-categories-coordinates";
     this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
   }
   private setUploaderOptions(){
@@ -373,12 +415,12 @@ export class CreateEventComponent implements OnInit {
         }
         this.uploadAllSuccess=false;
         this.submitted = true; // Enable submit button
-        this.enableFormNewThemeForm(); // Enable form
+        this.enableFormNewEventForm(); // Enable form
       }else{
         this.imagesPrincipal.push(responseJson.file[0]);   
         if(this.uploader.progress===100 && this.uploadAllSuccess){
-          //this.archeology.setImagesPrincipal=this.imagesPrincipal;
-          this.createThemeArcheology();
+          //this.event.setImagesPrincipal=this.imagesPrincipal;
+          this.createEventArcheology();
         }
       } 
     };
@@ -400,7 +442,7 @@ export class CreateEventComponent implements OnInit {
     charCounterMax: 20000,
     imageUploadToS3: undefined,
   }
-  private initialize(initControls) {
+  private initializeFroala(initControls) {
     this.froalaEvent=initControls;
     var context=this;
     this.fileUploaderService.getSignatureFroala().subscribe(data=>{
@@ -412,7 +454,7 @@ export class CreateEventComponent implements OnInit {
     $('#textareaDescription').on('froalaEditor.image.inserted', function (e, editor, $img, response) {
       // Do something here.
       context.imagesDescription.push($img[0].currentSrc);
-      //context.archeology.setImagesDescription=context.imagesDescription;
+      //context.event.setImagesDescription=context.imagesDescription;
     });
     $('#textareaDescription')
       // Catch image remove
@@ -420,8 +462,13 @@ export class CreateEventComponent implements OnInit {
         context.deleteUploadImages('descriptionOne',$img);
       }); 
   }
+  addCoordinator() {
+      if(this.coordinator.value){
+        this.coordinators.push(this.coordinator.value);
+        console.log(this.event.getCoordinators);
+      }
+    }
   ngOnInit() {
-    console.log("oixe");
     $('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
     }).on('input', function () {
@@ -434,20 +481,17 @@ export class CreateEventComponent implements OnInit {
         this.authGuard.redirectUrl=this.router.url;
         this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
       }else{
-        this.username = profile.user.username; // Used when creating new category posts and comments
+        this.username = profile.user.username; // Used when creating new categories posts and comments
       } 
     });
     //File uploader options
     this.setUploaderOptions();
-    //Get thematic
-    this.translate.get('create-category.thematic-archeology').subscribe(
-    data => {
-      //this.archeology.setThematic=data;
-    });   
-    this.form.get('stage').disable(); // Disable stage field
     this.form.get('municipality').disable(); // Disable municipality field
-    this.chargeAllJsonArchives();
+    this.chargeAll();
 
   }
 
 }
+
+
+

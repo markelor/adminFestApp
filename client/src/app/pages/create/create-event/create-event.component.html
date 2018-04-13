@@ -26,39 +26,52 @@
                   </div>
                 </div>
                 <!-- Category -->
+                <div formArrayName="categories">
+                  <div *ngFor="let category of form.get('categories').controls; let i = index;" class="col-sm-12">
+                    <div class="form-group required" [ngClass]="{'has-error': (!category.valid && category.dirty), 'has-success': (category.valid)}">
+                      <label for="selectCategory" translate>{{'create-event.category'}}</label>
+                      <div [formGroupName]="i">
+                        <select formControlName="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.selectedIndex-1,i)">
+                          <option value="" translate>{{'create-event.select-category'}}</option>
+                          <ng-container *ngFor="let levelCategory of levelCategories | eventCategory:i">
+                            <option [hidden]="levelCategory.parentId!==categoryId[i]" [ngValue]="levelCategory.title">
+                              {{levelCategory.title}}
+                            </option>
+                          </ng-container>
+                        </select>
+                      </div>
+                      <!-- Validation -->
+                      <span *ngIf="!category.valid && category.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Coordinator list -->
                 <div class="col-sm-12">
-                  <div class="form-group required" [ngClass]="{'has-error': (!category.valid && category.dirty), 'has-success': (category.valid)}">
-                    <label for="selectCategory" translate>{{'create-event.category'}}</label>
-                    <select [formControl]="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-event.select-category'}}</option>
-                      <option *ngFor="let category of categories" [ngValue]="category.theme">
-                        {{category.theme}}
-                      </option>
-                    </select>
-                    <!-- Validation -->
-                    <span *ngIf="category.errors?.required && category.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                  <div class="form-group">
+                    <label *ngFor="let coordinator of coordinators" class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">{{coordinator}}</span>
+                    </label>
                   </div>
                 </div>
-                <!-- Class -->
-                <div *ngIf="classesArcheology" class="col-sm-12">
-                  <div class="form-group required" [ngClass]="{'has-error': (!class.valid && class.dirty), 'has-success': (class.valid)}">
-                    <label for="selectClassArcheology" translate>{{'create-event.class'}}</label>
-                    <select [formControl]="class" class="form-control" id="selectClassArcheology">
-                      <option value="" translate>{{'create-event.select-class'}}</option>
-                      <option *ngFor="let classArcheology of classesArcheology" [ngValue]="classArcheology.class">
-                        {{classArcheology.class}}
-                      </option>
-                    </select>
+                <!-- Coordinator input -->
+                <div class="col-sm-12">
+                  <div class="form-group required" [ngClass]="{'has-error': (!coordinator.valid && coordinator.dirty), 'has-success': (coordinator.valid)}">
+                    <label for="inputCoordinator" translate>{{'create-event.coordinator'}}</label>
+                    <div class="input-group icon">
+                      <input [formControl]="coordinator" capitalize type="text" class="form-control" id="inputCoordinator">
+                      <div class="input-group-append ">
+                        <button (click)="addCoordinator()" type="button" class="btn btn-success ks-light ks-no-text">
+                          <span class="la la-plus ks-icon"></span>
+                        </button>
+                      </div>
+                    </div>
                     <!-- Validation -->
-                    <span *ngIf="!class.valid && class.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-                  </div>
-                </div>
-                <!-- Megalithic station -->
-                <div *ngIf="showMegalithicStation" class="col-sm-12">
-                  <div class="form-group" [ngClass]="{'has-success': (megalithicStation.value)}">
-                    {{theme.index}}
-                    <label for="inputMegalithicStation" translate>{{'create-event.megalithic-station'}}</label>
-                    <input [formControl]="megalithicStation" capitalize type="text" class="form-control" id="inputMegalithicStation">
+                    <span *ngIf="coordinator.errors?.required && coordinator.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                    <span *ngIf="coordinator.errors?.minlength && coordinator.dirty || coordinator.errors?.maxlength && coordinator.dirty " class="help-block form-error" translate>{{'validation.coordinator-length'}}</span>
+                    <span *ngIf="coordinator.errors?.validateAlphanumeric && coordinator.dirty" class="help-block form-error" translate>
+                    {{'validation.coordinator-validation'}}</span>
                   </div>
                 </div>
                 <!-- File upload start-->
@@ -127,6 +140,42 @@
                   </div>
                 </div>
                 <!-- File upload end-->
+                <!-- Start -->
+                <div class="col-sm-6">
+                  <div class="form-group required" [ngClass]="{'has-error': (!start.valid && start.dirty), 'has-success': (start.valid)}">
+                    <label for="inputStart" translate>{{'create-event.start'}}</label>
+                    <div class="input-group icon">
+                      <input [formControl]="start" ngbDatepicker #calendarStart="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputStart">
+                      <div class="input-group-append ">
+                        <button (click)="calendarStart.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
+                          <span class="la la-calendar ks-icon"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Validation -->
+                    <span *ngIf="start.errors?.required && start.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                    <!--<span *ngIf="start.errors?.validateDate && start.dirty" class="help-block form-error" translate>
+                    {{'validation.start-validation'}}</span>-->
+                  </div>
+                </div>
+                <!-- End -->
+                <div class="col-sm-6">
+                  <div class="form-group required" [ngClass]="{'has-error': (!end.valid && end.dirty), 'has-success': (end.valid)}">
+                    <label for="inputEnd" translate>{{'create-event.end'}}</label>
+                    <div class="input-group icon">
+                      <input [formControl]="end" ngbDatepicker #calendarEnd="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputEnd">
+                      <div class="input-group-append ">
+                        <button (click)="calendarEnd.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
+                          <span class="la la-calendar ks-icon"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Validation -->
+                    <span *ngIf="end.errors?.required && end.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                    <!--<span *ngIf="end.errors?.validateDate && end.dirty" class="help-block form-error" translate>
+                    {{'validation.end-validation'}}</span>-->
+                  </div>
+                </div>
                 <!-- Province -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">
@@ -153,47 +202,6 @@
                     </select>
                     <!-- Validation -->
                     <span *ngIf="!municipality.value && municipality.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-                  </div>
-                </div>
-                <!-- Coordinators -->
-                <div class="col-sm-12">
-                  <div class="form-group required" [ngClass]="{'has-error': (!coordinators.valid && coordinators.dirty), 'has-success': (coordinators.valid)}">
-                    <label for="inputCoordinators" translate>{{'create-event.coordinators'}}</label>
-                    <div class="input-group icon">
-                      <input [formControl]="coordinators" capitalize type="text" class="form-control" id="inputCoordinators">
-                      <div class="input-group-append ">
-                        <button type="button" class="btn btn-success ks-light ks-no-text">
-                          <span class="la la-plus ks-icon"></span>
-                        </button>
-                      </div>
-                    </div>
-                    <!-- Validation -->
-                    <span *ngIf="coordinators.errors?.required && coordinators.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-                    <span *ngIf="coordinators.errors?.minlength && coordinators.dirty || coordinators.errors?.maxlength && coordinators.dirty " class="help-block form-error" translate>{{'validation.coordinators-length'}}</span>
-                    <span *ngIf="coordinators.errors?.validateAlphanumeric && coordinators.dirty" class="help-block form-error" translate>
-                    {{'validation.coordinators-validation'}}</span>
-                  </div>
-                </div>
-                <!-- Start -->
-                <div class="col-sm-6">
-                  <div class="form-group required" [ngClass]="{'has-error': (!start.valid && start.dirty), 'has-success': (start.valid)}">
-                    <label for="inputStart" translate>{{'create-event.start'}}</label>
-                    <input [formControl]="start" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="__/__/____" id="inputStart">
-                    <!-- Validation -->
-                    <span *ngIf="start.errors?.required && start.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-                    <span *ngIf="start.errors?.validateDate && start.dirty" class="help-block form-error" translate>
-                    {{'validation.start-validation'}}</span>
-                  </div>
-                </div>
-                <!-- End -->
-                <div class="col-sm-6">
-                  <div class="form-group required" [ngClass]="{'has-error': (!end.valid && end.dirty), 'has-success': (end.valid)}">
-                    <label for="inputEnd" translate>{{'create-event.end'}}</label>
-                    <input [formControl]="end" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="__/__/____" id="inputEnd">
-                    <!-- Validation -->
-                    <span *ngIf="end.errors?.required && end.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-                    <span *ngIf="end.errors?.validateDate && end.dirty" class="help-block form-error" translate>
-                    {{'validation.end-validation'}}</span>
                   </div>
                 </div>
                 <!-- Latitude -->
@@ -233,19 +241,11 @@
                     <button [disabled]="!title.valid || !theme.valid || !lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-event.check'}}</button>
                   </div>
                 </div>
-                <!-- Location -->
-                <div class="col-sm-12">
-                  <div class="form-group" [ngClass]="{'has-error': (!location.valid && location.dirty), 'has-success': (location.value)}">
-                    <label for="textareaLocation" translate>{{'create-event.location'}}</label>
-                    <textarea [formControl]="location" capitalize class="form-control" id="textareaLocation"></textarea>
-                    <span *ngIf="location.errors?.maxlength && location.dirty " class="help-block form-error" translate>{{'validation.location-length'}}</span>
-                  </div>
-                </div>
                 <!-- Description -->
                 <div class="col-sm-12">
                   <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
                     <label for="textareaDescription" translate>{{'create-event.description'}}</label>
-                    <textarea id="textareaDescription" [froalaEditor]="froalaOptions" (froalaInit)="initialize($event)" formControlName="description" capitalize class="form-control"></textarea>
+                    <textarea id="textareaDescription" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="description" capitalize class="form-control"></textarea>
                     <!-- Validation -->
                     <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
                     <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.description-length'}}</span>
@@ -257,22 +257,6 @@
                     <label for="textareaObservations" translate>{{'create-event.observations'}}</label>
                     <textarea [formControl]="observations" capitalize class="form-control" id="textareaObservations"></textarea>
                     <span *ngIf="observations.errors?.maxlength && observations.dirty " class="help-block form-error" translate>{{'validation.observations-length'}}</span>
-                  </div>
-                </div>
-                <!-- Discovery -->
-                <div class="col-sm-12">
-                  <div class="form-group" [ngClass]="{'has-error': (!discovery.valid && discovery.dirty), 'has-success': (discovery.value)}">
-                    <label for="textareaDiscovery" translate>{{'create-event.discovery'}}</label>
-                    <textarea [formControl]="discovery" capitalize class="form-control" id="textareaDiscovery"></textarea>
-                    <span *ngIf="discovery.errors?.maxlength && discovery.dirty " class="help-block form-error" translate>{{'validation.discovery-length'}}</span>
-                  </div>
-                </div>
-                <!-- Bibliography -->
-                <div class="col-sm-12">
-                  <div class="form-group" [ngClass]="{'has-error': (!bibliography.valid && bibliography.dirty), 'has-success': (bibliography.value)}">
-                    <label for="textareaBibliography" translate>{{'create-event.bibliography'}}</label>
-                    <textarea [formControl]="bibliography" class="form-control" id="textareaBibliography"></textarea>
-                    <span *ngIf="bibliography.errors?.maxlength && bibliography.dirty " class="help-block form-error" translate>{{'validation.bibliography-length'}}</span>
                   </div>
                 </div>
                 <!-- Submit Button -->

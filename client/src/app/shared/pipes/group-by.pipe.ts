@@ -6,6 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class GroupByPipe implements PipeTransform {
 
   transform(value: Array<any>, field: string): Array<any>  {
+    if(!value) {
+        return null;
+    }
     const groupedObj = value.reduce((prev, cur)=> {
       if(field==='firstOriginCommentId'&&!cur.originCommentId.length){
         console.log("bat");
@@ -26,6 +29,7 @@ export class GroupByPipe implements PipeTransform {
       }
       return prev;
     }, {});
+    console.log(Object.keys(groupedObj).map(key => ({ key, value: groupedObj[key] })));
     return Object.keys(groupedObj).map(key => ({ key, value: groupedObj[key] }));
   }
 }

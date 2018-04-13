@@ -11,7 +11,7 @@ export class Event{
     start: string;
     end: string;
     description: string;
-    info:string;
+    observations:string;
     reactions: object;
     imagesPoster: Array<string>;
     imagesDescription: Array<string>;
@@ -83,11 +83,11 @@ export class Event{
     set setDescription(description:string) {
         this.description = description;
     }
-    get getInfo():string {
-        return this.info;
+    get getObservations():string {
+        return this.observations;
     }
-    set setInfo(info:string) {
-        this.info = info;
+    set setObservations(observations:string) {
+        this.observations = observations;
     }
     get getReactions():object {
         return this.reactions;

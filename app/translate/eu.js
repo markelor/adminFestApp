@@ -22,7 +22,7 @@ module.exports = {
         discoveryLength: "Aurkikuntzak 1000 karaktere baino gutxiago izan behar ditu.",
         bibliographyLength: "Bibliografiak 1000 karaktere baino gutxiago izan behar ditu.",
         latitudeValid: "Mesedez, sar ezazu latitudea hamartar formatuan.",
-        longitudeValid: "Please, sar ezazu luzeera hamartar formatuan.",
+        longitudeValid: "Mesedez, sar ezazu luzeera hamartar formatuan.",
         commentLength: "Iruzkinak 1500 karaktere baino gutxiago izan behar ditu."
     },
     register: {
@@ -170,7 +170,7 @@ module.exports = {
      //newEvent
     newEvent: {
         createdByProvidedError: "Ekintzaren sortzailea beharrezkoa da.",
-        yearProvidedError: "Ekintzaren urtea beharrezkoa da.",
+        categoryIdProvidedError: "Kategoriaren IDa beharrezkoa da.",
         titleProvidedError: "Ekintzaren izenburua beharrezkoa da.",
         startProvidedError: "Ekintzaren hasiera beharrezkoa da.",
         endProvidedError: "Ekintzaren bukaera beharrezkoa da.",
@@ -178,8 +178,19 @@ module.exports = {
         saveError: "Ekintza ezin da gorde. Errorea:",
         success: "Ekintza gorde da!"
     },
+    //newPlace
+      newPlace: {
+        eventIdProvidedError: 'Ekintzaren IDa beharrezkoa da.',
+        provinceProvidedError: "Probintzia beharrezkoa da.",
+        municipalityProvidedError: "Udalerria beharrezkoa da.",
+        latProvidedError: "Latitudea beharrezkoa da.",
+        lngProvidedError: "Luzeera beharrezkoa da.",
+        saveError: "Lekua ezin da gorde. Errorea:",
+        success: "Lekua gorde da!"
+    },
     allCategories: {
-        categoriesError: "Ez da gairik aurkitu.",
+        idProvidedError: 'Ez da categoriaren IDa eman.',
+        categoriesError: "Ez da kategoriarik aurkitu.",
         thematicProvidedError: "Ez da tematika eman.",
         visibleProvidedError: "Ez da ikusgai parametroa eman.",
         themeProvidedError: "Ez da gaia eman.",

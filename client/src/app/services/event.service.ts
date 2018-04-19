@@ -19,8 +19,9 @@ export class EventService {
 
 
   // Function to create a new theme post
-  public newEvent(event) {
-    return this.http.post<any>(this.domain + 'event/newEvent', event);
+  public newEvent(event,place) {
+    var data = {'event': event, 'place': place };
+    return this.http.post<any>(this.domain + 'event/newEvent', data);
   }
    // Function to get all themes from the database
   public getAllThemes(language) {

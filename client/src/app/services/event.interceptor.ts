@@ -79,7 +79,7 @@ export class EventInterceptor implements HttpInterceptor {
             'route':this.themeService.route
           }
         });   
-     }else if(request.url==="http://localhost:8080/themes/newTheme"){
+     }else if(request.url==="http://localhost:8080/event/newEvent"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

@@ -11,7 +11,7 @@
               </div>
             </div>
             <!-- Event Form -->
-            <form [formGroup]="form" (ngSubmit)="onThemeSubmit(form.value)" class="form-horizontal">
+            <form [formGroup]="form" (ngSubmit)="onEventSubmit(form.value)" class="form-horizontal">
               <div class="row">
                 <!-- Title -->
                 <div class="col-sm-12">
@@ -26,10 +26,10 @@
                   </div>
                 </div>
                 <!-- Category -->
-                <div formArrayName="categories">
-                  <div *ngFor="let category of form.get('categories').controls; let i = index;" class="col-sm-12">
+                <div formArrayName="categories" class="col-sm-12">
+                  <label for="selectCategory" translate>{{'create-event.category'}}</label>
+                  <div *ngFor="let category of form.get('categories').controls; let i = index;">
                     <div class="form-group required" [ngClass]="{'has-error': (!category.valid && category.dirty), 'has-success': (category.valid)}">
-                      <label for="selectCategory" translate>{{'create-event.category'}}</label>
                       <div [formGroupName]="i">
                         <select formControlName="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.selectedIndex-1,i)">
                           <option value="" translate>{{'create-event.select-category'}}</option>
@@ -58,7 +58,7 @@
                 <!-- Coordinator input -->
                 <div class="col-sm-12">
                   <div class="form-group required" [ngClass]="{'has-error': (!coordinator.valid && coordinator.dirty), 'has-success': (coordinator.valid)}">
-                    <label for="inputCoordinator" translate>{{'create-event.coordinator'}}</label>
+                    <label for="inputCoordinator" translate>{{'create-event.coordinators'}}</label>
                     <div class="input-group icon">
                       <input [formControl]="coordinator" capitalize type="text" class="form-control" id="inputCoordinator">
                       <div class="input-group-append ">
@@ -68,7 +68,6 @@
                       </div>
                     </div>
                     <!-- Validation -->
-                    <span *ngIf="coordinator.errors?.required && coordinator.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
                     <span *ngIf="coordinator.errors?.minlength && coordinator.dirty || coordinator.errors?.maxlength && coordinator.dirty " class="help-block form-error" translate>{{'validation.coordinator-length'}}</span>
                     <span *ngIf="coordinator.errors?.validateAlphanumeric && coordinator.dirty" class="help-block form-error" translate>
                     {{'validation.coordinator-validation'}}</span>
@@ -140,7 +139,7 @@
                   </div>
                 </div>
                 <!-- File upload end-->
-                <!-- Start -->
+                <!-- Start date-->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!start.valid && start.dirty), 'has-success': (start.valid)}">
                     <label for="inputStart" translate>{{'create-event.start'}}</label>
@@ -158,7 +157,13 @@
                     {{'validation.start-validation'}}</span>-->
                   </div>
                 </div>
-                <!-- End -->
+                <!-- Start time-->
+                <div class="col-sm-6 margin-top">
+                  <div class="form-group required">
+                    <ngb-timepicker [(ngModel)]="timeStart" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+                  </div>
+                </div>
+                <!-- End date -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!end.valid && end.dirty), 'has-success': (end.valid)}">
                     <label for="inputEnd" translate>{{'create-event.end'}}</label>
@@ -176,11 +181,17 @@
                     {{'validation.end-validation'}}</span>-->
                   </div>
                 </div>
+                <!-- End time-->
+                <div class="col-sm-6 margin-top">
+                  <div class="form-group required">
+                    <ngb-timepicker [(ngModel)]="timeEnd" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+                  </div>
+                </div>
                 <!-- Province -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">
                     <label for="selectProvinceEvent" translate>{{'create-event.province'}}</label>
-                    <select [formControl]="province" class="form-control" id="selectProvinceEvent" (change)="onSelectedProvinceEvent($event.target.selectedIndex-1)">
+                    <select [formControl]="province" class="form-control" id="selectProvinceEvent" (change)="onSelectedProvince($event.target.selectedIndex-1)">
                       <option value="" translate>{{'create-event.select-province'}}</option>
                       <option *ngFor="let provinceEvent of provincesEvent " [ngValue]="provinceEvent.name">
                         {{provinceEvent.name}}
@@ -194,7 +205,7 @@
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!municipality.value && municipality.dirty), 'has-success': (municipality.value)}">
                     <label for="selectMunicipalityEvent" translate>{{'create-event.municipality'}}</label>
-                    <select [formControl]="municipality" class="form-control" id="selectMunicipalityEvent">
+                    <select [formControl]="municipality" class="form-control" id="selectMunicipalityEvent" (change)="onSelectedMunicipality($event.target.selectedIndex-1)">
                       <option value="" translate>{{'create-event.select-municipality'}}</option>
                       <option *ngFor="let municipalityEvent of municipalitiesEvent" [ngValue]="municipalityEvent.name">
                         {{municipalityEvent.name}}
@@ -202,6 +213,14 @@
                     </select>
                     <!-- Validation -->
                     <span *ngIf="!municipality.value && municipality.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+                  </div>
+                </div>
+                  <!-- Location -->
+                <div class="col-sm-12">
+                  <div class="form-group" [ngClass]="{'has-error': (!location.valid && location.dirty), 'has-success': (location.value)}">
+                    <label for="textareaLocation" translate>{{'create-theme.location'}}</label>
+                    <textarea [formControl]="location" capitalize class="form-control" id="textareaLocation"></textarea>
+                    <span *ngIf="location.errors?.maxlength && location.dirty " class="help-block form-error" translate>{{'validation.location-length'}}</span>
                   </div>
                 </div>
                 <!-- Latitude -->
@@ -226,19 +245,13 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group text-center">
-                    <!-- <create-event-map></create-event-map>-->
+                    <create-event-map></create-event-map>
                   </div>
                 </div>
                 <!-- Maps Button with class -->
-                <div *ngIf="classesArcheology" class="col-sm-12">
+                <div *ngIf="form.get('categories').controls.length > 0" class="col-sm-12">
                   <div class="form-group text-center">
-                    <button [disabled]="!title.valid || !theme.valid || !lat.valid || !lng.valid || !class.valid " (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-event.check'}}</button>
-                  </div>
-                </div>
-                <!-- Maps Button without class-->
-                <div *ngIf="!classesArcheology" class="col-sm-12">
-                  <div class="form-group text-center">
-                    <button [disabled]="!title.valid || !theme.valid || !lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-event.check'}}</button>
+                    <button [disabled]="!lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-event.check'}}</button>
                   </div>
                 </div>
                 <!-- Description -->
@@ -260,15 +273,9 @@
                   </div>
                 </div>
                 <!-- Submit Button -->
-                <div *ngIf="classesArcheology" class="col-sm-12">
+                <div  class="col-sm-12">
                   <div class="form-group text-center">
-                    <button [disabled]="!title.valid || !theme.valid || !class.valid || !province.valid || !country.valid || !municipality.valid || !description.valid || !lat.valid || !lng.valid  ||!uploader.getNotUploadedItems().length  || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'create-event.send'}}</button>
-                  </div>
-                </div>
-                <!-- Submit Button -->
-                <div *ngIf="!classesArcheology" class="col-sm-12">
-                  <div class="form-group text-center">
-                    <button [disabled]="!title.valid || !theme.valid || !province.valid || !country.valid || !municipality.valid || !description.valid || !lat.valid || !lng.valid  || !uploader.getNotUploadedItems().length || submitted" type="submit" class="btn btn-default btn-auth" translate>{{'create-event.send'}}</button>
+                    <button [disabled]="!form.valid || !uploader.getNotUploadedItems().length  || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'create-event.send'}}</button>
                   </div>
                 </div>
               </div>

@@ -93,8 +93,6 @@ export class CreateCategoryComponent implements OnInit {
       this.category.setParentId=this.form.get('parentCategory').value;
       this.category.setTitle=this.form.get('title').value;
       this.category.setDescription=this.form.get('description').value;
-      this.category.setCreatedAt=new Date();
-      this.category.setCreatedAt=new Date();
       console.log(this.form.get('parentCategory').value);
       this.categoryService.newCategory(this.category).subscribe(data=>{
         if(!data.success){

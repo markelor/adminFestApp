@@ -15,13 +15,13 @@ import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule} from "../../shared/shared.module";
 import { FileUploadModule } from 'ng2-file-upload';
-//import { MapModule } from '../map/map.module';
+import { MapModule } from '../map/map.module';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 @NgModule({
   imports: [
   	CommonModule,FormsModule,ReactiveFormsModule,AgmCoreModule,
   	FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),TranslateModule,SharedModule,
-    CreateRoutingModule,FileUploadModule,DataTablesModule,NgbModule/*MapModule*/
+    CreateRoutingModule,FileUploadModule,DataTablesModule,NgbModule,MapModule
   ],
   declarations: [CreateEventComponent,CategoryModalComponent,CreateCategoryComponent],
   providers: [

@@ -18,7 +18,7 @@ module.exports = {
         locationLength: "Location must be no longer than 1000 characters.",  
         categoryDescriptionLength: "Description must be more than 5 characters but no more than 200.",
         eventDescriptionLength: "Description must be more than 50 characters but no more than 20000.",
-        observationLength: "Observation must be no longer than 1000 characters.",
+        observationsLength: "Observations must be no longer than 1000 characters.",
         discoveryLength: "Discovery must be no longer than 1000 characters.",
         bibliographyLength: "Bibliography must be no longer than 1000 characters.",
         latitudeValid: "Please, insert latitude in decimal format.",
@@ -171,7 +171,7 @@ module.exports = {
     //newEvent
     newEvent: {
         createdByProvidedError: "Event creator is required.",
-        yearProvidedError: "Event year is required.",
+        categoryIdProvidedError: "Category ID is required.",
         titleProvidedError: "Event title is required.",
         startProvidedError: "Event start is required.",
         endProvidedError: "Event end is required.",
@@ -179,7 +179,18 @@ module.exports = {
         saveError: "Could not save event. Error:",
         success: "Event saved!"
     },
+    //newPlace
+    newPlace: {
+        eventIdProvidedError: 'Event ID is required.',
+        provinceProvidedError: "Province is required.",
+        municipalityProvidedError: "Municipality is required.",
+        latProvidedError: "Latitude is required.",
+        lngProvidedError: "Longitude is required.",
+        saveError: "Could not save place. Error:",
+        success: "Place saved!"
+    },
     allCategories: {
+        idProvidedError: 'Category ID was not provided.',
         categoriesError: "No categories found.",
         thematicProvidedError: "Thematic was not provided.",
         visibleProvidedError: "Visible parameter was not provided.",

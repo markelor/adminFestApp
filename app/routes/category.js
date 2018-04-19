@@ -44,7 +44,9 @@ module.exports = (router) => {
                         level: req.body.level,
                         language: language,
                         title: req.body.title,
-                        description: req.body.description
+                        description: req.body.description,
+                        createdAt:Date.now(),
+                        updatedAt:Date.now()
                     });
 
                     // Save category into database
@@ -118,6 +120,58 @@ module.exports = (router) => {
                 }
             }); // Sort categories from newest to oldest
 
+        }
+
+    });
+    /* ===============================================================
+       GET ALL first categories
+    =============================================================== */
+    router.get('/allChildCategories/:id/:language', (req, res) => {
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            if (!req.params.id) {
+                res.json({ success: false, message: eval(language + '.allCategories.idProvidedError') }); // Return error
+            } else {
+                if(req.params.id==="null"){
+                    req.params.id=null;
+                }
+                Category.find({
+                    language: language,
+                    parentId: req.params.id
+                }).sort({ '_id': 1 }).exec((err, categories) => {
+                    // Check if error was found or not
+                    if (err) {
+                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                        var mailOptions = {
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                            to: [emailConfig.email], // list of receivers
+                            subject: ' Find 1 allCategories category error ',
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                        };
+                        // Function to send e-mail to myself
+                        transporter.sendMail(mailOptions, function(err, info) {
+                            if (err) {
+                                console.log(err); // If error with sending e-mail, log to console/terminal
+                            } else {
+                                console.log(info); // Log success message to console if sent
+                                console.log(user.email); // Display e-mail that it was sent to
+                            }
+                        });
+                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                    } else {
+                        // Check if categories were found in database
+                        if (!categories) {
+                            res.json({ success: false, message: eval(language + '.allCategories.categoriesError') }); // Return error of no categories found
+                        } else {
+                            res.json({ success: true, categories: categories }); // Return success and categories array
+                        }
+                    }
+                }); // Sort categories from newest to oldest
+
+            }
         }
 
     });

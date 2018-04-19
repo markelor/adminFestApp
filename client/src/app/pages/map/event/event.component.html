@@ -1,0 +1,28 @@
+<div class="ks-page-content">
+  <div class="ks-page-content-body">
+    <div class="ks-nav-body-wrapper">
+      <div class="container-fluid ks-rows-section">
+        <h1>{{ title }}</h1>
+        <!-- this creates a google map on the page with the given lat/lng from -->
+        <!-- the component as the initial center of the map: -->
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [fullscreenControl]="true" [mapTypeControl]="true">
+          <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.labelOptions" [iconUrl]="m.icon">
+            <agm-snazzy-info-window [maxWidth]="500" [closeWhenOthersOpen]="true">
+              <ng-template>
+                <div id="iw-container">
+                  <div class="iw-title"><a href="">{{events[i] | safeHtml : language:'title'}}</a></div>
+                  <div class="iw-content">
+                    <div class="iw-subTitle">{{events[i] | safeHtml : language:'event'}}</div>
+                    <span class="map-window"><a href=""><img class="info-img" [src]="events[i].images[0].location"> </a></span>
+                    <div [innerHTML]="events[i] | safeHtml : language:'description'"></div>
+                  </div>
+                  <div class="iw-bottom-gradient"></div>
+                </div>
+              </ng-template>
+            </agm-snazzy-info-window>
+          </agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+</div>

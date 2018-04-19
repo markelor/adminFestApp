@@ -8,8 +8,8 @@ export class Event{
     visible: boolean;
     coordinators: Array<string>;
     title: string;
-    start: string;
-    end: string;
+    start: Date;
+    end: Date;
     description: string;
     observations:string;
     reactions: object;
@@ -65,16 +65,16 @@ export class Event{
     set setTitle(title:string) {
         this.title = title;
     } 
-    get getStart():string {
+    get getStart():Date {
         return this.start;
     }
-    set setStart(start:string) {
+    set setStart(start:Date) {
         this.start = start;
     }
-    get getEnd():string {
+    get getEnd():Date {
         return this.end;
     }
-    set setEnd(end:string) {
+    set setEnd(end:Date) {
         this.end = end;
     }
     get getDescription():string {

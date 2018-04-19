@@ -55,6 +55,4 @@ export class Category{
     set setUpdatedAt(updatedAt:Date) {
         this.updatedAt = updatedAt;
     }
-    
-
 }

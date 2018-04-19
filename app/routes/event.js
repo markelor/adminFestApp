@@ -1,5 +1,6 @@
 const User = require('../models/user'); // Import User Model Schema
 const Event = require('../models/event'); // Import Event Model Schema
+const Place = require('../models/place'); // Import Place Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
@@ -22,78 +23,144 @@ module.exports = (router) => {
        CREATE NEW category
     =============================================================== */
     router.post('/newEvent', (req, res) => {
-        var language = req.body.language;
+        var language = req.body.event.language;
         // Check if language was provided
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if event createdBy was provided
-            if (!req.body.createdBy) {
+            if (!req.body.event.createdBy) {
                 res.json({ success: false, message: eval(language + '.newEvent.createdByProvidedError') }); // Return error
             } else {
-                // Check if event year was provided
-                if (!req.body.year) {
-                    res.json({ success: false, message: eval(language + '.newEvent.yearProvidedError') }); // Return error message
+                // Check if event category was provided
+                if (!req.body.event.categoryId) {
+                    res.json({ success: false, message: eval(language + '.newEvent.categoryIdProvidedError') }); // Return error
                 } else {
                     // Check if event title was provided
-                    if (!req.body.title) {
+                    if (!req.body.event.title) {
                         res.json({ success: false, message: eval(language + '.newEvent.titleProvidedError') }); // Return error message
                     } else {
                         // Check if event start was provided
-                        if (!req.body.start) {
+                        if (!req.body.event.start) {
                             res.json({ success: false, message: eval(language + '.newEvent.startProvidedError') }); // Return error message
                         } else {
                             // Check if event end was provided
-                            if (!req.body.end) {
+                            if (!req.body.event.end) {
                                 res.json({ success: false, message: eval(language + '.newEvent.endProvidedError') }); // Return error message
                             } else {
                                 // Check if event description was provided
-                                if (!req.body.description) {
+                                if (!req.body.event.description) {
                                     res.json({ success: false, message: eval(language + '.newEvent.descriptionProvidedError') }); // Return error message
                                 } else {
-                                    const event = new Event({
-                                        createdBy: req.body.createdBy,
-                                        coordinators: req.body.coordinators,
-                                        sponsors: req.body.sponsors,
-                                        language: language,
-                                        year: req.body.year,
-                                        poster: req.body.poster,
-                                        title: req.body.title,
-                                        start: req.body.start,
-                                        end: req.body.end,
-                                        description: req.body.description,
-                                        info: req.body.info,
-                                        images: req.body.images,
-                                        aplications: req.body.aplications,
-                                        reactions: req.body.reactions,
-                                        createdAt: Date.now(),
-                                        updatedAt: Date.now()
-                                    });
-
-                                    // Save event into database
-                                    event.save((err) => {
-                                        // Check if error
-                                        if (err) {
-                                            // Check if error is a validation error
-                                            if (err.errors) {
-                                                // Check if validation error is in the category field
-                                                if (err.errors['title']) {
-                                                    res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
-                                                } else {
-                                                    if (err.errors['description']) {
-                                                        res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
-                                                    } else {
-                                                        res.json({ success: false, message: err }); // Return general error message
-                                                    }
-
-                                                }
-                                            } else {
-                                                res.json({ success: false, message: eval(language + '.newEvent.saveError'), err }); // Return general error message
-                                            }
+                                    // Check if place province was provided
+                                    if (!req.body.place.province) {
+                                        res.json({ success: false, message: eval(language + '.newPlace.provinceProvidedError') }); // Return error message
+                                    } else {
+                                        // Check if place municiàlity was provided
+                                        if (!req.body.place.municipality) {
+                                            res.json({ success: false, message: eval(language + '.newPlace.municipalityProvidedError') }); // Return error message
                                         } else {
-                                            res.json({ success: true, message: eval(language + '.newEvent.success') }); // Return success message
+                                            // Check if place lat was provided
+                                            if (!req.body.place.lat) {
+                                                res.json({ success: false, message: eval(language + '.newPlace.latProvidedError') }); // Return error message
+                                            } else {
+                                                // Check if place lng was provided
+                                                if (!req.body.place.lng) {
+                                                    res.json({ success: false, message: eval(language + '.newPlace.lngProvidedError') }); // Return error message
+                                                } else {
+                                                    const event = new Event({
+                                                        createdBy: req.body.event.createdBy,
+                                                        categoryId: req.body.event.categoryId,
+                                                        language: language,
+                                                        title: req.body.event.title,
+                                                        coordinators: req.body.event.coordinators,
+                                                        start: req.body.event.start,
+                                                        end: req.body.event.end,
+                                                        description: req.body.event.description,
+                                                        images: {
+                                                            posters: req.body.event.imagesPoster,
+                                                            description: req.body.event.imagesDescription
+                                                        },
+                                                        createdAt: Date.now(),
+                                                        updatedAt: Date.now()
+                                                    });
+                                                    // Save event into database
+                                                    event.save((err, event) => {
+                                                        // Check if error
+                                                        if (err) {
+                                                            // Check if error is a validation error
+                                                            if (err.errors) {
+                                                                // Check if validation error is in the category field
+                                                                if (err.errors['title']) {
+                                                                    res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
+                                                                } else {
+                                                                    if (err.errors['description']) {
+                                                                        res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
+                                                                    } else {
+                                                                        if (err.errors['observations']) {
+                                                                            res.json({ success: false, message: eval(language + err.errors['observations'].message) }); // Return error message
+                                                                        } else {
+                                                                            res.json({ success: false, message: err }); // Return general error message
+                                                                        }
+                                                                    }
+
+                                                                }
+                                                            } else {
+                                                                res.json({ success: false, message: eval(language + '.newEvent.saveError'), err }); // Return general error message
+                                                            }
+                                                        } else {
+                                                            const place = new Place({
+                                                                eventId: event._id,
+                                                                language: language,
+                                                                province: req.body.place.province,
+                                                                municipality: req.body.place.municipality,
+                                                                location: req.body.place.location,
+                                                                coordinates: {
+                                                                    lat: req.body.place.lat,
+                                                                    lng: req.body.place.lng
+                                                                },
+                                                                createdAt: Date.now(),
+                                                                updatedAt: Date.now()
+                                                            });
+                                                            // Save place into database
+                                                            place.save((err) => {
+                                                                // Check if error
+                                                                if (err) {
+                                                                    // Check if error is a validation error
+                                                                    event.remove((err) => {
+                                                                        if (err) {
+                                                                            res.json({ success: false, message: eval(language + '.deleteEvent.saveError'), err }); // Return general error message
+                                                                        }
+                                                                    });
+                                                                    if (err.errors) {
+                                                                        console.log(err.errors);
+                                                                        // Check if validation error is in the category field
+                                                                        if (err.errors['location']) {
+                                                                            res.json({ success: false, message: eval(language + err.errors['location'].message) }); // Return error message
+                                                                        } else {
+                                                                            if (err.errors['coordinates.lat']) {
+                                                                                res.json({ success: false, message: eval(language + err.errors['coordinates.lat'].message) }); // Return error message
+                                                                            } else {
+                                                                                if (err.errors['coordinates.lng']) {
+                                                                                    res.json({ success: false, message: eval(language + err.errors['coordinates.lng'].message) }); // Return error message
+                                                                                } else {
+                                                                                    res.json({ success: false, message: err }); // Return general error message
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        res.json({ success: false, message: eval(language + '.newPlace.saveError'), err }); // Return general error message
+                                                                    }
+                                                                } else {
+                                                                    res.json({ success: true, message: eval(language + '.newEvent.success') }); // Return success message
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            }
                                         }
-                                    });
+                                    }
                                 }
                             }
                         }

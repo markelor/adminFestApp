@@ -71,12 +71,14 @@ const descriptionValidators = [
 
 // Category Model Definition
 const categorySchema = new Schema({
-    firstParentId: { type: String,required: true, default: null },
-    parentId: { type: String ,required: true, default: null },
+    firstParentId: { type: String,required: false, default: null },
+    parentId: { type: String ,required: false, default: null },
     language: { type: String, required: true },
     level:{ type: Number, required: true,default: 0 },
     title: { type: String, required: true, unique: true, validate: titleValidators },
-    description: { type: String, required: true, validate: descriptionValidators }
+    description: { type: String, required: true, validate: descriptionValidators },
+    createdAt: { type: Date, required: true },
+    updatedAt: { type: Date, required: true }
 });
 
 // Export Module/Schema

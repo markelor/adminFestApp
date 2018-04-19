@@ -10,13 +10,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { FileUploader,FileUploaderOptions } from 'ng2-file-upload';
 import { Router } from '@angular/router';
 import { Event } from '../../../class/event';
+import { Place } from '../../../class/place';
 import { LocalizeRouterService } from 'localize-router';
 import { ObservableService } from '../../../services/observable.service';
 import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { AuthGuard} from '../../guards/auth.guard';
-
+import * as moment from 'moment';
 declare let $: any;
-const URL = 'http://localhost:8080/fileUploader/uploadImages/description';
+const URL = 'http://localhost:8080/fileUploader/uploadImages/poster';
 const I18N_VALUES = {
   'eu': {
     weekdays: ['As', 'As', 'As', 'Os', 'Os', 'La', 'Ig'],
@@ -61,16 +62,16 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
 })
 export class CreateEventComponent implements OnInit {
   private event:Event=new Event();
+  private place:Place=new Place();
   private messageClass;
   private message;
-  private newPost = false;
+  //private newPost = false;
   private loadingEvents = false;
   private form:FormGroup;
   private commentForm:FormGroup;
   private submitted:boolean = false;
-  private showMegalithicStation=false;
   private username;
-  private imagesPrincipal=[];
+  private imagesPoster=[];
   private imagesDescription=[];
   private title:AbstractControl;
   private categories: any[] = [];
@@ -79,10 +80,13 @@ export class CreateEventComponent implements OnInit {
   private coordinator:AbstractControl;
   private start:AbstractControl;
   private end:AbstractControl;
+  private location:AbstractControl;
   private lat:AbstractControl;
   private lng:AbstractControl;
   private description:AbstractControl;
   private observations:AbstractControl;
+  private timeStart = {hour: 13, minute: 30};
+  private timeEnd = {hour: 13, minute: 30};
   private categoryId=[];
   private levelCategories=[];
   private coordinators=[];
@@ -94,7 +98,7 @@ export class CreateEventComponent implements OnInit {
   private froalaSignature;
   private froalaEvent;
   private uploader:FileUploader = new FileUploader({
-    url: URL,itemAlias: 'categories',
+    url: URL,itemAlias: 'poster',
     isHTML5: true,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
     maxFileSize: 10*1024*1024 // 10 MB
@@ -145,7 +149,6 @@ export class CreateEventComponent implements OnInit {
         Validators.required
       ])],
       coordinator: ['', Validators.compose([
-        Validators.required,
         Validators.maxLength(30),
         Validators.minLength(5),
         AlphanumericValidator.validate
@@ -155,6 +158,9 @@ export class CreateEventComponent implements OnInit {
       ])],
       end: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/
+      ])],
+      location: ['', Validators.compose([
+        Validators.maxLength(1000)
       ])],
        lat: ['', Validators.compose([
         Validators.required,LatitudeValidator.validate
@@ -178,6 +184,7 @@ export class CreateEventComponent implements OnInit {
     this.start = this.form.controls['start'];
     this.coordinator = this.form.controls['coordinator'];
     this.end = this.form.controls['end'];
+    this.location = this.form.controls['location'];
     this.lat = this.form.controls['lat'];
     this.lng = this.form.controls['lng'];
     this.description= this.form.controls['description'];
@@ -197,9 +204,9 @@ export class CreateEventComponent implements OnInit {
   }
 
   // Function to display new categories form
-  private newEventForm() {
+  /*private newEventForm() {
     this.newPost = true; // Show new categories form
-  }
+  }*/
 
   private fileOverBase(e:any):void {
     this.hasBaseDropZoneOver = e;
@@ -217,33 +224,28 @@ export class CreateEventComponent implements OnInit {
   }
 
   // Function to upload  categories post
-  private createEventArcheology() {
+  private createEvent() {
     // Create categories object from form fields
     this.event.setLanguage=this.localizeService.parser.currentLang;// Language field
-    this.event.setCreatedBy= this.username; // CreatedBy field
-    this.event.setTitle= this.form.get('title').value; // Title field
-    /*this.event.setEvent=this.form.get('categories').value; // Event field
-    this.event.setClassEvent=this.form.get('class').value; // Class field
-    this.event.setMegalithicStation=this.form.get('megalithicStation').value; // MegalithicStation field
-    this.event.setCulturalSecuence=this.form.get('culturalSecuence').value; // CulturalSecuence field
-    this.event.setStage=this.form.get('stage').value; // Stage field
-    this.event.setContinent=this.form.get('continent').value; // Continent field
-    this.event.setCountry=this.form.get('country').value; // Country field
-    this.event.setRegion=this.form.get('region').value; // Region field
-    this.event.setProvince=this.form.get('province').value, // Province field
-    this.event.setMunicipality=this.form.get('municipality').value; // Municipality field
-    this.event.setLat=this.form.get('lat').value; // Lat field
-    this.event.setLng=this.form.get('lng').value; // Lng field
-    this.event.setLocationDescription=this.form.get('location').value; //Location field,
+    this.event.setCreatedBy=this.username; // CreatedBy field
+    this.event.setTitle=this.form.get('title').value; // Title field
+    this.event.setCoordinators=this.coordinators;
+    this.event.setStart=new Date(this.form.get('start').value.year,this.form.get('start').value.month,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
+    this.event.setEnd=new Date(this.form.get('end').value.year,this.form.get('end').value.month,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
+    this.event.setCategoryId=this.categoryId[this.categoryId.length-1];
     this.event.setDescription= this.form.get('description').value; // Description field
-    this.event.setObservation=this.form.get('observations').value; // Observations field
-    this.event.setDiscovery=this.form.get('discovery').value; // Discovery field
-    this.event.setBibliography=this.form.get('bibliography').value; // Bibliography field*/
-    // Function to save categories into database
-    this.eventService.newEvent(this.event).subscribe(data => {
-      // Check if categories was saved to database or not
+    this.event.setObservations=this.form.get('observations').value; // Observations field
+    this.place.setProvince=this.form.get('province').value, // Province field
+    this.place.setMunicipality=this.form.get('municipality').value; // Municipality field
+    this.place.setLocation=this.form.get('location').value; //Location field,
+    this.place.setLat=this.form.get('lat').value; // Lat field
+    this.place.setLng=this.form.get('lng').value; // Lng field
+    
+    // Function to save event into database
+    this.eventService.newEvent(this.event,this.place).subscribe(data => {
+      // Check if event was saved to database or not
       if (!data.success) {
-        this.deleteUploadImages('principal',this.imagesPrincipal);
+        this.deleteUploadImages('poster',this.imagesPoster);
         this.deleteUploadImages('descriptionAll',this.imagesDescription);
         this.messageClass = 'alert alert-danger ks-solid'; // Return error class
         this.message = data.message; // Return error message
@@ -255,7 +257,7 @@ export class CreateEventComponent implements OnInit {
         this.message = data.message; // Return success message
         // Clear form data after two seconds
         setTimeout(() => {
-          this.newPost = false; // Hide form
+          //this.newPost = false; // Hide form
           this.submitted = false; // Enable submit button
           this.message = false; // Erase error/success message
           this.uploader.clearQueue()//Reset uploader
@@ -265,9 +267,9 @@ export class CreateEventComponent implements OnInit {
     });  
   }
   private deleteUploadImages(type,images){
-    if(type==='principal'){
+    if(type==='poster'){
       for (var i = 0; i < images.length; ++i) {
-        this.fileUploaderService.deleteImages(images[i].key,"categories",this.localizeService.parser.currentLang).subscribe(data=>{
+        this.fileUploaderService.deleteImages(images[i].key,"poster",this.localizeService.parser.currentLang).subscribe(data=>{
         });
       }
     }else if(type==='descriptionOne'){
@@ -277,7 +279,7 @@ export class CreateEventComponent implements OnInit {
       for (var i = 0; i < this.imagesDescription.length; i++) {
         if(this.imagesDescription[i]===images[0].currentSrc){
           this.imagesDescription.splice(i,1);
-          //this.event.setImagesDescription=this.imagesDescription;
+          this.event.setImagesDescription=this.imagesDescription;
         }
       }
       this.fileUploaderService.deleteImages(urlSplit[1],urlSplit[0],this.localizeService.parser.currentLang).subscribe(data=>{
@@ -302,25 +304,15 @@ export class CreateEventComponent implements OnInit {
     }else{
       //hide categories
       this.categoryId[level+1] = this.levelCategories[level].value[index]._id;
-      console.log(this.levelCategories);
-      console.log(this.levelCategories[level].value[index]);
-      console.log("------------------------");
-      console.log(this.levelCategories);
-      //console.log(this.levelCategories[level+1].value);
       var newFormArray=false;
       if(this.levelCategories[level+1]){
          for (var i = 0; i < this.levelCategories[level+1].value.length; ++i) {
-           console.log(this.levelCategories[level+1].value[i].parentId);
-           console.log(this.levelCategories[level].value[index]._id);
           if(this.levelCategories[level+1].value[i].parentId===this.levelCategories[level].value[index]._id){
             newFormArray=true;
           }
         }
-        console.log(newFormArray);
       }     
-      console.log(newFormArray);
       if((this.form.controls['categories'].value.length-1 <= level) && newFormArray===true){
-              console.log("newFormArray");
         (this.form.controls['categories'] as FormArray).push(this.createItem());
       }else {
         // remove
@@ -332,15 +324,13 @@ export class CreateEventComponent implements OnInit {
         }       
       }    
     }
-  }
-    
+  }   
   // Function on seleccted event Continent
-  private onSelectedProvinceEvent(index){
+  private onSelectedProvince(index){
     if (index===-1){
       this.form.get('municipality').disable(); // Disable municipality field
     }else{
       this.form.get('municipality').enable(); // Enable municipality field
-      //this.event.setContinentGeonameId=this.provincesEvent[index].toponymName.toLowerCase();
       this.eventService.getEventGeonamesJson('municipality',this.localizeService.parser.currentLang,this.provincesEvent[index].toponymName.toLowerCase()).subscribe(municipalitiesEvent => {
       this.municipalitiesEvent=municipalitiesEvent.geonames;
     });
@@ -349,13 +339,12 @@ export class CreateEventComponent implements OnInit {
   }
   // Function on seleccted event province
   private onSelectedMunicipality(index){
-    if(index===-1){
-      this.form.controls['municipality'].setValue("");
-      this.form.get('municipality').disable(); // Disable municipality field
-    }else{
-    this.form.get('municipality').enable(); // Enable region field
-    //this.event.setProvinceGeonameId=this.municipalititiesEvent[index].geonameId;
-
+    if(index!==-1){
+      var coordinates={
+        lat:this.municipalitiesEvent[index].lat,
+        lng:this.municipalitiesEvent[index].lng
+      }
+      this.passCoordinates(coordinates);
     }
   }
   private chargeAll(){
@@ -373,23 +362,33 @@ export class CreateEventComponent implements OnInit {
       this.provincesEvent=provincesEvent.geonames;
     });
   }
-  private passCoordinates(){
-    var market_info={
-      title:this.form.get('title').value,
-      categories:this.form.get('categories').value, // Event field
-      class:this.form.get('class').value, // Class field
-      lat:this.form.get('lat').value, // Lat field
-      lng:this.form.get('lng').value, // Lng field
-    }
+  private passCoordinates(defaultCoordinates){
+    if (defaultCoordinates){
+      var market_info={
+        title:this.form.get('title').value,
+        category:this.form.get('categories').value[this.form.get('categories').value.length-1].category, // Event field
+        lat:defaultCoordinates.lat, // Lat field
+        lng:defaultCoordinates.lng, // Lng field
+      }
+      this.form.controls['lat'].setValue(defaultCoordinates.lat);
+      this.form.controls['lng'].setValue(defaultCoordinates.lng);
+    }else{
+      var market_info={
+        title:this.form.get('title').value,
+        category:this.form.get('categories').value[this.form.get('categories').value.length-1].category, // Event field
+        lat:this.form.get('lat').value, // Lat field
+        lng:this.form.get('lng').value, // Lng field
+      }
+    }   
     this.observableService.mapType="create-categories-coordinates";
     this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
   }
   private setUploaderOptions(){
-    this.authService.loadToken();
     const authHeader: Array<{
      name: string;
      value: string;
      }> = [];
+     console.log(this.authService.authToken);
      authHeader.push({name: 'Authorization' , value: 'Bearer '+this.authService.authToken});
     this.uploadOptions = <FileUploaderOptions>{headers : authHeader};
     this.uploader.setOptions(this.uploadOptions);
@@ -417,10 +416,10 @@ export class CreateEventComponent implements OnInit {
         this.submitted = true; // Enable submit button
         this.enableFormNewEventForm(); // Enable form
       }else{
-        this.imagesPrincipal.push(responseJson.file[0]);   
+        this.imagesPoster.push(responseJson.file[0]);   
         if(this.uploader.progress===100 && this.uploadAllSuccess){
-          //this.event.setImagesPrincipal=this.imagesPrincipal;
-          this.createEventArcheology();
+          this.event.setImagesPoster=this.imagesPoster;
+          this.createEvent();
         }
       } 
     };
@@ -454,7 +453,7 @@ export class CreateEventComponent implements OnInit {
     $('#textareaDescription').on('froalaEditor.image.inserted', function (e, editor, $img, response) {
       // Do something here.
       context.imagesDescription.push($img[0].currentSrc);
-      //context.event.setImagesDescription=context.imagesDescription;
+      context.event.setImagesDescription=context.imagesDescription;
     });
     $('#textareaDescription')
       // Catch image remove
@@ -462,10 +461,9 @@ export class CreateEventComponent implements OnInit {
         context.deleteUploadImages('descriptionOne',$img);
       }); 
   }
-  addCoordinator() {
+  private addCoordinator() {
       if(this.coordinator.value){
         this.coordinators.push(this.coordinator.value);
-        console.log(this.event.getCoordinators);
       }
     }
   ngOnInit() {
@@ -488,9 +486,7 @@ export class CreateEventComponent implements OnInit {
     this.setUploaderOptions();
     this.form.get('municipality').disable(); // Disable municipality field
     this.chargeAll();
-
   }
-
 }
 
 

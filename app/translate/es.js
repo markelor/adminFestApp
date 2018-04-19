@@ -18,7 +18,7 @@ module.exports = {
         locationLength: "La localización no debe tener más de 1000 caracteres.",
         categoryDescriptionLength: "La descripción debe tener al menos 5 caracteres pero no más de 200.",
         eventDescriptionLength: "La descripción debe tener al menos 50 caracteres pero no más de 20000.",
-        observationLength: "Observaciones no debe tener más de 1000 caracteres.",
+        observationsLength: "Observaciones no debe tener más de 1000 caracteres.",
         discoveryLength: "El descubrimiento no debe tener más de 1000 caracteres.",
         bibliographyLength: "La bibliografía no debe tener más de 1000 caracteres.",
         latitudeValid: "Por favor, inserte la latitud en formato decimal.",
@@ -170,7 +170,7 @@ module.exports = {
      //newEvent
     newEvent: {
         createdByProvidedError: "El creador del evento es requerido.",
-        yearProvidedError: "El año de la categoría es requerido.",
+        categoryIdProvidedError: "El ID de la categoria es requerida.",
         titleProvidedError: "El título del evento es requerido.",
         startProvidedError: "El inicio del evento es requerido.",
         endProvidedError: "El final del evento es requerido.",
@@ -178,7 +178,18 @@ module.exports = {
         saveError: "No se pudo guardar el evento. Error:",
         success: "¡Evento guardado!"
     },
+      //newPlace
+    newPlace: {
+        eventIdProvidedError: 'El ID del evento es requerido.',
+        provinceProvidedError: "La provincia es requerida.",
+        municipalityProvidedError: "El municipio es requerido.",
+        latProvidedError: "La latitud es requerida.",
+        lngProvidedError: "La longitud es requerida.",
+        saveError: "No se pudo guardar el lugar. Error:",
+        success: "¡Lugar guardado!"
+    },
     allCategories: {
+        idProvidedError: 'El ID de la categoría, no fue proporcionado.',
         categoriesError: "No se encontraron categorías.",
         thematicProvidedError: "La temática no fue proporcionada.",
         visibleProvidedError: "El parametro visible no fue proporcionado.",

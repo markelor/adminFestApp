@@ -59,6 +59,27 @@ let descriptionLengthChecker = (description) => {
         }
     }
 };
+// Validate Function to check observations length
+let observationsLengthChecker = (observations) => {
+    // Check if observations exists
+    if (observations) {
+        // Check observations length
+        if (observations.length > 1000) {
+            return false; // Return error if observations length requirement is not met
+        } else {
+            return true; // Return observations as valid
+        }
+    }
+};
+
+// Array of Observations validators
+const observationsValidators = [
+    // First observations validator
+    {
+        validator: observationsLengthChecker,
+        message: '.validation.observationsLength'
+    }
+];
 
 // Array of Description validators
 const descriptionValidators = [
@@ -78,11 +99,11 @@ const eventSchema = new Schema({
     language: { type: String, required: true },
     visible: { type: Boolean, required: true, default: true },
     coordinators: { type: Array,required: false },
-    title: { type: String, required: true },
+    title: { type: String, required: true,validate: titleValidators },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
-    description: { type: String, required: true },
-    info: { type: String },
+    description: { type: String, required: true,validate: descriptionValidators },
+    observations: { type: String,validate: observationsValidators },
     reactions: {
         likeBy: { type: Array, required: false },
         loveBy: { type: Array, required: false },

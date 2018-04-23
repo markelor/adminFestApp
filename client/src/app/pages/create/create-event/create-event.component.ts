@@ -77,7 +77,7 @@ export class CreateEventComponent implements OnInit {
   private categories: any[] = [];
   private province:AbstractControl;
   private municipality:AbstractControl;
-  private coordinator:AbstractControl;
+  private participant:AbstractControl;
   private start:AbstractControl;
   private end:AbstractControl;
   private location:AbstractControl;
@@ -89,7 +89,7 @@ export class CreateEventComponent implements OnInit {
   private timeEnd = {hour: 13, minute: 30};
   private categoryId=[];
   private levelCategories=[];
-  private coordinators=[];
+  private participants=[];
   private provincesEvent;
   private countrysArcheology;
   private regionsArcheology;
@@ -148,7 +148,7 @@ export class CreateEventComponent implements OnInit {
       municipality: ['', Validators.compose([
         Validators.required
       ])],
-      coordinator: ['', Validators.compose([
+      participant: ['', Validators.compose([
         Validators.maxLength(30),
         Validators.minLength(5),
         AlphanumericValidator.validate
@@ -182,7 +182,7 @@ export class CreateEventComponent implements OnInit {
     this.province = this.form.controls['province'];
     this.municipality = this.form.controls['municipality'];
     this.start = this.form.controls['start'];
-    this.coordinator = this.form.controls['coordinator'];
+    this.participant = this.form.controls['participant'];
     this.end = this.form.controls['end'];
     this.location = this.form.controls['location'];
     this.lat = this.form.controls['lat'];
@@ -218,7 +218,7 @@ export class CreateEventComponent implements OnInit {
   private onEventSubmit(){
     if(this.uploader.queue.length>0){
       this.submitted = false; // Disable submit button
-      this.disableFormNewEventForm(); // Lock form
+      //this.disableFormNewEventForm(); // Lock form
       this.uploader.uploadAll();
     }
   }
@@ -229,7 +229,7 @@ export class CreateEventComponent implements OnInit {
     this.event.setLanguage=this.localizeService.parser.currentLang;// Language field
     this.event.setCreatedBy=this.username; // CreatedBy field
     this.event.setTitle=this.form.get('title').value; // Title field
-    this.event.setCoordinators=this.coordinators;
+    this.event.setParticipants=this.participants;
     this.event.setStart=new Date(this.form.get('start').value.year,this.form.get('start').value.month,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
     this.event.setEnd=new Date(this.form.get('end').value.year,this.form.get('end').value.month,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
     this.event.setCategoryId=this.categoryId[this.categoryId.length-1];
@@ -388,12 +388,16 @@ export class CreateEventComponent implements OnInit {
      name: string;
      value: string;
      }> = [];
-     console.log(this.authService.authToken);
      authHeader.push({name: 'Authorization' , value: 'Bearer '+this.authService.authToken});
     this.uploadOptions = <FileUploaderOptions>{headers : authHeader};
     this.uploader.setOptions(this.uploadOptions);
     //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file)=> { 
+      file.withCredentials = false;
+      if(this.uploader.queue.length>1){
+        this.uploader.queue.splice(0,1);
+      }
+    };
     //override onBuildItemForm to pass parameter language to server
     this.uploader.onBuildItemForm = (item, form) => {
       form.append('language', this.localizeService.parser.currentLang);
@@ -461,9 +465,9 @@ export class CreateEventComponent implements OnInit {
         context.deleteUploadImages('descriptionOne',$img);
       }); 
   }
-  private addCoordinator() {
-      if(this.coordinator.value){
-        this.coordinators.push(this.coordinator.value);
+  private addParticipant() {
+      if(this.participant.value){
+        this.participants.push(this.participant.value);
       }
     }
   ngOnInit() {

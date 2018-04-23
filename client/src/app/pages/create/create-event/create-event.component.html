@@ -5,7 +5,7 @@
         <div class="row">
           <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <!-- Custom Success/Error Message -->
-            <div class="row show-hide-message">
+            <div *ngIf="message" class="row show-hide-message">
               <div [ngClass]="messageClass">
                 {{ message }}
               </div>
@@ -16,7 +16,7 @@
                 <!-- Title -->
                 <div class="col-sm-12">
                   <div class="form-group required" [ngClass]="{'has-error': (!title.valid && title.dirty), 'has-success': (title.valid)}">
-                    <label for="inputTitle" translate>{{'create-event.title'}}</label>
+                    <label for="inputTitle" translate>{{'event-form.title'}}</label>
                     <input [formControl]="title" capitalize type="text" class="form-control" id="inputTitle">
                     <!-- Validation -->
                     <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -27,12 +27,12 @@
                 </div>
                 <!-- Category -->
                 <div formArrayName="categories" class="col-sm-12">
-                  <label for="selectCategory" translate>{{'create-event.category'}}</label>
+                  <label for="selectCategory" translate>{{'event-form.category'}}</label>
                   <div *ngFor="let category of form.get('categories').controls; let i = index;">
                     <div class="form-group required" [ngClass]="{'has-error': (!category.valid && category.dirty), 'has-success': (category.valid)}">
                       <div [formGroupName]="i">
                         <select formControlName="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.selectedIndex-1,i)">
-                          <option value="" translate>{{'create-event.select-category'}}</option>
+                          <option value="" translate>{{'event-form.select-category'}}</option>
                           <ng-container *ngFor="let levelCategory of levelCategories | eventCategory:i">
                             <option [hidden]="levelCategory.parentId!==categoryId[i]" [ngValue]="levelCategory.title">
                               {{levelCategory.title}}
@@ -45,54 +45,54 @@
                     </div>
                   </div>
                 </div>
-                <!-- Coordinator list -->
+                <!-- Participant list -->
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label *ngFor="let coordinator of coordinators" class="custom-control custom-checkbox">
+                    <label *ngFor="let participant of participants" class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input">
                       <span class="custom-control-indicator"></span>
-                      <span class="custom-control-description">{{coordinator}}</span>
+                      <span class="custom-control-description">{{participant}}</span>
                     </label>
                   </div>
                 </div>
-                <!-- Coordinator input -->
+                <!-- Participant input -->
                 <div class="col-sm-12">
-                  <div class="form-group required" [ngClass]="{'has-error': (!coordinator.valid && coordinator.dirty), 'has-success': (coordinator.valid)}">
-                    <label for="inputCoordinator" translate>{{'create-event.coordinators'}}</label>
+                  <div class="form-group required" [ngClass]="{'has-error': (!participant.valid && participant.dirty), 'has-success': (participant.valid)}">
+                    <label for="inputParticipant" translate>{{'event-form.participants'}}</label>
                     <div class="input-group icon">
-                      <input [formControl]="coordinator" capitalize type="text" class="form-control" id="inputCoordinator">
+                      <input [formControl]="participant" capitalize type="text" class="form-control" id="inputParticipant">
                       <div class="input-group-append ">
-                        <button (click)="addCoordinator()" type="button" class="btn btn-success ks-light ks-no-text">
+                        <button (click)="addParticipant()" type="button" class="btn btn-success ks-light ks-no-text">
                           <span class="la la-plus ks-icon"></span>
                         </button>
                       </div>
                     </div>
                     <!-- Validation -->
-                    <span *ngIf="coordinator.errors?.minlength && coordinator.dirty || coordinator.errors?.maxlength && coordinator.dirty " class="help-block form-error" translate>{{'validation.coordinator-length'}}</span>
-                    <span *ngIf="coordinator.errors?.validateAlphanumeric && coordinator.dirty" class="help-block form-error" translate>
-                    {{'validation.coordinator-validation'}}</span>
+                    <span *ngIf="participant.errors?.minlength && participant.dirty || participant.errors?.maxlength && participant.dirty " class="help-block form-error" translate>{{'validation.participant-length'}}</span>
+                    <span *ngIf="participant.errors?.validateAlphanumeric && participant.dirty" class="help-block form-error" translate>
+                    {{'validation.participant-validation'}}</span>
                   </div>
                 </div>
                 <!-- File upload start-->
                 <div class="col-sm-12">
                   <div class="form-group required">
-                    <label for="fileUploadArcheology" translate>{{'create-event.images'}}</label>
+                    <label for="fileUploadArcheology" translate>{{'event-form.images'}}</label>
                     <button class="btn btn-primary ks-btn-file d-block">
                       <span class="la la-cloud-upload ks-icon"></span>
-                      <span class="ks-text" translate>{{'create-event.choose-images'}}</span>
-                      <input id="photos" class="form-control" type="file" ng2FileSelect [uploader]="uploader" multiple />
+                      <span class="ks-text" translate>{{'event-form.choose-images'}}</span>
+                      <input id="photos" class="form-control" type="file" ng2FileSelect [uploader]="uploader"/>
                     </button>
                   </div>
                   <div *ngIf="uploader?.queue?.length>0">
-                    <h3 translate>{{'create-event.list-images'}} <span>{{ uploader?.queue?.length }}</span> </h3>
+                    <h3 translate>{{'event-form.list-images'}} <span>{{ uploader?.queue?.length }}</span> </h3>
                     <table class="table">
                       <thead>
                         <tr>
-                          <th translate>{{'create-event.preview'}}</th>
-                          <th translate>{{'create-event.name'}}</th>
-                          <th translate>{{'create-event.size'}}</th>
-                          <th translate>{{'create-event.status'}}</th>
-                          <th translate>{{'create-event.delete'}}</th>
+                          <th translate>{{'event-form.preview'}}</th>
+                          <th translate>{{'event-form.name'}}</th>
+                          <th translate>{{'event-form.size'}}</th>
+                          <th translate>{{'event-form.status'}}</th>
+                          <th translate>{{'event-form.delete'}}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -111,14 +111,14 @@
                           </td>
                           <td nowrap>
                             <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                              <span class="fa fa-trash" translate>{{'create-event.delete'}}</span>
+                              <span class="fa fa-trash" translate>{{'event-form.delete'}}</span>
                             </button>
                           </td>
                         </tr>
                       </tbody>
                     </table>
                     <div>
-                      <label for="progressbar" translate>{{'create-event.queue-progress'}}</label>
+                      <label for="progressbar" translate>{{'event-form.queue-progress'}}</label>
                       <div class="card panel ks-widget-attachments">
                         <div class="ks-uploading-progress-block">
                           <div class="ks-progress ks-progress-inline">
@@ -133,7 +133,7 @@
                         <span class="glyphicon glyphicon-upload"></span> Upload all
                       </button>-->
                       <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                        <span class="fa fa-trash" translate>{{'create-event.delete-all'}}</span>
+                        <span class="fa fa-trash" translate>{{'event-form.delete-all'}}</span>
                       </button>
                     </div>
                   </div>
@@ -142,7 +142,7 @@
                 <!-- Start date-->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!start.valid && start.dirty), 'has-success': (start.valid)}">
-                    <label for="inputStart" translate>{{'create-event.start'}}</label>
+                    <label for="inputStart" translate>{{'event-form.start'}}</label>
                     <div class="input-group icon">
                       <input [formControl]="start" ngbDatepicker #calendarStart="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputStart">
                       <div class="input-group-append ">
@@ -166,7 +166,7 @@
                 <!-- End date -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!end.valid && end.dirty), 'has-success': (end.valid)}">
-                    <label for="inputEnd" translate>{{'create-event.end'}}</label>
+                    <label for="inputEnd" translate>{{'event-form.end'}}</label>
                     <div class="input-group icon">
                       <input [formControl]="end" ngbDatepicker #calendarEnd="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputEnd">
                       <div class="input-group-append ">
@@ -190,9 +190,9 @@
                 <!-- Province -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">
-                    <label for="selectProvinceEvent" translate>{{'create-event.province'}}</label>
+                    <label for="selectProvinceEvent" translate>{{'event-form.province'}}</label>
                     <select [formControl]="province" class="form-control" id="selectProvinceEvent" (change)="onSelectedProvince($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-event.select-province'}}</option>
+                      <option value="" translate>{{'event-form.select-province'}}</option>
                       <option *ngFor="let provinceEvent of provincesEvent " [ngValue]="provinceEvent.name">
                         {{provinceEvent.name}}
                       </option>
@@ -204,9 +204,9 @@
                 <!-- Municipality -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!municipality.value && municipality.dirty), 'has-success': (municipality.value)}">
-                    <label for="selectMunicipalityEvent" translate>{{'create-event.municipality'}}</label>
+                    <label for="selectMunicipalityEvent" translate>{{'event-form.municipality'}}</label>
                     <select [formControl]="municipality" class="form-control" id="selectMunicipalityEvent" (change)="onSelectedMunicipality($event.target.selectedIndex-1)">
-                      <option value="" translate>{{'create-event.select-municipality'}}</option>
+                      <option value="" translate>{{'event-form.select-municipality'}}</option>
                       <option *ngFor="let municipalityEvent of municipalitiesEvent" [ngValue]="municipalityEvent.name">
                         {{municipalityEvent.name}}
                       </option>
@@ -218,7 +218,7 @@
                   <!-- Location -->
                 <div class="col-sm-12">
                   <div class="form-group" [ngClass]="{'has-error': (!location.valid && location.dirty), 'has-success': (location.value)}">
-                    <label for="textareaLocation" translate>{{'create-theme.location'}}</label>
+                    <label for="textareaLocation" translate>{{'event-form.location'}}</label>
                     <textarea [formControl]="location" capitalize class="form-control" id="textareaLocation"></textarea>
                     <span *ngIf="location.errors?.maxlength && location.dirty " class="help-block form-error" translate>{{'validation.location-length'}}</span>
                   </div>
@@ -226,7 +226,7 @@
                 <!-- Latitude -->
                 <div class="col-sm-6">
                   <div class="form-group required" [ngClass]="{'has-error': (!lat.valid && lat.dirty), 'has-success': (lat.valid)}">
-                    <label for="inputLat" translate>{{'create-event.lat'}}</label>
+                    <label for="inputLat" translate>{{'event-form.lat'}}</label>
                     <input [formControl]="lat" type="text" class="form-control" id="inputLat">
                     <!-- Validation -->
                     <span *ngIf="lat.errors?.required && lat.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -236,7 +236,7 @@
                 <!-- Longitude -->
                 <div class="col-sm-6 ">
                   <div class="form-group required" [ngClass]="{'has-error': (!lng.valid && lng.dirty), 'has-success': (lng.valid)}">
-                    <label for="inputLng" translate>{{'create-event.lng'}}</label>
+                    <label for="inputLng" translate>{{'event-form.lng'}}</label>
                     <input [formControl]="lng" type="text" class="form-control" id="inputLng">
                     <!-- Validation -->
                     <span *ngIf="lng.errors?.required && lng.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -245,19 +245,19 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group text-center">
-                    <create-event-map></create-event-map>
+                    <event-form-map></event-form-map>
                   </div>
                 </div>
                 <!-- Maps Button with class -->
                 <div *ngIf="form.get('categories').controls.length > 0" class="col-sm-12">
                   <div class="form-group text-center">
-                    <button [disabled]="!lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'create-event.check'}}</button>
+                    <button [disabled]="!lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'event-form.check'}}</button>
                   </div>
                 </div>
                 <!-- Description -->
                 <div class="col-sm-12">
                   <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
-                    <label for="textareaDescription" translate>{{'create-event.description'}}</label>
+                    <label for="textareaDescription" translate>{{'event-form.description'}}</label>
                     <textarea id="textareaDescription" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="description" capitalize class="form-control"></textarea>
                     <!-- Validation -->
                     <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -267,7 +267,7 @@
                 <!-- Observations -->
                 <div class="col-sm-12">
                   <div class="form-group" [ngClass]="{'has-error': (!observations.valid && observations.dirty), 'has-success': (observations.value)}">
-                    <label for="textareaObservations" translate>{{'create-event.observations'}}</label>
+                    <label for="textareaObservations" translate>{{'event-form.observations'}}</label>
                     <textarea [formControl]="observations" capitalize class="form-control" id="textareaObservations"></textarea>
                     <span *ngIf="observations.errors?.maxlength && observations.dirty " class="help-block form-error" translate>{{'validation.observations-length'}}</span>
                   </div>
@@ -275,7 +275,7 @@
                 <!-- Submit Button -->
                 <div  class="col-sm-12">
                   <div class="form-group text-center">
-                    <button [disabled]="!form.valid || !uploader.getNotUploadedItems().length  || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'create-event.send'}}</button>
+                    <button [disabled]="!form.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'event-form.send'}}</button>
                   </div>
                 </div>
               </div>

@@ -21,5 +21,10 @@ export class FileUploaderService {
   public getSignatureFroala() {
      return this.http.get<any>(this.domain + 'fileUploader/getSignatureFroala');
   }
-
+  // Function to create a new theme post
+  public uploadImagesBase64(bucket) {
+    this.route=encodeURIComponent(bucket);
+    console.log(bucket);
+     return this.http.post<any>(this.domain + 'fileUploader/uploadImagesBase64',bucket);
+  }
 }

@@ -113,15 +113,13 @@
     "select-parent-category": "-- AUKERATU KATEGORIA --",
     "send": "Bidali"
   },
-  "create-event":
+  "event-form":
   {
     "title": "Izenburua",
     "category": "Kategoria",
-    "coordinators":"Koordinatzaileak",
+    "participants":"Parte Hartzaileak",
     "start": "Hasiera",
     "end": "Amaiera",
-    "class": "Mota",
-    "megalithic-station": "Estazio Megalitikoa",
     "images": "Irudiak",
     "choose-image": "Aukeratu irudia",
     "choose-images": "Aukeratu irudiak",
@@ -133,11 +131,6 @@
     "delete": "Ezabatu",
     "queue-progress": "Ilararen progresioa",
     "delete-all": "Ezabatu denak",
-    "cultural-secuence": "Sekuentzia Kulturala",
-    "stage": "Etapa",
-    "continent": "Kontinentea",
-    "country": "Herrialdea",
-    "region": "Eskualdea",
     "province": "Probintzia",
     "municipality": "Udalerria",
     "lat": "Koordenatuak I-H (Lat)",
@@ -149,12 +142,6 @@
     "discovery": "Aurkikuntza",
     "bibliography": "Bibliografia",
     "select-category": "-- AUKERATU KATEGORIA --",
-    "select-class": "-- AUKERATU MOTA --",
-    "select-cultural-secuence": "-- AUKERATU GARAIA --",
-    "select-stage": "-- AUKERATU AROA --",
-    "select-continent": "-- AUKERATU KONTINENTEA --",
-    "select-country": "-- AUKERATU HERRIALDEA --",
-    "select-region": "-- AUKERATU ESKUALDEA --",
     "select-province": "-- AUKERATU PROBINTZIA --",
     "select-municipality": "-- AUKERATU UDALERRIA --",
     "send": "Bidali"

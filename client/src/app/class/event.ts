@@ -6,7 +6,7 @@ export class Event{
     sponsorIds: Array<string>;
     language:string;
     visible: boolean;
-    coordinators: Array<string>;
+    participants: Array<string>;
     title: string;
     start: Date;
     end: Date;
@@ -53,11 +53,11 @@ export class Event{
     set setVisible(visible:boolean) {
         this.visible = visible;
     }
-    get getCoordinators():Array<string> {
-        return this.coordinators;
+    get getParticipants():Array<string> {
+        return this.participants;
     }
-    set setCoordinators(coordinators:Array<string>) {
-        this.coordinators = coordinators;
+    set setParticipants(participants:Array<string>) {
+        this.participants = participants;
     }
     get getTitle():string {
         return this.title;

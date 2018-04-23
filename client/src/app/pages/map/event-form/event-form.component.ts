@@ -5,11 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { ObservableService } from '../../../services/observable.service';
 import { Subscription } from 'rxjs/Subscription';
 @Component({
-  selector: 'create-event-map',
-  templateUrl: './create-event.component.html',
-  styleUrls: ['./create-event.component.css']
+  selector: 'event-form-map',
+  templateUrl: './event-form.component.html',
+  styleUrls: ['./event-form.component.css']
 })
-export class CreateEventComponent implements OnInit{
+export class EventFormComponent implements OnInit{
   private lat: number = 51.678418;
   private lng: number = 7.809007;
   private zoom: number = 8;
@@ -41,7 +41,7 @@ export class CreateEventComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.observableService.mapType="create-event-coordinates";
+    this.observableService.mapType="event-form-coordinates";
     this.subscription=this.observableService.notifyObservable.subscribe(res => {
       if (res.hasOwnProperty('option') && res.option === this.observableService.mapType) {
         this.markers=[];

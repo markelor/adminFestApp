@@ -22,8 +22,6 @@ module.exports = (router) => {
        CREATE NEW place
     =============================================================== */
     router.post('/newPlace', (req, res) => {
-
-
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
@@ -93,7 +91,5 @@ module.exports = (router) => {
             }
         }
     });
-
-
     return router;
 };

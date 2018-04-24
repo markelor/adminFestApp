@@ -69,12 +69,17 @@ const longitudeValidators = [
 
 // Category Model Definition
 const placeSchema = new Schema({
-    sponsorId: { type: String,required: false },
-    eventId: { type: String ,required: true },
+    sponsorId: { type: String, required: false },
     language: { type: String, required: true },
-    province:{ type: String, required: true },
-    municipality: { type: String, required: true },
-    location: { type: String, required: false,validate: locationValidators },
+    province: {
+        name: { type: String, required: true },
+        geonameId: { type: String, required: true }
+    },
+    municipality: {
+        name: { type: String, required: true },
+        geonameId: { type: String, required: true }
+    },
+    location: { type: String, required: false, validate: locationValidators },
     coordinates: {
         lat: { type: String, requireed: true, validate: latitudeValidators },
         lng: { type: String, requireed: true, validate: longitudeValidators }

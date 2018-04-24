@@ -96,7 +96,7 @@ module.exports = (router) => {
                                 } else {
                                     // setup email data with unicode symbols
                                     let mailOptions = {
-                                        from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                         to: [user.email, emailConfig.email], // list of receivers
                                         subject: eval(language + '.register.emailSubject'),
                                         text: eval(language + '.register.emailTextOne') + user.name + eval(language + '.register.emailTextTwo') + user.temporaryToken,
@@ -199,7 +199,7 @@ module.exports = (router) => {
                         if (err) {
                             // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                             var mailOptions = {
-                                from: 'Mundoarqueologia, '+emailConfig.email,
+                                from: 'Mundoarqueologia, ' + emailConfig.email,
                                 to: emailConfig.email,
                                 subject: 'Error Logged',
                                 text: 'The following error has been reported in Login part: ' + err,
@@ -234,7 +234,7 @@ module.exports = (router) => {
                                         token: token,
                                         user: {
                                             username: user.username,
-                                            currentAvatar:user.currentAvatar
+                                            currentAvatar: user.currentAvatar
                                         }
                                     }); // Return success and token to frontend
                                 }
@@ -262,7 +262,7 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         let mailOptions = {
-                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email], // list of receivers
                             subject: 'Error Logged',
                             text: 'The following error has been reported in the adminFestApp Application: ' + err,
@@ -296,7 +296,7 @@ module.exports = (router) => {
                                     } else {
                                         // If save succeeds, create e-mail object
                                         var mailOptions = {
-                                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                             to: [user.email, emailConfig.email],
                                             subject: eval(language + '.activate.emailSubject'),
                                             text: eval(language + '.activate.emailTextOne') + user.name + eval(language + '.activate.emailTextTwo'),
@@ -339,7 +339,7 @@ module.exports = (router) => {
                         if (err) {
                             // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                             let mailOptions = {
-                                from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                 to: [emailConfig.email], // list of receivers
                                 subject: 'Error resend verify credentials',
                                 text: 'The following error has been reported in the adminFestApp Application: ' + err,
@@ -393,7 +393,7 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         let mailOptions = {
-                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email], // list of receivers
                             subject: 'Error send new activation link',
                             text: 'The following error has been reported in the adminFestApp Application: ' + err,
@@ -418,7 +418,7 @@ module.exports = (router) => {
                             } else {
                                 // If user successfully saved to database, create e-mail object
                                 let mailOptions = {
-                                    from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                    from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                     to: [user.email, emailConfig.email], // list of receivers
                                     subject: eval(language + '.resend.emailSubject'),
                                     text: eval(language + '.resend.emailTextOne') + user.name + eval(language + '.resend.emailTextTwo') + user.temporaryToken,
@@ -458,7 +458,7 @@ module.exports = (router) => {
                         } else {
                             // If e-mail found in database, create e-mail object
                             let mailOptions = {
-                                from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                 to: [user.email],
                                 subject: eval(language + '.resetUsername.emailSubject'),
                                 text: eval(language + '.resetUsername.emailTextOne') + user.name + eval(language + '.resetUsername.emailTextTwo') + user.username,
@@ -498,11 +498,11 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         let mailOptions = {
-                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email],
                             subject: 'Error reset password Request',
-                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
                         // Function to send e-mail to myself
                         transporter.sendMail(mailOptions, function(err, info) {
@@ -528,7 +528,7 @@ module.exports = (router) => {
                                 } else {
                                     // Create e-mail object to send to user
                                     var mailOptions = {
-                                        from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                         to: [user.email],
                                         subject: eval(language + '.resetPassword.emailSubject'),
                                         text: eval(language + '.resetPassword.emailTextOne') + user.name + eval(language + '.resetPassword.emailTextTwo') + user.resetToken,
@@ -569,11 +569,11 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
-                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email],
                             subject: 'Error get password reset token',
-                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
                         // Function to send e-mail to myself
                         transporter.sendMail(mailOptions, function(err, info) {
@@ -627,11 +627,11 @@ module.exports = (router) => {
                         if (err) {
                             // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                             var mailOptions = {
-                                from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                 to: [emailConfig.email],
                                 subject: 'Error saved reset password',
-                                text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                                html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                                text: 'The following error has been reported in Kultura: ' + err,
+                                html: 'The following error has been reported in Kultura:<br><br>' + err
                             };
                             // Function to send e-mail to myself
                             transporter.sendMail(mailOptions, function(err, info) {
@@ -653,7 +653,7 @@ module.exports = (router) => {
                                 } else {
                                     // Create e-mail object to send to user
                                     var mailOptions = {
-                                        from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                         to: [user.email],
                                         subject: eval(language + '.savePassword.emailSubject'),
                                         text: eval(language + '.savePassword.emailTextOne') + user.name + eval(language + '.savePassword.emailTextTwo'),
@@ -675,7 +675,6 @@ module.exports = (router) => {
     /* ===============================================================
             Route to get all users images
         =============================================================== */
-
     router.get('/usersImages/:usernames/:language', function(req, res) {
         var language = req.params.language;
         // Check if language was provided
@@ -691,11 +690,11 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
-                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email],
                             subject: ' Find 1 for management error ',
-                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
                         // Function to send e-mail to myself
                         transporter.sendMail(mailOptions, function(err, info) {
@@ -779,11 +778,11 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
-                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email],
                             subject: 'Renew token error ',
-                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
                         // Function to send e-mail to myself
                         transporter.sendMail(mailOptions, function(err, info) {
@@ -822,11 +821,11 @@ module.exports = (router) => {
                 if (err) {
                     // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                     var mailOptions = {
-                        from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                         to: [emailConfig.email],
                         subject: ' Get permission error ',
-                        text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                        html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                        text: 'The following error has been reported in Kultura: ' + err,
+                        html: 'The following error has been reported in Kultura:<br><br>' + err
                     };
                     // Function to send e-mail to myself
                     transporter.sendMail(mailOptions, function(err, info) {
@@ -864,11 +863,11 @@ module.exports = (router) => {
                 if (err) {
                     // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                     var mailOptions = {
-                        from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                         to: [emailConfig.email],
                         subject: ' Find 1 for management error ',
-                        text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                        html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                        text: 'The following error has been reported in Kultura: ' + err,
+                        html: 'The following error has been reported in Kultura:<br><br>' + err
                     };
                     // Function to send e-mail to myself
                     transporter.sendMail(mailOptions, function(err, info) {
@@ -885,11 +884,11 @@ module.exports = (router) => {
                         if (err) {
                             // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                             var mailOptions = {
-                                from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                 to: [emailConfig.email],
                                 subject: ' Find one 2 for management error ',
-                                text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                                html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                                text: 'The following error has been reported in Kultura: ' + err,
+                                html: 'The following error has been reported in Kultura:<br><br>' + err
                             };
                             // Function to send e-mail to myself
                             transporter.sendMail(mailOptions, function(err, info) {
@@ -943,11 +942,11 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
-                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email],
                             subject: ' Find one for delete user ',
-                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
                         // Function to send e-mail to myself
                         transporter.sendMail(mailOptions, function(err, info) {
@@ -973,11 +972,11 @@ module.exports = (router) => {
                                     if (err) {
                                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                                         var mailOptions = {
-                                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
+                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                             to: [emailConfig.email],
                                             subject: ' Find one and remove for delete user ',
-                                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                                            text: 'The following error has been reported in Kultura: ' + err,
+                                            html: 'The following error has been reported in Kultura:<br><br>' + err
                                         };
                                         // Function to send e-mail to myself
                                         transporter.sendMail(mailOptions, function(err, info) {
@@ -1011,26 +1010,27 @@ module.exports = (router) => {
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            // Check if _id was provided
-            if (!req.body._id) {
+            // Check if username was provided
+            if (!req.body.username) {
                 res.json({ success: false, message: eval(language + '.editUser.idProvidedError') }); // Return error
             } else {
-                var editUser = req.body._id; // Assign _id from user to be editted to a variable
+                var editUser = req.body.username; // Assign _id from user to be editted to a variable
                 if (req.body.name) var newName = req.body.name; // Check if a change to name was requested
                 if (req.body.username) var newUsername = req.body.username; // Check if a change to username was requested
                 if (req.body.email) var newEmail = req.body.email; // Check if a change to e-mail was requested
                 if (req.body.aboutYourself) var newAboutYourself = req.body.aboutYourself; // Check if a change to aboutYourself was requested
                 if (req.body.permission) var newPermission = req.body.permission; // Check if a change to permission was requested
+                if (req.body.avatars) var newAvatars = req.body.avatars; // Check if a change to permission was requested
                 // Look for logged in user in database to check if have appropriate access
                 User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
-                            from: "Fred Foo 👻 <"+emailConfig.email+">", // sender address
+                            from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
                             to: [emailConfig.email],
                             subject: ' Find one 1 edit user error ',
-                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
                         // Function to send e-mail to myself
                         transporter.sendMail(mailOptions, function(err, info) {
@@ -1047,69 +1047,70 @@ module.exports = (router) => {
                         if (!mainUser) {
                             res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
                         } else {
-                            // Check if person making changes has appropriate access
-                            if (mainUser.permission === 'admin' || mainUser.permission === 'moderator') {
-                                // Look for user in database
-                                User.findOne({ _id: editUser }, function(err, user) {
-                                    if (err) {
-                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                        var mailOptions = {
-                                            from: "Fred Foo 👻" <+emailConfig.email+">", // sender address
-                                            to: [emailConfig.email],
-                                            subject: ' Find one 2 edit user error ',
-                                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
-                                        }; // Function to send e-mail to myself
-                                        transporter.sendMail(mailOptions, function(err, info) {
-                                            if (err) {
-                                                console.log(err); // If error with sending e-mail, log to console/terminal
-                                            } else {
-                                                console.log(info); // Log success message to console if sent
-                                                console.log(user.email); // Display e-mail that it was sent to
-                                            }
-                                        });
-                                        res.json({ success: false, message: eval(language + '.general.generalError') });
-                                    } else {
-                                        // Check if user is in database
-                                        if (!user) {
-                                            res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+
+                            // Look for user in database
+                            User.findOne({ username: editUser }, function(err, user) {
+                                if (err) {
+                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                    var mailOptions = {
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                        to: [emailConfig.email],
+                                        subject: ' Find one 2 edit user error ',
+                                        text: 'The following error has been reported in Kultura: ' + err,
+                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                    }; // Function to send e-mail to myself
+                                    transporter.sendMail(mailOptions, function(err, info) {
+                                        if (err) {
+                                            console.log(err); // If error with sending e-mail, log to console/terminal
                                         } else {
+                                            console.log(info); // Log success message to console if sent
+                                            console.log(user.email); // Display e-mail that it was sent to
+                                        }
+                                    });
+                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                } else {
+                                    // Check if user is in database
+                                    if (!user) {
+                                        res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                    } else {
+                                        // Check if person making changes has appropriate access
+                                        if (mainUser.permission === 'admin' || mainUser.permission === 'moderator' || mainUser._id.toString() === user._id.toString()) {
                                             if (newName)
                                                 user.name = newName; // Assign new name to user in database
                                             if (newUsername)
-                                                user.username = newUsername; // Assign new name to user in database
+                                                user.username = newUsername; // Assign new username to user in database
                                             if (newEmail)
-                                                user.email = newEmail; // Assign new name to user in database
+                                                user.email = newEmail; // Assign new name to email in database
                                             if (newAboutYourself)
-                                                user.aboutYourself = newAboutYourself; // Assign new name to user in database
+                                                user.aboutYourself = newAboutYourself; // Assign new aboutYourself to user in database
+                                            if (newAvatars)
+                                                user.avatars = newAvatars; // Assign new avatars to user in database
                                             var saveErrorPermission;
                                             if (newPermission) {
                                                 // Check if attempting to set the 'user' permission
                                                 if (newPermission === 'user') {
                                                     // Check the current permission is an admin
-                                                    if (user.permission === 'admin') {
+                                                    if (mainUser.permission === 'admin') {
                                                         // Check if user making changes has access
-                                                        if (mainUser.permission !== 'admin') {
+                                                        if (user.permission === 'admin') {
                                                             saveErrorPermission = language + '.editUser.adminOneError';
                                                         } else {
                                                             user.permission = newPermission; // Assign new permission to user
                                                         }
-                                                    } else {
-                                                        user.permission = newPermission; // Assign new permission to user
+                                                    }else{
+                                                       saveErrorPermission = language + '.editUser.adminOneError'; 
                                                     }
                                                 }
                                                 // Check if attempting to set the 'moderator' permission
                                                 if (newPermission === 'moderator') {
                                                     // Check if the current permission is 'admin'
-                                                    if (user.permission === 'admin') {
+                                                    if (mainUser.permission === 'admin' || mainUser.permission === 'moderator') {
                                                         // Check if user making changes has access
-                                                        if (mainUser.permission !== 'admin') {
+                                                        if (user.permission === 'admin' || user.permission === 'moderator') {
                                                             saveErrorPermission = language + '.editUser.adminOneError';
                                                         } else {
                                                             user.permission = newPermission; // Assign new permission
                                                         }
-                                                    } else {
-                                                        user.permission = newPermission; // Assign new permssion
                                                     }
                                                 }
 
@@ -1117,8 +1118,12 @@ module.exports = (router) => {
                                                 if (newPermission === 'admin') {
                                                     // Check if logged in user has access
                                                     if (mainUser.permission === 'admin') {
-                                                        user.permission = newPermission; // Assign new permission
-                                                    } else {
+                                                        if (user.permission === 'admin')
+                                                            saveErrorPermission = language + '.editUser.adminTwoError';
+                                                        else {
+                                                            user.permission = newPermission; // Assign new permission
+                                                        }
+                                                    }else{
                                                         saveErrorPermission = language + '.editUser.adminTwoError';
                                                     }
                                                 }
@@ -1172,12 +1177,12 @@ module.exports = (router) => {
                                                     }
                                                 });
                                             }
+                                        } else {
+                                            res.json({ success: false, message: eval(language + '.editUser.permissionError') }); // Return error
                                         }
                                     }
-                                });
-                            } else {
-                                res.json({ success: false, message: eval(language + '.editUser.permissionError') }); // Return error
-                            }
+                                }
+                            });
                         }
                     }
                 });
@@ -1186,25 +1191,114 @@ module.exports = (router) => {
     });
 
     /* ===============================================================
-       Route to get user's profile data
+       Route to get user's authentication data
     =============================================================== */
-    router.get('/profile', (req, res) => {
-        // Search for user in database
-        User.findOne({ _id: req.decoded.userId }).select('username email currentAvatar').exec((err, user) => {
-            // Check if error connecting
-            if (err) {
-                res.json({ success: false, message: err }); // Return error
-            } else {
-                // Check if user was found in database
-                if (!user) {
-                    res.json({ success: false, message: 'User not found' }); // Return error, user was not found in db
+    router.get('/authentication/:language', (req, res) => {
+        var language = req.params.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            // Search for user in database
+            User.findOne({ _id: req.decoded.userId }).select('username email currentAvatar').exec((err, user) => {
+                // Check if error connecting
+                if (err) {
+                    res.json({ success: false, message: err }); // Return error
                 } else {
-                    res.json({ success: true, user: user }); // Return success, send user object to frontend for profile
+                    // Check if user was found in database
+                    if (!user) {
+                        res.json({ success: false, message: eval(language + '.authentication.userError') }); // Return error
+                    } else {
+                        res.json({ success: true, user: user }); // Return success, send user object to frontend for authentication
+                    }
                 }
-            }
-        });
+            });
+        }
     });
+    /* ===============================================================
+       Route to get user's profile
+    =============================================================== */
+    router.get('/profile/:username/:language', (req, res) => {
+        var language = req.params.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            // Check if username was passed in the parameters
+            if (!req.params.username) {
+                res.json({ success: false, message: eval(language + '.authentication.usernameProvidedError') });
+            } else {
+                // Look for logged in user in database to check if have appropriate access
+                User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                    if (err) {
+                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                        var mailOptions = {
+                            from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                            to: [emailConfig.email],
+                            subject: ' Find one 1 profile error ',
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                        };
+                        // Function to send e-mail to myself
+                        transporter.sendMail(mailOptions, function(err, info) {
+                            if (err) {
+                                console.log(err); // If error with sending e-mail, log to console/terminal
+                            } else {
+                                console.log(info); // Log success message to console if sent
+                                console.log(user.email); // Display e-mail that it was sent to
+                            }
+                        });
+                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                    } else {
+                        // Check if logged in user is found in database
+                        if (!mainUser) {
+                            res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                        } else {
+                            // Check if person making changes has appropriate access
+                            // Look for user in database
+                            User.findOne({ username: req.params.username }).select('username email currentAvatar avatars').exec((err, user) => {
+                                if (err) {
+                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                    console.log(err);
+                                    var mailOptions = {
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                        to: [emailConfig.email],
+                                        subject: ' Find one 2 profile error',
+                                        text: 'The following error has been reported in Kultura: ' + err,
+                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                    }; // Function to send e-mail to myself
+                                    transporter.sendMail(mailOptions, function(err, info) {
+                                        if (err) {
+                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                        } else {
+                                            console.log(info); // Log success message to console if sent
+                                            console.log(user.email); // Display e-mail that it was sent to
+                                        }
+                                    });
+                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                } else {
+                                    // Check if user is in database
+                                    if (!user) {
+                                        res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                    } else {
+                                        console.log(mainUser._id);
+                                        console.log(user._id);
+                                        if (mainUser.permission === 'admin' || mainUser._id.toString() === user._id.toString()) {
+                                            res.json({ success: true, user: user }); // Return success, send user object to frontend for profile
 
+                                        } else {
+                                            res.json({ success: false, message: eval(language + '.editUser.permissionError') }); // Return error
+                                        }
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                });
+            }
+        }
+    });
     /* ===============================================================
        Route to get user's public profile data
     =============================================================== */

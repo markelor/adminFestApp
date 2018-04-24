@@ -128,31 +128,42 @@ module.exports = {
     },
     renewToken: {
         usernameProvidedError: "El nombre de usuario no fue proporcionado.",
-        userError: "No se encontró el nombre de usuario."
+        userError: "No se encontró el usuario."
     },
     permission: {
-        userError: "No se encontró el nombre de usuario."
+        userError: "No se encontró el usuario."
     },
     management: {
         usernameProvidedError: "El nombre de usuario no fue proporcionado.",
-        userError: "No se encontró el nombre de usuario.",
+        userError: "No se encontró el usuario.",
         usersError: "Usuarios no encontrados.",
         permissionError: "Permisos insuficientes."
     },
+     authentication: {
+        userError: "No se encontró el usuario."
+    },
+    profile:{
+        usernameProvidedError: "El nombre de usuario no fue proporcionado.",
+    },
     editUser: {
         idProvidedError: "El ID no fue proporcionado.",
-        userError: "No se encontró el nombre de usuario.",
+        userError: "No se encontró el usuario.",
         permissionError: "Permisos insuficientes.",
         nameUpdated: "¡El nombre ha sido actualizado!",
         usernameUpdated: "¡El nombre de usuario ha sido actualizado!",
         emailUpdated: "¡El correo electrónico ha sido actualizado!",
+        avatarUpload: "¡El Avatar ha sido subido!",
         aboutYourselfUpdated: "¡Acerca de ti ha sido actualizado!",
-        adminOneError: "Permisos insuficientes. Debes ser administrador para bajar de grado a otro administrador.",
-        adminTwoError: "Permisos insuficientes. Debes ser administrador para subir de grado a otro administrador.",
+        adminOneError: "Permisos insuficientes. No puedes dar permisos a uno de tu mismo grado o superior.",
+        adminTwoError: "Permisos insuficientes. Debes ser administrador para subir a otro a grado de administrador.",
         success: "Se han actualizado los permisos.!"
     },
     //File upload
     fileUpload: {
+        usernameProvidedError: "El nombre de usuario no fue proporcionado.",
+        imageProvidedError: "La imagen no fue proporcionada.",
+        bucketProvidedError: "El recipiente no fue proporcionado.",
+        nameProvidedError: "El nombre de la imagen no fue proporcionada.",
         uploadError: "¡Se ha producido un error al subir imágenes!",
         uploadSuccess: "Imágenes subidas correctamente.",
         deleteError: "¡Se ha producido un error al eliminar imágenes!",
@@ -182,7 +193,9 @@ module.exports = {
     newPlace: {
         eventIdProvidedError: 'El ID del evento es requerido.',
         provinceProvidedError: "La provincia es requerida.",
+        geonameIdProvinceProvidedError:"Geoname ID de la provincia es requerida.",
         municipalityProvidedError: "El municipio es requerido.",
+        geonameIdMunicipalityProvidedError:"Geoname ID del municipio es requerido.",
         latProvidedError: "La latitud es requerida.",
         lngProvidedError: "La longitud es requerida.",
         saveError: "No se pudo guardar el lugar. Error:",
@@ -205,7 +218,7 @@ module.exports = {
     updateCategory: {
         idProvidedError: 'El ID de la categoría, no fue proporcionada.',
         categoryError: "No se encontró la categoría.",
-        userError: "No se encontró el nombre de usuario.",
+        userError: "No se encontró el usuario.",
         permissionError: "No estás autorizado para editar esta categoría.",
         saveError: "No se pudo editar la categoría. Error: ",
         success: "¡Categoría actualizada!"
@@ -213,7 +226,7 @@ module.exports = {
     editTheme: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
         themeError: "No se encontró el tema.",
-        userError: "No se encontró el nombre de usuario.",
+        userError: "No se encontró el usuario.",
         permissionError: "No estás autorizado para editar esta publicación de tema.",
         saveError: "No se pudo editar el tema. Error: ",
         success: "¡Tema editado!"
@@ -221,7 +234,7 @@ module.exports = {
     deleteTheme: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
         themeError: "No se encontró el tema.",
-        userError: "No se encontró el nombre de usuario.",
+        userError: "No se encontró el usuario.",
         permissionError: "No estás autorizado para eliminar esta publicación de tema.",
         saveError: "No se pudo eliminar el tema. Error: ",
         success: "¡Tema eliminado!"
@@ -230,7 +243,7 @@ module.exports = {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
         reactionProvidedError: 'La reacción del tema no fue proporcionada.',
         themeError: "No se encontró el tema.",
-        userError: "No se encontró el nombre de usuario.",
+        userError: "No se encontró el usuario.",
         ownError: "No puedes reaccionar a tu propia publicación.",
         likedBeforeError: "Ya has reaacionado a esta publicación. ",
         saveError: "No se pudo añadir la reacción. Error: ",
@@ -239,7 +252,7 @@ module.exports = {
     deleteThemeReaction: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
         themeError: "No se encontró el tema.",
-        userError: "No se encontró el nombre de usuario.",
+        userError: "No se encontró el usuario.",
         ownError: "No puedes reaccionar a tu propia publicación.",
         quitBeforeError: "Ya has dejado de reaccionar este post",
         saveError: "No se pudo eliminar la reacción. Error: ",

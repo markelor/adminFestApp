@@ -139,6 +139,12 @@ module.exports = {
         usersError: "Users not found.",
         permissionError: "Insufficient permissions."
     },
+    authentication: {
+        userError: "No user was found."
+    },
+    profile:{
+        usernameProvidedError: "Username was not provided.",
+    },
     editUser: {
         idProvidedError: "ID was not provided.",
         userError: "No user was found.",
@@ -146,13 +152,18 @@ module.exports = {
         nameUpdated: "Name has been updated!",
         usernameUpdated: "Username has been updated!",
         emailUpdated: "E-mail has been updated!",
+        avatarUpload: "Avatar has been upload!",
         aboutYourselfUpdated: "About yourself has been updated!",
-        adminOneError: "Insufficient Permissions. You must be an admin to downgrade another admin.",
+        adminOneError: "Insufficient Permissions. You musn't permission to one of your own degree or higher.",
         adminTwoError: "Insufficient Permissions. You must be an admin to upgrade someone to the admin level.",
         success: "Permissions have been updated!"
     },
     //File upload
     fileUpload: {
+        usernameProvidedError: "Username was not provided.",
+        imageProvidedError: "Image was not provided.",
+        bucketProvidedError: "Bucket was not provided.",
+        nameProvidedError: "Image name was not provided.",
         uploadError: "There was an error uploading images!",
         uploadSuccess: "Uploaded images correctly.",
         deleteError: "There was an error deleting images!",
@@ -183,7 +194,9 @@ module.exports = {
     newPlace: {
         eventIdProvidedError: 'Event ID is required.',
         provinceProvidedError: "Province is required.",
+        geonameIdProvinceProvidedError:"Province geoname ID is required.",
         municipalityProvidedError: "Municipality is required.",
+        geonameIdMunicipalityProvidedError:"Municipality geoname ID is required.",
         latProvidedError: "Latitude is required.",
         lngProvidedError: "Longitude is required.",
         saveError: "Could not save place. Error:",

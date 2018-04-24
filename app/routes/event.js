@@ -56,64 +56,36 @@ module.exports = (router) => {
                                     if (!req.body.place.province) {
                                         res.json({ success: false, message: eval(language + '.newPlace.provinceProvidedError') }); // Return error message
                                     } else {
-                                        // Check if place municiàlity was provided
-                                        if (!req.body.place.municipality) {
-                                            res.json({ success: false, message: eval(language + '.newPlace.municipalityProvidedError') }); // Return error message
+                                        // Check if place geonameIdProvince was provided
+                                        if (!req.body.place.geonameIdProvince) {
+                                            res.json({ success: false, message: eval(language + '.newPlace.geonameIdProvinceProvidedError') }); // Return error message
                                         } else {
-                                            // Check if place lat was provided
-                                            if (!req.body.place.lat) {
-                                                res.json({ success: false, message: eval(language + '.newPlace.latProvidedError') }); // Return error message
+                                            // Check if place municipality was provided
+                                            if (!req.body.place.municipality) {
+                                                res.json({ success: false, message: eval(language + '.newPlace.municipalityProvidedError') }); // Return error message
                                             } else {
-                                                // Check if place lng was provided
-                                                if (!req.body.place.lng) {
-                                                    res.json({ success: false, message: eval(language + '.newPlace.lngProvidedError') }); // Return error message
+                                                // Check if place geonameIdmunicipality was provided
+                                                if (!req.body.place.geonameIdMunicipality) {
+                                                    res.json({ success: false, message: eval(language + '.newPlace.geonameIdMunicipalityProvidedError') }); // Return error message
                                                 } else {
-                                                    const event = new Event({
-                                                        createdBy: req.body.event.createdBy,
-                                                        categoryId: req.body.event.categoryId,
-                                                        language: language,
-                                                        title: req.body.event.title,
-                                                        coordinators: req.body.event.coordinators,
-                                                        start: req.body.event.start,
-                                                        end: req.body.event.end,
-                                                        description: req.body.event.description,
-                                                        images: {
-                                                            posters: req.body.event.imagesPoster,
-                                                            description: req.body.event.imagesDescription
-                                                        },
-                                                        createdAt: Date.now(),
-                                                        updatedAt: Date.now()
-                                                    });
-                                                    // Save event into database
-                                                    event.save((err, event) => {
-                                                        // Check if error
-                                                        if (err) {
-                                                            // Check if error is a validation error
-                                                            if (err.errors) {
-                                                                // Check if validation error is in the category field
-                                                                if (err.errors['title']) {
-                                                                    res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
-                                                                } else {
-                                                                    if (err.errors['description']) {
-                                                                        res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
-                                                                    } else {
-                                                                        if (err.errors['observations']) {
-                                                                            res.json({ success: false, message: eval(language + err.errors['observations'].message) }); // Return error message
-                                                                        } else {
-                                                                            res.json({ success: false, message: err }); // Return general error message
-                                                                        }
-                                                                    }
-
-                                                                }
-                                                            } else {
-                                                                res.json({ success: false, message: eval(language + '.newEvent.saveError'), err }); // Return general error message
-                                                            }
+                                                    // Check if place lat was provided
+                                                    if (!req.body.place.lat) {
+                                                        res.json({ success: false, message: eval(language + '.newPlace.latProvidedError') }); // Return error message
+                                                    } else {
+                                                        // Check if place lng was provided
+                                                        if (!req.body.place.lng) {
+                                                            res.json({ success: false, message: eval(language + '.newPlace.lngProvidedError') }); // Return error message
                                                         } else {
                                                             const place = new Place({
-                                                                eventId: event._id,
                                                                 language: language,
-                                                                province: req.body.place.province,
-                                                                municipality: req.body.place.municipality,
+                                                                province: {
+                                                                    name: req.body.place.province,
+                                                                    geonameId: req.body.place.geonameIdProvince
+                                                                },
+                                                                municipality: {
+                                                                    name: req.body.place.municipality,
+                                                                    geonameId: req.body.place.geonameIdMunicipality,
+                                                                },
                                                                 location: req.body.place.location,
                                                                 coordinates: {
                                                                     lat: req.body.place.lat,
@@ -126,12 +98,7 @@ module.exports = (router) => {
                                                             place.save((err) => {
                                                                 // Check if error
                                                                 if (err) {
-                                                                    // Check if error is a validation error
-                                                                    event.remove((err) => {
-                                                                        if (err) {
-                                                                            res.json({ success: false, message: eval(language + '.deleteEvent.saveError'), err }); // Return general error message
-                                                                        }
-                                                                    });
+                                                                    // Check if error is a validation error         
                                                                     if (err.errors) {
                                                                         console.log(err.errors);
                                                                         // Check if validation error is in the category field
@@ -152,11 +119,62 @@ module.exports = (router) => {
                                                                         res.json({ success: false, message: eval(language + '.newPlace.saveError'), err }); // Return general error message
                                                                     }
                                                                 } else {
-                                                                    res.json({ success: true, message: eval(language + '.newEvent.success') }); // Return success message
+                                                                    const event = new Event({
+                                                                        createdBy: req.body.event.createdBy,
+                                                                        categoryId: req.body.event.categoryId,
+                                                                        placeId: place._id,
+                                                                        language: language,
+                                                                        title: req.body.event.title,
+                                                                        coordinators: req.body.event.coordinators,
+                                                                        start: req.body.event.start,
+                                                                        end: req.body.event.end,
+                                                                        description: req.body.event.description,
+                                                                        images: {
+                                                                            posters: req.body.event.imagesPoster,
+                                                                            description: req.body.event.imagesDescription
+                                                                        },
+                                                                        createdAt: Date.now(),
+                                                                        updatedAt: Date.now()
+                                                                    });
+                                                                    // Save event into database
+                                                                    event.save((err, event) => {
+                                                                        // Check if error
+                                                                        if (err) {
+                                                                            // Check if error is a validation error
+                                                                            if (err.errors) {
+                                                                                // Check if validation error is in the category field
+                                                                                place.remove((err) => {
+                                                                                    if (err) {
+                                                                                        res.json({ success: false, message: eval(language + '.deletePlace.saveError'), err }); // Return general error message
+                                                                                    }
+                                                                                });
+                                                                                if (err.errors['title']) {
+                                                                                    res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
+                                                                                } else {
+                                                                                    if (err.errors['description']) {
+                                                                                        res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
+                                                                                    } else {
+                                                                                        if (err.errors['observations']) {
+                                                                                            res.json({ success: false, message: eval(language + err.errors['observations'].message) }); // Return error message
+                                                                                        } else {
+                                                                                            res.json({ success: false, message: err }); // Return general error message
+                                                                                        }
+                                                                                    }
+
+                                                                                }
+                                                                            } else {
+                                                                                res.json({ success: false, message: eval(language + '.newEvent.saveError'), err }); // Return general error message
+                                                                            }
+                                                                        } else {
+                                                                            res.json({ success: true, message: eval(language + '.newEvent.success') }); // Return success message
+                                                                        }
+                                                                    });
+
                                                                 }
                                                             });
+
                                                         }
-                                                    });
+                                                    }
                                                 }
                                             }
                                         }

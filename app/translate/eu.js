@@ -139,6 +139,12 @@ module.exports = {
         usersError: "Erabiltzaileak ez dira aurkitu.",
         permissionError: "Ez duzu nahikoa baimen"
     },
+    authentication: {
+        userError: "Erabiltzailea ez da aurkitu."
+    },
+    profile:{
+        usernameProvidedError: "Erabiltzaile izena ez da eman.",
+    },
     editUser: {
         idProvidedError: "IDa ez da eman.",
         userError: "Erabiltzailea ez da aurkitu.",
@@ -146,13 +152,18 @@ module.exports = {
         nameUpdated: "Izena eguneratu da!",
         usernameUpdated: "Erabiltzaile izena eguneratu da!",
         emailUpdated: "Posta elektronikoa egunertu da!",
+        avatarUpload: "Erabiltzaile argazkia igo da",
         aboutYourselfUpdated: "Zuri buruz eguneratu da!",
-        adminOneError: "Ez duzu nahikoa baimen. Administratzailea izan behar duzu beste administratzaile bat graduz jeisteko.",
-        adminTwoError: "Ez duzu nahikoa baimen. Administratzailea izan behar duzu beste administratzaile bat graduz igotzeko.",
+        adminOneError: "Ez duzu nahikoa baimen. Ezin diozu zure maila edo handiagoko bati baimenik eman.",
+        adminTwoError: "Ez duzu nahikoa baimen. Administratzailea izan behar duzu beste bat administratzaile mailara igotzeko.",
         success: "Baimenak eguneratu dira",
     },
     //File upload
     fileUpload: {
+        usernameProvidedError: "Erabiltzaile izena ez da eman.",
+        imageProvidedError: "Irudia ez da eman.",
+        bucketProvidedError: "Edukiontzia ez da eman.",
+        nameProvidedError: "Irudiaren izena ez da eman.",
         uploadError: "Akatsa gertatu da irudiak igotzean!",
         uploadSuccess: "Irudiak ongi igo dira.",
         deleteError: "Akatsa gertatu da irudiak ezabatzean!",
@@ -182,7 +193,9 @@ module.exports = {
       newPlace: {
         eventIdProvidedError: 'Ekintzaren IDa beharrezkoa da.',
         provinceProvidedError: "Probintzia beharrezkoa da.",
+        geonameIdProvinceProvidedError:"Probintziaren geoname ID beharrezkoa da.",
         municipalityProvidedError: "Udalerria beharrezkoa da.",
+        geonameIdMunicipalityProvidedError:"Udalerriaren geoname ID beharrezkoa da.",
         latProvidedError: "Latitudea beharrezkoa da.",
         lngProvidedError: "Luzeera beharrezkoa da.",
         saveError: "Lekua ezin da gorde. Errorea:",

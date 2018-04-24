@@ -1,3 +1,4 @@
+const User = require('../models/user'); // Import User Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 var aws = require('aws-sdk');
 var multer = require('multer'); //require multer for the file uploads
@@ -61,11 +62,11 @@ module.exports = (router) => {
        POST file uploader
     =============================================================== */
     router.post('/uploadImages/:bucket', function(req, res, next) {
-        var bucket=req.params.bucket;
+        var bucket = req.params.bucket;
         var upload = multer({
             storage: multerS3({
                 s3: s3,
-                bucket: 'culture-bucket/'+bucket,
+                bucket: 'culture-bucket/' + bucket,
                 acl: 'public-read',
                 contentType: multerS3.AUTO_CONTENT_TYPE,
                 metadata: function(req, file, cb) {
@@ -80,7 +81,7 @@ module.exports = (router) => {
         upload(req, res, function(err) {
             var language = req.body.language;
             if (!language) {
-                language = "es";
+                language = "eu";
             }
             if (err) {
                 res.json({ success: false, message: eval(language + '.fileUpload.uploadError') });
@@ -89,6 +90,161 @@ module.exports = (router) => {
             }
         });
 
+    });
+    /* ===============================================================
+       POST file uploader
+    =============================================================== */
+    router.post('/uploadImagesBase64', function(req, res) {
+        var language = req.body.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            if (!req.body.username) {
+                res.json({ success: false, message: eval(language + '.fileUpload.usernameProvidedError') }); // Return error
+            } else {
+                if (!req.body.image) {
+                    res.json({ success: false, message: eval(language + '.fileUpload.imageProvidedError') }); // Return error
+                } else {
+                    if (!req.body.bucket) {
+                        res.json({ success: false, message: eval(language + '.fileUpload.bucketProvidedError') }); // Return error
+                    } else {
+                        if (!req.body.name) {
+                            res.json({ success: false, message: eval(language + '.fileUpload.nameProvidedError') }); // Return error
+                        } else {
+                            var buf = new Buffer(req.body.image.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+                            var bucket = 'culture-bucket/' + req.body.bucket;
+                            var key = Date.now().toString() + "_" + req.body.name;
+                            var data = {
+                                Bucket: bucket,
+                                Key: key,
+                                Body: buf,
+                                ContentEncoding: 'base64',
+                                ContentType: 'image/jpg'
+                            };
+                            s3.putObject(data, function(err, data) {
+                                if (err) {
+                                    console.log(err);
+                                    res.json({ success: false, message: eval(language + '.fileUpload.uploadError') });
+                                } else {
+                                    // Look for logged in user in database to check if have appropriate access
+                                    User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                                        if (err) {
+                                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                            var mailOptions = {
+                                                from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                                to: [emailConfig.email],
+                                                subject: ' Find one 1 uploadImagesBase64 error ',
+                                                text: 'The following error has been reported in Kultura: ' + err,
+                                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                                            };
+                                            // Function to send e-mail to myself
+                                            transporter.sendMail(mailOptions, function(err, info) {
+                                                if (err) {
+                                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                                } else {
+                                                    console.log(info); // Log success message to console if sent
+                                                    console.log(user.email); // Display e-mail that it was sent to
+                                                }
+                                            });
+                                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                                        } else {
+                                            // Check if logged in user is found in database
+                                            if (!mainUser) {
+                                                res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                            } else {
+                                                // Check if person making changes has appropriate access
+                                                // Look for user in database
+                                                User.findOne({ username: req.body.username }, function(err, user) {
+                                                    if (err) {
+                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                        var mailOptions = {
+                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                            to: [emailConfig.email],
+                                                            subject: ' Find one 2 edit uploadImagesBase64 ',
+                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                        }; // Function to send e-mail to myself
+                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                            if (err) {
+                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                            } else {
+                                                                console.log(info); // Log success message to console if sent
+                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                            }
+                                                        });
+                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                    } else {
+                                                        // Check if user is in database
+                                                        if (!user) {
+                                                            res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                                        } else {
+                                                            if (mainUser.permission === 'admin' || mainUser._id.toString() === user._id.toString()) {
+                                                                var url = 'https://s3-' + config.region + '.amazonaws.com/' + bucket + '/' + key;
+                                                                user.avatars.push(url);
+                                                                // Save changes
+                                                                user.save(function(err) {
+                                                                    if (err) {
+                                                                        // Check if error is an error indicating duplicate account
+                                                                        if (err.code === 11000) {
+                                                                            res.json({ success: false, message: eval(language + '.register.duplicateError') }); // Return error
+                                                                        } else {
+                                                                            // Check if error is a validation error
+                                                                            if (err.errors) {
+                                                                                // Check if validation error is in the name field
+                                                                                if (err.errors.name) {
+                                                                                    res.json({ success: false, message: eval(language + err.errors.name.message) }); // Return error
+                                                                                } else {
+                                                                                    // Check if validation error is in the email field
+                                                                                    if (err.errors.email) {
+                                                                                        res.json({ success: false, message: eval(language + err.errors.email.message) }); // Return error
+                                                                                    } else {
+                                                                                        // Check if validation error is in the username field
+                                                                                        if (err.errors.username) {
+                                                                                            res.json({ success: false, message: eval(language + err.errors.username.message) }); // Return error
+                                                                                        } else {
+                                                                                            // Check if validation error is in the password field
+                                                                                            if (err.errors.password) {
+                                                                                                res.json({ success: false, message: eval(language + err.errors.password.message) }); // Return error
+                                                                                            } else {
+                                                                                                // Check if validation error is in the aboutYourself field
+                                                                                                if (err.errors.aboutYourself) {
+                                                                                                    res.json({ success: false, message: eval(language + err.errors.aboutYourself.message) }); // Return error
+                                                                                                } else {
+                                                                                                    res.json({ success: false, message: err }); // Return any other error not already covered
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            } else {
+                                                                                res.json({ success: false, message: eval(language + '.register.saveError'), err }); // Return error if not related to validation
+                                                                            }
+                                                                        }
+
+                                                                    } else {
+                                                                        res.json({ success: true, url:url,message: eval(language + '.editUser.avatarUpload') }); // Return success message
+                                                                    }
+                                                                });
+
+                                                            } else {
+                                                                res.json({ success: false, message: eval(language + '.editUser.permissionError') }); // Return error
+                                                            }
+                                                        }
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    });
+                                }
+
+                            });
+                        }
+                    }
+                }
+            }
+        }
     });
     /* ===============================================================
        DELETE image file uploader

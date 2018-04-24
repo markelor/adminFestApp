@@ -3,8 +3,9 @@ import { ImageCropperComponent, CropperSettings } from "ngx-img-cropper";
 import { FileUploaderService} from '../../../../services/file-uploader.service';
 import { FileUploader,FileUploaderOptions } from 'ng2-file-upload';
 import { AuthService } from '../../../../services/auth.service';
+import { AuthGuard} from '../../../guards/auth.guard';
 import { LocalizeRouterService } from 'localize-router';
-import domtoimage from 'dom-to-image';
+import { Router } from '@angular/router';
 const URL = 'http://localhost:8080/fileUploader/uploadImages/profile';
 @Component({
    selector: 'user-settings',
@@ -21,6 +22,7 @@ export class SettingsComponent implements OnInit {
     private hasBaseDropZoneOver: boolean = false;
     private hasAnotherDropZoneOver: boolean = false;
     private uploadAllSuccess:Boolean=true;
+    private avatars=[];
     private uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'profile',
     isHTML5: true,
@@ -35,9 +37,12 @@ export class SettingsComponent implements OnInit {
     constructor(
     	private authService:AuthService,
     	private localizeService:LocalizeRouterService,
-    	private fileUploaderService: FileUploaderService
+    	private fileUploaderService: FileUploaderService,
+    	private router:Router,
+    	private authGuard: AuthGuard,
     ) {
     	this.profileCropperSettings = new CropperSettings();
+    	this.profileCropperSettings.noFileInput = true;
 	    this.profileCropperSettings.width = 200;
 	    this.profileCropperSettings.height = 200;
 
@@ -59,20 +64,22 @@ export class SettingsComponent implements OnInit {
 	    this.data = {};
     }
     private uploadBase64(){
-
+    	console.log(this.authService.user);
       const uploadData = {
+       username:this.authService.user.username,
        language:this.localizeService.parser.currentLang,
        image: this.data.image,
        name:this.uploader.queue[0].file.name,
        bucket:'profile'
       };
       this.fileUploaderService.uploadImagesBase64(uploadData).subscribe(data=>{
-      	console.log(data);
+      	if(data.success){
+      		this.avatars.push(data.url);
+      	}
       });
   
     }
     private fileChangeListener($event){
-
 	  this.image = new Image();
 	  var file:File = $event.target.files[0];
 	  var fileReader: FileReader = new FileReader();
@@ -136,9 +143,33 @@ export class SettingsComponent implements OnInit {
 	  console.log(data);
 	});*/
 
+	}private deleteAvatar(index){
+		this.avatars.splice(index,1);
+		var user={
+			language:this.localizeService.parser.currentLang,
+			avatars:this.avatars,
+			username:this.authService.user.username
+		}
+		this.authService.editUser(user).subscribe(data=>{
+			console.log(data);
+		});
 	}
 
     ngOnInit() {
+    	// Get authentication on page load
+    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
+      if(!authentication.success){
+        this.authService.logout();
+        this.authGuard.redirectUrl=this.router.url;
+        this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
+      }
+    });
+    this.authService.getProfile(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(profile => {
+      console.log(profile);
+      if(profile.success){
+        this.avatars=profile.user.avatars;
+      }
+    });
        //File uploader options
       this.setUploaderOptions();
    }

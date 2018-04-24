@@ -134,8 +134,13 @@ export class AuthService {
   }
   
   // Function to get user's profile data
-  public getProfile() {
-    return this.http.get<any>(this.domain + 'authentication/profile');
+  public getAuthentication(language) {
+    return this.http.get<any>(this.domain + 'authentication/authentication/'+language);
+  }
+  // Function to get user's profile data
+  public getProfile(username,language) {
+    this.route=  encodeURIComponent(username)+'/';
+    return this.http.get<any>(this.domain + 'authentication/profile/'+this.route+language);
   }
 
   // Function to get public profile data

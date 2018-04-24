@@ -35,7 +35,6 @@
     "datatables.net-buttons": "^1.5.1",
     "datatables.net-buttons-dt": "^1.5.1",
     "datatables.net-dt": "^1.10.16",
-    "dom-to-image": "^2.6.0",
     "font-awesome": "^4.7.0",
     "install": "^0.11.0",
     "jquery": "^3.3.1",

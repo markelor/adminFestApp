@@ -144,10 +144,10 @@ export class NavbarComponent implements OnInit {
       }
     });
 
-  	this.authService.getProfile().subscribe(data=>{
+  	this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         this.avatar=data.user.currentAvatar;
-      }   
+      }  
     });
     /*this.themeService.themeSearch(this.searchTerm,this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){

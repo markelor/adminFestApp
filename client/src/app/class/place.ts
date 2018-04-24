@@ -3,7 +3,9 @@ export class Place{
 	eventId: string;
 	language: string;
     province: string;
+    geonameIdProvince:string;
     municipality: string;
+    geonameIdMunicipality:string
     location:string;
     lat:number;
     lng:number;
@@ -33,11 +35,23 @@ export class Place{
     set setProvince(province:string) {
         this.province = province;
     }
+    get getGeonameIdProvince():string {
+        return this.province;
+    }
+    set setGeonameIdProvince(geonameIdProvince:string) {
+        this.geonameIdProvince = geonameIdProvince;
+    }
     get getMunicipality():string {
         return this.municipality;
     }
     set setMunicipality(municipality:string) {
         this.municipality = municipality;
+    }
+    get getGeonameIdMunicipality():string {
+        return this.province;
+    }
+    set setGeonameIdMunicipality(geonameIdMunicipality:string) {
+        this.geonameIdMunicipality = geonameIdMunicipality;
     }
     get getLocation():string {
         return this.location;

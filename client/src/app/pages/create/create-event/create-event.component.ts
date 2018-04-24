@@ -220,6 +220,8 @@ export class CreateEventComponent implements OnInit {
       this.submitted = false; // Disable submit button
       //this.disableFormNewEventForm(); // Lock form
       this.uploader.uploadAll();
+    }else{
+      this.createEvent();
     }
   }
 
@@ -243,6 +245,7 @@ export class CreateEventComponent implements OnInit {
     
     // Function to save event into database
     this.eventService.newEvent(this.event,this.place).subscribe(data => {
+      console.log(data);
       // Check if event was saved to database or not
       if (!data.success) {
         this.deleteUploadImages('poster',this.imagesPoster);
@@ -332,6 +335,7 @@ export class CreateEventComponent implements OnInit {
     }else{
       this.form.get('municipality').enable(); // Enable municipality field
       this.eventService.getEventGeonamesJson('municipality',this.localizeService.parser.currentLang,this.provincesEvent[index].toponymName.toLowerCase()).subscribe(municipalitiesEvent => {
+      this.place.setGeonameIdProvince=this.provincesEvent[index].geonameId;
       this.municipalitiesEvent=municipalitiesEvent.geonames;
     });
     }
@@ -345,6 +349,7 @@ export class CreateEventComponent implements OnInit {
         lng:this.municipalitiesEvent[index].lng
       }
       this.passCoordinates(coordinates);
+      this.place.setGeonameIdMunicipality=this.municipalitiesEvent[index].geonameId;
     }
   }
   private chargeAll(){
@@ -477,13 +482,13 @@ export class CreateEventComponent implements OnInit {
       this.style.height = (this.scrollHeight) + 'px';
     });
     // Get profile username on page load
-    this.authService.getProfile().subscribe(profile => {
-      if(!profile.success){
+    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
+      if(!authentication.success){
         this.authService.logout();
         this.authGuard.redirectUrl=this.router.url;
         this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
       }else{
-        this.username = profile.user.username; // Used when creating new categories posts and comments
+        this.username = authentication.user.username; // Used when creating new categories posts and comments
       } 
     });
     //File uploader options

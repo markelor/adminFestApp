@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.authService = this.injector.get(AuthService);
     this.localizeService=this.injector.get(LocalizeRouterService);  
     this.domain = this.authService.domain
-    if(request.url===this.domain+"authentication/profile"){
+    if(request.url===this.domain+"authentication/authentication/"+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
           }
         });
         
-    }else if(request.url===this.domain+"authentication/profile"){
+    }else if(request.url===this.domain+"authentication/profile/"+this.authService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

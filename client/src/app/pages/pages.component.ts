@@ -51,8 +51,8 @@ export class PagesComponent implements OnInit {
       this.checkSesionFirstTime();
       // After 2 seconds, see if session is expired
           const interval=setInterval(() => {
-          console.log("test");
-          console.log(this.authService.authToken);
+          //console.log("test");
+          //console.log(this.authService.authToken);
           if(!this.authService.authToken){
             clearInterval(interval);
           }else{
@@ -63,10 +63,10 @@ export class PagesComponent implements OnInit {
             };
             var expireTime = parseJwt(this.authService.authToken); // Save parsed token into variable
             var timeStamp=Math.floor(Date.now()/1000)
-            console.log(expireTime.exp);
-            console.log(timeStamp);
+            //console.log(expireTime.exp);
+            //console.log(timeStamp);
             var timeCheck=expireTime.exp-timeStamp;
-            console.log(timeCheck);
+            //console.log(timeCheck);
             if(timeCheck<=120){
               if(this.observableService.modalCount<1){
                 this.staticModalShow();
@@ -74,7 +74,7 @@ export class PagesComponent implements OnInit {
                 if (res.hasOwnProperty('option') && res.option === 'modal-renew-session') {
                   this.subscription.unsubscribe();
                   this.authService.renewSession(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
-                    console.log(data);
+                    //console.log(data);
                     if (data.success) {
                        this.authService.storeUserData(data.token,{username: this.authService.user.username}); // Username input field        
                     }
@@ -84,12 +84,12 @@ export class PagesComponent implements OnInit {
 
                 }
               });
-              console.log("token has expired");
+              //console.log("token has expired");
               clearInterval(interval);
 
               }          
             }else{
-              console.log("token not yet expired");
+              //console.log("token not yet expired");
             }
           }
         }, 60000);

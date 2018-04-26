@@ -11,6 +11,7 @@ export class ObservableService {
   public regionIndexTranslate;
   public mapType;
   public modalType;
+  public avatarType;
   public modalCount=0;
   public singleTheme;
   private notify = new Subject<any>();

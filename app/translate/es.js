@@ -154,7 +154,7 @@ module.exports = {
         emailUpdated: "¡El correo electrónico ha sido actualizado!",
         avatarUpload: "¡El Avatar ha sido subido!",
         aboutYourselfUpdated: "¡Acerca de ti ha sido actualizado!",
-        adminOneError: "Permisos insuficientes. No puedes dar permisos a uno de tu mismo grado o superior.",
+        adminOneError: "Permisos insuficientes. No puedes hacer cambios a uno de tu mismo grado o superior.",
         adminTwoError: "Permisos insuficientes. Debes ser administrador para subir a otro a grado de administrador.",
         success: "Se han actualizado los permisos.!"
     },

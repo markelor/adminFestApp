@@ -17,6 +17,7 @@ export class EventInterceptor implements HttpInterceptor {
      this.authService = this.injector.get(AuthService);
      this.themeService = this.injector.get(EventService);
      this.localizeService=this.injector.get(LocalizeRouterService);
+     console.log(request.url);
      if(request.url==="assets/i18n/lang.json"){
 
      }else if(request.url==="http://localhost:8080/themes/allThemes/"+this.localizeService.parser.currentLang){

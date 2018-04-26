@@ -24,7 +24,12 @@ export class FileUploaderService {
   // Function to create a new theme post
   public uploadImagesBase64(bucket) {
     this.route=encodeURIComponent(bucket);
-    console.log(bucket);
      return this.http.post<any>(this.domain + 'fileUploader/uploadImagesBase64',bucket);
+  }
+  // Function to create a new theme post
+  public deleteProfileImage(username,name,bucket,language) {
+    this.route=encodeURIComponent(username)+'/'+encodeURIComponent(name)+'/'+encodeURIComponent(bucket)+'/';
+    console.log(this.route);
+     return this.http.delete<any>(this.domain + 'fileUploader/deleteProfileImage/'+this.route+language);
   }
 }

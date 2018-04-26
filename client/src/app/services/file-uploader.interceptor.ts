@@ -36,7 +36,14 @@ export class FileUploaderInterceptor implements HttpInterceptor {
         });
         
      }else if(request.url==="http://localhost:8080/fileUploader/uploadImagesBase64"){
-       console.log("barruan");
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });
+     }else if(request.url==="http://localhost:8080/fileUploader/deleteProfileImage/"+this.fileUploaderService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

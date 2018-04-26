@@ -179,9 +179,39 @@ module.exports = (router) => {
                                                         if (!user) {
                                                             res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
                                                         } else {
-                                                            if (mainUser.permission === 'admin' || mainUser._id.toString() === user._id.toString()) {
-                                                                var url = 'https://s3-' + config.region + '.amazonaws.com/' + bucket + '/' + key;
-                                                                user.avatars.push(url);
+                                                            var saveErrorPermission=false;
+                                                            var url = 'https://s3-' + config.region + '.amazonaws.com/' + bucket + '/' + key;
+                                                            // Check if is owner
+                                                            if (mainUser._id.toString() === user._id.toString()) {
+                                                                user.avatars.push(url); // Assign avats to user                                      
+                                                            } else {
+                                                                // Check if the current permission is 'admin'
+                                                                if (mainUser.permission === 'admin') {
+                                                                    // Check if user making changes has access
+                                                                    if (user.permission === 'admin') {
+                                                                        saveErrorPermission = language + '.editUser.adminOneError';
+                                                                    } else {
+                                                                        user.avatars.push(url); // Assign avats to user 
+                                                                    }
+                                                                } else {
+                                                                    // Check if the current permission is moderator
+                                                                    if (mainUser.permission === 'moderator') {
+                                                                        // Check if user making changes has access
+                                                                        if (user.permission === 'user') {
+                                                                            user.avatars.push(url); // Assign avats to user
+                                                                        } else {
+                                                                            saveErrorPermission = language + '.editUser.adminOneError';
+                                                                        }
+                                                                    } else {
+                                                                        saveErrorPermission = language + '.editUser.permissionError';
+                                                                    }
+                                                                }
+
+                                                            }
+                                                            //check saveError permision to save changes or not
+                                                            if (saveErrorPermission) {
+                                                                res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                                            } else {
                                                                 // Save changes
                                                                 user.save(function(err) {
                                                                     if (err) {
@@ -223,13 +253,11 @@ module.exports = (router) => {
                                                                         }
 
                                                                     } else {
-                                                                        res.json({ success: true, url:url,message: eval(language + '.editUser.avatarUpload') }); // Return success message
+                                                                        res.json({ success: true, url: url, message: eval(language + '.editUser.avatarUpload') }); // Return success message
                                                                     }
                                                                 });
-
-                                                            } else {
-                                                                res.json({ success: false, message: eval(language + '.editUser.permissionError') }); // Return error
                                                             }
+
                                                         }
                                                     }
                                                 });
@@ -249,48 +277,245 @@ module.exports = (router) => {
     /* ===============================================================
        DELETE image file uploader
     =============================================================== */
+    router.delete('/deleteProfileImage/:username/:imageId/:bucket/:language', function(req, res, next) {
+        var language = req.params.language;
+        var imageId = req.params.imageId;
+        var bucket = "culture-bucket/" + req.params.bucket;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else { // Check if username was provided
+            if (!req.params.username) {
+                res.json({ success: false, message: eval(language + '.fileUpload.usernameProvidedError')}); // Return error
+            } else {
+                if (!imageId) {
+                    res.json({ success: false, message: eval(language + '.fileUpload.keyError') });
+                } else {
+                    if (!bucket) {
+                        res.json({ success: false, message: eval(language + '.fileUpload.bucketError') });
+                    } else {
+                        s3.deleteObject({
+                            Bucket: bucket,
+                            Key: imageId
+                        }, function(err, data) {
+                            if (err) {
+                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                var mailOptions = {
+                                    from: emailConfig.email,
+                                    to: emailConfig.email,
+                                    subject: 'Error deleteProfileImage',
+                                    text: 'The following error has been reported in File Upload part: ' + 'Date:' + Date.now().toString() + err,
+                                    html: 'The following error has been reported in the File Upload part:<br><br>' + 'Date:' + Date.now().toString() + err
+                                };
+                                // Function to send e-mail to myself
+                                transporter.sendMail(mailOptions, function(err, info) {
+                                    if (err) {
+                                        console.log(err); // If error with sending e-mail, log to console/terminal
+                                    } else {
+                                        console.log(info); // Log success message to console if sent
+                                        console.log(user.email); // Display e-mail that it was sent to
+                                    }
+                                });
+                                res.json({ success: false, message: eval(language + '.fileUpload.deleteError') });
+                            } else {
+                                // Look for logged in user in database to check if have appropriate access
+                                User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                                    if (err) {
+                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                        var mailOptions = {
+                                            from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                            to: [emailConfig.email],
+                                            subject: ' Find one 1 deleteProfileImage error ',
+                                            text: 'The following error has been reported in Kultura: ' + err,
+                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                        };
+                                        // Function to send e-mail to myself
+                                        transporter.sendMail(mailOptions, function(err, info) {
+                                            if (err) {
+                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                            } else {
+                                                console.log(info); // Log success message to console if sent
+                                                console.log(user.email); // Display e-mail that it was sent to
+                                            }
+                                        });
+                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                    } else {
+                                        // Check if logged in user is found in database
+                                        if (!mainUser) {
+                                            res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                        } else {
+                                            // Check if person making changes has appropriate access
+                                            // Look for user in database
+                                            User.findOne({ username: req.params.username }, function(err, user) {
+                                                if (err) {
+                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                    var mailOptions = {
+                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                        to: [emailConfig.email],
+                                                        subject: ' Find one 2 edit deleteProfileImage ',
+                                                        text: 'The following error has been reported in Kultura: ' + err,
+                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                    }; // Function to send e-mail to myself
+                                                    console.log(err);
+                                                    transporter.sendMail(mailOptions, function(err, info) {
+                                                        if (err) {
+                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                        } else {
+                                                            console.log(info); // Log success message to console if sent
+                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                        }
+                                                    });
+                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                } else {
+                                                    // Check if user is in database
+                                                    if (!user) {
+                                                        res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                                    } else {
+                                                        var index = user.avatars.indexOf(imageId);
+                                                        var saveErrorPermission=false;
+                                                        // Check if is owner
+                                                        if (mainUser._id.toString() === user._id.toString()) {
+                                                            user.avatars.splice(index, 1); // Assign avats to user
+                                                            user.currentAvatar="assets/img/avatars/default-avatar.jpg";
+                                                                                                  
+                                                        } else {
+                                                            // Check if the current permission is 'admin'
+                                                            if (mainUser.permission === 'admin') {
+                                                                // Check if user making changes has access
+                                                                if (user.permission === 'admin') {
+                                                                    saveErrorPermission = language + '.editUser.adminOneError';
+                                                                } else {
+                                                                    user.avatars.splice(index, 1); // Assign avats to user 
+                                                                    user.currentAvatar="assets/img/avatars/default-avatar.jpg";
+                                                                }
+                                                            } else {
+                                                                // Check if the current permission is moderator
+                                                                if (mainUser.permission === 'moderator') {
+                                                                    // Check if user making changes has access
+                                                                    if (user.permission === 'user') {
+                                                                        user.avatars.splice(index, 1); // Assign avats to user
+                                                                        user.currentAvatar="assets/img/avatars/default-avatar.jpg";
+                                                                    } else {
+                                                                        saveErrorPermission = language + '.editUser.adminOneError';
+                                                                    }
+                                                                } else {
+                                                                    saveErrorPermission = language + '.editUser.permissionError';
+                                                                }
+                                                            }
+
+                                                        }
+                                                        //check saveError permision to save changes or not
+                                                        if (saveErrorPermission) {
+                                                            res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                                        } else {
+                                                            // Save changes
+                                                            user.save(function(err) {
+                                                                if (err) {
+                                                                    // Check if error is an error indicating duplicate account
+                                                                    if (err.code === 11000) {
+                                                                        res.json({ success: false, message: eval(language + '.register.duplicateError') }); // Return error
+                                                                    } else {
+                                                                        // Check if error is a validation error
+                                                                        if (err.errors) {
+                                                                            // Check if validation error is in the name field
+                                                                            if (err.errors.name) {
+                                                                                res.json({ success: false, message: eval(language + err.errors.name.message) }); // Return error
+                                                                            } else {
+                                                                                // Check if validation error is in the email field
+                                                                                if (err.errors.email) {
+                                                                                    res.json({ success: false, message: eval(language + err.errors.email.message) }); // Return error
+                                                                                } else {
+                                                                                    // Check if validation error is in the username field
+                                                                                    if (err.errors.username) {
+                                                                                        res.json({ success: false, message: eval(language + err.errors.username.message) }); // Return error
+                                                                                    } else {
+                                                                                        // Check if validation error is in the password field
+                                                                                        if (err.errors.password) {
+                                                                                            res.json({ success: false, message: eval(language + err.errors.password.message) }); // Return error
+                                                                                        } else {
+                                                                                            // Check if validation error is in the aboutYourself field
+                                                                                            if (err.errors.aboutYourself) {
+                                                                                                res.json({ success: false, message: eval(language + err.errors.aboutYourself.message) }); // Return error
+                                                                                            } else {
+                                                                                                res.json({ success: false, message: err }); // Return any other error not already covered
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        } else {
+                                                                            res.json({ success: false, message: eval(language + '.register.saveError'), err }); // Return error if not related to validation
+                                                                        }
+                                                                    }
+
+                                                                } else {
+                                                                    res.json({ success: true, message: eval(language + '.fileUpload.deleteSuccess') }); // Return success message
+                                                                }
+                                                            });
+                                                        }
+
+                                                    }
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                });
+
+                            }
+
+                        });
+                    }
+                }
+            }
+
+        }
+
+    });
+    /* ===============================================================
+           DELETE image file uploader
+        =============================================================== */
     router.delete('/deleteImages/:imageId/:bucket/:language', function(req, res, next) {
         var language = req.params.language;
         var imageId = req.params.imageId;
         var bucket = "culture-bucket/" + req.params.bucket;
         if (!language) {
-            language = "es";
-        }
-        console.log(imageId);
-        console.log(bucket);
-        if (!imageId) {
-            res.json({ success: false, message: eval(language + '.fileUpload.keyError') });
-        } else if (!bucket) {
-            res.json({ success: false, message: eval(language + '.fileUpload.bucketError') });
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            s3.deleteObject({
-                Bucket: bucket,
-                Key: imageId
-            }, function(err, data) {
-                if (err) {
-                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                    var mailOptions = {
-                        from: emailConfig.email,
-                        to: emailConfig.email,
-                        subject: 'Error deleteImages',
-                        text: 'The following error has been reported in File Upload part: ' + 'Date:' + Date.now().toString() + err,
-                        html: 'The following error has been reported in the File Upload part:<br><br>' + 'Date:' + Date.now().toString() + err
-                    };
-                    // Function to send e-mail to myself
-                    transporter.sendMail(mailOptions, function(err, info) {
-                        if (err) {
-                            console.log(err); // If error with sending e-mail, log to console/terminal
-                        } else {
-                            console.log(info); // Log success message to console if sent
-                            console.log(user.email); // Display e-mail that it was sent to
-                        }
-                    });
-                    res.json({ success: false, message: eval(language + '.fileUpload.deleteError') });
-                } else {
-                    res.json({ success: true, message: eval(language + '.fileUpload.deleteSuccess') });
-                }
+            if (!imageId) {
+                res.json({ success: false, message: eval(language + '.fileUpload.keyError') });
+            } else if (!bucket) {
+                res.json({ success: false, message: eval(language + '.fileUpload.bucketError') });
+            } else {
+                s3.deleteObject({
+                    Bucket: bucket,
+                    Key: imageId
+                }, function(err, data) {
+                    if (err) {
+                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                        var mailOptions = {
+                            from: emailConfig.email,
+                            to: emailConfig.email,
+                            subject: 'Error deleteImages',
+                            text: 'The following error has been reported in File Upload part: ' + 'Date:' + Date.now().toString() + err,
+                            html: 'The following error has been reported in the File Upload part:<br><br>' + 'Date:' + Date.now().toString() + err
+                        };
+                        // Function to send e-mail to myself
+                        transporter.sendMail(mailOptions, function(err, info) {
+                            if (err) {
+                                console.log(err); // If error with sending e-mail, log to console/terminal
+                            } else {
+                                console.log(info); // Log success message to console if sent
+                                console.log(user.email); // Display e-mail that it was sent to
+                            }
+                        });
+                        res.json({ success: false, message: eval(language + '.fileUpload.deleteError') });
+                    } else {
+                        res.json({ success: true, message: eval(language + '.fileUpload.deleteSuccess') });
+                    }
 
-            });
+                });
+            }
+
         }
 
     });

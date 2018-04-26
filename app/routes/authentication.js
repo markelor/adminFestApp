@@ -1020,7 +1020,8 @@ module.exports = (router) => {
                 if (req.body.email) var newEmail = req.body.email; // Check if a change to e-mail was requested
                 if (req.body.aboutYourself) var newAboutYourself = req.body.aboutYourself; // Check if a change to aboutYourself was requested
                 if (req.body.permission) var newPermission = req.body.permission; // Check if a change to permission was requested
-                if (req.body.avatars) var newAvatars = req.body.avatars; // Check if a change to permission was requested
+                if (req.body.currentAvatar) var newCurrentAvatar = req.body.currentAvatar; // Check if a change to currentAvatar was requested
+                if (req.body.avatars) var newAvatars = req.body.avatars; // Check if a change to avatars was requested
                 // Look for logged in user in database to check if have appropriate access
                 User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
                     if (err) {
@@ -1083,6 +1084,8 @@ module.exports = (router) => {
                                                 user.email = newEmail; // Assign new name to email in database
                                             if (newAboutYourself)
                                                 user.aboutYourself = newAboutYourself; // Assign new aboutYourself to user in database
+                                            if (newCurrentAvatar)
+                                                user.currentAvatar = newCurrentAvatar; // Assign new avatars to user in database
                                             if (newAvatars)
                                                 user.avatars = newAvatars; // Assign new avatars to user in database
                                             var saveErrorPermission;
@@ -1281,8 +1284,6 @@ module.exports = (router) => {
                                     if (!user) {
                                         res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
                                     } else {
-                                        console.log(mainUser._id);
-                                        console.log(user._id);
                                         if (mainUser.permission === 'admin' || mainUser._id.toString() === user._id.toString()) {
                                             res.json({ success: true, user: user }); // Return success, send user object to frontend for profile
 

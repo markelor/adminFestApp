@@ -154,7 +154,7 @@ module.exports = {
         emailUpdated: "E-mail has been updated!",
         avatarUpload: "Avatar has been upload!",
         aboutYourselfUpdated: "About yourself has been updated!",
-        adminOneError: "Insufficient Permissions. You musn't permission to one of your own degree or higher.",
+        adminOneError: "Insufficient Permissions. You musn't make changes to one of your own degree or higher.",
         adminTwoError: "Insufficient Permissions. You must be an admin to upgrade someone to the admin level.",
         success: "Permissions have been updated!"
     },

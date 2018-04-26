@@ -154,7 +154,7 @@ module.exports = {
         emailUpdated: "Posta elektronikoa egunertu da!",
         avatarUpload: "Erabiltzaile argazkia igo da",
         aboutYourselfUpdated: "Zuri buruz eguneratu da!",
-        adminOneError: "Ez duzu nahikoa baimen. Ezin diozu zure maila edo handiagoko bati baimenik eman.",
+        adminOneError: "Ez duzu nahikoa baimen. Ezin diozu zure maila edo handiagoko bati aldaketarik egin.",
         adminTwoError: "Ez duzu nahikoa baimen. Administratzailea izan behar duzu beste bat administratzaile mailara igotzeko.",
         success: "Baimenak eguneratu dira",
     },

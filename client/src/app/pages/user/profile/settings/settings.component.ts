@@ -3,6 +3,7 @@ import { ImageCropperComponent, CropperSettings } from "ngx-img-cropper";
 import { FileUploaderService} from '../../../../services/file-uploader.service';
 import { FileUploader,FileUploaderOptions } from 'ng2-file-upload';
 import { AuthService } from '../../../../services/auth.service';
+import { ObservableService } from '../../../../services/observable.service';
 import { AuthGuard} from '../../../guards/auth.guard';
 import { LocalizeRouterService } from 'localize-router';
 import { Router } from '@angular/router';
@@ -23,6 +24,7 @@ export class SettingsComponent implements OnInit {
     private hasAnotherDropZoneOver: boolean = false;
     private uploadAllSuccess:Boolean=true;
     private avatars=[];
+    private selectedAvatar=false;
     private uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'profile',
     isHTML5: true,
@@ -36,6 +38,7 @@ export class SettingsComponent implements OnInit {
 
     constructor(
     	private authService:AuthService,
+    	private observableService:ObservableService,
     	private localizeService:LocalizeRouterService,
     	private fileUploaderService: FileUploaderService,
     	private router:Router,
@@ -64,7 +67,6 @@ export class SettingsComponent implements OnInit {
 	    this.data = {};
     }
     private uploadBase64(){
-    	console.log(this.authService.user);
       const uploadData = {
        username:this.authService.user.username,
        language:this.localizeService.parser.currentLang,
@@ -73,6 +75,7 @@ export class SettingsComponent implements OnInit {
        bucket:'profile'
       };
       this.fileUploaderService.uploadImagesBase64(uploadData).subscribe(data=>{
+      	console.log(data);
       	if(data.success){
       		this.avatars.push(data.url);
       	}
@@ -143,17 +146,30 @@ export class SettingsComponent implements OnInit {
 	  console.log(data);
 	});*/
 
-	}private deleteAvatar(index){
-		this.avatars.splice(index,1);
+	}
+	private deleteAvatar(index){
+		this.fileUploaderService.deleteProfileImage(this.authService.user.username,this.avatars[index].split("https://s3-eu-west-1.amazonaws.com/culture-bucket/profile/")[1],'profile',this.localizeService.parser.currentLang).subscribe(data=>{		
+			if(data.success){
+				this.avatars.splice(index,1);
+				this.observableService.notifyOther({option: this.observableService.avatarType,data:"assets/img/avatars/default-avatar.jpg"})
+			}
+		})
+		
+	}
+	private chooseImage(index){
 		var user={
 			language:this.localizeService.parser.currentLang,
-			avatars:this.avatars,
+			currentAvatar:this.avatars[index],
 			username:this.authService.user.username
 		}
 		this.authService.editUser(user).subscribe(data=>{
-			console.log(data);
+			if(data.success){
+				this.authService.user.currentAvatar=this.avatars[index];
+				this.observableService.notifyOther({option: this.observableService.avatarType,data:this.avatars[index]})
+			}
 		});
 	}
+
 
     ngOnInit() {
     	// Get authentication on page load

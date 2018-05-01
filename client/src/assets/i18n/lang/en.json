@@ -9,6 +9,7 @@
   "new-password-route": "new-password",
   "search-route": "search",
   "create-route": "create",
+  "edit-route":"edit",
   "category-route": "category",
   "event-route": "event",
   "details-route": "details",
@@ -89,14 +90,16 @@
   {
     "settings": "Settings"
   },
-  "top-page":
+  "navbar":
   {
     "es": "Spanish",
     "en": "English",
-    "eu": "Euskara"
+    "eu": "Euskara",
+    "profile":"Profile",
+    "event":"Event"
 
   },
-  "theme":
+  "event":
   {
     "created-by": "Created by:",
     "read-more": "Read More",

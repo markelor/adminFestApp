@@ -142,7 +142,7 @@ module.exports = {
     authentication: {
         userError: "Erabiltzailea ez da aurkitu."
     },
-    profile:{
+    profile: {
         usernameProvidedError: "Erabiltzaile izena ez da eman.",
     },
     editUser: {
@@ -178,7 +178,7 @@ module.exports = {
         saveError: "Kategoria ezin da gorde. Errorea:",
         success: "Kategoria gorde da!"
     },
-     //newEvent
+    //newEvent
     newEvent: {
         createdByProvidedError: "Ekintzaren sortzailea beharrezkoa da.",
         categoryIdProvidedError: "Kategoriaren IDa beharrezkoa da.",
@@ -189,13 +189,24 @@ module.exports = {
         saveError: "Ekintza ezin da gorde. Errorea:",
         success: "Ekintza gorde da!"
     },
+    //allUserEvents
+    allUserEvents: {
+        usernameProvidedError: "Ekintzaren erabiltzailea ez da eman.",
+        eventsError: "Ez dira ekintzak aurkitu.",
+    },
+    //getEvent
+    getEvent: {
+        idProvidedError: "Ekintzaren IDa ez da eman.",
+        eventError: "Ez da ekintza aurkitu.",
+        placeError:"Ez da lekua aurkitu."
+    },
     //newPlace
-      newPlace: {
+    newPlace: {
         eventIdProvidedError: 'Ekintzaren IDa beharrezkoa da.',
         provinceProvidedError: "Probintzia beharrezkoa da.",
-        geonameIdProvinceProvidedError:"Probintziaren geoname ID beharrezkoa da.",
+        geonameIdProvinceProvidedError: "Probintziaren geoname ID beharrezkoa da.",
         municipalityProvidedError: "Udalerria beharrezkoa da.",
-        geonameIdMunicipalityProvidedError:"Udalerriaren geoname ID beharrezkoa da.",
+        geonameIdMunicipalityProvidedError: "Udalerriaren geoname ID beharrezkoa da.",
         latProvidedError: "Latitudea beharrezkoa da.",
         lngProvidedError: "Luzeera beharrezkoa da.",
         saveError: "Lekua ezin da gorde. Errorea:",

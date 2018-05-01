@@ -56,15 +56,15 @@
             <div class="ks-wrapper">
               <a (click)="changeLanguage('es')" class="ks-language" [ngClass]="{'ks-selected': lag==='es'}">
                 <span class="flag-icon flag-icon-es ks-icon"></span>
-                <span class="ks-text" translate>{{'top-page.es'}}</span>
+                <span class="ks-text" translate>{{'navbar.es'}}</span>
               </a>
               <a (click)="changeLanguage('eu')" class="ks-language" [ngClass]="{'ks-selected': lag==='eu'}">
                 <span class="flag-icon flag-icon-eu ks-icon"></span>
-                <span class="ks-text" translate>{{'top-page.eu'}}</span>
+                <span class="ks-text" translate>{{'navbar.eu'}}</span>
               </a>
               <a (click)="changeLanguage('en')" class="ks-language" [ngClass]="{'ks-selected': lag==='en'}">
                 <span class="flag-icon flag-icon-gb ks-icon"></span>
-                <span class="ks-text" translate>{{'top-page.en'}}</span>
+                <span class="ks-text" translate>{{'navbar.en'}}</span>
               </a>
             </div>
           </div>
@@ -236,17 +236,18 @@
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Preview">
-            <a  [routerLink]="['/user-route','profile-route'] | localize" class="dropdown-item">
+            <a [routerLink]="['/user-route','profile-route'] | localize" class="dropdown-item">
               <span class="la la-user ks-icon"></span>
-              <span>Profile</span>
+              <span translate>{{'navbar.profile'}}</span>
+
             </a>
             <a class="dropdown-item" href="#">
               <span class="la la-wrench ks-icon" aria-hidden="true"></span>
               <span>Settings</span>
             </a>
-            <a class="dropdown-item" href="#">
+            <a [routerLink]="['/user-route','event-route'] | localize" class="dropdown-item">
               <span class="la la-question-circle ks-icon" aria-hidden="true"></span>
-              <span>Help</span>
+              <span translate>{{'navbar.event'}}</span>
             </a>
             <a (click)="logout()" class="dropdown-item" href="javascript:void(0);">
               <span class="la la-sign-out ks-icon" aria-hidden="true"></span>

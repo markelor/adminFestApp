@@ -33,7 +33,6 @@ let latitudeChecker = (lat) => {
     } else {
         // Regular expression to test for a valid latitude
         const regExp = new RegExp(/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/);
-        console.log(regExp.test(lat));
         return regExp.test(lat); // Return regular expression test results (true or false)
     }
 };

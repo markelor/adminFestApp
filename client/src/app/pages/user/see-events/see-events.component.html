@@ -1,0 +1,76 @@
+<div class="ks-page-content">
+  <div class="ks-page-content-body">
+    <div class="ks-nav-body-wrapper">
+      <div class="container-fluid ks-rows-section">
+        <div class="row">
+          <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <article [hidden]="event.showAll" *ngFor="let event of events " class="card panel ks-widget ks-widget-post">
+              <h5 class="card-header">
+                <span class="ks-text"> {{event.title}}</span>
+                <div class="ks-controls">
+                  <!-- showCollapse-->
+                  <a *ngIf="!event.showCollapse" (click)="event.showCollapse = !event.showCollapse" class="ks-control">
+                    <span class="ks-icon la la-minus"></span>
+                  </a>
+                  <a *ngIf="event.showCollapse" (click)="event.showCollapse = !event.showCollapse" class="ks-control">
+                    <span class="ks-icon la la-expand"></span>
+                  </a>
+                  <a (click)="event.showAll = !event.showAll" class="ks-control">
+                    <span class="ks-icon la la-close"></span>
+                  </a>
+                </div>
+              </h5>
+              <div *ngIf="!event.showCollapse" class="card-block">
+                <!-- Date/Time -->
+                <p class="time"><span class="la la-clock-o ks-icon"></span> {{event.start}} </p>
+                <img src="{{event.images.posters[0]}}" class="post-img ks-thumbnail img-responsive">
+                <div class="ks-text description" [innerHTML]="event.description"></div>
+                <button [routerLink]="['/user-route','event-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.read-more'}}</button>
+                <div class="ks-actions">
+                  <p class="time">
+                    <span class="la la-user ks-icon"></span>
+                    <span translate>{{'event.created-by'}}</span> {{event.createdBy}}
+                    </p>
+                  <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
+                    <span class="la la-comment-o ks-icon"></span>
+                  <span class="ks-amount">1</span>
+                  </span>
+                  <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
+                    <span class="la la-heart-o ks-icon"></span>
+                  <span class="ks-amount">3</span>
+                  </span>
+                </div>
+                <div class="ks-likes-block">
+                  <div class="ks-users">
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-1.jpg" width="26" height="26">
+                    </a>
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-7.jpg" width="26" height="26">
+                    </a>
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-11.jpg" width="26" height="26">
+                    </a>
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-2.jpg" width="26" height="26">
+                    </a>
+                    <a href="#" class="ks-user">
+                      <img class="ks-avatar" src="assets/img/avatars/avatar-6.jpg" width="26" height="26">
+                    </a>
+                  </div>
+                  <span class="ks-text">and 103 other like this</span>
+                </div>
+                <div class="ks-comments">
+                </div>
+              </div>
+            </article>
+            <!--<pagination-controls (pageChange)="p = $event"></pagination-controls>-->
+          </section>
+          <aside class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <!--<right-sidebar></right-sidebar>-->
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

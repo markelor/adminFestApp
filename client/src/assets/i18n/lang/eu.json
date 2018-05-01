@@ -9,6 +9,7 @@
   "new-password-route": "pasahitz-berria",
   "search-route": "bilatu",
   "create-route": "sortu",
+  "edit-route":"aldatu",
   "category-route": "kategoria",
   "event-route": "ekintza",
   "details-route": "xehetasunak",
@@ -85,17 +86,19 @@
     "pie_with_labels": "Pie with labels",
     "donut": "Donut"
   },
-  "top-page":
+  "navbar":
   {
     "es": "Gaztelera",
     "en": "Ingelesa",
-    "eu": "Euskara"
+    "eu": "Euskara",
+    "profile":"Perfila",
+    "event":"Ekintza"
   },
   "profile":
   {
     "settings": "Ezarpenak"
   },
-  "theme":
+  "event":
   {
     "created-by": "Publicatzailea:",
     "read-more": "Gehiago Irakurri",

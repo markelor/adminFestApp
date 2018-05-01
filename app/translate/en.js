@@ -190,6 +190,17 @@ module.exports = {
         saveError: "Could not save event. Error:",
         success: "Event saved!"
     },
+    //allUserEvents
+    allUserEvents: {
+        usernameProvidedError: "Event username is not provided.",
+        eventsError: "No events found."
+    },
+    //getEvent
+    getEvent: {
+        idProvidedError: "Event ID is not provided.",
+        eventError: "No event found.",
+        placeError:"No place found."
+    },
     //newPlace
     newPlace: {
         eventIdProvidedError: 'Event ID is required.',

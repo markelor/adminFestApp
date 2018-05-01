@@ -8,6 +8,7 @@
   "new-password-route": "nueva-contraseña",
   "search-route": "buscar",
   "create-route": "crear",
+  "edit-route":"editar",
   "category-route": "categoría",
   "event-route": "evento",
   "details-route": "detalles",
@@ -84,17 +85,19 @@
     "pie_with_labels": "Pie with labels",
     "donut": "Donut"
   },
-  "top-page":
+  "navbar":
   {
     "es": "Castellano",
     "eu": "Euskara",
-    "en": "Inglés"
+    "en": "Inglés",
+    "profile":"Perfil",
+    "event":"Evento"
   },
   "profile":
   {
     "settings": "Ajustes"
   },
-  "theme":
+  "event":
   {
     "created-by": "Creado por:",
     "read-more": "Leer Mas",

@@ -124,7 +124,6 @@ module.exports = (router) => {
                             };
                             s3.putObject(data, function(err, data) {
                                 if (err) {
-                                    console.log(err);
                                     res.json({ success: false, message: eval(language + '.fileUpload.uploadError') });
                                 } else {
                                     // Look for logged in user in database to check if have appropriate access
@@ -355,7 +354,6 @@ module.exports = (router) => {
                                                         text: 'The following error has been reported in Kultura: ' + err,
                                                         html: 'The following error has been reported in Kultura:<br><br>' + err
                                                     }; // Function to send e-mail to myself
-                                                    console.log(err);
                                                     transporter.sendMail(mailOptions, function(err, info) {
                                                         if (err) {
                                                             console.log(err); // If error with sending e-mail, log to console/terminal

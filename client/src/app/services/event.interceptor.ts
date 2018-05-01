@@ -8,78 +8,18 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class EventInterceptor implements HttpInterceptor {
   private authService;
-  private themeService;
+  private eventService;
   private localizeService;
   constructor(private injector: Injector) {}
 
 
    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
      this.authService = this.injector.get(AuthService);
-     this.themeService = this.injector.get(EventService);
+     this.eventService = this.injector.get(EventService);
      this.localizeService=this.injector.get(LocalizeRouterService);
      console.log(request.url);
      if(request.url==="assets/i18n/lang.json"){
 
-     }else if(request.url==="http://localhost:8080/themes/allThemes/"+this.localizeService.parser.currentLang){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json', // Format set to JSON
-            'language':this.localizeService.parser.currentLang
-          }
-        });
-        
-     }else if(request.url==="http://localhost:8080/themes/allThemesThematic/"+this.themeService.route+this.localizeService.parser.currentLang){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json', // Format set to JSON
-            'language':this.localizeService.parser.currentLang,
-            'route':this.themeService.route
-          }
-        });
-     }else if(request.url==="http://localhost:8080/themes/allThemesTheme/"+this.themeService.route+this.localizeService.parser.currentLang){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json', // Format set to JSON
-            'language':this.localizeService.parser.currentLang,
-            'route':this.themeService.route
-          }
-        });
-     }
-     else if(request.url==="http://localhost:8080/themes/allThemesClass/"+this.themeService.route+this.localizeService.parser.currentLang){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json', // Format set to JSON
-            'language':this.localizeService.parser.currentLang,
-            'route':this.themeService.route
-          }
-        });
-        
-     }else if(request.url==="http://localhost:8080/themes/allThemesRegion/"+this.themeService.route+this.localizeService.parser.currentLang){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json', // Format set to JSON
-            'language':this.localizeService.parser.currentLang,
-            'route':this.themeService.route
-          }
-        });
-        
-     }else if(request.url==="http://localhost:8080/themes/singleTheme/"+this.themeService.route+this.localizeService.parser.currentLang){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json', // Format set to JSON
-            'language':this.localizeService.parser.currentLang,
-            'route':this.themeService.route
-          }
-        });
-        
-     }else if(request.url==="http://localhost:8080/themes/allThemesSearch/"+this.themeService.route+this.localizeService.parser.currentLang){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json', // Format set to JSON
-            'language':this.localizeService.parser.currentLang,
-            'route':this.themeService.route
-          }
-        });   
      }else if(request.url==="http://localhost:8080/event/newEvent"){
         request = request.clone({
           setHeaders: {
@@ -88,7 +28,24 @@ export class EventInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         }); 
-     }else if(request.url==="http://localhost:8080/themes/deleteTheme/"+this.themeService.route+this.localizeService.parser.currentLang){
+     }else if(request.url==="http://localhost:8080/event/allUserEvents/"+this.eventService.route+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });  
+     }
+     else if(request.url==="http://localhost:8080/event/getEvent/"+this.eventService.route+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json', // Format set to JSON
+            'language':this.localizeService.parser.currentLang,
+            'route':this.eventService.route
+          }
+        }); 
+     }else if(request.url==="http://localhost:8080/themes/deleteTheme/"+this.eventService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

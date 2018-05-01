@@ -189,48 +189,131 @@ module.exports = (router) => {
     });
 
     /* ===============================================================
-       GET ALL categories
+       GET ALL user events
     =============================================================== */
-    router.get('/allCategories/:language', (req, res) => {
+    router.get('/allUserEvents/:username/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            Category.find({
-                language: language
-            }).sort({ '_id': 1 }).exec((err, categories) => {
-                // Check if error was found or not
-                if (err) {
-                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                    var mailOptions = {
-                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                        to: [emailConfig.email], // list of receivers
-                        subject: ' Find 1 allCategories category error ',
-                        text: 'The following error has been reported in Kultura: ' + err,
-                        html: 'The following error has been reported in Kultura:<br><br>' + err
-                    };
-                    // Function to send e-mail to myself
-                    transporter.sendMail(mailOptions, function(err, info) {
-                        if (err) {
-                            console.log(err); // If error with sending e-mail, log to console/terminal
-                        } else {
-                            console.log(info); // Log success message to console if sent
-                            console.log(user.email); // Display e-mail that it was sent to
-                        }
-                    });
-                    res.json({ success: false, message: eval(language + '.general.generalError') });
-                } else {
-                    // Check if categories were found in database
-                    if (!categories) {
-                        res.json({ success: false, message: eval(language + '.allCategories.categoriesError') }); // Return error of no categories found
+            if (!req.params.username) {
+                res.json({ success: false, message: eval(language + '.allUserEvents.usernameProvidedError') }); // Return error
+            } else {
+                Event.find({
+                    language: language,
+                    createdBy: req.params.username
+                }).sort({ 'start': 1 }).exec((err, events) => {
+                    // Check if error was found or not
+                    if (err) {
+                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                        var mailOptions = {
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                            to: [emailConfig.email], // list of receivers
+                            subject: ' Find 1 allUserEvents error ',
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                        };
+                        // Function to send e-mail to myself
+                        transporter.sendMail(mailOptions, function(err, info) {
+                            if (err) {
+                                console.log(err); // If error with sending e-mail, log to console/terminal
+                            } else {
+                                console.log(info); // Log success message to console if sent
+                                console.log(user.email); // Display e-mail that it was sent to
+                            }
+                        });
+                        res.json({ success: false, message: eval(language + '.general.generalError') });
                     } else {
-                        res.json({ success: true, categories: categories }); // Return success and categories array
+                        // Check if events were found in database
+                        if (!events) {
+                            res.json({ success: false, message: eval(language + '.allUserEvents.eventsError') }); // Return error of no events found
+                        } else {
+                            res.json({ success: true, events: events }); // Return success and events array
+                        }
                     }
-                }
-            }); // Sort categories from newest to oldest
-
+                }); // Sort events from newest to oldest
+            }
         }
-
+    });
+    /* ===============================================================
+       GET Event
+    =============================================================== */
+    router.get('/getEvent/:id/:language', (req, res) => {
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            if (!req.params.id) {
+                res.json({ success: false, message: eval(language + '.getEvent.idProvidedError') }); // Return error
+            } else {
+                Event.findOne({
+                    language: language,
+                    _id: req.params.id
+                }, (err, event) => {
+                    // Check if error was found or not
+                    if (err) {
+                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                        var mailOptions = {
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                            to: [emailConfig.email], // list of receivers
+                            subject: ' Find 1 getEvent error ',
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                        };
+                        // Function to send e-mail to myself
+                        transporter.sendMail(mailOptions, function(err, info) {
+                            if (err) {
+                                console.log(err); // If error with sending e-mail, log to console/terminal
+                            } else {
+                                console.log(info); // Log success message to console if sent
+                                console.log(user.email); // Display e-mail that it was sent to
+                            }
+                        });
+                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                    } else {
+                        // Check if event were found in database
+                        if (!event) {
+                            res.json({ success: false, message: eval(language + '.getEvent.eventError') }); // Return error of no event found
+                        } else {
+                            //res.json({ success: true, event: event }); // Return success and event array
+                            Place.findOne({
+                                language: language,
+                                _id: event.placeId
+                            }, (err, place) => {
+                                // Check if error was found or not
+                                if (err) {
+                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                    var mailOptions = {
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                        to: [emailConfig.email], // list of receivers
+                                        subject: ' Find 2 getEvent error ',
+                                        text: 'The following error has been reported in Kultura: ' + err,
+                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                    };
+                                    // Function to send e-mail to myself
+                                    transporter.sendMail(mailOptions, function(err, info) {
+                                        if (err) {
+                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                        } else {
+                                            console.log(info); // Log success message to console if sent
+                                            console.log(user.email); // Display e-mail that it was sent to
+                                        }
+                                    });
+                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                } else {
+                                    // Check if place were found in database
+                                    if (!place) {
+                                        res.json({ success: false, message: eval(language + '.getEvent.placeError') }); // Return error of no event found
+                                    } else {
+                                        res.json({ success: true, event: event, place: place }); // Return success and event array
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
     });
     /* ===============================================================
         Route to update/edit a category

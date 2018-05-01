@@ -724,6 +724,8 @@ module.exports = (router) => {
         if (!language) {
             language = "es";
         }
+        console.log(route);
+         console.log(req.path);
         var token = req.headers['authorization']; // Create token found in headers
         if (req.path === '/allThemes/' + language && req.method === 'GET') {
             next();
@@ -737,7 +739,7 @@ module.exports = (router) => {
             next()
         } else if (req.path === '/allThemesRegion/' + route + language && req.method === 'GET') {
             next();
-        } else if (req.path === '/singleTheme/' + route + language && req.method === 'GET') {
+        } else if (req.path === '/getEvent/' + route + language && req.method === 'GET') {
             next()
         } else {
             // Check if token was found in headers
@@ -1262,7 +1264,6 @@ module.exports = (router) => {
                             User.findOne({ username: req.params.username }).select('username email currentAvatar avatars').exec((err, user) => {
                                 if (err) {
                                     // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                    console.log(err);
                                     var mailOptions = {
                                         from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                         to: [emailConfig.email],

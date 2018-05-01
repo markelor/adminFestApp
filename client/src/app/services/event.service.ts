@@ -23,9 +23,15 @@ export class EventService {
     var data = {'event': event, 'place': place };
     return this.http.post<any>(this.domain + 'event/newEvent', data);
   }
-   // Function to get all themes from the database
-  public getAllThemes(language) {
-    return this.http.get<any>(this.domain + 'event/allThemes/'+language);
+  // Function to get all user events from the database
+  public getAllUserEvents(username,language) {
+    this.route= encodeURIComponent(username) +'/';
+    return this.http.get<any>(this.domain + 'event/allUserEvents/'+this.route+language);
+  }
+  // Function to get all user events from the database
+  public getEvent(id,language) {
+    this.route= encodeURIComponent(id) +'/';
+    return this.http.get<any>(this.domain + 'event/getEvent/'+this.route+language);
   }
   public themeSearch(searchs: Observable<string>,language) {
     return searchs.debounceTime(400)

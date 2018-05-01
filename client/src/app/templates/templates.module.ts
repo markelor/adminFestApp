@@ -1,3 +1,5 @@
+
+export  class CreateModule { }
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TemplatesRoutingModule }  from './templates.routing';
@@ -13,15 +15,25 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
+import { EventFormComponent } from './event-form/event-form.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { MapModule } from '../pages/map/map.module';
+import { AgmCoreModule } from '@agm/core';
+// Import the Froala Editor plugin.
+import "froala-editor/js/froala_editor.pkgd.min.js";
+// Import Angular plugin.
+import { FroalaEditorModule, FroalaViewModule,FroalaEditorDirective, FroalaViewDirective } from 'angular-froala-wysiwyg';
 @NgModule({
   imports: [
-    CommonModule,FormsModule,ReactiveFormsModule,SharedModule,TranslateModule,TemplatesRoutingModule,NgbModule
+    CommonModule,FormsModule,ReactiveFormsModule,AgmCoreModule,
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),FileUploadModule,MapModule,
+    SharedModule,TranslateModule,TemplatesRoutingModule,NgbModule
   ],
   declarations: [
-  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent
+  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent
   ],
   exports: [
-    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent
+    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent
     ],
    providers:[
    	GroupByPipe,SpacePipe,BindContentPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}

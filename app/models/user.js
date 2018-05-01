@@ -172,7 +172,6 @@ const passwordValidators = [
 let aboutYourselfLengthChecker = (aboutYourself) => {
     // Check if aboutYourself exists
     if (!aboutYourself) {
-        console.log(false);
         return true; //  Return as valid aboutYourself
     } else {
         // Check length of aboutYourself string

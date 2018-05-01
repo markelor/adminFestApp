@@ -189,6 +189,17 @@ module.exports = {
         saveError: "No se pudo guardar el evento. Error:",
         success: "¡Evento guardado!"
     },
+     //allUserEvents
+    allUserEvents: {
+        usernameProvidedError: "El usurio del evento no fue proporcionado.",
+        eventsError: "No se encontraron eventos.",
+    },
+    //getEvent
+    getEvent: {
+        idProvidedError: "El ID del evento no fue proporcionado.",
+        eventError: "No se encontro el evento.",
+        placeError:"No se encontro el lugar."
+    },
       //newPlace
     newPlace: {
         eventIdProvidedError: 'El ID del evento es requerido.',

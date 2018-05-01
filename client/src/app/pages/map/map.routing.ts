@@ -6,9 +6,9 @@ import { AuthGuard } from '../guards/auth.guard';
 
 
 const routes: Routes = [
-	{ path: '', component: EventComponent, pathMatch: 'full' },
+	/*{ path: '', component: EventComponent, pathMatch: 'full' },
 	{ path: ':event', component: EventComponent,pathMatch: 'full' },
-	{ path: ':event/:class', component: EventComponent,pathMatch: 'full' }
+	{ path: ':event/:class', component: EventComponent,pathMatch: 'full' }*/
 ];
 
 @NgModule({

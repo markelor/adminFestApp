@@ -75,7 +75,6 @@ export class SettingsComponent implements OnInit {
        bucket:'profile'
       };
       this.fileUploaderService.uploadImagesBase64(uploadData).subscribe(data=>{
-      	console.log(data);
       	if(data.success){
       		this.avatars.push(data.url);
       	}
@@ -181,7 +180,6 @@ export class SettingsComponent implements OnInit {
       }
     });
     this.authService.getProfile(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(profile => {
-      console.log(profile);
       if(profile.success){
         this.avatars=profile.user.avatars;
       }

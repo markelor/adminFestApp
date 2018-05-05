@@ -30,12 +30,12 @@ export class SeeEventsComponent implements OnInit {
       console.log(data);
       if(data.success){
         this.events = data.events; // Assign array to use in HTML
-        
+        console.log(this.events);
       }
     });
   }
   ngOnInit() {
-  		// Get authentication on page load
+  	// Get authentication on page load
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){
         this.authService.logout();

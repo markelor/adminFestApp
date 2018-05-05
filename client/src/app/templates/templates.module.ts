@@ -19,13 +19,14 @@ import { EventFormComponent } from './event-form/event-form.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MapModule } from '../pages/map/map.module';
 import { AgmCoreModule } from '@agm/core';
+import { MomentModule } from 'ngx-moment';
 // Import the Froala Editor plugin.
 import "froala-editor/js/froala_editor.pkgd.min.js";
 // Import Angular plugin.
 import { FroalaEditorModule, FroalaViewModule,FroalaEditorDirective, FroalaViewDirective } from 'angular-froala-wysiwyg';
 @NgModule({
   imports: [
-    CommonModule,FormsModule,ReactiveFormsModule,AgmCoreModule,
+    CommonModule,FormsModule,ReactiveFormsModule,AgmCoreModule,MomentModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),FileUploadModule,MapModule,
     SharedModule,TranslateModule,TemplatesRoutingModule,NgbModule
   ],

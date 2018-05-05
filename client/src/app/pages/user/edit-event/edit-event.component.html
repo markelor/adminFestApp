@@ -4,18 +4,25 @@
       <div class="container-fluid ks-rows-section">
         <div class="row">
           <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <app-event-form *ngIf="event" 
+            <app-event-form *ngIf="event"
+            [id]="event._id" 
+            [createdBy]="event.createdBy"
             [editTitle]="event.title"
-            [editParticipant]="event.participant"
+            [editCategories]="categories"
+            [editParticipants]="event.participants"
             [editProvince]="place.province.name"
             [editMunicipality]="place.municipality.name"
             [editStart]="event.start"
             [editEnd]="event.end"
-            [editLocation]="event.location"
+            [editLocation]="place.location"
             [editLat]="place.coordinates.lat"
             [editLng]="place.coordinates.lng"
             [editDescription]="event.description"
-            [editObservations]="event.observations"></app-event-form>
+            [editObservations]="event.observations"
+            [editImagesPoster]="event.images.poster"
+            [editImagesDescription]="event.images.description"
+            [operation]="'edit'"
+            ></app-event-form>
           </section>
           <aside class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
             <!--<ba-right-sidebar></ba-right-sidebar>-->

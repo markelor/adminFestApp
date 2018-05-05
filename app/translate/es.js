@@ -146,7 +146,7 @@ module.exports = {
         usernameProvidedError: "El nombre de usuario no fue proporcionado.",
     },
     editUser: {
-        idProvidedError: "El ID no fue proporcionado.",
+        usernameProvidedError: "El usuario no fue proporcionado.",
         userError: "No se encontró el usuario.",
         permissionError: "Permisos insuficientes.",
         nameUpdated: "¡El nombre ha sido actualizado!",
@@ -198,7 +198,8 @@ module.exports = {
     getEvent: {
         idProvidedError: "El ID del evento no fue proporcionado.",
         eventError: "No se encontro el evento.",
-        placeError:"No se encontro el lugar."
+        placeError:"No se encontro el lugar.",
+        categoryError:"No se encontró la categoría."
     },
       //newPlace
     newPlace: {
@@ -234,13 +235,11 @@ module.exports = {
         saveError: "No se pudo editar la categoría. Error: ",
         success: "¡Categoría actualizada!"
     },
-    editTheme: {
+     editEvent: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
-        themeError: "No se encontró el tema.",
-        userError: "No se encontró el usuario.",
-        permissionError: "No estás autorizado para editar esta publicación de tema.",
-        saveError: "No se pudo editar el tema. Error: ",
-        success: "¡Tema editado!"
+        createdByProvidedError:'El nombre de usuario no fue proporcionado.',
+       saveError: "No se pudo editar el evento. Error: ",
+        success: "¡Evento editado!"
     },
     deleteTheme: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',

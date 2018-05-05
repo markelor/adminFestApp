@@ -99,7 +99,7 @@ const eventSchema = new Schema({
     sponsorIds: { type: Array, required: false },
     language: { type: String, required: true },
     visible: { type: Boolean, required: true, default: true },
-    coordinators: { type: Array, required: false },
+    participants: { type: Array, required: false },
     title: { type: String, required: true, validate: titleValidators },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
@@ -114,7 +114,7 @@ const eventSchema = new Schema({
         angryBy: { type: Array, required: false },
     },
     images: {
-        posters: { type: Array, required: true },
+        poster: { type: Array, required: true },
         description: { type: Array, required: false },
     },
     createdAt: { type: Date, required: true },

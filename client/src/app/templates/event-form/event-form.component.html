@@ -93,7 +93,8 @@
             <tr *ngFor="let item of uploader.queue">
               <td>
                 <div class="media-left">
-                  <img class="img-rounded" width="80" height="80" src="" appImagePreview [image]="item?._file" class="media-object" />
+                  <img *ngIf="item.isUploaded" class="img-rounded" width="80" height="80" src="https://s3.eu-west-1.amazonaws.com/culture-bucket%2Fposter/{{item.file.name}}" class="media-object" />
+                  <img *ngIf="!item.isUploaded" class="img-rounded" width="80" height="80" src="" appImagePreview [image]="item?._file" class="media-object" />
                 </div>
               </td>
               <td><strong>{{ item?.file?.name }}</strong></td>
@@ -133,7 +134,54 @@
       </div>
     </div>
     <!-- File upload end-->
-    
+    <!-- Start date-->
+    <div class="col-sm-6">
+      <div class="form-group required" [ngClass]="{'has-error': (!start.valid && start.dirty), 'has-success': (start.valid)}">
+        <label for="inputStart" translate>{{'event-form.start'}}</label>
+        <div class="input-group icon">
+          <input [formControl]="start" ngbDatepicker #calendarStart="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputStart">
+          <div class="input-group-append ">
+            <button (click)="calendarStart.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
+              <span class="la la-calendar ks-icon"></span>
+            </button>
+          </div>
+        </div>
+        <!-- Validation -->
+        <span *ngIf="start.errors?.required && start.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <!--<span *ngIf="start.errors?.validateDate && start.dirty" class="help-block form-error" translate>
+                    {{'validation.start-validation'}}</span>-->
+      </div>
+    </div>
+    <!-- Start time-->
+    <div class="col-sm-6 margin-top">
+      <div class="form-group required">
+        <ngb-timepicker [(ngModel)]="timeStart" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+    </div>
+    <!-- End date -->
+    <div class="col-sm-6">
+      <div class="form-group required" [ngClass]="{'has-error': (!end.valid && end.dirty), 'has-success': (end.valid)}">
+        <label for="inputEnd" translate>{{'event-form.end'}}</label>
+        <div class="input-group icon">
+          <input [formControl]="end" ngbDatepicker #calendarEnd="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputEnd">
+          <div class="input-group-append ">
+            <button (click)="calendarEnd.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
+              <span class="la la-calendar ks-icon"></span>
+            </button>
+          </div>
+        </div>
+        <!-- Validation -->
+        <span *ngIf="end.errors?.required && end.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <!--<span *ngIf="end.errors?.validateDate && end.dirty" class="help-block form-error" translate>
+                    {{'validation.end-validation'}}</span>-->
+      </div>
+    </div>
+    <!-- End time-->
+    <div class="col-sm-6 margin-top">
+      <div class="form-group required">
+        <ngb-timepicker [(ngModel)]="timeEnd" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+    </div>
     <!-- Province -->
     <div class="col-sm-6">
       <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">

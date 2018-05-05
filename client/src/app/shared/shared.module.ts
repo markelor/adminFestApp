@@ -23,6 +23,7 @@ import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { PipesPipe } from './pipes.pipe';
 import { EventCategoryPipe } from './pipes/event-category.pipe';
+import { DecodePipe } from './pipes/decode.pipe';
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { EventCategoryPipe } from './pipes/event-category.pipe';
     CapitalizePipe,
     ClickOutsideDirective,
     PipesPipe,
-    EventCategoryPipe
+    EventCategoryPipe,
+    DecodePipe
   ],
   exports: [
     TouchspinDirective,
@@ -75,7 +77,8 @@ import { EventCategoryPipe } from './pipes/event-category.pipe';
     SpacePipe,
     CapitalizePipe,
     ClickOutsideDirective,
-    EventCategoryPipe
+    EventCategoryPipe,
+    DecodePipe
   ]
 })
 export class SharedModule { }

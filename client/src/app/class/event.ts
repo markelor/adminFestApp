@@ -1,5 +1,6 @@
 
 export class Event{
+    id:string;
     createdBy: string;
     categoryId:string;
     aplicationIds: Array<string>;
@@ -16,7 +17,13 @@ export class Event{
     imagesPoster: Array<string>;
     imagesDescription: Array<string>;
     createdAt: Date;
-    updatedAt: Date ;   
+    updatedAt: Date ;
+    get getId():string {
+        return this.id;
+    }
+    set setId(id:string) {
+        this.id = id;
+    }   
     get getCreatedBy():string {
         return this.createdBy;
     }

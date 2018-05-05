@@ -724,8 +724,6 @@ module.exports = (router) => {
         if (!language) {
             language = "es";
         }
-        console.log(route);
-         console.log(req.path);
         var token = req.headers['authorization']; // Create token found in headers
         if (req.path === '/allThemes/' + language && req.method === 'GET') {
             next();
@@ -1014,9 +1012,9 @@ module.exports = (router) => {
         } else {
             // Check if username was provided
             if (!req.body.username) {
-                res.json({ success: false, message: eval(language + '.editUser.idProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.editUser.usernameProvidedError') }); // Return error
             } else {
-                var editUser = req.body.username; // Assign _id from user to be editted to a variable
+                var editUser = req.body.username; // Assign usernmae from user to be editted to a variable
                 if (req.body.name) var newName = req.body.name; // Check if a change to name was requested
                 if (req.body.username) var newUsername = req.body.username; // Check if a change to username was requested
                 if (req.body.email) var newEmail = req.body.email; // Check if a change to e-mail was requested
@@ -1083,7 +1081,7 @@ module.exports = (router) => {
                                             if (newUsername)
                                                 user.username = newUsername; // Assign new username to user in database
                                             if (newEmail)
-                                                user.email = newEmail; // Assign new name to email in database
+                                                user.email = newEmail; // Assign new email to user in database
                                             if (newAboutYourself)
                                                 user.aboutYourself = newAboutYourself; // Assign new aboutYourself to user in database
                                             if (newCurrentAvatar)

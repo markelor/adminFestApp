@@ -45,7 +45,7 @@ export class EventInterceptor implements HttpInterceptor {
             'route':this.eventService.route
           }
         }); 
-     }else if(request.url==="http://localhost:8080/themes/deleteTheme/"+this.eventService.route+this.localizeService.parser.currentLang){
+     }else if(request.url==="http://localhost:8080/event/editEvent"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

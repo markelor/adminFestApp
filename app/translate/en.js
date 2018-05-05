@@ -146,7 +146,7 @@ module.exports = {
         usernameProvidedError: "Username was not provided.",
     },
     editUser: {
-        idProvidedError: "ID was not provided.",
+        usernameProvidedError: "Username was not provided.",
         userError: "No user was found.",
         permissionError: "Insufficient permissions.",
         nameUpdated: "Name has been updated!",
@@ -199,7 +199,8 @@ module.exports = {
     getEvent: {
         idProvidedError: "Event ID is not provided.",
         eventError: "No event found.",
-        placeError:"No place found."
+        placeError:"No place found.",
+        categoryError:"No category found."
     },
     //newPlace
     newPlace: {
@@ -235,14 +236,13 @@ module.exports = {
         saveError: "Could not edit category. Error: ",
         success: "Category updated!"
     },
-    editTheme: {
-        idProvidedError: 'Theme ID was not provided',
-        themeError: "No theme was found.",
-        userError: "No user was found.",
-        permissionError: "You are not authorized to edit this theme post.",
-        saveError: "Could not edit theme. Error: ",
-        success: "Theme edited!"
+    editEvent: {
+        idProvidedError: 'Event ID was not provided',
+        createdByProvidedError:'Username was not provided.',
+        saveError: "Could not edit event. Error: ",
+        success: "Event edited!"
     },
+
     deleteTheme: {
         idProvidedError: 'Theme ID was not provided',
         themeError: "No theme was found.",

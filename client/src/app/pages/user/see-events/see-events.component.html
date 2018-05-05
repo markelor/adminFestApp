@@ -23,7 +23,7 @@
               <div *ngIf="!event.showCollapse" class="card-block">
                 <!-- Date/Time -->
                 <p class="time"><span class="la la-clock-o ks-icon"></span> {{event.start}} </p>
-                <img src="{{event.images.posters[0]}}" class="post-img ks-thumbnail img-responsive">
+                <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-img ks-thumbnail img-responsive">
                 <div class="ks-text description" [innerHTML]="event.description"></div>
                 <button [routerLink]="['/user-route','event-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.read-more'}}</button>
                 <div class="ks-actions">

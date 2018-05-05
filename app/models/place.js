@@ -72,16 +72,16 @@ const placeSchema = new Schema({
     language: { type: String, required: true },
     province: {
         name: { type: String, required: true },
-        geonameId: { type: String, required: true }
+        geonameId: { type: Number, required: true }
     },
     municipality: {
         name: { type: String, required: true },
-        geonameId: { type: String, required: true }
+        geonameId: { type: Number, required: true }
     },
     location: { type: String, required: false, validate: locationValidators },
     coordinates: {
-        lat: { type: String, requireed: true, validate: latitudeValidators },
-        lng: { type: String, requireed: true, validate: longitudeValidators }
+        lat: { type: Number, requireed: true, validate: latitudeValidators },
+        lng: { type: Number, requireed: true, validate: longitudeValidators }
     },
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }

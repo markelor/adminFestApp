@@ -8,7 +8,7 @@ import { CategoryService } from '../../services/category.service';
 import { EventService } from '../../services/event.service';
 import { FileUploaderService} from '../../services/file-uploader.service';
 import { TranslateService } from '@ngx-translate/core';
-import { FileUploader,FileUploaderOptions } from 'ng2-file-upload';
+import { FileUploader,FileUploaderOptions,FileItem } from 'ng2-file-upload';
 import { Router } from '@angular/router';
 import { Event } from '../../class/event';
 import { Place } from '../../class/place';
@@ -72,16 +72,21 @@ export class EventFormComponent implements OnInit {
   private submitted:boolean = false;
   private username;
   private imagesPoster=[];
+  @Input() editImagesPoster;
   private imagesDescription=[];
-  private title:AbstractControl;
+  @Input() editImagesDescription;
+  @Input() id:string;
+  @Input() createdBy:string;
   @Input() editTitle:string;
+  private title:AbstractControl;
   private categories: any[] = [];
+  @Input() editCategories;
   private province:AbstractControl;
   @Input() editProvince:string;
   private municipality:AbstractControl;
   @Input() editMunicipality:string;
   private participant:AbstractControl;
-  @Input() editParticipant:string;
+  @Input() editParticipants;
   private start:AbstractControl;
   @Input() editStart:string;
   private end:AbstractControl;
@@ -96,6 +101,7 @@ export class EventFormComponent implements OnInit {
   @Input() editDescription:string;
   private observations:AbstractControl;
   @Input() editObservations:string;
+  @Input() operation:string;
   private timeStart = {hour: 13, minute: 30};
   private timeEnd = {hour: 13, minute: 30};
   private categoryId=[];
@@ -135,9 +141,9 @@ export class EventFormComponent implements OnInit {
   ) {
     this.createNewEventForm(); // Create new event form on start up
   }
-  private createItem() {
+  private createItem(value) {
     return this.fb.group({
-      category: ['', Validators.compose([
+      category: [value, Validators.compose([
         Validators.required
       ])],
     });
@@ -152,7 +158,7 @@ export class EventFormComponent implements OnInit {
         Validators.minLength(5),
         AlphanumericValidator.validate
       ])],
-      categories: this.fb.array([ this.createItem() ]),
+      categories: this.fb.array([ this.createItem('') ]),
       province: ['', Validators.compose([
         Validators.required
       ])],
@@ -202,10 +208,21 @@ export class EventFormComponent implements OnInit {
     this.observations = this.form.controls['observations'];
   }
   private initializeForm(){
+    if(this.id)
+      this.event.setId=this.id;
+     if(this.createdBy)
+      this.event.setCreatedBy=this.createdBy;
   	if(this.editTitle)
       this.title.setValue(this.editTitle);
-    if(this.editParticipant)
-      this.participant.setValue(this.editParticipant);
+    if(this.editCategories){
+      (this.form.controls['categories'] as FormArray).removeAt(0);
+      for (var i in this.editCategories) {
+        this.categoryId.push(this.editCategories[i]._id);
+       (this.form.controls['categories'] as FormArray).push(this.createItem(this.editCategories[i].title));
+      } 
+    }
+    if(this.editParticipants)
+      this.participants=this.editParticipants;
   	if(this.editProvince)
       this.province.setValue(this.editProvince);
     if(this.editMunicipality){
@@ -215,10 +232,29 @@ export class EventFormComponent implements OnInit {
         this.form.get('municipality').enable(); // Enable municipality field
       });
     }
-    if(this.editStart)
-      this.start.setValue(this.editStart);  
-    if(this.editEnd)
-      this.end.setValue(this.editEnd);
+    if(this.editStart){
+      var year=Number(this.editStart.split("-")[0]);
+      var month=Number(this.editStart.split("-")[1]);
+      var day=Number(this.editStart.split('-').pop().split('T').shift());
+      var hour=Number(this.editStart.split('T').pop().split(':').shift());
+      var minute=Number(this.editStart.split(':')[1]);
+      var calendar= {year:year , month: month,day: day};
+      this.start.setValue(calendar);
+      this.timeStart.hour=hour;
+      this.timeStart.minute=minute; 
+    }     
+    if(this.editEnd){
+       var year=Number(this.editEnd.split("-")[0]);
+      var month=Number(this.editEnd.split("-")[1]);
+      var day=Number(this.editEnd.split('-').pop().split('T').shift());
+      var hour=Number(this.editEnd.split('T').pop().split(':').shift());
+      var minute=Number(this.editEnd.split(':')[1]);
+      var calendar= {year:year , month: month,day: day};
+      this.end.setValue(calendar); 
+      this.timeEnd.hour=hour;
+      this.timeEnd.minute=minute; 
+    }
+    
     if(this.editLocation)
       this.location.setValue(this.editLocation);
     if(this.editLat)
@@ -229,6 +265,30 @@ export class EventFormComponent implements OnInit {
       this.description.setValue(this.editDescription);
   	if(this.editObservations)
       this.observations.setValue(this.editObservations);
+    if(this.editImagesPoster){
+      this.imagesPoster=this.editImagesPoster;
+      for (var j = 0; j < this.editImagesPoster.length; ++j) {
+        let file = new File([],decodeURIComponent(this.editImagesPoster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1], {type: this.editImagesPoster[j].mimetype, lastModified: Date.now()});
+        let fileItem = new FileItem(this.uploader, file, {});
+        fileItem.file.size=this.editImagesPoster[j].size;
+        fileItem.progress = 100;
+        fileItem.isUploaded = true;
+        fileItem.isSuccess = true;
+        this.uploader.queue.push(fileItem);
+      }
+    }
+    if(this.editImagesDescription){
+      this.imagesDescription=this.editImagesDescription;
+      console.log(this.editImagesDescription);
+      //this.observations.setValue(this.editIma);
+    }
+    if(this.editTitle && this.categoryId.length>0 && this.editLat && this.editLng){
+      // After 2 seconds, redirect to dashboard page
+      setTimeout(() => {
+        this.passCoordinates(undefined);
+      },0);
+      
+    }    
   }
   // Enable new categories form
   private enableFormNewEventForm() {
@@ -256,18 +316,7 @@ export class EventFormComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
   private onEventSubmit(){
-    if(this.uploader.queue.length>0){
-      this.submitted = false; // Disable submit button
-      //this.disableFormNewEventForm(); // Lock form
-      this.uploader.uploadAll();
-    }else{
-      this.createEvent();
-    }
-  }
-
-  // Function to upload  categories post
-  private createEvent() {
-    // Create categories object from form fields
+    // Create event object from form fields
     this.event.setLanguage=this.localizeService.parser.currentLang;// Language field
     this.event.setCreatedBy=this.username; // CreatedBy field
     this.event.setTitle=this.form.get('title').value; // Title field
@@ -280,9 +329,23 @@ export class EventFormComponent implements OnInit {
     this.place.setProvince=this.form.get('province').value, // Province field
     this.place.setMunicipality=this.form.get('municipality').value; // Municipality field
     this.place.setLocation=this.form.get('location').value; //Location field,
-    this.place.setLat=this.form.get('lat').value; // Lat field
-    this.place.setLng=this.form.get('lng').value; // Lng field
-    
+    this.place.setLat=Number(this.form.get('lat').value); // Lat field
+    this.place.setLng=Number(this.form.get('lng').value); // Lng field
+
+    if(this.uploader.queue.length>0){
+      this.submitted = false; // Disable submit button
+      //this.disableFormNewEventForm(); // Lock form
+      this.uploader.uploadAll();
+    }else{
+      if(this.operation==='create'){
+        this.createEvent();
+      }else if(this.operation==='edit'){
+        this.editEvent();
+      }      
+    }
+  }
+
+  private createEvent() {
     // Function to save event into database
     this.eventService.newEvent(this.event,this.place).subscribe(data => {
       console.log(data);
@@ -307,6 +370,34 @@ export class EventFormComponent implements OnInit {
           this.enableFormNewEventForm(); // Enable the form fields
         }, 2000);
       }
+    });  
+  }
+  private editEvent() {
+    // Function to save event into database
+    this.eventService.editEvent(this.event,this.place).subscribe(data => {
+      console.log(data);
+      /*console.log(data);
+      // Check if event was saved to database or not
+      if (!data.success) {
+        this.deleteUploadImages('poster',this.imagesPoster);
+        this.deleteUploadImages('descriptionAll',this.imagesDescription);
+        this.messageClass = 'alert alert-danger ks-solid'; // Return error class
+        this.message = data.message; // Return error message
+        this.submitted = true; // Enable submit button
+        this.enableFormNewEventForm(); // Enable form
+      } else {
+        this.createNewEventForm(); // Reset all form fields
+        this.messageClass = 'alert alert-success ks-solid'; // Return success class
+        this.message = data.message; // Return success message
+        // Clear form data after two seconds
+        setTimeout(() => {
+          //this.newPost = false; // Hide form
+          this.submitted = false; // Enable submit button
+          this.message = false; // Erase error/success message
+          this.uploader.clearQueue()//Reset uploader
+          this.enableFormNewEventForm(); // Enable the form fields
+        }, 2000);
+      }*/
     });  
   }
   private deleteUploadImages(type,images){
@@ -356,14 +447,14 @@ export class EventFormComponent implements OnInit {
         }
       }     
       if((this.form.controls['categories'].value.length-1 <= level) && newFormArray===true){
-        (this.form.controls['categories'] as FormArray).push(this.createItem());
+        (this.form.controls['categories'] as FormArray).push(this.createItem(''));
       }else {
         // remove
         for (var i = this.form.controls['categories'].value.length - 1; i >= level+1; i--) {
           (this.form.controls['categories'] as FormArray).removeAt(i);
         }
         if(newFormArray){
-         (this.form.controls['categories'] as FormArray).push(this.createItem()); 
+         (this.form.controls['categories'] as FormArray).push(this.createItem('')); 
         }       
       }    
     }
@@ -415,8 +506,8 @@ export class EventFormComponent implements OnInit {
         lat:defaultCoordinates.lat, // Lat field
         lng:defaultCoordinates.lng, // Lng field
       }
-      this.form.controls['lat'].setValue(defaultCoordinates.lat);
-      this.form.controls['lng'].setValue(defaultCoordinates.lng);
+      this.lat.setValue(defaultCoordinates.lat);
+      this.lng.setValue(defaultCoordinates.lng);
     }else{
       var market_info={
         title:this.form.get('title').value,
@@ -424,7 +515,7 @@ export class EventFormComponent implements OnInit {
         lat:this.form.get('lat').value, // Lat field
         lng:this.form.get('lng').value, // Lng field
       }
-    }   
+    }  
     this.observableService.mapType="create-categories-coordinates";
     this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
   }
@@ -438,6 +529,7 @@ export class EventFormComponent implements OnInit {
     this.uploader.setOptions(this.uploadOptions);
     //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
     this.uploader.onAfterAddingFile = (file)=> { 
+         console.log(this.uploader);
       file.withCredentials = false;
       if(this.uploader.queue.length>1){
         this.uploader.queue.splice(0,1);
@@ -465,10 +557,18 @@ export class EventFormComponent implements OnInit {
         this.submitted = true; // Enable submit button
         this.enableFormNewEventForm(); // Enable form
       }else{
-        this.imagesPoster.push(responseJson.file[0]);   
+        var file={
+          size:responseJson.file[0].size,
+          url:responseJson.file[0].location
+        }
+        this.imagesPoster.push(file);   
         if(this.uploader.progress===100 && this.uploadAllSuccess){
           this.event.setImagesPoster=this.imagesPoster;
-          this.createEvent();
+          if(this.operation==='create'){
+            this.createEvent();
+          }else if(this.operation==='edit'){
+            this.editEvent();
+          }
         }
       } 
     };

@@ -33,6 +33,12 @@ export class EventService {
     this.route= encodeURIComponent(id) +'/';
     return this.http.get<any>(this.domain + 'event/getEvent/'+this.route+language);
   }
+  // Function to edit/update theme post
+  public editEvent(event,place) {
+    var data = {'event': event, 'place': place };
+    console.log(data);
+    return this.http.put<any>(this.domain + 'event/editEvent', data);
+  }
   public themeSearch(searchs: Observable<string>,language) {
     return searchs.debounceTime(400)
       .distinctUntilChanged()
@@ -74,10 +80,6 @@ export class EventService {
     return this.http.get<any>(this.domain + 'event/singleTheme/'+this.route+language);
   }
 
-  // Function to edit/update theme post
-  public editTheme(theme) {
-    return this.http.put<any>(this.domain + 'event/updateTheme', theme);
-  }
   // Function to delete a theme
   public deleteTheme(id,language) {
     this.route= id +'/'

@@ -146,7 +146,7 @@ module.exports = {
         usernameProvidedError: "Erabiltzaile izena ez da eman.",
     },
     editUser: {
-        idProvidedError: "IDa ez da eman.",
+        usernameProvidedError: "Erabiltzailea ez da eman.",
         userError: "Erabiltzailea ez da aurkitu.",
         permissionError: "Ez duzu nahikoa baimen",
         nameUpdated: "Izena eguneratu da!",
@@ -198,7 +198,8 @@ module.exports = {
     getEvent: {
         idProvidedError: "Ekintzaren IDa ez da eman.",
         eventError: "Ez da ekintza aurkitu.",
-        placeError:"Ez da lekua aurkitu."
+        placeError:"Ez da lekua aurkitu.",
+        categoryError:"Ez da kategoria aurkitu."
     },
     //newPlace
     newPlace: {
@@ -234,13 +235,11 @@ module.exports = {
         saveError: "Ezin izan da kategoria eguneratu. Akatsa: ",
         success: "Kategoria eguneratu da!"
     },
-    editTheme: {
-        idProvidedError: 'Ez da gaiaren IDa eman.',
-        themeError: "Gaia ez da aurkitu.",
-        userError: "Erabiltzailea ez da aurkitu.",
-        permissionError: "Ez duzu gaiaren publikazio hau aldatzeko baimenik.",
-        saveError: "Ezin izan da gaia aldatu. Akatsa: ",
-        success: "Gaia aldatu da!"
+    editEvent: {
+        idProvidedError: 'Ez da ekintzaren IDa eman.',
+        createdByProvidedError:'Ekintzaren erabiltzailea ez da eman.',
+        saveError: "Ezin izan da ekintza aldatu. Akatsa: ",
+        success: "Ekintza aldatu da!"
     },
     deleteTheme: {
         idProvidedError: 'Ez da gaiaren IDa eman.',

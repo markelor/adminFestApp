@@ -6,17 +6,19 @@ import { UserRoutingModule } from './user.routing';
 import { ImageCropperComponent } from "ngx-img-cropper";
 import { FileUploadModule } from 'ng2-file-upload';
 import { SettingsComponent } from './profile/settings/settings.component';
-import { SeeEventsComponent } from './see-events/see-events.component';
-import { EditEventComponent } from './edit-event/edit-event.component';
+import { SeeEventsComponent } from './events/see-events/see-events.component';
+import { EditEventComponent } from './events/see-events/edit-event/edit-event.component';
 import { TemplatesModule } from '../../templates/templates.module';
 import { SharedModule } from '../../shared/shared.module';
 import { DecodePipe } from '../../shared/pipes/decode.pipe';
+import { EventsComponent } from './events/events.component';
+import { AddEventsAplicationComponent } from './events/add-events-aplication/add-events-aplication.component';
 
 @NgModule({
   imports: [
     CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule
   ],
-  declarations: [ProfileComponent,ImageCropperComponent, SettingsComponent, SeeEventsComponent, EditEventComponent],
+  declarations: [ProfileComponent,ImageCropperComponent, SettingsComponent, SeeEventsComponent, EditEventComponent, EventsComponent, AddEventsAplicationComponent],
   providers:[DecodePipe]
 })
 

@@ -1,5 +1,5 @@
 {
-  "authentication":"autentifikazioa",
+  "authentication": "autentifikazioa",
   "sign-up-route": "erregistratu",
   "activate-route": "aktibatu",
   "sign-in-route": "saioa-hasi",
@@ -9,9 +9,9 @@
   "new-password-route": "pasahitz-berria",
   "search-route": "bilatu",
   "create-route": "sortu",
-  "edit-route":"aldatu",
+  "edit-route": "aldatu",
   "category-route": "kategoria",
-  "event-route": "ekintza",
+  "events-route": "ekintzak",
   "details-route": "xehetasunak",
   "region-route": "eskualdea",
   "user-route": "erabiltzailea",
@@ -25,7 +25,7 @@
     "home": "Hasiera",
     "create": "Sortu",
     "category": "Kategoria",
-    "event": "Ekintza",
+    "events": "Ekintzak",
     "administrator": "Administratzailea",
     "users": "Erabiltzaileak"
   },
@@ -91,27 +91,32 @@
     "es": "Gaztelera",
     "en": "Ingelesa",
     "eu": "Euskara",
-    "profile":"Perfila",
-    "event":"Ekintza"
+    "profile": "Perfila",
+    "events": "Ekintzak"
   },
   "profile":
   {
     "settings": "Ezarpenak"
   },
+  "events":
+  {
+    "edit-events": "Aldatu ekintzak",
+    "add-aplication": "Gehitu aplikaziora"
+  },
   "event":
   {
     "created-by": "Publicatzailea:",
     "read-more": "Gehiago Irakurri",
-    "general-info":"Informazio Orokorra",
-    "like":"Atsegin dut",
-    "comment":"Iruzkina utzi",
-    "share":"Partekatu"
+    "general-info": "Informazio Orokorra",
+    "like": "Atsegin dut",
+    "comment": "Iruzkina utzi",
+    "share": "Partekatu"
 
   },
   "create-category":
   {
     "title": "Izenburua",
-    "description": "Deskribapena",  
+    "description": "Deskribapena",
     "parent-category": "Guraso Kategoria",
     "select-parent-category": "-- AUKERATU KATEGORIA --",
     "send": "Bidali"
@@ -120,7 +125,7 @@
   {
     "title": "Izenburua",
     "category": "Kategoria",
-    "participants":"Parte Hartzaileak",
+    "participants": "Parte Hartzaileak",
     "start": "Hasiera",
     "end": "Amaiera",
     "images": "Irudiak",
@@ -149,13 +154,13 @@
     "select-municipality": "-- AUKERATU UDALERRIA --",
     "send": "Bidali"
   },
-   "comment":
+  "comment":
   {
-    "leaveComment":"Idatzi iruzkin bat.",
-    "delete":"Delete",
-    "edit":"Edit",
-    "reply":"Reply",
-    "hideReplies":"Hide Replies"
+    "leaveComment": "Idatzi iruzkin bat.",
+    "delete": "Delete",
+    "edit": "Edit",
+    "reply": "Reply",
+    "hideReplies": "Hide Replies"
   },
   "validation":
   {
@@ -232,7 +237,7 @@
     "angry": "Hau amorrua!",
     "you": "Zu",
     "you-and": "Zu eta beste ",
-    "others":""
+    "others": ""
   }
 
 }

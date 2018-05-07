@@ -195,8 +195,8 @@ module.exports = (router) => {
                                                                 } else {
                                                                     // Check if the current permission is moderator
                                                                     if (mainUser.permission === 'moderator') {
-                                                                        // Check if user making changes has access
-                                                                        if (user.permission === 'user') {
+                                                                        // Check if contributor making changes has access
+                                                                        if (user.permission === 'contributor') {
                                                                             user.avatars.push(url); // Assign avats to user
                                                                         } else {
                                                                             saveErrorPermission = language + '.editUser.adminOneError';
@@ -388,8 +388,8 @@ module.exports = (router) => {
                                                             } else {
                                                                 // Check if the current permission is moderator
                                                                 if (mainUser.permission === 'moderator') {
-                                                                    // Check if user making changes has access
-                                                                    if (user.permission === 'user') {
+                                                                    // Check if contributor making changes has access
+                                                                    if (user.permission === 'contributor') {
                                                                         user.avatars.splice(index, 1); // Assign avats to user
                                                                         user.currentAvatar="assets/img/avatars/default-avatar.jpg";
                                                                     } else {

@@ -24,9 +24,7 @@ export class CreateEventComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authGuard:AuthGuard) { }
 
-  private createEvent(create){
-    console.log(create);
-  }
+
   ngOnInit() {
   }
 }

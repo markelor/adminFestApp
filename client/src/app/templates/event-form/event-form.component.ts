@@ -82,9 +82,9 @@ export class EventFormComponent implements OnInit {
   private categories: any[] = [];
   @Input() editCategories;
   private province:AbstractControl;
-  @Input() editProvince:string;
+  @Input() editProvince;
   private municipality:AbstractControl;
-  @Input() editMunicipality:string;
+  @Input() editMunicipality;
   private participant:AbstractControl;
   @Input() editParticipants;
   private start:AbstractControl;
@@ -166,9 +166,9 @@ export class EventFormComponent implements OnInit {
         Validators.required
       ])],
       participant: ['', Validators.compose([
-        Validators.maxLength(30),
+        /*Validators.maxLength(30),
         Validators.minLength(5),
-        AlphanumericValidator.validate
+        AlphanumericValidator.validate*/
       ])],
       start: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/
@@ -223,12 +223,15 @@ export class EventFormComponent implements OnInit {
     }
     if(this.editParticipants)
       this.participants=this.editParticipants;
-  	if(this.editProvince)
-      this.province.setValue(this.editProvince);
+  	if(this.editProvince){
+      this.province.setValue(this.editProvince.name);
+      this.place.setGeonameIdProvince=this.editProvince.geonameId;
+    }
     if(this.editMunicipality){
-      this.eventService.getEventGeonamesJson('municipality',this.localizeService.parser.currentLang,this.editProvince.toLowerCase()).subscribe(municipalitiesEvent => {
+      this.eventService.getEventGeonamesJson('municipality',this.localizeService.parser.currentLang,this.editProvince.name.toLowerCase()).subscribe(municipalitiesEvent => {
         this.municipalitiesEvent=municipalitiesEvent.geonames;
-        this.municipality.setValue(this.editMunicipality);
+        this.municipality.setValue(this.editMunicipality.name);
+        this.place.setGeonameIdMunicipality=this.editMunicipality.geonameId;
         this.form.get('municipality').enable(); // Enable municipality field
       });
     }
@@ -331,11 +334,13 @@ export class EventFormComponent implements OnInit {
     this.place.setLocation=this.form.get('location').value; //Location field,
     this.place.setLat=Number(this.form.get('lat').value); // Lat field
     this.place.setLng=Number(this.form.get('lng').value); // Lng field
-
     if(this.uploader.queue.length>0){
       this.submitted = false; // Disable submit button
       //this.disableFormNewEventForm(); // Lock form
       this.uploader.uploadAll();
+      if(this.uploader.queue[0].isUploaded){
+        this.editEvent();
+      }
     }else{
       if(this.operation==='create'){
         this.createEvent();

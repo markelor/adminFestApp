@@ -25,7 +25,7 @@
                 <p class="time"><span class="la la-clock-o ks-icon"></span> {{event.start}} </p>
                 <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-img ks-thumbnail img-responsive">
                 <div class="ks-text description" [innerHTML]="event.description"></div>
-                <button [routerLink]="['/user-route','event-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.read-more'}}</button>
+                <button [routerLink]="['/user-route','events-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.read-more'}}</button>
                 <div class="ks-actions">
                   <p class="time">
                     <span class="la la-user ks-icon"></span>

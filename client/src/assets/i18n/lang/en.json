@@ -1,5 +1,5 @@
 {
-  "authentication":"authentication",
+  "authentication": "authentication",
   "sign-up-route": "sign-up",
   "activate-route": "activate",
   "sign-in-route": "sign-in",
@@ -9,9 +9,9 @@
   "new-password-route": "new-password",
   "search-route": "search",
   "create-route": "create",
-  "edit-route":"edit",
+  "edit-route": "edit",
   "category-route": "category",
-  "event-route": "event",
+  "events-route": "events",
   "details-route": "details",
   "region-route": "region",
   "user-route": "user",
@@ -24,8 +24,8 @@
   {
     "home": "Home",
     "create": "Create",
-    "category": "Category", 
-    "event": "Event",
+    "category": "Category",
+    "events": "Events",
     "administrator": "Administrator",
     "users": "Users"
   },
@@ -90,23 +90,28 @@
   {
     "settings": "Settings"
   },
+  "events":
+  {
+    "edit-events": "Edit events",
+    "add-aplication": "Add to aplication"
+  },
   "navbar":
   {
     "es": "Spanish",
     "en": "English",
     "eu": "Euskara",
-    "profile":"Profile",
-    "event":"Event"
+    "profile": "Profile",
+    "events": "Events"
 
   },
   "event":
   {
     "created-by": "Created by:",
     "read-more": "Read More",
-    "general-info":"General Information",
-    "like":"Like",
-    "comment":"Comment",
-    "share":"Share"
+    "general-info": "General Information",
+    "like": "Like",
+    "comment": "Comment",
+    "share": "Share"
   },
   "create-category":
   {
@@ -120,7 +125,7 @@
   {
     "title": "Title",
     "category": "Category",
-    "participants":"Participants",
+    "participants": "Participants",
     "start": "Start",
     "end": "End",
     "images": "Images",
@@ -149,11 +154,11 @@
   },
   "comment":
   {
-    "leaveComment":"Write a comment.",
-    "delete":"Delete",
-    "edit":"Edit",
-    "reply":"Reply",
-    "hideReplies":"Hide Replies"
+    "leaveComment": "Write a comment.",
+    "delete": "Delete",
+    "edit": "Edit",
+    "reply": "Reply",
+    "hideReplies": "Hide Replies"
   },
   "validation":
   {
@@ -230,6 +235,6 @@
     "angry": "Angry",
     "you": "You",
     "you-and": "You and",
-    "others":"others"
+    "others": "others"
   }
 }

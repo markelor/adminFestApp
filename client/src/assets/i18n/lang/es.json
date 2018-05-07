@@ -1,5 +1,5 @@
 {
-  "authentication":"autentificación",
+  "authentication": "autentificación",
   "activate-route": "activar",
   "sign-in-route": "iniciar-sesion",
   "resend-route": "reenviar",
@@ -8,9 +8,9 @@
   "new-password-route": "nueva-contraseña",
   "search-route": "buscar",
   "create-route": "crear",
-  "edit-route":"editar",
+  "edit-route": "editar",
   "category-route": "categoría",
-  "event-route": "evento",
+  "events-route": "eventos",
   "details-route": "detalles",
   "region-route": "región",
   "user-route": "usuario",
@@ -24,7 +24,7 @@
     "home": "Inicio",
     "create": "Crear",
     "category": "Categoría",
-    "event": "Evento",
+    "events": "Eventos",
     "administrator": "Administrador",
     "users": "Usuarios"
   },
@@ -90,21 +90,26 @@
     "es": "Castellano",
     "eu": "Euskara",
     "en": "Inglés",
-    "profile":"Perfil",
-    "event":"Evento"
+    "profile": "Perfil",
+    "events": "Eventos"
   },
   "profile":
   {
     "settings": "Ajustes"
   },
+  "events":
+  {
+    "edit-events": "Editar eventos",
+    "add-aplication": "Añadir a aplicación"
+  },
   "event":
   {
     "created-by": "Creado por:",
     "read-more": "Leer Mas",
-    "general-info":"Información General",
-    "like":"Me gusta",
-    "comment":"Comentar",
-    "share":"Compartir"
+    "general-info": "Información General",
+    "like": "Me gusta",
+    "comment": "Comentar",
+    "share": "Compartir"
 
   },
   "create-category":
@@ -113,13 +118,13 @@
     "description": "Descripción",
     "parent-category": "Categoría Padre",
     "select-parent-category": "-- SELECCIONE UNA CATEGORÍA --",
-     "send": "Enviar"
+    "send": "Enviar"
   },
   "event-form":
   {
     "title": "Titulo",
     "caregory": "Categoría",
-    "participants":"Participantes",
+    "participants": "Participantes",
     "start": "Inicio",
     "end": "Fin",
     "images": "Imágenes",
@@ -148,11 +153,11 @@
   },
   "comment":
   {
-    "leaveComment":"Escribe un comentario.",
-    "delete":"Delete",
-    "edit":"Edit",
-    "reply":"Reply",
-    "hideReplies":"Hide Replies"
+    "leaveComment": "Escribe un comentario.",
+    "delete": "Delete",
+    "edit": "Edit",
+    "reply": "Reply",
+    "hideReplies": "Hide Replies"
   },
   "validation":
   {
@@ -226,9 +231,9 @@
     "haha": "Me divierte",
     "wow": "Me asombra",
     "sad": "Me entristece",
-    "angry": "Me enoja", 
+    "angry": "Me enoja",
     "you": "Tú",
     "you-and": "Tú y",
-    "others":"personas más"
+    "others": "personas más"
   }
 }

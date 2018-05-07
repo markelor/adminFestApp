@@ -1090,8 +1090,8 @@ module.exports = (router) => {
                                                 user.avatars = newAvatars; // Assign new avatars to user in database
                                             var saveErrorPermission;
                                             if (newPermission) {
-                                                // Check if attempting to set the 'user' permission
-                                                if (newPermission === 'user') {
+                                                // Check if attempting to set the contributor permission
+                                                if (newPermission === 'contributor') {
                                                     // Check the current permission is an admin
                                                     if (mainUser.permission === 'admin') {
                                                         // Check if user making changes has access

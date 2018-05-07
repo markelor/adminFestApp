@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../services/auth.service';
-import { EventService } from '../../../services/event.service';
+import { AuthService } from '../../../../services/auth.service';
+import { EventService } from '../../../../services/event.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
-import { AuthGuard} from '../../guards/auth.guard';
+import { AuthGuard} from '../../../guards/auth.guard';
 import { Router } from '@angular/router';
 
 @Component({

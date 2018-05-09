@@ -12,8 +12,7 @@ module.exports = {
         passwordLength: "Password must be at least 8 characters but no more than 35.",
         passwordValid: "Must have at least one uppercase, lowercase, special character, and number.",
         aboutYourselfLength: "About Yourself must be no longer than 500 characters.",
-        categoryTitleLength: "Title must be more than 3 characters but no more than 35.",
-        eventTitleLength: "Title must be more than 3 characters but no more than 35.",
+        titleLength: "Title must be more than 3 characters but no more than 35.",
         titleValid: "Title must not have any special characters.",
         locationLength: "Location must be no longer than 1000 characters.",  
         categoryDescriptionLength: "Description must be more than 5 characters but no more than 200.",
@@ -190,10 +189,25 @@ module.exports = {
         saveError: "Could not save event. Error:",
         success: "Event saved!"
     },
+    //newAplication
+    newAplication: {
+        usersProvidedError: "Aplication users are required.",
+        titleProvidedError: "Aplication title is required.",
+        licenseNameProvidedError: "Aplication license name is required.",
+        priceProvidedError: "Aplication price is required.",
+        expiredAtProvidedError: "Aplication expired date is required.",
+        saveError: "Could not save aplication. Error:",
+        success: "Aplication saved!"
+    },
     //allUserEvents
     allUserEvents: {
         usernameProvidedError: "Event username is not provided.",
         eventsError: "No events found."
+    },
+    //allUsers
+    allUsers: {
+        searchTermProvidedError: "Search term is not provided.",
+        usersError: "Users not found.",
     },
     //getEvent
     getEvent: {

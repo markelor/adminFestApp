@@ -91,6 +91,7 @@ export class RegisterComponent implements OnInit {
 
         }else{
           this.createForm(); // Reset all form fields
+          this.submitted = false;
           this.messageClass='alert alert-success ks-solid'
           this.message=data.message
          // After 2 second timeout, navigate to the login page

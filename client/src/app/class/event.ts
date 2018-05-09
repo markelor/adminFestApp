@@ -3,7 +3,6 @@ export class Event{
     id:string;
     createdBy: string;
     categoryId:string;
-    aplicationIds: Array<string>;
     sponsorIds: Array<string>;
     language:string;
     visible: boolean;
@@ -36,12 +35,6 @@ export class Event{
     set setCategoryId(categoryId:string) {
         this.categoryId = categoryId;
     }
-    get getAplicationIds():Array<string> {
-        return this.aplicationIds;
-    }
-    set setAplicationIds(aplicationIds:Array<string>) {
-        this.aplicationIds = aplicationIds;
-    } 
     get getSponsorIds():Array<string> {
         return this.sponsorIds;
     }

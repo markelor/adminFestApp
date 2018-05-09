@@ -10,7 +10,9 @@
   "create-route": "crear",
   "edit-route": "editar",
   "category-route": "categoría",
+  "event-route": "evento",
   "events-route": "eventos",
+  "aplication-route": "aplicacion",
   "details-route": "detalles",
   "region-route": "región",
   "user-route": "usuario",
@@ -24,7 +26,8 @@
     "home": "Inicio",
     "create": "Crear",
     "category": "Categoría",
-    "events": "Eventos",
+    "event": "Evento",
+    "aplication": "Aplicación",
     "administrator": "Administrador",
     "users": "Usuarios"
   },
@@ -99,13 +102,14 @@
   },
   "events":
   {
-    "edit-events": "Editar eventos",
-    "add-aplication": "Añadir a aplicación"
+    "events": "Eventos",
+    "aplications": "Aplicaciones"
   },
   "event":
   {
     "created-by": "Creado por:",
     "read-more": "Leer Mas",
+    "edit-event": "Editar Evento",
     "general-info": "Información General",
     "like": "Me gusta",
     "comment": "Comentar",
@@ -118,6 +122,14 @@
     "description": "Descripción",
     "parent-category": "Categoría Padre",
     "select-parent-category": "-- SELECCIONE UNA CATEGORÍA --",
+    "send": "Enviar"
+  },
+  "create-aplication":
+  {
+    "event": "Evento",
+    "user": "Usuario",
+    "license": "Licencia",
+    "expiry-date": "Fecha de caducidad",
     "send": "Enviar"
   },
   "event-form":

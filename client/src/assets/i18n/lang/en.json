@@ -11,7 +11,9 @@
   "create-route": "create",
   "edit-route": "edit",
   "category-route": "category",
+  "event-route": "event",
   "events-route": "events",
+  "aplication-route": "aplication",
   "details-route": "details",
   "region-route": "region",
   "user-route": "user",
@@ -25,7 +27,8 @@
     "home": "Home",
     "create": "Create",
     "category": "Category",
-    "events": "Events",
+    "event": "Event",
+    "aplication": "Aplication",
     "administrator": "Administrator",
     "users": "Users"
   },
@@ -92,8 +95,8 @@
   },
   "events":
   {
-    "edit-events": "Edit events",
-    "add-aplication": "Add to aplication"
+    "events": "Events",
+    "aplications": "Aplications"
   },
   "navbar":
   {
@@ -108,6 +111,7 @@
   {
     "created-by": "Created by:",
     "read-more": "Read More",
+    "edit-event": "Edit Event",
     "general-info": "General Information",
     "like": "Like",
     "comment": "Comment",
@@ -119,6 +123,14 @@
     "description": "Description",
     "parent-category": "Parent Category",
     "select-parent-category": "-- SELECT CATEGORY --",
+    "send": "Send"
+  },
+  "create-aplication":
+  {
+    "event": "Event",
+    "user": "User",
+    "license": "License",
+    "expiry-date": "Expiry date",
     "send": "Send"
   },
   "event-form":

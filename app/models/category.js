@@ -36,7 +36,7 @@ const titleValidators = [
     // First Title Validator
     {
         validator: titleLengthChecker,
-        message: '.validation.categoryTitleLength'
+        message: '.validation.titleLength'
     },
     // Second Title Validator
     {

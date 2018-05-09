@@ -12,8 +12,7 @@ module.exports = {
         passwordLength: "La contraseña debe tener al menos 8 caracteres pero no más de 35.",
         passwordValid: "Debe tener al menos una mayúscula, minúscula, carácter especial y número.",
         aboutYourselfLength: "Acerca de ti no debe tener más de 500 caracteres.",
-        categoryTitleLength: "El título debe tener al menos 3 caracteres pero no más de 35.",
-        eventTitleLength: "El título debe tener al menos 3 caracteres pero no más de 35.",
+        titleLength: "El título debe tener al menos 3 caracteres pero no más de 35.",
         titleValid: "El título no debe tener caracteres especiales.",
         locationLength: "La localización no debe tener más de 1000 caracteres.",
         categoryDescriptionLength: "La descripción debe tener al menos 5 caracteres pero no más de 200.",
@@ -189,10 +188,25 @@ module.exports = {
         saveError: "No se pudo guardar el evento. Error:",
         success: "¡Evento guardado!"
     },
+    //newAplication
+    newAplication: {
+        usersProvidedError: "Los usuarios de la aplicación son requeridas.",
+        titleProvidedError: "El título de la aplicación es requerida.",
+        licenseNameProvidedError: "El nombre de la licencia de la aplicación es requerida.",
+        priceProvidedError: "El precio de la aplicación es requerida.",
+        expiredAtProvidedError: "La fecha de caducidad de la aplicación es requerida.",
+        saveError: "No se pudo guardar la aplicación. Error:",
+        success: "¡Aplicación guardada!"
+    },
      //allUserEvents
     allUserEvents: {
         usernameProvidedError: "El usurio del evento no fue proporcionado.",
         eventsError: "No se encontraron eventos.",
+    },
+    //allUsers
+    allUsers: {
+        searchTermProvidedError: "El término de búsqueda no fue proporcionado.",
+        usersError: "Usuarios no encontrados.",
     },
     //getEvent
     getEvent: {

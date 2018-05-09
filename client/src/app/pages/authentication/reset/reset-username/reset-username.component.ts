@@ -51,7 +51,7 @@ export class ResetUsernameComponent implements OnInit {
       // Check if response was a success or error
       if (data.success) {
         this.createForm(); // Reset all form fields
-        // Function to send login data to API
+        this.submitted = false;
         this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap error class
         this.message = data.message; // Set error message
              

@@ -24,6 +24,7 @@ import { MomentModule } from 'ngx-moment';
 import "froala-editor/js/froala_editor.pkgd.min.js";
 // Import Angular plugin.
 import { FroalaEditorModule, FroalaViewModule,FroalaEditorDirective, FroalaViewDirective } from 'angular-froala-wysiwyg';
+import { AplicationFormComponent } from './aplication-form/aplication-form.component';
 @NgModule({
   imports: [
     CommonModule,FormsModule,ReactiveFormsModule,AgmCoreModule,MomentModule,
@@ -31,10 +32,10 @@ import { FroalaEditorModule, FroalaViewModule,FroalaEditorDirective, FroalaViewD
     SharedModule,TranslateModule,TemplatesRoutingModule,NgbModule
   ],
   declarations: [
-  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent
+  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, AplicationFormComponent
   ],
   exports: [
-    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent
+    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,AplicationFormComponent
     ],
    providers:[
    	GroupByPipe,SpacePipe,BindContentPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}

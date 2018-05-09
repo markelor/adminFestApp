@@ -67,6 +67,7 @@ export class NewPasswordComponent implements OnInit {
         // Check if response was a success or error
         if (data.success) {
           this.createForm(); // Reset all form fields
+          this.submitted = false;
           this.authService.storeUserData(this.token,this.user); // Username input field
           // Function to send login data to API
           this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap error class

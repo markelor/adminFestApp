@@ -11,7 +11,9 @@
   "create-route": "sortu",
   "edit-route": "aldatu",
   "category-route": "kategoria",
+  "event-route": "ekintza",
   "events-route": "ekintzak",
+  "aplication-route": "aplikazioa",
   "details-route": "xehetasunak",
   "region-route": "eskualdea",
   "user-route": "erabiltzailea",
@@ -25,7 +27,8 @@
     "home": "Hasiera",
     "create": "Sortu",
     "category": "Kategoria",
-    "events": "Ekintzak",
+    "event": "Ekintza",
+    "aplication": "Aplikazioa",
     "administrator": "Administratzailea",
     "users": "Erabiltzaileak"
   },
@@ -100,13 +103,14 @@
   },
   "events":
   {
-    "edit-events": "Aldatu ekintzak",
-    "add-aplication": "Gehitu aplikaziora"
+    "events": "Ekintzak",
+    "aplications": "Aplikazioak"
   },
   "event":
   {
-    "created-by": "Publicatzailea:",
+    "created-by": "Publikatzailea:",
     "read-more": "Gehiago Irakurri",
+    "edit-event": "Ekintza Aldatu",
     "general-info": "Informazio Orokorra",
     "like": "Atsegin dut",
     "comment": "Iruzkina utzi",
@@ -119,6 +123,14 @@
     "description": "Deskribapena",
     "parent-category": "Guraso Kategoria",
     "select-parent-category": "-- AUKERATU KATEGORIA --",
+    "send": "Bidali"
+  },
+  "create-aplication":
+  {
+    "event": "Ekintza",
+    "user": "Erabiltzailea",
+    "license": "Lizentzia",
+    "expiry-date": "Iraungitze data",
     "send": "Bidali"
   },
   "event-form":

@@ -58,6 +58,7 @@ export class ResendComponent implements OnInit {
           // Function to send email to activate acount
           this.authService.resendActivateAcountEmail(this.user).subscribe(data => {
             if(data.success){
+              this.submitted = false;
               this.createForm(); // Reset all form fields
               this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
               this.message = data.message; // Set success message  

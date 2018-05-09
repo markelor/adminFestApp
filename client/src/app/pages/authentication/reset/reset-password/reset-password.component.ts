@@ -51,6 +51,7 @@ export class ResetPasswordComponent implements OnInit {
         if (data.success) {
           // Function to send login data to API
           this.createForm(); // Reset all form fields
+          this.submitted = false;
           this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap error class
           this.message = data.message; // Set error message
                

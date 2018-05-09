@@ -713,7 +713,56 @@ module.exports = (router) => {
             }
         }
     });
-
+    /* ===============================================================
+           GET ALL users search
+        =============================================================== */
+    router.get('/allUsersSearch/:search?/:language', (req, res) => {
+        var language = req.params.language;
+        var search = req.params.search;
+        if (!language) {
+            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+        } else {
+            if (!search) {
+                res.json({ success: false, message: eval(language + '.allUsers.searchTermProvidedError') }); // Return error
+            } else {
+                // Search database for all users posts
+                User.find({
+                    username: {
+                        $regex: new RegExp(".*" + search + ".*", "i")
+                    }
+                }, (err, users) => {
+                    // Check if error was found or not
+                    if (err) {
+                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                        var mailOptions = {
+                            from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
+                            to: ['mundoarqueologia@gmail.com'],
+                            subject: ' Find 1 usersSearch error ',
+                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
+                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                        };
+                        // Function to send e-mail to myself
+                        transporter.sendMail(mailOptions, function(err, info) {
+                            if (err) {
+                                console.log(err); // If error with sending e-mail, log to console/terminal
+                            } else {
+                                console.log(info); // Log success message to console if sent
+                                console.log(user.email); // Display e-mail that it was sent to
+                            }
+                        });
+                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                    } else {
+                        // Check if users were found in database
+                        if (!users) {
+                            res.json({ success: false, message: eval(language + '.allUsers.usersError') }); // Return error of no users found
+                        } else {
+                            res.json({ success: true, users: users }); // Return success and users array
+                        }
+                    }
+                }).sort({ '_id': -1 }); // Sort users from newest to oldest
+            }
+        }
+    });
 
     /* ================================================
     MIDDLEWARE - Used to grab user's token from headers
@@ -1100,8 +1149,8 @@ module.exports = (router) => {
                                                         } else {
                                                             user.permission = newPermission; // Assign new permission to user
                                                         }
-                                                    }else{
-                                                       saveErrorPermission = language + '.editUser.adminOneError'; 
+                                                    } else {
+                                                        saveErrorPermission = language + '.editUser.adminOneError';
                                                     }
                                                 }
                                                 // Check if attempting to set the 'moderator' permission
@@ -1126,7 +1175,7 @@ module.exports = (router) => {
                                                         else {
                                                             user.permission = newPermission; // Assign new permission
                                                         }
-                                                    }else{
+                                                    } else {
                                                         saveErrorPermission = language + '.editUser.adminTwoError';
                                                     }
                                                 }

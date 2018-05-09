@@ -353,14 +353,14 @@ export class EventFormComponent implements OnInit {
   private createEvent() {
     // Function to save event into database
     this.eventService.newEvent(this.event,this.place).subscribe(data => {
-      console.log(data);
+      this.submitted = true;
       // Check if event was saved to database or not
       if (!data.success) {
         this.deleteUploadImages('poster',this.imagesPoster);
         this.deleteUploadImages('descriptionAll',this.imagesDescription);
         this.messageClass = 'alert alert-danger ks-solid'; // Return error class
         this.message = data.message; // Return error message
-        this.submitted = true; // Enable submit button
+        this.submitted = false; // Enable submit button
         this.enableFormNewEventForm(); // Enable form
       } else {
         this.createNewEventForm(); // Reset all form fields
@@ -616,7 +616,7 @@ export class EventFormComponent implements OnInit {
       }); 
   }
   private addParticipant() {
-      if(this.participant.value){
+      if(this.participant.value && !this.participants.includes(this.participant.value)){
         this.participants.push(this.participant.value);
       }
     }

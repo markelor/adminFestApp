@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
           // Check if response was a success or error
           if (data.success) {
             this.createForm();
+            this.submitted = false; // Enable submit button
             this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
             this.message = data.message; // Set success message
             // Function to store user's token in client local storage

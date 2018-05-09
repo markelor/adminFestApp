@@ -18,7 +18,7 @@ export class EventService {
   ) { }
 
 
-  // Function to create a new theme post
+  // Function to create a new event post
   public newEvent(event,place) {
     var data = {'event': event, 'place': place };
     return this.http.post<any>(this.domain + 'event/newEvent', data);
@@ -39,20 +39,19 @@ export class EventService {
     console.log(data);
     return this.http.put<any>(this.domain + 'event/editEvent', data);
   }
-  public themeSearch(searchs: Observable<string>,language) {
+  public eventSearch(searchs: Observable<string>,language) {
     return searchs.debounceTime(400)
       .distinctUntilChanged()
-      .switchMap(search => this.getAllThemesSearch(search,language));
+      .switchMap(search => this.getAllEventsSearch(search,language));
   }
    // Function to get all themes from the database
-  public getAllThemesSearch(search,language) {
+  public getAllEventsSearch(search,language) {
     if(!search){
       this.route='';
     }else{
       this.route= encodeURIComponent(search) +'/';
-    }
-    
-    return this.http.get<any>(this.domain + 'event/allThemesSearch/'+this.route+language);
+    }    
+    return this.http.get<any>(this.domain + 'event/allEventsSearch/'+this.route+language);
   }
   // Function to get all archeology themes from the database
   public getAllThemesThematic(thematic,visible,language) {

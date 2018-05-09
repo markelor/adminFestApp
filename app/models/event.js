@@ -4,9 +4,9 @@
 const mongoose = require('mongoose'); // Node Tool for MongoDB
 mongoose.Promise = global.Promise; // Configure Mongoose Promises
 const Schema = mongoose.Schema; // Import Schema from Mongoose
-// Validate Function to check blog title length
+// Validate Function to check event title length
 let titleLengthChecker = (title) => {
-    // Check if blog title exists
+    // Check if event title exists
     if (!title) {
         return false; // Return error
     } else {
@@ -36,7 +36,7 @@ const titleValidators = [
     // First Title Validator
     {
         validator: titleLengthChecker,
-        message: '.validation.eventTitleLength'
+        message: '.validation.titleLength'
     },
     // Second Title Validator
     {
@@ -95,7 +95,6 @@ const eventSchema = new Schema({
     createdBy: { type: String, required: true },
     categoryId: { type: String, required: true },
     placeId: { type: String, required: true },
-    aplicationIds: { type: Array, required: false },
     sponsorIds: { type: Array, required: false },
     language: { type: String, required: true },
     visible: { type: Boolean, required: true, default: true },

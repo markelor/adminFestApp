@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { LocalizeRouterService } from 'localize-router';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AuthService {
 	public domain = "http://localhost:8080/"; // Development Domain - Not Needed in Production
@@ -113,6 +114,20 @@ export class AuthService {
   public getPermission(language) {
    
    return this.http.get<any>(this.domain + 'authentication/permission/'+language);
+  }
+  public userSearch(searchs: Observable<string>,language) {
+    return searchs.debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap(search => this.getAllUsersSearch(search,language));
+  }
+   // Function to get all themes from the database
+  public getAllUsersSearch(search,language) {
+    if(!search){
+      this.route='';
+    }else{
+      this.route= encodeURIComponent(search) +'/';
+    }    
+    return this.http.get<any>(this.domain + 'event/allUsersSearch/'+this.route+language);
   }
   // Function to get allusers
   public getAllUsers(language) {

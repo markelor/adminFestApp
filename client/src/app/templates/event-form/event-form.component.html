@@ -15,8 +15,7 @@
         <!-- Validation -->
         <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
         <span *ngIf="title.errors?.minlength && title.dirty || title.errors?.maxlength && title.dirty " class="help-block form-error" translate>{{'validation.title-length'}}</span>
-        <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>
-                    {{'validation.title-validation'}}</span>
+        <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
       </div>
     </div>
     <!-- Category -->
@@ -39,17 +38,7 @@
         </div>
       </div>
     </div>
-    <!-- Participant list -->
-    <div class="col-sm-12">
-      <div class="form-group">
-        <label *ngFor="let participant of participants" class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">{{participant}}</span>
-        </label>
-      </div>
-    </div>
-    <!-- Participant input -->
+    <!-- Participants input -->
     <div class="col-sm-12">
       <div class="form-group required" [ngClass]="{'has-error': (!participant.valid && participant.dirty), 'has-success': (participant.valid)}">
         <label for="inputParticipant" translate>{{'event-form.participants'}}</label>
@@ -62,9 +51,19 @@
           </div>
         </div>
         <!-- Validation -->
-        <span *ngIf="participant.errors?.minlength && participant.dirty || participant.errors?.maxlength && participant.dirty " class="help-block form-error" translate>{{'validation.participant-length'}}</span>
+        <!--<span *ngIf="participant.errors?.minlength && participant.dirty || participant.errors?.maxlength && participant.dirty " class="help-block form-error" translate>{{'validation.participant-length'}}</span>
         <span *ngIf="participant.errors?.validateAlphanumeric && participant.dirty" class="help-block form-error" translate>
-                    {{'validation.participant-validation'}}</span>
+                    {{'validation.participant-validation'}}</span>-->
+      </div>
+    </div>
+    <!-- Participant list -->
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label *ngFor="let participant of participants" class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">{{participant}}</span>
+        </label>
       </div>
     </div>
     <!-- File upload start-->

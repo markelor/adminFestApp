@@ -12,8 +12,7 @@ module.exports = {
         passwordLength: "Pasahitzak gutxienez 8 karaktere izan behar ditu, baina ez 35 baino gehiago.",
         passwordValid: "Gutxienez, maiuskula, minuskula, zenbaki eta karaktere berezi bat izan behar du.",
         aboutYourselfLength: "Zuri buruzek 500 karaktere baino gutxiago izan behar ditu.",
-        categoryTitleLength: "Tituluak gutxienez 3 karaktere izan behar ditu, baina ez 35 baino gehiago.",
-        eventTitleLength: "Tituluak gutxienez 3 karaktere izan behar ditu, baina ez 35 baino gehiago.",
+        titleLength: "Tituluak gutxienez 3 karaktere izan behar ditu, baina ez 35 baino gehiago.",
         titleValid: "Tituluak ezin du karaktere berezirik izan.",
         locationLength: "Kokapenak 1000 karaktere baino gutxiago izan behar ditu.",
         categoryDescriptionLength: "Deskribapenak gutxienez 5 karaktere izan behar ditu, baina ez 200 baino gehiago.",
@@ -189,10 +188,25 @@ module.exports = {
         saveError: "Ekintza ezin da gorde. Errorea:",
         success: "Ekintza gorde da!"
     },
+     //newAplication
+    newAplication: {
+        usersProvidedError: "Aplikazioaren erabiltzaileak beharrezkoak dira.",
+        titleProvidedError: "Aplikazioaren izenburua beharrezkoa da.",
+        licenseNameProvidedError: "Aplikazioaren lizentzia beharrezkoa da.",
+        priceProvidedError: "Aplikazioaren prezioa beharrezkoa da.",
+        expiredAtProvidedError: "Aplikazioaren iraungitze data beharrezkoa da.",
+        saveError: "Aplikazioa ezin da gorde. Errorea:",
+        success: "Aplikazioa gorde da!"
+    },
     //allUserEvents
     allUserEvents: {
         usernameProvidedError: "Ekintzaren erabiltzailea ez da eman.",
         eventsError: "Ez dira ekintzak aurkitu.",
+    },
+     //allUsers
+    allUsers: {
+        searchTermProvidedError: "Bilaketa hitza ez da eman.",
+        usersError: "Erabiltzaileak ez dira aurkitu.",
     },
     //getEvent
     getEvent: {

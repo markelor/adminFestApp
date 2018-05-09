@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth.service';
 import { CategoryService } from '../services/category.service';
 import { EventService } from '../services/event.service';
 import { FileUploaderService } from '../services/file-uploader.service';
+import { AplicationService } from '../services/aplication.service';
 import { ObservableService } from '../services/observable.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TemplatesModule} from "../templates/templates.module";
@@ -21,6 +22,7 @@ import { AuthInterceptor } from '../services/auth.interceptor';
 import { CategoryInterceptor } from '../services/category.interceptor';
 import { EventInterceptor } from '../services/event.interceptor';
 import { FileUploaderInterceptor } from '../services/file-uploader.interceptor';
+import { AplicationInterceptor } from '../services/aplication.interceptor';
 @NgModule({
   imports: [
     CommonModule,TranslateModule,PagesRoutingModule,TemplatesModule,NgbModule.forRoot(),
@@ -52,6 +54,11 @@ import { FileUploaderInterceptor } from '../services/file-uploader.interceptor';
       useClass: FileUploaderInterceptor,
       multi: true
     },
-   AuthService,CategoryService,EventService,FileUploaderService,ObservableService,AuthGuard,NotAuthGuard,UserGuard,ModeratorGuard,AdminGuard]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AplicationInterceptor,
+      multi: true
+    },
+   AuthService,CategoryService,EventService,FileUploaderService,ObservableService,AplicationService,AuthGuard,NotAuthGuard,UserGuard,ModeratorGuard,AdminGuard]
 })
 export class PagesModule { }

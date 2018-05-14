@@ -86,12 +86,14 @@ const nameValidators = [
 ];
 // Aplication Model Definition
 const aplicationSchema = new Schema({
+    language: { type: String, required: true },
 	users: { type: Array, required: true },
 	title: { type: String, required: true, validate: titleValidators  },
     events: { type: Array, required: true, default: [] },
     entityName: { type: String, required: false, validate: nameValidators},
     license: {
         name: { type: String, required: true },
+        conditions: { type: Array, required: true},
         price: { type: Number, required: true },
         expiredAt: { type: Date, required: true }     
     },

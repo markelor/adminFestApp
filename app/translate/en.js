@@ -194,6 +194,7 @@ module.exports = {
         usersProvidedError: "Aplication users are required.",
         titleProvidedError: "Aplication title is required.",
         licenseNameProvidedError: "Aplication license name is required.",
+        conditionsProvidedError: "Aplication conditions are required.",
         priceProvidedError: "Aplication price is required.",
         expiredAtProvidedError: "Aplication expired date is required.",
         saveError: "Could not save aplication. Error:",
@@ -201,8 +202,13 @@ module.exports = {
     },
     //allUserEvents
     allUserEvents: {
-        usernameProvidedError: "Event username is not provided.",
+        usernameProvidedError: "Events username is not provided.",
         eventsError: "No events found."
+    },
+    //allUserAplications
+    allUserAplications: {
+        usernameProvidedError: "Aplication username is not provided.",
+        aplicationsError: "No aplications found."
     },
     //allUsers
     allUsers: {

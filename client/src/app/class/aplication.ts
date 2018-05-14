@@ -5,6 +5,7 @@ export class Aplication{
 	events: Array<string>;
     entityName:string;
 	licenseName: string;
+    conditions: Array<string>;
     price: number;
     expiredAt: Date;
     createdAt: Date;
@@ -44,6 +45,12 @@ export class Aplication{
     }
     set setLicenseName(licenseName:string) {
         this.licenseName = licenseName
+    }
+    get getConditions():Array<string> {
+        return this.conditions;
+    }
+    set setConditions(conditions:Array<string>) {
+        this.conditions = conditions;
     }
     get getPrice():number {
         return this.price;

@@ -20,4 +20,9 @@ export class AplicationService {
   public newAplication(aplication) {
     return this.http.post<any>(this.domain + 'aplication/newAplication', aplication);
   }
+  // Function to get all user aplications from the database
+  public getAllUserAplications(username,language) {
+    this.route= encodeURIComponent(username) +'/';
+    return this.http.get<any>(this.domain + 'aplication/allUserAplications/'+this.route+language);
+  }
 }

@@ -13,7 +13,7 @@
   "category-route": "kategoria",
   "event-route": "ekintza",
   "events-route": "ekintzak",
-  "aplication-route": "aplikazioa",
+  "aplications-route": "aplikazioak",
   "details-route": "xehetasunak",
   "region-route": "eskualdea",
   "user-route": "erabiltzailea",
@@ -95,7 +95,8 @@
     "en": "Ingelesa",
     "eu": "Euskara",
     "profile": "Perfila",
-    "events": "Ekintzak"
+    "events": "Ekintzak",
+    "aplications":"Aplikazioak"
   },
   "profile":
   {
@@ -117,20 +118,42 @@
     "share": "Partekatu"
 
   },
-  "create-category":
+  "aplication":
+  {
+    "edit-aplication": "Aplikazioa Aldatu"
+  },
+  "auth-form":
+  {
+    "name": "Izena",
+    "username": "Erabiltzailea",
+    "email": "Posta",
+    "password": "Pasahitza",
+    "repeat-password": "Errepikatu pasahitza",
+    "about-yourself": "Zuri buruz",
+    "sign-up-title": "Eman izena kultura.eus-en",
+    "sign-up-sign-in-link": "Dagoeneko kultura.eus-en kontu bat duzu? Hasi saioa!",
+    "sign-up": "Eman izena",
+    "sign-in-title": "Saioa hasi kultura.eus-en",
+    "sign-in-sign-up-link": "Berria zara kultura.eus-en? Eman izena!",
+    "sign-in": "Saioa hasi",
+    "resend-link": "Birbidali aktibatzeko esteka",
+    "forgot-username": "Erabiltzaile izena ahaztu al duzu?",
+    "forgot-password": "Pasahitza ahaztu al duzu?",
+    "activate-account-title": "Kontua aktibatu",
+    "activate-account-state": "Kontuaren egoera.",
+    "reset-username-title": "Erabiltzaile izena berreskuratu",
+    "reset-password-title": "Pasahitza berreskuratu",
+    "new-password": "Pasahitz berria.",
+    "new-password-success": "Mesedez, sar ezazu pasahitz berria.",
+    "send": "Bidali",
+    "guard-error": "Saioa hasi behar duzu orrialde hau ikusteko."
+  },
+  "category-form":
   {
     "title": "Izenburua",
     "description": "Deskribapena",
     "parent-category": "Guraso Kategoria",
     "select-parent-category": "-- AUKERATU KATEGORIA --",
-    "send": "Bidali"
-  },
-  "create-aplication":
-  {
-    "event": "Ekintza",
-    "user": "Erabiltzailea",
-    "license": "Lizentzia",
-    "expiry-date": "Iraungitze data",
     "send": "Bidali"
   },
   "event-form":
@@ -164,6 +187,18 @@
     "select-category": "-- AUKERATU KATEGORIA --",
     "select-province": "-- AUKERATU PROBINTZIA --",
     "select-municipality": "-- AUKERATU UDALERRIA --",
+    "send": "Bidali"
+  },
+   "aplication-form":
+  {
+    "title":"Titulua",
+    "entity-name":"Entitate izena",
+    "events": "Ekintzak",
+    "users": "Erabiltzaileak",
+    "license": "Lizentzia",
+    "conditions":"Baldintzak",
+    "price":"Prezioa",
+    "expiry-date": "Iraungitze data",
     "send": "Bidali"
   },
   "comment":
@@ -200,33 +235,9 @@
     "observations-length": "Gehienezko karaktereak: 1000.",
     "discovery-length": "Gehienezko karaktereak: 1000.",
     "bibliography-length": "Gehienezko karaktereak: 1000.",
-    "comment-length": "Gehienezko karaktereak: 1500."
-  },
-  "auth-form":
-  {
-    "name": "Izena",
-    "username": "Erabiltzailea",
-    "email": "Posta",
-    "password": "Pasahitza",
-    "repeat-password": "Errepikatu pasahitza",
-    "about-yourself": "Zuri buruz",
-    "sign-up-title": "Eman izena kultura.eus-en",
-    "sign-up-sign-in-link": "Dagoeneko kultura.eus-en kontu bat duzu? Hasi saioa!",
-    "sign-up": "Eman izena",
-    "sign-in-title": "Saioa hasi kultura.eus-en",
-    "sign-in-sign-up-link": "Berria zara kultura.eus-en? Eman izena!",
-    "sign-in": "Saioa hasi",
-    "resend-link": "Birbidali aktibatzeko esteka",
-    "forgot-username": "Erabiltzaile izena ahaztu al duzu?",
-    "forgot-password": "Pasahitza ahaztu al duzu?",
-    "activate-account-title": "Kontua aktibatu",
-    "activate-account-state": "Kontuaren egoera.",
-    "reset-username-title": "Erabiltzaile izena berreskuratu",
-    "reset-password-title": "Pasahitza berreskuratu",
-    "new-password": "Pasahitz berria.",
-    "new-password-success": "Mesedez, sar ezazu pasahitz berria.",
-    "send": "Bidali",
-    "guard-error": "Saioa hasi behar duzu orrialde hau ikusteko."
+    "comment-length": "Gehienezko karaktereak: 1500.",
+    "entityName-length": "Gutxienezko karaktereak: 5, Gehienezko karaktereak: 35.",
+    "entityName-validation": "Entitatearen izenak ezin du karaktere berezirik izan."
   },
   "map-icon":
   {

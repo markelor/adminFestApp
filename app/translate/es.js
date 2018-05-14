@@ -193,6 +193,7 @@ module.exports = {
         usersProvidedError: "Los usuarios de la aplicación son requeridas.",
         titleProvidedError: "El título de la aplicación es requerida.",
         licenseNameProvidedError: "El nombre de la licencia de la aplicación es requerida.",
+        conditionsProvidedError: "Las condiciones de la aplicación son requeridas.",
         priceProvidedError: "El precio de la aplicación es requerida.",
         expiredAtProvidedError: "La fecha de caducidad de la aplicación es requerida.",
         saveError: "No se pudo guardar la aplicación. Error:",
@@ -200,8 +201,13 @@ module.exports = {
     },
      //allUserEvents
     allUserEvents: {
-        usernameProvidedError: "El usurio del evento no fue proporcionado.",
+        usernameProvidedError: "El usurio de los eventos no fue proporcionado.",
         eventsError: "No se encontraron eventos.",
+    },
+    //allUserAplications
+    allUserAplications: {
+        usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
+        aplicationsError: "No se encontraron aplicaciones."
     },
     //allUsers
     allUsers: {

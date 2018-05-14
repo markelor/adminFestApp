@@ -1,35 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../services/auth.service';
-import { EventService } from '../../../../services/event.service';
+import { AplicationService } from '../../../../services/aplication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../../../guards/auth.guard';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-see-events',
-  templateUrl: './see-events.component.html',
-  styleUrls: ['./see-events.component.css']
+  selector: 'app-see-aplications',
+  templateUrl: './see-aplications.component.html',
+  styleUrls: ['./see-aplications.component.css']
 })
-export class SeeEventsComponent implements OnInit {
-  private events;
-
+export class SeeAplicationsComponent implements OnInit {
+  private aplications;
   constructor(
-  	private eventService:EventService,
+  	private aplicationService:AplicationService,
   	private authService:AuthService,
     private localizeService:LocalizeRouterService,
     private translate:TranslateService,
     private router:Router,
     private authGuard:AuthGuard
-  ) {
-  }
-  // Function to get all user events from the database
-  private getAllUserEvents() {
-    this.eventService.getAllUserEvents(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    ) { }
+
+  // Function to get all user aplications from the database
+  private getAllUserAplications() {
+    this.aplicationService.getAllUserAplications(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       console.log(data);
       if(data.success){
-        this.events = data.events; // Assign array to use in HTML
-        console.log(this.events);
+        this.aplications = data.aplications; // Assign array to use in HTML
+        console.log(this.aplications);
       }
     });
   }
@@ -42,6 +41,7 @@ export class SeeEventsComponent implements OnInit {
         this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
       }
     });
-  	this.getAllUserEvents();
+  	this.getAllUserAplications();
   } 
+
 }

@@ -36,7 +36,8 @@ const I18N_VALUES = {
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
 
-  constructor(private localizeService: LocalizeRouterService) {
+  constructor(
+    private localizeService: LocalizeRouterService) {
     super();
   }
 
@@ -65,8 +66,11 @@ export class AplicationFormComponent implements OnInit {
   private parentCategories;
   private form:FormGroup;
   private title:AbstractControl;
+  private entityName:AbstractControl;
   private user:AbstractControl;
   private license:AbstractControl;
+  private condition:AbstractControl;
+  private price:AbstractControl;
   private expiryDate:AbstractControl;
   private timeExpiryDate = {hour: 13, minute: 30};
   private categories;
@@ -76,6 +80,7 @@ export class AplicationFormComponent implements OnInit {
   private search:boolean=true;
   private usersSearch;
   private selectedUsers=[];
+  private conditions=[];
   private searchTerm = new Subject<string>();
   constructor(
     private fb: FormBuilder,
@@ -97,23 +102,26 @@ export class AplicationFormComponent implements OnInit {
         Validators.minLength(5),
         AlphanumericValidator.validate
       ])],
-      user: ['', Validators.compose([
-        Validators.required,
-        Validators.maxLength(35),
-        Validators.minLength(3),
-        AlphanumericValidator.validate
-      ])],
+      entityName: [''],
+      user: [''],
       license: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/
+      ])],
+      condition: [''],
+      price: ['', Validators.compose([
+        Validators.required,
       ])],
       expiryDate: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/
       ])],
     })
     this.title = this.form.controls['title'];
+    this.entityName = this.form.controls['entityName'];
     this.user = this.form.controls['user'];
     this.license= this.form.controls['license'];
-    this.expiryDate=this.form.controls['expiryDate']
+    this.condition= this.form.controls['condition'];
+    this.price = this.form.controls['price'];
+    this.expiryDate=this.form.controls['expiryDate'];
   }
   // Function to disable the registration form
   private disableForm(){
@@ -143,10 +151,12 @@ export class AplicationFormComponent implements OnInit {
       this.aplication.setLanguage=this.localizeService.parser.currentLang;
       this.aplication.setUsers=this.selectedUsers;
       this.aplication.setTitle=this.form.get('title').value;
+      this.aplication.setEntityName=this.form.get('entityName').value;
+      this.aplication.setConditions=this.conditions;
       this.aplication.setLicenseName=this.form.get('license').value;
-      this.aplication.setExpiredAt=new Date(this.form.get('expiryDate').value.year,this.form.get('expiryDate').value.month,this.form.get('expiryDate').value.day,this.timeExpiryDate.hour,this.timeExpiryDate.minute);;
+      this.aplication.setPrice=Number(this.form.get('price').value);
+      this.aplication.setExpiredAt=new Date(this.form.get('expiryDate').value.year,this.form.get('expiryDate').value.month,this.form.get('expiryDate').value.day,this.timeExpiryDate.hour,this.timeExpiryDate.minute);
       this.aplicationService.newAplication(this.aplication).subscribe(data=>{
-        console.log(data);
         if(!data.success){
           this.submitted = false;
           this.messageClass='alert alert-danger ks-solid';
@@ -157,6 +167,8 @@ export class AplicationFormComponent implements OnInit {
           //this.category=new Category();
           //this.getAllCategories();
           this.createForm(); // Reset all form fields
+          this.usersSearch=[];
+          this.conditions=[];
           this.messageClass='alert alert-success ks-solid'
           this.message=data.message
         }
@@ -248,6 +260,13 @@ export class AplicationFormComponent implements OnInit {
   private addUser(index){
     if(this.user.value && !this.selectedUsers.includes(this.user.value)){
       this.selectedUsers.push(this.user.value);
+      this.user.setValue("");
+    }
+  }
+  private addCondition(index){
+    if(this.condition.value && !this.conditions.includes(this.condition.value)){
+      this.conditions.push(this.condition.value);
+      this.condition.setValue("");
     }
   }
   private selectUser(index) {

@@ -193,6 +193,7 @@ module.exports = {
         usersProvidedError: "Aplikazioaren erabiltzaileak beharrezkoak dira.",
         titleProvidedError: "Aplikazioaren izenburua beharrezkoa da.",
         licenseNameProvidedError: "Aplikazioaren lizentzia beharrezkoa da.",
+        conditionsProvidedError: "Aplikazioaren baldintzak beharrezkoak dira.",
         priceProvidedError: "Aplikazioaren prezioa beharrezkoa da.",
         expiredAtProvidedError: "Aplikazioaren iraungitze data beharrezkoa da.",
         saveError: "Aplikazioa ezin da gorde. Errorea:",
@@ -200,8 +201,13 @@ module.exports = {
     },
     //allUserEvents
     allUserEvents: {
-        usernameProvidedError: "Ekintzaren erabiltzailea ez da eman.",
+        usernameProvidedError: "Ekintzen erabiltzailea ez da eman.",
         eventsError: "Ez dira ekintzak aurkitu.",
+    },
+     //allUserAplications
+    allUserAplications: {
+        usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
+        aplicationsError: "Ez dira aplikazioak aurkitu."
     },
      //allUsers
     allUsers: {

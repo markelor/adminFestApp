@@ -10,7 +10,7 @@
     <!-- Title -->
     <div class="col-sm-12">
       <div class="form-group required" [ngClass]="{'has-error': (!title.valid && title.dirty), 'has-success': (title.valid)}">
-        <label for="inputTitle" translate>{{'event-form.title'}}</label>
+        <label for="inputTitle" translate>{{'aplication-form.title'}}</label>
         <input [formControl]="title" capitalize type="text" class="form-control" id="inputTitle">
         <!-- Validation -->
         <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -18,10 +18,18 @@
         <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
       </div>
     </div>
+     <!-- Entity -->
+    <div class="col-sm-12">
+      <div class="form-group required" [ngClass]="{'has-error': (!entityName.valid && entityName.dirty), 'has-success': (entityName.valid)}">
+        <label for="inputEntity" translate>{{'aplication-form.entity-name'}}</label>
+        <input [formControl]="entityName" capitalize type="text" class="form-control" id="inputEntity">
+        <span *ngIf="entityName.errors?.minlength && entityName.dirty || entityName.errors?.maxlength && entityName.dirty " class="help-block form-error" translate>{{'validation.entityName-length'}}</span>
+      </div>
+    </div>
     <!-- User -->
     <div class="col-sm-12">
       <div class="form-group required" [ngClass]="{'has-error': (!user.valid && user.dirty), 'has-success': (user.valid)}">
-        <label for="textareaUser" translate>{{'create-aplication.user'}}</label>
+        <label for="textareaUser" translate>{{'aplication-form.users'}}</label>
         <div class="input-group icon">
           <input (keyup)="searchTerm.next($event.target.value)" [formControl]="user" capitalize type="text" class="form-control" id="inputUser">
           <div class="input-group-append ">
@@ -42,9 +50,6 @@
             </tr>
           </tbody>
         </table>
-        <!-- Validation -->
-        <span *ngIf="user.errors?.required && user.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-        <span *ngIf="user.errors?.minlength && user.dirty || user.errors?.maxlength && user.dirty " class="help-block form-error" translate>{{'validation.name-length'}}</span>
       </div>
     </div>
     <!-- Users list -->
@@ -59,16 +64,49 @@
     </div>
     <div class="col-sm-12">
       <div class="form-group required" [ngClass]="{'has-error': (!license.valid && license.dirty), 'has-success': (license.valid)}">
-        <label for="textareaLicense" translate>{{'create-aplication.license'}}</label>
+        <label for="textareaLicense" translate>{{'aplication-form.license'}}</label>
         <input [formControl]="license" capitalize type="text" class="form-control" id="inputLicense">
         <!-- Validation -->
         <span *ngIf="license.errors?.required && license.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
       </div>
     </div>
+    <!-- Conditions input -->
+    <div class="col-sm-12">
+        <div class="form-group required" [ngClass]="{'has-error': (!condition.valid && condition.dirty), 'has-success': (condition.valid)}">
+            <label for="inputCondition" translate>{{'aplication-form.conditions'}}</label>
+            <div class="input-group icon">
+                <input [formControl]="condition" capitalize type="text" class="form-control" id="inputCondition">
+                <div class="input-group-append ">
+                    <button (click)="addCondition()" type="button" class="btn btn-success ks-light ks-no-text">
+                        <span class="la la-plus ks-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Condition list -->
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label *ngFor="let condition of conditions" class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">{{condition}}</span>
+            </label>
+        </div>
+    </div>
+     <!-- Price -->
+    <div class="col-sm-12">
+      <div class="form-group required" [ngClass]="{'has-error': (!price.valid && price.dirty), 'has-success': (price.valid)}">
+        <label for="inputPrice" translate>{{'aplication-form.price'}}</label>
+        <input [formControl]="price" capitalize type="text" class="form-control" id="inputPrice">
+        <!-- Validation -->
+        <span *ngIf="price.errors?.required && price.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+      </div>
+    </div>
     <!-- ExpiryDate -->
     <div class="col-sm-6">
       <div class="form-group required" [ngClass]="{'has-error': (!expiryDate.valid && expiryDate.dirty), 'has-success': (expiryDate.valid)}">
-        <label for="inputExpiryDate" translate>{{'create-aplication.expiry-date'}}</label>
+        <label for="inputExpiryDate" translate>{{'aplication-form.expiry-date'}}</label>
         <div class="input-group icon">
           <input [formControl]="expiryDate" ngbDatepicker #calendarExpiryDate="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputExpiryDate">
           <div class="input-group-append ">
@@ -92,7 +130,7 @@
     <!-- Submit Button -->
     <div class="col-sm-12">
       <div class="form-group text-center">
-        <button [disabled]="!user.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'create-aplication.send'}}</button>
+        <button [disabled]="!form.valid || selectedUsers.length<=0 || conditions.length<=0 || submitted" type="submit" class="btn btn-default btn-auth" translate>{{'aplication-form.send'}}</button>
       </div>
     </div>
   </div>

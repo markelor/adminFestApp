@@ -88,11 +88,11 @@ export class AplicationModalComponent implements OnInit {
   }
   public confirmModal() {
   	this.oldCategory.language=this.localizeService.parser.currentLang,
-	this.oldCategory.parentId=this.form.get('parentCategory').value;
-	this.oldCategory.title=this.form.get('title').value;
-	this.oldCategory.description=this.form.get('description').value;
-	this.oldCategory.createdAt=new Date();
-	this.oldCategory.createdAt=new Date();
+  	this.oldCategory.parentId=this.form.get('parentCategory').value;
+  	this.oldCategory.title=this.form.get('title').value;
+  	this.oldCategory.description=this.form.get('description').value;
+  	this.oldCategory.createdAt=new Date();
+  	this.oldCategory.createdAt=new Date();
   	
   	this.categoryService.editCategory(this.oldCategory).subscribe(data=>{
   	this.observableService.notifyOther({option: this.observableService.modalType,data:data});

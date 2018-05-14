@@ -41,7 +41,8 @@ const I18N_VALUES = {
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
 
-  constructor(private localizeService: LocalizeRouterService,) {
+  constructor(
+    private localizeService: LocalizeRouterService) {
     super();
   }
 
@@ -329,7 +330,7 @@ export class EventFormComponent implements OnInit {
     this.event.setCategoryId=this.categoryId[this.categoryId.length-1];
     this.event.setDescription= this.form.get('description').value; // Description field
     this.event.setObservations=this.form.get('observations').value; // Observations field
-    this.place.setProvince=this.form.get('province').value, // Province field
+    this.place.setProvince=this.form.get('province').value; // Province field
     this.place.setMunicipality=this.form.get('municipality').value; // Municipality field
     this.place.setLocation=this.form.get('location').value; //Location field,
     this.place.setLat=Number(this.form.get('lat').value); // Lat field
@@ -373,6 +374,7 @@ export class EventFormComponent implements OnInit {
           this.message = false; // Erase error/success message
           this.uploader.clearQueue()//Reset uploader
           this.enableFormNewEventForm(); // Enable the form fields
+          this.participants=[];
         }, 2000);
       }
     });  
@@ -495,7 +497,6 @@ export class EventFormComponent implements OnInit {
     this.categoryService.getAllCategories(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         this.levelCategories=this.groupByPipe.transform(data.categories,'level');
-        console.log(this.levelCategories);
       }   
     });
     //Get continents on page load
@@ -618,6 +619,7 @@ export class EventFormComponent implements OnInit {
   private addParticipant() {
       if(this.participant.value && !this.participants.includes(this.participant.value)){
         this.participants.push(this.participant.value);
+        this.participant.setValue("");
       }
     }
   ngOnInit() {

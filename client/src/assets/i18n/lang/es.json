@@ -12,7 +12,7 @@
   "category-route": "categoría",
   "event-route": "evento",
   "events-route": "eventos",
-  "aplication-route": "aplicacion",
+  "aplications-route": "aplicaciones",
   "details-route": "detalles",
   "region-route": "región",
   "user-route": "usuario",
@@ -94,7 +94,8 @@
     "eu": "Euskara",
     "en": "Inglés",
     "profile": "Perfil",
-    "events": "Eventos"
+    "events": "Eventos",
+    "aplications":"Aplicaciones"
   },
   "profile":
   {
@@ -114,27 +115,60 @@
     "like": "Me gusta",
     "comment": "Comentar",
     "share": "Compartir"
-
   },
-  "create-category":
+  "aplication":
   {
-    "title": "Titulo",
+    "edit-aplication": "Editar Aplicación"
+  },
+  "auth-form":
+  {
+    "name": "Nombre",
+    "username": "Usuario",
+    "email": "Correo",
+    "password": "Contraseña",
+    "repeat-password": "Repite la contraseña",
+    "about-yourself": "Acerca de ti",
+    "sign-up-title": "Regístrate en kultura.eus",
+    "sign-up-sign-in-link": "¿Ya tiene una cuenta de kultura.eus? ¡Inicia sesión!",
+    "sign-up": "Regístrate",
+    "sign-in-title": "Inicia sesión en kultura.eus",
+    "sign-in-sign-up-link": "¿Eres nuevo en kultura.eus? ¡Regístrate!",
+    "sign-in": "Iniciar sesión",
+    "resend-link": "Reenviar enlace de activación",
+    "forgot-username": "¿Olvidaste tu nombre de usuario?",
+    "forgot-password": "¿Olvidaste tu contraseña?",
+    "activate-account-title": "Activar la cuenta",
+    "activate-account-state": "Estado de la cuenta.",
+    "reset-username-title": "Recuperar el nombre de usuario",
+    "reset-password-title": "Recuperar la contraseña",
+    "new-password": "Nueva contraseña.",
+    "new-password-success": "Por favor, introduzca una nueva contraseña.",
+    "send": "Enviar",
+    "guard-error": "Debes iniciar sesión para ver esa página."
+  },
+  "category-form":
+  {
+    "title": "Título",
     "description": "Descripción",
     "parent-category": "Categoría Padre",
     "select-parent-category": "-- SELECCIONE UNA CATEGORÍA --",
     "send": "Enviar"
   },
-  "create-aplication":
+  "aplication-form":
   {
-    "event": "Evento",
-    "user": "Usuario",
+    "title":"Título",
+    "entity-name":"Nombre de la entidad",
+    "events": "Eventos",
+    "users": "Usuarios",
     "license": "Licencia",
+    "conditions":"Condiciones",
+    "price":"Precio",
     "expiry-date": "Fecha de caducidad",
     "send": "Enviar"
   },
   "event-form":
   {
-    "title": "Titulo",
+    "title": "Título",
     "caregory": "Categoría",
     "participants": "Participantes",
     "start": "Inicio",
@@ -161,7 +195,9 @@
     "select-category": "-- SELECCIONE UNA CATEGORÍA --",
     "select-province": "-- SELECCIONE UNA PROVINCIA --",
     "select-municipality": "-- SELECCIONE UN MUNICIPIO --",
-    "send": "Enviar"
+    "send": "Enviar",
+    "entity-name":"Nombre de la entidad",
+    "price":"Prezioa"
   },
   "comment":
   {
@@ -197,33 +233,9 @@
     "observations-length": "Máximo de caracteres: 1000.",
     "discovery-length": "Máximo de caracteres: 1000.",
     "bibliography-length": "Máximo de caracteres: 1000.",
-    "comment-length": "Máximo de caracteres: 1500."
-  },
-  "auth-form":
-  {
-    "name": "Nombre",
-    "username": "Usuario",
-    "email": "Correo",
-    "password": "Contraseña",
-    "repeat-password": "Repite la contraseña",
-    "about-yourself": "Acerca de ti",
-    "sign-up-title": "Regístrate en kultura.eus",
-    "sign-up-sign-in-link": "¿Ya tiene una cuenta de kultura.eus? ¡Inicia sesión!",
-    "sign-up": "Regístrate",
-    "sign-in-title": "Inicia sesión en kultura.eus",
-    "sign-in-sign-up-link": "¿Eres nuevo en kultura.eus? ¡Regístrate!",
-    "sign-in": "Iniciar sesión",
-    "resend-link": "Reenviar enlace de activación",
-    "forgot-username": "¿Olvidaste tu nombre de usuario?",
-    "forgot-password": "¿Olvidaste tu contraseña?",
-    "activate-account-title": "Activar la cuenta",
-    "activate-account-state": "Estado de la cuenta.",
-    "reset-username-title": "Recuperar el nombre de usuario",
-    "reset-password-title": "Recuperar la contraseña",
-    "new-password": "Nueva contraseña.",
-    "new-password-success": "Por favor, introduzca una nueva contraseña.",
-    "send": "Enviar",
-    "guard-error": "Debes iniciar sesión para ver esa página."
+    "comment-length": "Máximo de caracteres: 1500.",
+    "entityName-length": "Mínimo de caracteres: 5, Máximo de caracteres: 35.",
+    "entityName-validation": "El nombre de la entidad no debe tener caracteres especiales."
   },
   "map-icon":
   {

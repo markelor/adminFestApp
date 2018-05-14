@@ -17,7 +17,6 @@ export class AplicationInterceptor implements HttpInterceptor {
      this.authService = this.injector.get(AuthService);
      this.aplicationService = this.injector.get(AplicationService);
      this.localizeService=this.injector.get(LocalizeRouterService);
-     console.log(request.url);
     if(request.url==="http://localhost:8080/aplication/newAplication"){
         request = request.clone({
           setHeaders: {
@@ -26,6 +25,14 @@ export class AplicationInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });     
+     }else if(request.url==="http://localhost:8080/aplication/allUserAplications/"+this.aplicationService.route+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });  
      }else{
 
        

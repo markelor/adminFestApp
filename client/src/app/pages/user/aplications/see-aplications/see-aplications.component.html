@@ -8,7 +8,7 @@
             <div class="ks-description">Deskribapen orokorra</div>
           </div>
           <div class="ks-plans">
-            <div class="ks-plan">
+            <!--<div class="ks-plan">
               <div class="ks-header">
                 <h5 class="ks-name">Herriko festak</h5>
                 <div class="ks-price">
@@ -24,27 +24,22 @@
                   <li>Iraungitze data : 2019/08/12</li>
                   <li>kudeatzailea:kodekoop</li>
                 </ul>
-
-                <a href="#" class="btn btn-primary btn-block ks-light">Kudeatu</a>
+                <a [routerLink]="['/user-route','aplications-route','edit-route',aplication._id] | localize" href="#" class="btn btn-primary btn-block ks-light" translate>{{'aplication.edit-alication'}}</a>
               </div>
-            </div>
-            <div class="ks-plan ks-info">
+            </div>-->
+            <div *ngFor="let aplication of aplications" class="ks-plan ks-info">
               <div class="ks-header">
-                <h5 class="ks-name">Euskal dantzak</h5>
+                <h5 class="ks-name">{{aplication.title}}</h5>
                 <div class="ks-price">
                   <div class="ks-currency">€</div>
-                  <div class="ks-amount">550</div>
+                  <div class="ks-amount">{{aplication.license.price}}</div>
                   <div class="ks-period">/urtean</div>
                 </div>
               </div>
               <div class="ks-body">
                 <ul class="ks-list ks-success">
-                  <li>Aktualizaziok</li>
-                  <li>Datu basea</li>
-                  <li>Iraungitze data : 2019/08/12</li>
-                  <li>kudeatzailea:kodekoop</li>
+                  <li *ngFor="let condition of aplication.license.conditions">{{condition}}</li>
                 </ul>
-
                 <a href="#" class="btn btn-info btn-block">Kudeatu</a>
               </div>
             </div>

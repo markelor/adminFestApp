@@ -40,7 +40,7 @@
                 <ul class="ks-list ks-success">
                   <li *ngFor="let condition of aplication.license.conditions">{{condition}}</li>
                 </ul>
-                <a href="#" class="btn btn-info btn-block">Kudeatu</a>
+                <a [routerLink]="['/user-route','aplications-route',aplication._id,'edit-events-route'] | localize" href="javascript:void(0);" class="btn btn-info btn-block" translate>{{'aplication.edit-aplication'}}</a>
               </div>
             </div>
           </div>

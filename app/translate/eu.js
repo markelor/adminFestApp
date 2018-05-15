@@ -1,6 +1,9 @@
 module.exports = {
     general: {
-        generalError: "Zerbait oker joan da. Akatsa, grabatu da eta gure langileei zuzenduko zaie. Barkatu eragozpenak!"
+        generalError: "Zerbait oker joan da. Akatsa, grabatu da eta gure langileei zuzenduko zaie. Barkatu eragozpenak!",
+        permissionError: "Ez duzu nahikoa baimen",
+        adminOneError: "Ez duzu nahikoa baimen. Ezin diozu zure maila edo handiagoko bati aldaketarik egin.",
+        adminTwoError: "Ez duzu nahikoa baimen. Administratzailea izan behar duzu beste bat administratzaile mailara igotzeko."
     },
     validation: {
         emailLength: "Posta elektronikoak gutxienez 5 karaktere izan behar ditu, baina ez 30 baino gehiago.",
@@ -147,14 +150,11 @@ module.exports = {
     editUser: {
         usernameProvidedError: "Erabiltzailea ez da eman.",
         userError: "Erabiltzailea ez da aurkitu.",
-        permissionError: "Ez duzu nahikoa baimen",
         nameUpdated: "Izena eguneratu da!",
         usernameUpdated: "Erabiltzaile izena eguneratu da!",
         emailUpdated: "Posta elektronikoa egunertu da!",
         avatarUpload: "Erabiltzaile argazkia igo da",
         aboutYourselfUpdated: "Zuri buruz eguneratu da!",
-        adminOneError: "Ez duzu nahikoa baimen. Ezin diozu zure maila edo handiagoko bati aldaketarik egin.",
-        adminTwoError: "Ez duzu nahikoa baimen. Administratzailea izan behar duzu beste bat administratzaile mailara igotzeko.",
         success: "Baimenak eguneratu dira",
     },
     //File upload
@@ -196,6 +196,7 @@ module.exports = {
         conditionsProvidedError: "Aplikazioaren baldintzak beharrezkoak dira.",
         priceProvidedError: "Aplikazioaren prezioa beharrezkoa da.",
         expiredAtProvidedError: "Aplikazioaren iraungitze data beharrezkoa da.",
+        userError: "Erabiltzailea ez da aurkitu.", 
         saveError: "Aplikazioa ezin da gorde. Errorea:",
         success: "Aplikazioa gorde da!"
     },
@@ -207,12 +208,18 @@ module.exports = {
      //allUserAplications
     allUserAplications: {
         usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
+        userError: "Erabiltzailea ez da aurkitu.",     
         aplicationsError: "Ez dira aplikazioak aurkitu."
     },
-     //allUsers
-    allUsers: {
+     //allUsersSearch
+    allUsersSearch: {
         searchTermProvidedError: "Bilaketa hitza ez da eman.",
         usersError: "Erabiltzaileak ez dira aurkitu.",
+    },
+     //allEventsSearch
+    allEventsSearch: {
+        searchTermProvidedError: "Bilaketa hitza ez da eman.",
+        eventsError: "Ekintzak ez dira aurkitu.",
     },
     //getEvent
     getEvent: {
@@ -220,6 +227,13 @@ module.exports = {
         eventError: "Ez da ekintza aurkitu.",
         placeError:"Ez da lekua aurkitu.",
         categoryError:"Ez da kategoria aurkitu."
+    },
+    //getAplication
+     getAplication: {
+        idProvidedError: 'Aplikazioaren IDa ez da eman.',
+        usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
+        userError: "Erabiltzailea ez da aurkitu.",      
+        aplicationError: "Aplikazioa ez da aurkitu."
     },
     //newPlace
     newPlace: {

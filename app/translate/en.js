@@ -1,6 +1,9 @@
 module.exports = {
     general: {
-        generalError: "Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!"
+        generalError: "Something went wrong. This error has been logged and will be addressed by our staff. We apologize for this inconvenience!",
+        permissionError: "Insufficient permissions.",
+        adminOneError: "Insufficient Permissions. You musn't make changes to one of your own degree or higher.",
+        adminTwoError: "Insufficient Permissions. You must be an admin to upgrade someone to the admin level."
     },
     validation: {
         emailLength: "E-mail must be at least 5 characters but no more than 30.",
@@ -147,14 +150,11 @@ module.exports = {
     editUser: {
         usernameProvidedError: "Username was not provided.",
         userError: "No user was found.",
-        permissionError: "Insufficient permissions.",
         nameUpdated: "Name has been updated!",
         usernameUpdated: "Username has been updated!",
         emailUpdated: "E-mail has been updated!",
         avatarUpload: "Avatar has been upload!",
         aboutYourselfUpdated: "About yourself has been updated!",
-        adminOneError: "Insufficient Permissions. You musn't make changes to one of your own degree or higher.",
-        adminTwoError: "Insufficient Permissions. You must be an admin to upgrade someone to the admin level.",
         success: "Permissions have been updated!"
     },
     //File upload
@@ -197,6 +197,7 @@ module.exports = {
         conditionsProvidedError: "Aplication conditions are required.",
         priceProvidedError: "Aplication price is required.",
         expiredAtProvidedError: "Aplication expired date is required.",
+        userError: "No user found.",
         saveError: "Could not save aplication. Error:",
         success: "Aplication saved!"
     },
@@ -208,19 +209,32 @@ module.exports = {
     //allUserAplications
     allUserAplications: {
         usernameProvidedError: "Aplication username is not provided.",
+        userError: "No user found.",      
         aplicationsError: "No aplications found."
     },
-    //allUsers
-    allUsers: {
+    //allUsersSearch
+    allUsersSearch: {
         searchTermProvidedError: "Search term is not provided.",
         usersError: "Users not found.",
+    },
+     //allEventsSearch
+    allEventsSearch: {
+        searchTermProvidedError: "Search term is not provided.",
+        eventsError: "Events not found.",
     },
     //getEvent
     getEvent: {
         idProvidedError: "Event ID is not provided.",
+        usernameProvidedError: "Aplication username is not provided.",
         eventError: "No event found.",
         placeError:"No place found.",
         categoryError:"No category found."
+    },
+    //getAplication
+     getAplication: {
+        idProvidedError: 'Aplication ID was not provided.',
+        userError: "No user found.",      
+        aplicationError: "No aplication found."
     },
     //newPlace
     newPlace: {

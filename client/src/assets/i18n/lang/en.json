@@ -10,6 +10,7 @@
   "search-route": "search",
   "create-route": "create",
   "edit-route": "edit",
+  "edit-events-route": "edit-events",
   "category-route": "category",
   "event-route": "event",
   "events-route": "events",

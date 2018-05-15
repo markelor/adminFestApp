@@ -25,14 +25,22 @@ export class AplicationInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });     
-     }else if(request.url==="http://localhost:8080/aplication/allUserAplications/"+this.aplicationService.route+this.localizeService.parser.currentLang){
+      }else if(request.url==="http://localhost:8080/aplication/allUserAplications/"+this.aplicationService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+this.authService.authToken, // Attach token
             'language':this.localizeService.parser.currentLang
           }
-        });  
+        });
+      }else if(request.url==="http://localhost:8080/aplication/getAplication/"+this.aplicationService.route+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });   
      }else{
 
        

@@ -1,5 +1,6 @@
 const User = require('../models/user'); // Import User Model Schema
 const Aplication = require('../models/aplication'); // Import Aplication Model Schema
+const Event = require('../models/event'); // Import Event Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
@@ -74,11 +75,11 @@ module.exports = (router) => {
                                         } else {
                                             // Check if logged in user is found in database
                                             if (!mainUser) {
-                                                res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                                res.json({ success: false, message: eval(language + '.newAplication.userError') }); // Return error
                                             } else {
                                                 // Check if is admin or moderator
                                                 if (mainUser.permission !== 'admin' && mainUser.permission !== 'moderator') {
-                                                    res.json({ success: false, message: eval(language + '.editUser.permissionError') }); // Return error
+                                                    res.json({ success: false, message: eval(language + '.general.permissionError') }); // Return error
                                                 } else {
                                                     const aplication = new Aplication({
                                                         language: language,
@@ -132,6 +133,174 @@ module.exports = (router) => {
         }
     });
     /* ===============================================================
+           GET Aplication
+        =============================================================== */
+    router.get('/getAplication/:id/:username/:language', (req, res) => {
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            if (!req.params.id) {
+                res.json({ success: false, message: eval(language + '.getAplication.idProvidedError') }); // Return error
+            } else {
+                if (!req.params.username) {
+                    res.json({ success: false, message: eval(language + '.getAplication.usernameProvidedError') }); // Return error
+                } else {
+                    // Look for logged in user in database to check if have appropriate access
+                    User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                        if (err) {
+                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                            var mailOptions = {
+                                from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                to: [emailConfig.email],
+                                subject: ' Find one 1 get aplication error ',
+                                text: 'The following error has been reported in Kultura: ' + err,
+                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                            };
+                            // Function to send e-mail to myself
+                            transporter.sendMail(mailOptions, function(err, info) {
+                                if (err) {
+                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                } else {
+                                    console.log(info); // Log success message to console if sent
+                                    console.log(user.email); // Display e-mail that it was sent to
+                                }
+                            });
+                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                        } else {
+                            // Check if logged in user is found in database
+                            if (!mainUser) {
+                                res.json({ success: false, message: eval(language + '.getAplication.userError') }); // Return error
+                            } else {
+                                // Look for user in database
+                                User.findOne({ username: req.params.username }, function(err, user) {
+                                    if (err) {
+                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                        var mailOptions = {
+                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                            to: [emailConfig.email],
+                                            subject: ' Find one 2 get aplication error ',
+                                            text: 'The following error has been reported in Kultura: ' + err,
+                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                        }; // Function to send e-mail to myself
+                                        transporter.sendMail(mailOptions, function(err, info) {
+                                            if (err) {
+                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                            } else {
+                                                console.log(info); // Log success message to console if sent
+                                                console.log(user.email); // Display e-mail that it was sent to
+                                            }
+                                        });
+                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                    } else {
+                                        // Check if user is in database
+                                        if (!user) {
+                                            res.json({ success: false, message: eval(language + '.getAplication.userError') }); // Return error
+                                        } else {
+                                            var saveErrorPermission = false;
+                                            // Check if is owner
+                                            if (mainUser._id.toString() === user._id.toString()) {} else {
+                                                // Check if the current permission is 'admin'
+                                                if (mainUser.permission === 'admin') {
+                                                    // Check if user making changes has access
+                                                    if (user.permission === 'admin') {
+                                                        saveErrorPermission = language + '.general.adminOneError';
+                                                    } else {}
+                                                } else {
+                                                    // Check if the current permission is moderator
+                                                    if (mainUser.permission === 'moderator') {
+                                                        // Check if contributor making changes has access
+                                                        if (user.permission === 'contributor') {} else {
+                                                            saveErrorPermission = language + '.general.adminOneError';
+                                                        }
+                                                    } else {
+                                                        saveErrorPermission = language + '.general.permissionError';
+                                                    }
+                                                }
+                                            }
+                                            //check saveError permision to save changes or not
+                                            if (saveErrorPermission) {
+                                                res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                            } else {
+                                                Aplication.findOne({
+                                                    language: language,
+                                                    _id: req.params.id
+                                                }, (err, aplication) => {
+                                                    // Check if error was found or not
+                                                    if (err) {
+                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                        var mailOptions = {
+                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                            to: [emailConfig.email], // list of receivers
+                                                            subject: ' Find 3 get aplication error ',
+                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                        };
+                                                        // Function to send e-mail to myself
+                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                            if (err) {
+                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                            } else {
+                                                                console.log(info); // Log success message to console if sent
+                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                            }
+                                                        });
+                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                    } else {
+                                                        // Check if aplication were found in database
+                                                        if (!aplication) {
+                                                            res.json({ success: false, message: eval(language + '.getAplication.aplicationError') }); // Return error of no aplication found
+                                                        } else {
+                                                            // Search database for all aplication Events
+                                                            Event.find({
+                                                                _id: aplication.events,
+                                                                language: language
+                                                            }, (err, events) => {
+                                                                console.log(events);
+                                                                // Check if error was found or not
+                                                                if (err) {
+                                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                    var mailOptions = {
+                                                                        from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
+                                                                        to: ['mundoarqueologia@gmail.com'],
+                                                                        subject: ' Find 4 get aplication error ',
+                                                                        text: 'The following error has been reported in the Mundoarqueologia: ' + err,
+                                                                        html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                                                                    };
+                                                                    // Function to send e-mail to myself
+                                                                    transporter.sendMail(mailOptions, function(err, info) {
+                                                                        if (err) {
+                                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                        } else {
+                                                                            console.log(info); // Log success message to console if sent
+                                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                                        }
+                                                                    });
+                                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                                } else {
+                                                                    // Check if events were found in database
+                                                                    if (!events) {
+                                                                        res.json({ success: false, message: eval(language + '.allEventsSearch.eventsError') }); // Return error of no events found
+                                                                    } else {
+                                                                         res.json({ success: true, aplication: aplication,events:events }); // Return success and event 
+                                                                    }
+                                                                }
+                                                            }); // Sort events from newest to oldest
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    });
+    /* ===============================================================
            GET ALL user aplications
         =============================================================== */
     router.get('/allUserAplications/:username/:language', (req, res) => {
@@ -142,17 +311,15 @@ module.exports = (router) => {
             if (!req.params.username) {
                 res.json({ success: false, message: eval(language + '.allUserAplications.usernameProvidedError') }); // Return error
             } else {
-                Aplication.find({
-                    language: language,
-                    users: req.params.username
-                }).sort({ 'expiredAt': 1 }).exec((err, aplications) => {
-                    // Check if error was found or not
+                // Look for logged in user in database to check if have appropriate access
+                User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
                     if (err) {
+                        console.log(err);
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
-                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                            to: [emailConfig.email], // list of receivers
-                            subject: ' Find 1 allUserAplications error ',
+                            from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                            to: [emailConfig.email],
+                            subject: ' Find one 1 all user aplications error ',
                             text: 'The following error has been reported in Kultura: ' + err,
                             html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
@@ -167,14 +334,100 @@ module.exports = (router) => {
                         });
                         res.json({ success: false, message: eval(language + '.general.generalError') });
                     } else {
-                        // Check if aplications were found in database
-                        if (!aplications) {
-                            res.json({ success: false, message: eval(language + '.allUserAplications.aplicationsError') }); // Return error of no aplications found
+                        // Check if logged in user is found in database
+                        if (!mainUser) {
+                            res.json({ success: false, message: eval(language + '.allUserAplications.userError') }); // Return error
                         } else {
-                            res.json({ success: true, aplications: aplications }); // Return success and aplications array
+                            // Look for user in database
+                            User.findOne({ username: req.params.username }, function(err, user) {
+                                if (err) {
+                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                    var mailOptions = {
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                        to: [emailConfig.email],
+                                        subject: ' Find one 2 all user aplications error ',
+                                        text: 'The following error has been reported in Kultura: ' + err,
+                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                    }; // Function to send e-mail to myself
+                                    transporter.sendMail(mailOptions, function(err, info) {
+                                        if (err) {
+                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                        } else {
+                                            console.log(info); // Log success message to console if sent
+                                            console.log(user.email); // Display e-mail that it was sent to
+                                        }
+                                    });
+                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                } else {
+                                    // Check if user is in database
+                                    if (!user) {
+                                        res.json({ success: false, message: eval(language + '.allUserAplications.userError') }); // Return error
+                                    } else {
+                                        var saveErrorPermission = false;
+                                        // Check if is owner
+                                        if (mainUser._id.toString() === user._id.toString()) {} else {
+                                            // Check if the current permission is 'admin'
+                                            if (mainUser.permission === 'admin') {
+                                                // Check if user making changes has access
+                                                if (user.permission === 'admin') {
+                                                    saveErrorPermission = language + '.general.adminOneError';
+                                                } else {}
+                                            } else {
+                                                // Check if the current permission is moderator
+                                                if (mainUser.permission === 'moderator') {
+                                                    // Check if contributor making changes has access
+                                                    if (user.permission === 'contributor') {} else {
+                                                        saveErrorPermission = language + '.general.adminOneError';
+                                                    }
+                                                } else {
+                                                    saveErrorPermission = language + '.general.permissionError';
+                                                }
+                                            }
+                                        }
+                                        //check saveError permision to save changes or not
+                                        if (saveErrorPermission) {
+                                            res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                        } else {
+                                            Aplication.find({
+                                                language: language,
+                                                users: req.params.username
+                                            }).sort({ 'expiredAt': 1 }).exec((err, aplications) => {
+                                                // Check if error was found or not
+                                                if (err) {
+                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                    var mailOptions = {
+                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                        to: [emailConfig.email], // list of receivers
+                                                        subject: ' Find 3 all user aplications error ',
+                                                        text: 'The following error has been reported in Kultura: ' + err,
+                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                    };
+                                                    // Function to send e-mail to myself
+                                                    transporter.sendMail(mailOptions, function(err, info) {
+                                                        if (err) {
+                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                        } else {
+                                                            console.log(info); // Log success message to console if sent
+                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                        }
+                                                    });
+                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                } else {
+                                                    // Check if aplications were found in database
+                                                    if (!aplications) {
+                                                        res.json({ success: false, message: eval(language + '.allUserAplications.aplicationsError') }); // Return error of no aplications found
+                                                    } else {
+                                                        res.json({ success: true, aplications: aplications }); // Return success and aplications array
+                                                    }
+                                                }
+                                            }); // Sort aplications by expired date
+                                        }
+                                    }
+                                }
+                            });
                         }
                     }
-                }); // Sort aplications by expired date
+                });
             }
         }
     });

@@ -9,6 +9,7 @@
   "search-route": "buscar",
   "create-route": "crear",
   "edit-route": "editar",
+  "edit-events-route": "editar-eventos",
   "category-route": "categoría",
   "event-route": "evento",
   "events-route": "eventos",

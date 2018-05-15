@@ -497,17 +497,17 @@ module.exports = (router) => {
                                                 if (mainUser.permission === 'admin') {
                                                     // Check if user making changes has access
                                                     if (user.permission === 'admin') {
-                                                        saveErrorPermission = language + '.editUser.adminOneError';
+                                                        saveErrorPermission = language + '.general.adminOneError';
                                                     } else {}
                                                 } else {
                                                     // Check if the current permission is moderator
                                                     if (mainUser.permission === 'moderator') {
                                                         // Check if contributor making changes has access
                                                         if (user.permission === 'contributor') {} else {
-                                                            saveErrorPermission = language + '.editUser.adminOneError';
+                                                            saveErrorPermission = language + '.general.adminOneError';
                                                         }
                                                     } else {
-                                                        saveErrorPermission = language + '.editUser.permissionError';
+                                                        saveErrorPermission = language + '.general.permissionError';
                                                     }
                                                 }
                                             }
@@ -710,19 +710,14 @@ module.exports = (router) => {
             res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
         } else {
             if (!search) {
-                res.json({ success: false, message: eval(language + '.allEvents.eventsError') }); // Return error
+                res.json({ success: false, message: eval(language + '.allEventsSearch.searchTermProvidedError') }); // Return error
             } else {
                 // Search database for all events posts
                 Event.find({
-                    //["tema." + language + ".tema"]: tema
-                    ["languages." + language]: {
-                        "$exists": true,
-                        "$ne": [],
-                        "$elemMatch": {
-                            $and: [{ "title": { $regex: new RegExp(".*" + search + ".*", "i") } }, { "visible": true }]
-
-                        }
-                    }
+                    title: {
+                        $regex: new RegExp(".*" + search + ".*", "i")
+                    },
+                    language:language
                 }, (err, events) => {
                     // Check if error was found or not
                     if (err) {
@@ -747,7 +742,7 @@ module.exports = (router) => {
                     } else {
                         // Check if events were found in database
                         if (!events) {
-                            res.json({ success: false, message: eval(language + '.allThemes.eventsError') }); // Return error of no events found
+                            res.json({ success: false, message: eval(language + '.allEventsSearch.eventsError') }); // Return error of no events found
                         } else {
                             res.json({ success: true, events: events }); // Return success and events array
                         }

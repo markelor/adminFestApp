@@ -723,7 +723,7 @@ module.exports = (router) => {
             res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
         } else {
             if (!search) {
-                res.json({ success: false, message: eval(language + '.allUsers.searchTermProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.allUsersSearch.searchTermProvidedError') }); // Return error
             } else {
                 // Search database for all users posts
                 User.find({
@@ -754,7 +754,7 @@ module.exports = (router) => {
                     } else {
                         // Check if users were found in database
                         if (!users) {
-                            res.json({ success: false, message: eval(language + '.allUsers.usersError') }); // Return error of no users found
+                            res.json({ success: false, message: eval(language + '.allUsersSearch.usersError') }); // Return error of no users found
                         } else {
                             res.json({ success: true, users: users }); // Return success and users array
                         }
@@ -776,7 +776,7 @@ module.exports = (router) => {
         var token = req.headers['authorization']; // Create token found in headers
         if (req.path === '/allThemes/' + language && req.method === 'GET') {
             next();
-        } else if (req.path === '/allThemesSearch/' + route + language && req.method === 'GET') {
+        } else if (req.path === '/allEventsSearch/' + route + language && req.method === 'GET') {
             next();
         } else if (req.path === '/allThemesThematic/' + route + language && req.method === 'GET') {
             next();
@@ -1145,12 +1145,12 @@ module.exports = (router) => {
                                                     if (mainUser.permission === 'admin') {
                                                         // Check if user making changes has access
                                                         if (user.permission === 'admin') {
-                                                            saveErrorPermission = language + '.editUser.adminOneError';
+                                                            saveErrorPermission = language + '.general.adminOneError';
                                                         } else {
                                                             user.permission = newPermission; // Assign new permission to user
                                                         }
                                                     } else {
-                                                        saveErrorPermission = language + '.editUser.adminOneError';
+                                                        saveErrorPermission = language + '.general.adminOneError';
                                                     }
                                                 }
                                                 // Check if attempting to set the 'moderator' permission
@@ -1159,7 +1159,7 @@ module.exports = (router) => {
                                                     if (mainUser.permission === 'admin' || mainUser.permission === 'moderator') {
                                                         // Check if user making changes has access
                                                         if (user.permission === 'admin' || user.permission === 'moderator') {
-                                                            saveErrorPermission = language + '.editUser.adminOneError';
+                                                            saveErrorPermission = language + '.general.adminOneError';
                                                         } else {
                                                             user.permission = newPermission; // Assign new permission
                                                         }
@@ -1171,12 +1171,12 @@ module.exports = (router) => {
                                                     // Check if logged in user has access
                                                     if (mainUser.permission === 'admin') {
                                                         if (user.permission === 'admin')
-                                                            saveErrorPermission = language + '.editUser.adminTwoError';
+                                                            saveErrorPermission = language + '.general.adminTwoError';
                                                         else {
                                                             user.permission = newPermission; // Assign new permission
                                                         }
                                                     } else {
-                                                        saveErrorPermission = language + '.editUser.adminTwoError';
+                                                        saveErrorPermission = language + '.general.adminTwoError';
                                                     }
                                                 }
                                             }
@@ -1230,7 +1230,7 @@ module.exports = (router) => {
                                                 });
                                             }
                                         } else {
-                                            res.json({ success: false, message: eval(language + '.editUser.permissionError') }); // Return error
+                                            res.json({ success: false, message: eval(language + '.general.permissionError') }); // Return error
                                         }
                                     }
                                 }
@@ -1336,7 +1336,7 @@ module.exports = (router) => {
                                             res.json({ success: true, user: user }); // Return success, send user object to frontend for profile
 
                                         } else {
-                                            res.json({ success: false, message: eval(language + '.editUser.permissionError') }); // Return error
+                                            res.json({ success: false, message: eval(language + '.general.permissionError') }); // Return error
                                         }
                                     }
                                 }

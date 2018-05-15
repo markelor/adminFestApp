@@ -1,6 +1,9 @@
 module.exports = {
     general: {
-        generalError: "Algo salió mal. Este error ha sido registrado y será dirigido a nuestro personal. ¡Pedimos disculpas por este inconveniente!"
+        generalError: "Algo salió mal. Este error ha sido registrado y será dirigido a nuestro personal. ¡Pedimos disculpas por este inconveniente!",
+        permissionError: "Permisos insuficientes.",
+        adminOneError: "Permisos insuficientes. No puedes hacer cambios a uno de tu mismo grado o superior.",
+        adminTwoError: "Permisos insuficientes. Debes ser administrador para subir a otro a grado de administrador."
     },
     validation: {
         emailLength: "El correo electrónico debe tener al menos 5 caracteres pero no más de 30.",
@@ -147,14 +150,11 @@ module.exports = {
     editUser: {
         usernameProvidedError: "El usuario no fue proporcionado.",
         userError: "No se encontró el usuario.",
-        permissionError: "Permisos insuficientes.",
         nameUpdated: "¡El nombre ha sido actualizado!",
         usernameUpdated: "¡El nombre de usuario ha sido actualizado!",
         emailUpdated: "¡El correo electrónico ha sido actualizado!",
         avatarUpload: "¡El Avatar ha sido subido!",
         aboutYourselfUpdated: "¡Acerca de ti ha sido actualizado!",
-        adminOneError: "Permisos insuficientes. No puedes hacer cambios a uno de tu mismo grado o superior.",
-        adminTwoError: "Permisos insuficientes. Debes ser administrador para subir a otro a grado de administrador.",
         success: "Se han actualizado los permisos.!"
     },
     //File upload
@@ -196,6 +196,7 @@ module.exports = {
         conditionsProvidedError: "Las condiciones de la aplicación son requeridas.",
         priceProvidedError: "El precio de la aplicación es requerida.",
         expiredAtProvidedError: "La fecha de caducidad de la aplicación es requerida.",
+        userError: "No se encontró el usuario.",
         saveError: "No se pudo guardar la aplicación. Error:",
         success: "¡Aplicación guardada!"
     },
@@ -207,21 +208,34 @@ module.exports = {
     //allUserAplications
     allUserAplications: {
         usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
+        userError: "No se encontró el usuario.", 
         aplicationsError: "No se encontraron aplicaciones."
     },
-    //allUsers
-    allUsers: {
+    //allUsersSearch
+    allUsersSearch: {
         searchTermProvidedError: "El término de búsqueda no fue proporcionado.",
         usersError: "Usuarios no encontrados.",
+    },
+     //allEventsSearch
+    allEventsSearch: {
+        searchTermProvidedError: "El término de búsqueda no fue proporcionado.",
+        eventsError: "Eventos no encontrados.",
     },
     //getEvent
     getEvent: {
         idProvidedError: "El ID del evento no fue proporcionado.",
+        usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
         eventError: "No se encontro el evento.",
         placeError:"No se encontro el lugar.",
         categoryError:"No se encontró la categoría."
     },
-      //newPlace
+    //getAplication
+     getAplication: {
+        idProvidedError: '"El ID de la aplicación no fue proporcionado.',
+        userError: "No se encontró el usuario.",      
+        aplicationError: "No se encontró la aplicación."
+    },
+    //newPlace
     newPlace: {
         eventIdProvidedError: 'El ID del evento es requerido.',
         provinceProvidedError: "La provincia es requerida.",

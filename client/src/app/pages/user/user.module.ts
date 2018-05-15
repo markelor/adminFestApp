@@ -13,14 +13,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { DecodePipe } from '../../shared/pipes/decode.pipe';
 import { EventsComponent } from './events/events.component';
 import { SeeAplicationsComponent } from './aplications/see-aplications/see-aplications.component';
-import { EditAplicationComponent } from './aplications/see-aplications/edit-aplication/edit-aplication.component';
+import { EditEventsAplicationComponent } from './aplications/see-aplications/edit-events-aplication/edit-events-aplication.component';
 import { AplicationsComponent } from './aplications/aplications.component';
 
 @NgModule({
   imports: [
     CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule
   ],
-  declarations: [ProfileComponent,ImageCropperComponent, SettingsComponent, SeeEventsComponent, EditEventComponent, EventsComponent, SeeAplicationsComponent, EditAplicationComponent, AplicationsComponent],
+  declarations: [ProfileComponent,ImageCropperComponent, SettingsComponent, SeeEventsComponent, EditEventComponent, EventsComponent, SeeAplicationsComponent, EditEventsAplicationComponent, AplicationsComponent],
   providers:[DecodePipe]
 })
 

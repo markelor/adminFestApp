@@ -10,6 +10,7 @@
   "search-route": "bilatu",
   "create-route": "sortu",
   "edit-route": "aldatu",
+  "edit-events-route": "ekintzak-aldatu",
   "category-route": "kategoria",
   "event-route": "ekintza",
   "events-route": "ekintzak",

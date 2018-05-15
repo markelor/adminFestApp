@@ -188,7 +188,7 @@ module.exports = (router) => {
                                                                 if (mainUser.permission === 'admin') {
                                                                     // Check if user making changes has access
                                                                     if (user.permission === 'admin') {
-                                                                        saveErrorPermission = language + '.editUser.adminOneError';
+                                                                        saveErrorPermission = language + '.general.adminOneError';
                                                                     } else {
                                                                         user.avatars.push(url); // Assign avats to user 
                                                                     }
@@ -199,10 +199,10 @@ module.exports = (router) => {
                                                                         if (user.permission === 'contributor') {
                                                                             user.avatars.push(url); // Assign avats to user
                                                                         } else {
-                                                                            saveErrorPermission = language + '.editUser.adminOneError';
+                                                                            saveErrorPermission = language + '.general.adminOneError';
                                                                         }
                                                                     } else {
-                                                                        saveErrorPermission = language + '.editUser.permissionError';
+                                                                        saveErrorPermission = language + '.general.permissionError';
                                                                     }
                                                                 }
 
@@ -380,7 +380,7 @@ module.exports = (router) => {
                                                             if (mainUser.permission === 'admin') {
                                                                 // Check if user making changes has access
                                                                 if (user.permission === 'admin') {
-                                                                    saveErrorPermission = language + '.editUser.adminOneError';
+                                                                    saveErrorPermission = language + '.general.adminOneError';
                                                                 } else {
                                                                     user.avatars.splice(index, 1); // Assign avats to user 
                                                                     user.currentAvatar="assets/img/avatars/default-avatar.jpg";
@@ -393,10 +393,10 @@ module.exports = (router) => {
                                                                         user.avatars.splice(index, 1); // Assign avats to user
                                                                         user.currentAvatar="assets/img/avatars/default-avatar.jpg";
                                                                     } else {
-                                                                        saveErrorPermission = language + '.editUser.adminOneError';
+                                                                        saveErrorPermission = language + '.general.adminOneError';
                                                                     }
                                                                 } else {
-                                                                    saveErrorPermission = language + '.editUser.permissionError';
+                                                                    saveErrorPermission = language + '.general.permissionError';
                                                                 }
                                                             }
 

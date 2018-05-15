@@ -6,6 +6,7 @@ import { EventsComponent } from './events/events.component';
 import { AplicationsComponent } from './aplications/aplications.component';
 import { SeeEventsComponent } from './events/see-events/see-events.component';
 import { EditEventComponent } from './events/see-events/edit-event/edit-event.component';
+import { EditEventsAplicationComponent } from './aplications/see-aplications/edit-events-aplication/edit-events-aplication.component';
 import { AuthGuard } from '../guards/auth.guard';
 
 
@@ -14,7 +15,8 @@ const routes: Routes = [
 	{ path: 'profile-route', component: ProfileComponent,canActivate:[AuthGuard] },
 	{ path: 'events-route', component: EventsComponent,canActivate:[AuthGuard] },
 	{ path: 'aplications-route', component: AplicationsComponent,canActivate:[AuthGuard] },
-	{ path: 'events-route/edit-route/:id', component: EditEventComponent,canActivate:[AuthGuard] }
+	{ path: 'events-route/edit-route/:id', component: EditEventComponent,canActivate:[AuthGuard] },
+	{ path: 'aplications-route/:id/edit-events-route', component: EditEventsAplicationComponent,canActivate:[AuthGuard] }
 ];
 
 @NgModule({

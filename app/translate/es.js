@@ -141,10 +141,10 @@ module.exports = {
         usersError: "Usuarios no encontrados.",
         permissionError: "Permisos insuficientes."
     },
-     authentication: {
+    authentication: {
         userError: "No se encontró el usuario."
     },
-    profile:{
+    profile: {
         usernameProvidedError: "El nombre de usuario no fue proporcionado.",
     },
     editUser: {
@@ -177,7 +177,7 @@ module.exports = {
         saveError: "No se pudo guardar la categoría. Error:",
         success: "¡Categoría guardada!"
     },
-     //newEvent
+    //newEvent
     newEvent: {
         createdByProvidedError: "El creador del evento es requerido.",
         categoryIdProvidedError: "El ID de la categoria es requerida.",
@@ -200,7 +200,7 @@ module.exports = {
         saveError: "No se pudo guardar la aplicación. Error:",
         success: "¡Aplicación guardada!"
     },
-     //allUserEvents
+    //allUserEvents
     allUserEvents: {
         usernameProvidedError: "El usurio de los eventos no fue proporcionado.",
         eventsError: "No se encontraron eventos.",
@@ -208,7 +208,7 @@ module.exports = {
     //allUserAplications
     allUserAplications: {
         usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
-        userError: "No se encontró el usuario.", 
+        userError: "No se encontró el usuario.",
         aplicationsError: "No se encontraron aplicaciones."
     },
     //allUsersSearch
@@ -216,7 +216,7 @@ module.exports = {
         searchTermProvidedError: "El término de búsqueda no fue proporcionado.",
         usersError: "Usuarios no encontrados.",
     },
-     //allEventsSearch
+    //allEventsSearch
     allEventsSearch: {
         searchTermProvidedError: "El término de búsqueda no fue proporcionado.",
         eventsError: "Eventos no encontrados.",
@@ -226,22 +226,22 @@ module.exports = {
         idProvidedError: "El ID del evento no fue proporcionado.",
         usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
         eventError: "No se encontro el evento.",
-        placeError:"No se encontro el lugar.",
-        categoryError:"No se encontró la categoría."
+        placeError: "No se encontro el lugar.",
+        categoryError: "No se encontró la categoría."
     },
     //getAplication
-     getAplication: {
+    getAplication: {
         idProvidedError: '"El ID de la aplicación no fue proporcionado.',
-        userError: "No se encontró el usuario.",      
+        userError: "No se encontró el usuario.",
         aplicationError: "No se encontró la aplicación."
     },
     //newPlace
     newPlace: {
         eventIdProvidedError: 'El ID del evento es requerido.',
         provinceProvidedError: "La provincia es requerida.",
-        geonameIdProvinceProvidedError:"Geoname ID de la provincia es requerida.",
+        geonameIdProvinceProvidedError: "Geoname ID de la provincia es requerida.",
         municipalityProvidedError: "El municipio es requerido.",
-        geonameIdMunicipalityProvidedError:"Geoname ID del municipio es requerido.",
+        geonameIdMunicipalityProvidedError: "Geoname ID del municipio es requerido.",
         latProvidedError: "La latitud es requerida.",
         lngProvidedError: "La longitud es requerida.",
         saveError: "No se pudo guardar el lugar. Error:",
@@ -269,11 +269,17 @@ module.exports = {
         saveError: "No se pudo editar la categoría. Error: ",
         success: "¡Categoría actualizada!"
     },
-     editEvent: {
+    editEvent: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
-        createdByProvidedError:'El nombre de usuario no fue proporcionado.',
-       saveError: "No se pudo editar el evento. Error: ",
+        createdByProvidedError: 'El nombre de usuario no fue proporcionado.',
+        saveError: "No se pudo editar el evento. Error: ",
         success: "¡Evento editado!"
+    },
+    editAplication: {
+        idProvidedError: 'El ID de la aplicación, no fue proporcionado.',
+        usersProvidedError: "Los usuarios de la aplicación no fueron proporcionados.",
+        saveError: "No se pudo editar la aplicación. Error: ",
+        success: "¡Aplicación editada!"
     },
     deleteTheme: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',

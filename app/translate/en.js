@@ -271,14 +271,19 @@ module.exports = {
         success: "Category updated!"
     },
     editEvent: {
-        idProvidedError: 'Event ID was not provided',
+        idProvidedError: 'Event ID was not provided.',
         createdByProvidedError:'Username was not provided.',
         saveError: "Could not edit event. Error: ",
         success: "Event edited!"
     },
-
+    editAplication: {
+        idProvidedError: 'Aplication ID was not provided.',
+        usersProvidedError: "Aplication users were not provided.",
+        saveError: "Could not edit aplication. Error: ",
+        success: "Aplication edited!"
+    },
     deleteTheme: {
-        idProvidedError: 'Theme ID was not provided',
+        idProvidedError: 'Theme ID was not provided.',
         themeError: "No theme was found.",
         userError: "No user was found.",
         permissionError: "You are not authorized to delete this theme post.",

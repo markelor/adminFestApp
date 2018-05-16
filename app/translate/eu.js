@@ -188,7 +188,7 @@ module.exports = {
         saveError: "Ekintza ezin da gorde. Errorea:",
         success: "Ekintza gorde da!"
     },
-     //newAplication
+    //newAplication
     newAplication: {
         usersProvidedError: "Aplikazioaren erabiltzaileak beharrezkoak dira.",
         titleProvidedError: "Aplikazioaren izenburua beharrezkoa da.",
@@ -196,7 +196,7 @@ module.exports = {
         conditionsProvidedError: "Aplikazioaren baldintzak beharrezkoak dira.",
         priceProvidedError: "Aplikazioaren prezioa beharrezkoa da.",
         expiredAtProvidedError: "Aplikazioaren iraungitze data beharrezkoa da.",
-        userError: "Erabiltzailea ez da aurkitu.", 
+        userError: "Erabiltzailea ez da aurkitu.",
         saveError: "Aplikazioa ezin da gorde. Errorea:",
         success: "Aplikazioa gorde da!"
     },
@@ -205,18 +205,18 @@ module.exports = {
         usernameProvidedError: "Ekintzen erabiltzailea ez da eman.",
         eventsError: "Ez dira ekintzak aurkitu.",
     },
-     //allUserAplications
+    //allUserAplications
     allUserAplications: {
         usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
-        userError: "Erabiltzailea ez da aurkitu.",     
+        userError: "Erabiltzailea ez da aurkitu.",
         aplicationsError: "Ez dira aplikazioak aurkitu."
     },
-     //allUsersSearch
+    //allUsersSearch
     allUsersSearch: {
         searchTermProvidedError: "Bilaketa hitza ez da eman.",
         usersError: "Erabiltzaileak ez dira aurkitu.",
     },
-     //allEventsSearch
+    //allEventsSearch
     allEventsSearch: {
         searchTermProvidedError: "Bilaketa hitza ez da eman.",
         eventsError: "Ekintzak ez dira aurkitu.",
@@ -225,14 +225,14 @@ module.exports = {
     getEvent: {
         idProvidedError: "Ekintzaren IDa ez da eman.",
         eventError: "Ez da ekintza aurkitu.",
-        placeError:"Ez da lekua aurkitu.",
-        categoryError:"Ez da kategoria aurkitu."
+        placeError: "Ez da lekua aurkitu.",
+        categoryError: "Ez da kategoria aurkitu."
     },
     //getAplication
-     getAplication: {
+    getAplication: {
         idProvidedError: 'Aplikazioaren IDa ez da eman.',
         usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
-        userError: "Erabiltzailea ez da aurkitu.",      
+        userError: "Erabiltzailea ez da aurkitu.",
         aplicationError: "Aplikazioa ez da aurkitu."
     },
     //newPlace
@@ -271,9 +271,15 @@ module.exports = {
     },
     editEvent: {
         idProvidedError: 'Ez da ekintzaren IDa eman.',
-        createdByProvidedError:'Ekintzaren erabiltzailea ez da eman.',
+        createdByProvidedError: 'Ekintzaren erabiltzailea ez da eman.',
         saveError: "Ezin izan da ekintza aldatu. Akatsa: ",
         success: "Ekintza aldatu da!"
+    },
+    editAplication: {
+        idProvidedError: 'Ez da aplikazioaren IDa eman.',
+        usersProvidedError: "Aplikazioaren erabiltzaileak ez dira eman.",
+        saveError: "Ezin izan da aplikazioa aldatu. Akatsa: ",
+        success: "Aplikazioa aldatu da!"
     },
     deleteTheme: {
         idProvidedError: 'Ez da gaiaren IDa eman.',

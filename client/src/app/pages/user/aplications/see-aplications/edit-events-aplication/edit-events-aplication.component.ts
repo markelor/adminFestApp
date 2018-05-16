@@ -11,8 +11,7 @@ import { Router,ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-events-aplication.component.css']
 })
 export class EditEventsAplicationComponent implements OnInit {
-  private aplication;
-  private events;
+  private aplicationId;
   constructor(
   	private authService:AuthService,
     private aplicationService:AplicationService,
@@ -32,14 +31,8 @@ export class EditEventsAplicationComponent implements OnInit {
         this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
       }
     });
-    // Get aplication
-    this.aplicationService.getAplication(this.activatedRoute.snapshot.params['id'],this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
-      if(data.success){
-        this.aplication=data.aplication;
-        this.events=data.events;
-        console.log(this.aplication);
-      }
-    });
+    // Get aplication id
+    this.aplicationId=this.activatedRoute.snapshot.params['id'];
   }
 
 }

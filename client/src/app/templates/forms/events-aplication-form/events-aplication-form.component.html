@@ -33,22 +33,6 @@
         </table>
       </div>
     </div>
-    <!-- Events list -->
-    <div class="col-sm-12">
-      <div class="form-group">
-        <label *ngFor="let event of selectedEvents" class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">{{event}}</span>
-        </label>
-      </div>
-    </div>
-    <!-- Submit Button -->
-    <div class="col-sm-12">
-      <div class="form-group text-center">
-        <button [disabled]="!form.valid || selectedEvents.length<=0 || submitted" type="submit" class="btn btn-default btn-auth" translate>{{'aplication-form.send'}}</button>
-      </div>
-    </div>
   </div>
 </form>
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
@@ -58,16 +42,17 @@
       <th>Title</th>
       <th>Start</th>
       <th>End</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let event of eventsArray">
+    <tr *ngFor="let event of events; let i=index">
       <td>{{event.createdBy}}</td>
       <td>{{event.title}}</td>
       <td>{{event.start}}</td>
       <td>{{event.end }}</td>
       <td class="ks-status">
-        <a href="javascript:void(0)" (click)="categoryDeleteClick(i,category)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+        <a href="javascript:void(0)" (click)="deleteEvent(i)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
       </td>
     </tr>
   </tbody>

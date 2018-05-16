@@ -30,4 +30,8 @@ export class AplicationService {
     this.route= encodeURIComponent(username) +'/';
     return this.http.get<any>(this.domain + 'aplication/allUserAplications/'+this.route+language);
   }
+  // Function to edit/update theme post
+  public editAplication(aplication) {
+    return this.http.put<any>(this.domain + 'aplication/editAplication',aplication);
+  }
 }

@@ -14,7 +14,8 @@
   "category-route": "kategoria",
   "event-route": "ekintza",
   "events-route": "ekintzak",
-  "aplications-route": "aplikazioak",
+  "application-route": "aplikazioa",
+  "applications-route": "aplikazioak",
   "details-route": "xehetasunak",
   "region-route": "eskualdea",
   "user-route": "erabiltzailea",
@@ -29,7 +30,7 @@
     "create": "Sortu",
     "category": "Kategoria",
     "event": "Ekintza",
-    "aplication": "Aplikazioa",
+    "application": "Aplikazioa",
     "administrator": "Administratzailea",
     "users": "Erabiltzaileak"
   },
@@ -97,7 +98,7 @@
     "eu": "Euskara",
     "profile": "Perfila",
     "events": "Ekintzak",
-    "aplications":"Aplikazioak"
+    "applications":"Aplikazioak"
   },
   "profile":
   {
@@ -106,7 +107,7 @@
   "events":
   {
     "events": "Ekintzak",
-    "aplications": "Aplikazioak"
+    "applications": "Aplikazioak"
   },
   "event":
   {
@@ -119,9 +120,9 @@
     "share": "Partekatu"
 
   },
-  "aplication":
+  "application":
   {
-    "edit-aplication": "Aplikazioa Aldatu"
+    "edit-application": "Aplikazioa Aldatu"
   },
   "auth-form":
   {
@@ -190,7 +191,7 @@
     "select-municipality": "-- AUKERATU UDALERRIA --",
     "send": "Bidali"
   },
-   "aplication-form":
+   "application-form":
   {
     "title":"Titulua",
     "entity-name":"Entitate izena",

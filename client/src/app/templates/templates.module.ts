@@ -25,9 +25,9 @@ import { MomentModule } from 'ngx-moment';
 import "froala-editor/js/froala_editor.pkgd.min.js";
 // Import Angular plugin.
 import { FroalaEditorModule, FroalaViewModule,FroalaEditorDirective, FroalaViewDirective } from 'angular-froala-wysiwyg';
-import { AplicationFormComponent } from './forms/aplication-form/aplication-form.component';
+import { ApplicationFormComponent } from './forms/application-form/application-form.component';
 import { FormsComponent } from './forms/forms.component';
-import { EventsAplicationFormComponent } from './forms/events-aplication-form/events-aplication-form.component';
+import { EventsApplicationFormComponent } from './forms/events-application-form/events-application-form.component';
 @NgModule({
   imports: [
     CommonModule,FormsModule,ReactiveFormsModule,AgmCoreModule,MomentModule,
@@ -35,10 +35,10 @@ import { EventsAplicationFormComponent } from './forms/events-aplication-form/ev
     SharedModule,TranslateModule,TemplatesRoutingModule,DataTablesModule,NgbModule
   ],
   declarations: [
-  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, AplicationFormComponent, FormsComponent, EventsAplicationFormComponent
+  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent, FormsComponent, EventsApplicationFormComponent
   ],
   exports: [
-    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,AplicationFormComponent, EventsAplicationFormComponent
+    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent, EventsApplicationFormComponent
     ],
    providers:[
    	GroupByPipe,SpacePipe,BindContentPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}

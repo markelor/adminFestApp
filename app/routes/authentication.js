@@ -778,16 +778,10 @@ module.exports = (router) => {
             next();
         } else if (req.path === '/allEventsSearch/' + route + language && req.method === 'GET') {
             next();
-        } else if (req.path === '/allThemesThematic/' + route + language && req.method === 'GET') {
-            next();
-        } else if (req.path === '/allThemesTheme/' + route + language && req.method === 'GET') {
-            next()
-        } else if (req.path === '/allThemesClass/' + route + language && req.method === 'GET') {
-            next()
-        } else if (req.path === '/allThemesRegion/' + route + language && req.method === 'GET') {
-            next();
         } else if (req.path === '/getEvent/' + route + language && req.method === 'GET') {
             next()
+        } else if (req.path === '/getApplicationEvents/' + route + language && req.method === 'GET') {
+            next();
         } else {
             // Check if token was found in headers
             if (!token) {

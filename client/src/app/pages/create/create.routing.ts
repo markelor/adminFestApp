@@ -3,14 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { LocalizeRouterModule } from 'localize-router';
 import { CreateEventComponent } from './create-event/create-event.component';
 import { CreateCategoryComponent } from './create-category/create-category.component';
-import { CreateAplicationComponent } from './create-aplication/create-aplication.component';
+import { CreateApplicationComponent } from './create-application/create-application.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { ModeratorGuard } from '../guards/moderator.guard';
 
 const routes: Routes = [
 	{ path: '', component: CreateEventComponent,canActivate:[AuthGuard], pathMatch: 'full' },
 	{ path: 'category-route', component: CreateCategoryComponent,canActivate:[ModeratorGuard] },
-	{ path: 'aplication-route', component: CreateAplicationComponent,canActivate:[ModeratorGuard] },
+	{ path: 'application-route', component: CreateApplicationComponent,canActivate:[ModeratorGuard] },
 	{ path: 'event-route', component: CreateEventComponent,canActivate:[AuthGuard] },
 	
 ];

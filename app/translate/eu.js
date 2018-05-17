@@ -188,8 +188,8 @@ module.exports = {
         saveError: "Ekintza ezin da gorde. Errorea:",
         success: "Ekintza gorde da!"
     },
-    //newAplication
-    newAplication: {
+    //newApplication
+    newApplication: {
         usersProvidedError: "Aplikazioaren erabiltzaileak beharrezkoak dira.",
         titleProvidedError: "Aplikazioaren izenburua beharrezkoa da.",
         licenseNameProvidedError: "Aplikazioaren lizentzia beharrezkoa da.",
@@ -205,11 +205,11 @@ module.exports = {
         usernameProvidedError: "Ekintzen erabiltzailea ez da eman.",
         eventsError: "Ez dira ekintzak aurkitu.",
     },
-    //allUserAplications
-    allUserAplications: {
+    //allUserApplications
+    allUserApplications: {
         usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
         userError: "Erabiltzailea ez da aurkitu.",
-        aplicationsError: "Ez dira aplikazioak aurkitu."
+        applicationsError: "Ez dira aplikazioak aurkitu."
     },
     //allUsersSearch
     allUsersSearch: {
@@ -228,12 +228,12 @@ module.exports = {
         placeError: "Ez da lekua aurkitu.",
         categoryError: "Ez da kategoria aurkitu."
     },
-    //getAplication
-    getAplication: {
+    //getApplication
+    getApplication: {
         idProvidedError: 'Aplikazioaren IDa ez da eman.',
         usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
         userError: "Erabiltzailea ez da aurkitu.",
-        aplicationError: "Aplikazioa ez da aurkitu."
+        applicationError: "Aplikazioa ez da aurkitu."
     },
     //newPlace
     newPlace: {
@@ -275,7 +275,7 @@ module.exports = {
         saveError: "Ezin izan da ekintza aldatu. Akatsa: ",
         success: "Ekintza aldatu da!"
     },
-    editAplication: {
+    editApplication: {
         idProvidedError: 'Ez da aplikazioaren IDa eman.',
         usersProvidedError: "Aplikazioaren erabiltzaileak ez dira eman.",
         saveError: "Ezin izan da aplikazioa aldatu. Akatsa: ",

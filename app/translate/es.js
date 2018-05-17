@@ -188,8 +188,8 @@ module.exports = {
         saveError: "No se pudo guardar el evento. Error:",
         success: "¡Evento guardado!"
     },
-    //newAplication
-    newAplication: {
+    //newApplication
+    newApplication: {
         usersProvidedError: "Los usuarios de la aplicación son requeridas.",
         titleProvidedError: "El título de la aplicación es requerida.",
         licenseNameProvidedError: "El nombre de la licencia de la aplicación es requerida.",
@@ -205,11 +205,11 @@ module.exports = {
         usernameProvidedError: "El usurio de los eventos no fue proporcionado.",
         eventsError: "No se encontraron eventos.",
     },
-    //allUserAplications
-    allUserAplications: {
+    //allUserApplications
+    allUserApplications: {
         usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
         userError: "No se encontró el usuario.",
-        aplicationsError: "No se encontraron aplicaciones."
+        applicationsError: "No se encontraron aplicaciones."
     },
     //allUsersSearch
     allUsersSearch: {
@@ -229,11 +229,11 @@ module.exports = {
         placeError: "No se encontro el lugar.",
         categoryError: "No se encontró la categoría."
     },
-    //getAplication
-    getAplication: {
+    //getApplication
+    getApplication: {
         idProvidedError: '"El ID de la aplicación no fue proporcionado.',
         userError: "No se encontró el usuario.",
-        aplicationError: "No se encontró la aplicación."
+        applicationError: "No se encontró la aplicación."
     },
     //newPlace
     newPlace: {
@@ -275,7 +275,7 @@ module.exports = {
         saveError: "No se pudo editar el evento. Error: ",
         success: "¡Evento editado!"
     },
-    editAplication: {
+    editApplication: {
         idProvidedError: 'El ID de la aplicación, no fue proporcionado.',
         usersProvidedError: "Los usuarios de la aplicación no fueron proporcionados.",
         saveError: "No se pudo editar la aplicación. Error: ",

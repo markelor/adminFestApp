@@ -12,15 +12,15 @@ import { TemplatesModule } from '../../templates/templates.module';
 import { SharedModule } from '../../shared/shared.module';
 import { DecodePipe } from '../../shared/pipes/decode.pipe';
 import { EventsComponent } from './events/events.component';
-import { SeeAplicationsComponent } from './aplications/see-aplications/see-aplications.component';
-import { EditEventsAplicationComponent } from './aplications/see-aplications/edit-events-aplication/edit-events-aplication.component';
-import { AplicationsComponent } from './aplications/aplications.component';
+import { SeeApplicationsComponent } from './applications/see-applications/see-applications.component';
+import { EditEventsApplicationComponent } from './applications/see-applications/edit-events-application/edit-events-application.component';
+import { ApplicationsComponent } from './applications/applications.component';
 
 @NgModule({
   imports: [
     CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule
   ],
-  declarations: [ProfileComponent,ImageCropperComponent, SettingsComponent, SeeEventsComponent, EditEventComponent, EventsComponent, SeeAplicationsComponent, EditEventsAplicationComponent, AplicationsComponent],
+  declarations: [ProfileComponent,ImageCropperComponent, SettingsComponent, SeeEventsComponent, EditEventComponent, EventsComponent, SeeApplicationsComponent, EditEventsApplicationComponent, ApplicationsComponent],
   providers:[DecodePipe]
 })
 

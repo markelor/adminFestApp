@@ -13,7 +13,8 @@
   "category-route": "categoría",
   "event-route": "evento",
   "events-route": "eventos",
-  "aplications-route": "aplicaciones",
+  "application-route": "aplicación",
+  "applications-route": "aplicaciones",
   "details-route": "detalles",
   "region-route": "región",
   "user-route": "usuario",
@@ -28,7 +29,7 @@
     "create": "Crear",
     "category": "Categoría",
     "event": "Evento",
-    "aplication": "Aplicación",
+    "application": "Aplicación",
     "administrator": "Administrador",
     "users": "Usuarios"
   },
@@ -96,7 +97,7 @@
     "en": "Inglés",
     "profile": "Perfil",
     "events": "Eventos",
-    "aplications":"Aplicaciones"
+    "applications": "Aplicaciones"
   },
   "profile":
   {
@@ -105,7 +106,7 @@
   "events":
   {
     "events": "Eventos",
-    "aplications": "Aplicaciones"
+    "applications": "Aplicaciones"
   },
   "event":
   {
@@ -117,9 +118,9 @@
     "comment": "Comentar",
     "share": "Compartir"
   },
-  "aplication":
+  "application":
   {
-    "edit-aplication": "Editar Aplicación"
+    "edit-application": "Editar Aplicación"
   },
   "auth-form":
   {
@@ -155,15 +156,15 @@
     "select-parent-category": "-- SELECCIONE UNA CATEGORÍA --",
     "send": "Enviar"
   },
-  "aplication-form":
+  "application-form":
   {
-    "title":"Título",
-    "entity-name":"Nombre de la entidad",
+    "title": "Título",
+    "entity-name": "Nombre de la entidad",
     "events": "Eventos",
     "users": "Usuarios",
     "license": "Licencia",
-    "conditions":"Condiciones",
-    "price":"Precio",
+    "conditions": "Condiciones",
+    "price": "Precio",
     "expiry-date": "Fecha de caducidad",
     "send": "Enviar"
   },
@@ -197,8 +198,8 @@
     "select-province": "-- SELECCIONE UNA PROVINCIA --",
     "select-municipality": "-- SELECCIONE UN MUNICIPIO --",
     "send": "Enviar",
-    "entity-name":"Nombre de la entidad",
-    "price":"Prezioa"
+    "entity-name": "Nombre de la entidad",
+    "price": "Prezioa"
   },
   "comment":
   {

@@ -189,28 +189,28 @@ module.exports = {
         saveError: "Could not save event. Error:",
         success: "Event saved!"
     },
-    //newAplication
-    newAplication: {
-        usersProvidedError: "Aplication users are required.",
-        titleProvidedError: "Aplication title is required.",
-        licenseNameProvidedError: "Aplication license name is required.",
-        conditionsProvidedError: "Aplication conditions are required.",
-        priceProvidedError: "Aplication price is required.",
-        expiredAtProvidedError: "Aplication expired date is required.",
+    //newApplication
+    newApplication: {
+        usersProvidedError: "Application users are required.",
+        titleProvidedError: "Application title is required.",
+        licenseNameProvidedError: "Application license name is required.",
+        conditionsProvidedError: "Application conditions are required.",
+        priceProvidedError: "Application price is required.",
+        expiredAtProvidedError: "Application expired date is required.",
         userError: "No user found.",
-        saveError: "Could not save aplication. Error:",
-        success: "Aplication saved!"
+        saveError: "Could not save application. Error:",
+        success: "Application saved!"
     },
     //allUserEvents
     allUserEvents: {
         usernameProvidedError: "Events username is not provided.",
         eventsError: "No events found."
     },
-    //allUserAplications
-    allUserAplications: {
-        usernameProvidedError: "Aplication username is not provided.",
+    //allUserApplications
+    allUserApplications: {
+        usernameProvidedError: "Application username is not provided.",
         userError: "No user found.",      
-        aplicationsError: "No aplications found."
+        applicationsError: "No applications found."
     },
     //allUsersSearch
     allUsersSearch: {
@@ -225,16 +225,16 @@ module.exports = {
     //getEvent
     getEvent: {
         idProvidedError: "Event ID is not provided.",
-        usernameProvidedError: "Aplication username is not provided.",
+        usernameProvidedError: "Application username is not provided.",
         eventError: "No event found.",
         placeError:"No place found.",
         categoryError:"No category found."
     },
-    //getAplication
-     getAplication: {
-        idProvidedError: 'Aplication ID was not provided.',
+    //getApplication
+     getApplication: {
+        idProvidedError: 'Application ID was not provided.',
         userError: "No user found.",      
-        aplicationError: "No aplication found."
+        applicationError: "No application found."
     },
     //newPlace
     newPlace: {
@@ -276,11 +276,11 @@ module.exports = {
         saveError: "Could not edit event. Error: ",
         success: "Event edited!"
     },
-    editAplication: {
-        idProvidedError: 'Aplication ID was not provided.',
-        usersProvidedError: "Aplication users were not provided.",
-        saveError: "Could not edit aplication. Error: ",
-        success: "Aplication edited!"
+    editApplication: {
+        idProvidedError: 'Application ID was not provided.',
+        usersProvidedError: "Application users were not provided.",
+        saveError: "Could not edit application. Error: ",
+        success: "Application edited!"
     },
     deleteTheme: {
         idProvidedError: 'Theme ID was not provided.',

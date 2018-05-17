@@ -14,7 +14,8 @@
   "category-route": "category",
   "event-route": "event",
   "events-route": "events",
-  "aplications-route": "aplications",
+  "application-route": "application",
+  "applications-route": "applications",
   "details-route": "details",
   "region-route": "region",
   "user-route": "user",
@@ -29,7 +30,7 @@
     "create": "Create",
     "category": "Category",
     "event": "Event",
-    "aplication": "Aplication",
+    "application": "Application",
     "administrator": "Administrator",
     "users": "Users"
   },
@@ -97,7 +98,7 @@
   "events":
   {
     "events": "Events",
-    "aplications": "Aplications"
+    "applications": "Applications"
   },
   "navbar":
   {
@@ -106,7 +107,7 @@
     "eu": "Euskara",
     "profile": "Profile",
     "events": "Events",
-    "aplications":"Aplications"
+    "applications":"Applications"
 
   },
   "event":
@@ -119,9 +120,9 @@
     "comment": "Comment",
     "share": "Share"
   },
-  "aplication":
+  "application":
   {
-    "edit-aplication": "Edit Aplication"
+    "edit-application": "Edit Application"
   },
   "auth-form":
   {
@@ -188,7 +189,7 @@
     "select-municipality": "-- SELECT A MUNICIPALITY --",
     "send": "Send"
   },
-   "aplication-form":
+   "application-form":
   {
     "title":"Title",
     "entity-name":"Entity name",

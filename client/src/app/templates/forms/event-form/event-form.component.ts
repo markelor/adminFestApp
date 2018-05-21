@@ -494,7 +494,7 @@ export class EventFormComponent implements OnInit {
     //First category parentId null on initialize
     this.categoryId.splice(0, 0, null);
     //Get categories
-    this.categoryService.getAllCategories(this.localizeService.parser.currentLang).subscribe(data=>{
+    this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         this.levelCategories=this.groupByPipe.transform(data.categories,'level');
       }   

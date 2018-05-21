@@ -14,7 +14,7 @@
         <div class="input-group icon">
           <input (keyup)="searchTerm.next($event.target.value)" [formControl]="event" capitalize type="text" class="form-control" id="inputEvent">
           <div class="input-group-append ">
-            <button (click)="addEvent()" type="button" class="btn btn-success ks-light ks-no-text">
+            <button (click)="addEventAplication()" type="button" class="btn btn-success ks-light ks-no-text">
               <span class="la la-plus ks-icon"></span>
             </button>
           </div>
@@ -35,7 +35,29 @@
     </div>
   </div>
 </form>
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="deleteTrigger" class="row-border hover">
+  <thead>
+    <tr>
+      <th>Created By</th>
+      <th>Title</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let eventAplication of eventsAplication; let i=index">
+      <td>{{eventAplication.createdBy}}</td>
+      <td>{{eventAplication.title}}</td>
+      <td>{{eventAplication.start}}</td>
+      <td>{{eventAplication.end }}</td>
+      <td class="ks-status">
+        <a href="javascript:void(0)" (click)="deleteEventAplicationTable(i)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="addTrigger" class="row-border hover">
   <thead>
     <tr>
       <th>Created By</th>
@@ -52,8 +74,9 @@
       <td>{{event.start}}</td>
       <td>{{event.end }}</td>
       <td class="ks-status">
-        <a href="javascript:void(0)" (click)="deleteEvent(i)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+        <a href="javascript:void(0)" (click)="addEventAplicationTable(i)"><span class="fa fa-plus ks-color-success">Add</span></a>
       </td>
     </tr>
   </tbody>
 </table>
+

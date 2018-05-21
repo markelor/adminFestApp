@@ -25,7 +25,7 @@ export class SeeEventsComponent implements OnInit {
   }
   // Function to get all user events from the database
   private getAllUserEvents() {
-    this.eventService.getAllUserEvents(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.eventService.getUserEvents(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       console.log(data);
       if(data.success){
         this.events = data.events; // Assign array to use in HTML

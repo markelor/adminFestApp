@@ -201,26 +201,27 @@ module.exports = {
         saveError: "Could not save application. Error:",
         success: "Application saved!"
     },
-    //allUserEvents
-    allUserEvents: {
+    //userEvents
+    userEvents: {
         usernameProvidedError: "Events username is not provided.",
         eventsError: "No events found."
     },
-    //allUserApplications
-    allUserApplications: {
+    //userApplications
+    userApplications: {
         usernameProvidedError: "Application username is not provided.",
         userError: "No user found.",      
         applicationsError: "No applications found."
     },
-    //allUsersSearch
-    allUsersSearch: {
+    //usersSearch
+    usersSearch: {
         searchTermProvidedError: "Search term is not provided.",
         usersError: "Users not found.",
     },
-     //allEventsSearch
-    allEventsSearch: {
+     //eventsSearch
+    eventsSearch: {
         searchTermProvidedError: "Search term is not provided.",
         eventsError: "Events not found.",
+        placesError: "Places not found."
     },
     //getEvent
     getEvent: {
@@ -248,7 +249,7 @@ module.exports = {
         saveError: "Could not save place. Error:",
         success: "Place saved!"
     },
-    allCategories: {
+    categories: {
         idProvidedError: 'Category ID was not provided.',
         categoriesError: "No categories found.",
         thematicProvidedError: "Thematic was not provided.",

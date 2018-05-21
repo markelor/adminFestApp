@@ -24,9 +24,13 @@ export class EventService {
     return this.http.post<any>(this.domain + 'event/newEvent', data);
   }
   // Function to get all user events from the database
-  public getAllUserEvents(username,language) {
+  public getUserEvents(username,language) {
     this.route= encodeURIComponent(username) +'/';
-    return this.http.get<any>(this.domain + 'event/allUserEvents/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/userEvents/'+this.route+language);
+  }
+  // Function to get events from the database
+  public getEvents(language) {
+    return this.http.get<any>(this.domain + 'event/getEvents/'+language);
   }
   // Function to get all user events from the database
   public getEvent(id,language) {
@@ -42,16 +46,16 @@ export class EventService {
   public eventSearch(searchs: Observable<string>,language) {
     return searchs.debounceTime(400)
       .distinctUntilChanged()
-      .switchMap(search => this.getAllEventsSearch(search,language));
+      .switchMap(search => this.getEventsSearch(search,language));
   }
    // Function to get all themes from the database
-  public getAllEventsSearch(search,language) {
+  public getEventsSearch(search,language) {
     if(!search){
       this.route='';
     }else{
       this.route= encodeURIComponent(search) +'/';
     }    
-    return this.http.get<any>(this.domain + 'event/allEventsSearch/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/eventsSearch/'+this.route+language);
   }
   // Function to get all archeology themes from the database
   public getAllThemesThematic(thematic,visible,language) {

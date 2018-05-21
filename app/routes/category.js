@@ -80,9 +80,9 @@ module.exports = (router) => {
     });
 
     /* ===============================================================
-       GET ALL categories
+       GET Categories
     =============================================================== */
-    router.get('/allCategories/:language', (req, res) => {
+    router.get('/categories/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
@@ -96,7 +96,7 @@ module.exports = (router) => {
                     var mailOptions = {
                         from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                         to: [emailConfig.email], // list of receivers
-                        subject: ' Find 1 allCategories category error ',
+                        subject: ' Find 1 categories category error ',
                         text: 'The following error has been reported in Kultura: ' + err,
                         html: 'The following error has been reported in Kultura:<br><br>' + err
                     };
@@ -113,7 +113,7 @@ module.exports = (router) => {
                 } else {
                     // Check if categories were found in database
                     if (!categories) {
-                        res.json({ success: false, message: eval(language + '.allCategories.categoriesError') }); // Return error of no categories found
+                        res.json({ success: false, message: eval(language + '.categories.categoriesError') }); // Return error of no categories found
                     } else {
                         res.json({ success: true, categories: categories }); // Return success and categories array
                     }
@@ -124,15 +124,15 @@ module.exports = (router) => {
 
     });
     /* ===============================================================
-       GET ALL first categories
+       GET child categories
     =============================================================== */
-    router.get('/allChildCategories/:id/:language', (req, res) => {
+    router.get('/childCategories/:id/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.params.id) {
-                res.json({ success: false, message: eval(language + '.allCategories.idProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.categories.idProvidedError') }); // Return error
             } else {
                 if(req.params.id==="null"){
                     req.params.id=null;
@@ -147,7 +147,7 @@ module.exports = (router) => {
                         var mailOptions = {
                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email], // list of receivers
-                            subject: ' Find 1 allCategories category error ',
+                            subject: ' Find 1 categories category error ',
                             text: 'The following error has been reported in Kultura: ' + err,
                             html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
@@ -164,7 +164,7 @@ module.exports = (router) => {
                     } else {
                         // Check if categories were found in database
                         if (!categories) {
-                            res.json({ success: false, message: eval(language + '.allCategories.categoriesError') }); // Return error of no categories found
+                            res.json({ success: false, message: eval(language + '.categories.categoriesError') }); // Return error of no categories found
                         } else {
                             res.json({ success: true, categories: categories }); // Return success and categories array
                         }

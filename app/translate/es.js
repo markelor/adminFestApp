@@ -200,26 +200,27 @@ module.exports = {
         saveError: "No se pudo guardar la aplicación. Error:",
         success: "¡Aplicación guardada!"
     },
-    //allUserEvents
-    allUserEvents: {
+    //userEvents
+    userEvents: {
         usernameProvidedError: "El usurio de los eventos no fue proporcionado.",
         eventsError: "No se encontraron eventos.",
     },
-    //allUserApplications
-    allUserApplications: {
+    //userApplications
+    userApplications: {
         usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
         userError: "No se encontró el usuario.",
         applicationsError: "No se encontraron aplicaciones."
     },
-    //allUsersSearch
-    allUsersSearch: {
+    //usersSearch
+    usersSearch: {
         searchTermProvidedError: "El término de búsqueda no fue proporcionado.",
         usersError: "Usuarios no encontrados.",
     },
-    //allEventsSearch
-    allEventsSearch: {
+    //eventsSearch
+    eventsSearch: {
         searchTermProvidedError: "El término de búsqueda no fue proporcionado.",
         eventsError: "Eventos no encontrados.",
+        placesError: "Lugares no encontrados."
     },
     //getEvent
     getEvent: {
@@ -247,7 +248,7 @@ module.exports = {
         saveError: "No se pudo guardar el lugar. Error:",
         success: "¡Lugar guardado!"
     },
-    allCategories: {
+    categories: {
         idProvidedError: 'El ID de la categoría, no fue proporcionado.',
         categoriesError: "No se encontraron categorías.",
         thematicProvidedError: "La temática no fue proporcionada.",

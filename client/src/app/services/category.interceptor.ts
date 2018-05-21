@@ -27,7 +27,7 @@ export class CategoryInterceptor implements HttpInterceptor {
 	    'language':this.localizeService.parser.currentLang
 	  }
 	});
-	}else if(request.url===this.domain+"category/allCategories/"+this.localizeService.parser.currentLang){
+	}else if(request.url===this.domain+"category/categories/"+this.localizeService.parser.currentLang){
 	request = request.clone({
 	  setHeaders: {
 	    'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export class CategoryInterceptor implements HttpInterceptor {
 	    'language':this.localizeService.parser.currentLang
 	  }
 	});       
-    }else if(request.url===this.domain+"category/allChildCategories/"+this.categoryService.route+this.localizeService.parser.currentLang){
+    }else if(request.url===this.domain+"category/childCategories/"+this.categoryService.route+this.localizeService.parser.currentLang){
 	request = request.clone({
 	  setHeaders: {
 	    'Content-Type': 'application/json',

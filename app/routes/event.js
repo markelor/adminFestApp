@@ -238,13 +238,13 @@ module.exports = (router) => {
     /* ===============================================================
        GET ALL user events
     =============================================================== */
-    router.get('/allUserEvents/:username/:language', (req, res) => {
+    router.get('/userEvents/:username/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.params.username) {
-                res.json({ success: false, message: eval(language + '.allUserEvents.usernameProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.userEvents.usernameProvidedError') }); // Return error
             } else {
                 Event.find({
                     language: language,
@@ -256,7 +256,7 @@ module.exports = (router) => {
                         var mailOptions = {
                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email], // list of receivers
-                            subject: ' Find 1 allUserEvents error ',
+                            subject: ' Find 1 userEvents error ',
                             text: 'The following error has been reported in Kultura: ' + err,
                             html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
@@ -273,13 +273,95 @@ module.exports = (router) => {
                     } else {
                         // Check if events were found in database
                         if (!events) {
-                            res.json({ success: false, message: eval(language + '.allUserEvents.eventsError') }); // Return error of no events found
+                            res.json({ success: false, message: eval(language + '.userEvents.eventsError') }); // Return error of no events found
                         } else {
                             res.json({ success: true, events: events }); // Return success and events array
                         }
                     }
                 }); // Sort events from newest to oldest
             }
+        }
+    });
+    /* ===============================================================
+       GET Events
+    =============================================================== */
+    router.get('/getEvents/:language', (req, res) => {
+        console.log("ia ba");
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            // Search database for Events
+            Event.find({
+                language: language
+            }).sort({ 'start': 1 }).exec((err, events) => {
+                // Check if error was found or not
+                if (err) {
+                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                    var mailOptions = {
+                        from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
+                        to: ['mundoarqueologia@gmail.com'],
+                        subject: ' Find 1 get events error ',
+                        text: 'The following error has been reported in the Mundoarqueologia: ' + err,
+                        html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                    };
+                    // Function to send e-mail to myself
+                    transporter.sendMail(mailOptions, function(err, info) {
+                        if (err) {
+                            console.log(err); // If error with sending e-mail, log to console/terminal
+                        } else {
+                            console.log(info); // Log success message to console if sent
+                            console.log(user.email); // Display e-mail that it was sent to
+                        }
+                    });
+                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                } else {
+                    // Check if events were found in database
+                    if (!events) {
+                        res.json({ success: false, message: eval(language + '.eventsSearch.eventsError') }); // Return error of no events found
+                    } else {
+                        var placesArray = [];
+                        for (var i = 0; i < events.length; i++) {
+                            placesArray.push(events[i].placeId);
+                        }
+                        // Search database for all application Places
+                        Place.find({
+                            _id: placesArray,
+                            language: language
+                        }, (err, places) => {
+                            // Check if error was found or not
+                            if (err) {
+                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                var mailOptions = {
+                                    from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
+                                    to: ['mundoarqueologia@gmail.com'],
+                                    subject: ' Find 2 get events error ',
+                                    text: 'The following error has been reported in the Mundoarqueologia: ' + err,
+                                    html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                                };
+                                // Function to send e-mail to myself
+                                transporter.sendMail(mailOptions, function(err, info) {
+                                    if (err) {
+                                        console.log(err); // If error with sending e-mail, log to console/terminal
+                                    } else {
+                                        console.log(info); // Log success message to console if sent
+                                        console.log(user.email); // Display e-mail that it was sent to
+                                    }
+                                });
+                                res.json({ success: false, message: eval(language + '.general.generalError') });
+                            } else {
+                                // Check if places were found in database
+                                if (!places) {
+                                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
+                                } else {
+                                    res.json({ success: true, events: events, places: places }); // Return success and place 
+                                }
+                            }
+                        }); // Sort places from newest to oldest
+                    }
+                }
+            }); // Sort events from newest to oldest
+
         }
     });
     /* ===============================================================
@@ -408,6 +490,7 @@ module.exports = (router) => {
             }
         }
     });
+    
     /* ===============================================================
         Route to update/edit a event
     =============================================================== */
@@ -703,21 +786,21 @@ module.exports = (router) => {
     /* ===============================================================
            GET ALL events search
         =============================================================== */
-    router.get('/allEventsSearch/:search?/:language', (req, res) => {
+    router.get('/eventsSearch/:search?/:language', (req, res) => {
         var language = req.params.language;
         var search = req.params.search;
         if (!language) {
             res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
         } else {
             if (!search) {
-                res.json({ success: false, message: eval(language + '.allEventsSearch.searchTermProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.eventsSearch.searchTermProvidedError') }); // Return error
             } else {
                 // Search database for all events posts
                 Event.find({
                     title: {
                         $regex: new RegExp(".*" + search + ".*", "i")
                     },
-                    language:language
+                    language: language
                 }, (err, events) => {
                     // Check if error was found or not
                     if (err) {
@@ -742,7 +825,7 @@ module.exports = (router) => {
                     } else {
                         // Check if events were found in database
                         if (!events) {
-                            res.json({ success: false, message: eval(language + '.allEventsSearch.eventsError') }); // Return error of no events found
+                            res.json({ success: false, message: eval(language + '.eventsSearch.eventsError') }); // Return error of no events found
                         } else {
                             res.json({ success: true, events: events }); // Return success and events array
                         }

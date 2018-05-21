@@ -25,7 +25,7 @@ export class ApplicationInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });     
-      }else if(request.url==="http://localhost:8080/application/allUserApplications/"+this.applicationService.route+this.localizeService.parser.currentLang){
+      }else if(request.url==="http://localhost:8080/application/userApplications/"+this.applicationService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

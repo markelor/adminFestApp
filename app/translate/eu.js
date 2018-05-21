@@ -200,26 +200,27 @@ module.exports = {
         saveError: "Aplikazioa ezin da gorde. Errorea:",
         success: "Aplikazioa gorde da!"
     },
-    //allUserEvents
-    allUserEvents: {
+    //userEvents
+    userEvents: {
         usernameProvidedError: "Ekintzen erabiltzailea ez da eman.",
         eventsError: "Ez dira ekintzak aurkitu.",
     },
-    //allUserApplications
-    allUserApplications: {
+    //userApplications
+    userApplications: {
         usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
         userError: "Erabiltzailea ez da aurkitu.",
         applicationsError: "Ez dira aplikazioak aurkitu."
     },
-    //allUsersSearch
-    allUsersSearch: {
+    //usersSearch
+    usersSearch: {
         searchTermProvidedError: "Bilaketa hitza ez da eman.",
         usersError: "Erabiltzaileak ez dira aurkitu.",
     },
-    //allEventsSearch
-    allEventsSearch: {
+    //eventsSearch
+    eventsSearch: {
         searchTermProvidedError: "Bilaketa hitza ez da eman.",
         eventsError: "Ekintzak ez dira aurkitu.",
+        placesError: "lekuak ez dira aurkitu."
     },
     //getEvent
     getEvent: {
@@ -247,7 +248,7 @@ module.exports = {
         saveError: "Lekua ezin da gorde. Errorea:",
         success: "Lekua gorde da!"
     },
-    allCategories: {
+    categories: {
         idProvidedError: 'Ez da categoriaren IDa eman.',
         categoriesError: "Ez da kategoriarik aurkitu.",
         thematicProvidedError: "Ez da tematika eman.",

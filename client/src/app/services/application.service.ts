@@ -26,9 +26,9 @@ export class ApplicationService {
     return this.http.get<any>(this.domain + 'application/getApplication/'+this.route+language);
   }
   // Function to get all user applications from the database
-  public getAllUserApplications(username,language) {
+  public getUserApplications(username,language) {
     this.route= encodeURIComponent(username) +'/';
-    return this.http.get<any>(this.domain + 'application/allUserApplications/'+this.route+language);
+    return this.http.get<any>(this.domain + 'application/userApplications/'+this.route+language);
   }
   // Function to edit/update theme post
   public editApplication(application) {

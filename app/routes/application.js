@@ -1,6 +1,7 @@
 const User = require('../models/user'); // Import User Model Schema
 const Application = require('../models/application'); // Import Application Model Schema
 const Event = require('../models/event'); // Import Event Model Schema
+const Place = require('../models/place'); // Import Event Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
@@ -251,11 +252,11 @@ module.exports = (router) => {
                                                         if (!application) {
                                                             res.json({ success: false, message: eval(language + '.getApplication.applicationError') }); // Return error of no application found
                                                         } else {
-                                                            // Search database for all application Events
+                                                            // Search database for application Events
                                                             Event.find({
                                                                 _id: application.events,
                                                                 language: language
-                                                            }, (err, events) => {
+                                                            }).sort({ 'start': 1 }).exec((err, events) => {
                                                                 // Check if error was found or not
                                                                 if (err) {
                                                                     // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
@@ -279,9 +280,46 @@ module.exports = (router) => {
                                                                 } else {
                                                                     // Check if events were found in database
                                                                     if (!events) {
-                                                                        res.json({ success: false, message: eval(language + '.allEventsSearch.eventsError') }); // Return error of no events found
+                                                                        res.json({ success: false, message: eval(language + '.eventsSearch.eventsError') }); // Return error of no events found
                                                                     } else {
-                                                                        res.json({ success: true, application: application, events: events }); // Return success and event 
+                                                                        var placesArray = [];
+                                                                        for (var i = 0; i < events.length; i++) {
+                                                                            placesArray.push(events[i].placeId);
+                                                                        }
+                                                                        // Search database for all application Places
+                                                                        Place.find({
+                                                                            _id: placesArray,
+                                                                            language: language
+                                                                        }, (err, places) => {
+                                                                            // Check if error was found or not
+                                                                            if (err) {
+                                                                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                                var mailOptions = {
+                                                                                    from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
+                                                                                    to: ['mundoarqueologia@gmail.com'],
+                                                                                    subject: ' Find 5 get application error ',
+                                                                                    text: 'The following error has been reported in the Mundoarqueologia: ' + err,
+                                                                                    html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                                                                                };
+                                                                                // Function to send e-mail to myself
+                                                                                transporter.sendMail(mailOptions, function(err, info) {
+                                                                                    if (err) {
+                                                                                        console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                                    } else {
+                                                                                        console.log(info); // Log success message to console if sent
+                                                                                        console.log(user.email); // Display e-mail that it was sent to
+                                                                                    }
+                                                                                });
+                                                                                res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                                            } else {
+                                                                                // Check if places were found in database
+                                                                                if (!places) {
+                                                                                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
+                                                                                } else {
+                                                                                    res.json({ success: true, application: application, events: events, places: places }); // Return success and place 
+                                                                                }
+                                                                            }
+                                                                        }); // Sort places from newest to oldest
                                                                     }
                                                                 }
                                                             }); // Sort events from newest to oldest
@@ -320,7 +358,7 @@ module.exports = (router) => {
                         var mailOptions = {
                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email], // list of receivers
-                            subject: ' Find 3 get application error ',
+                            subject: ' Find 1 get applicationEvents error ',
                             text: 'The following error has been reported in Kultura: ' + err,
                             html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
@@ -343,14 +381,14 @@ module.exports = (router) => {
                             Event.find({
                                 _id: application.events,
                                 language: language
-                            }, (err, events) => {
+                            }).sort({ 'start': 1 }).exec((err, events) => {
                                 // Check if error was found or not
                                 if (err) {
                                     // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                                     var mailOptions = {
                                         from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
                                         to: ['mundoarqueologia@gmail.com'],
-                                        subject: ' Find 4 get application error ',
+                                        subject: ' Find 2 get applicationEevents error ',
                                         text: 'The following error has been reported in the Mundoarqueologia: ' + err,
                                         html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
                                     };
@@ -367,7 +405,7 @@ module.exports = (router) => {
                                 } else {
                                     // Check if events were found in database
                                     if (!events) {
-                                        res.json({ success: false, message: eval(language + '.allEventsSearch.eventsError') }); // Return error of no events found
+                                        res.json({ success: false, message: eval(language + '.eventsSearch.eventsError') }); // Return error of no events found
                                     } else {
                                         res.json({ success: true, events: events }); // Return success and event 
                                     }
@@ -382,13 +420,13 @@ module.exports = (router) => {
     /* ===============================================================
            GET ALL user applications
         =============================================================== */
-    router.get('/allUserApplications/:username/:language', (req, res) => {
+    router.get('/userApplications/:username/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.params.username) {
-                res.json({ success: false, message: eval(language + '.allUserApplications.usernameProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.userApplications.usernameProvidedError') }); // Return error
             } else {
                 // Look for logged in user in database to check if have appropriate access
                 User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
@@ -414,7 +452,7 @@ module.exports = (router) => {
                     } else {
                         // Check if logged in user is found in database
                         if (!mainUser) {
-                            res.json({ success: false, message: eval(language + '.allUserApplications.userError') }); // Return error
+                            res.json({ success: false, message: eval(language + '.userApplications.userError') }); // Return error
                         } else {
                             // Look for user in database
                             User.findOne({ username: req.params.username }, function(err, user) {
@@ -439,7 +477,7 @@ module.exports = (router) => {
                                 } else {
                                     // Check if user is in database
                                     if (!user) {
-                                        res.json({ success: false, message: eval(language + '.allUserApplications.userError') }); // Return error
+                                        res.json({ success: false, message: eval(language + '.userApplications.userError') }); // Return error
                                     } else {
                                         var saveErrorPermission = false;
                                         // Check if is owner
@@ -493,7 +531,7 @@ module.exports = (router) => {
                                                 } else {
                                                     // Check if applications were found in database
                                                     if (!applications) {
-                                                        res.json({ success: false, message: eval(language + '.allUserApplications.applicationsError') }); // Return error of no applications found
+                                                        res.json({ success: false, message: eval(language + '.userApplications.applicationsError') }); // Return error of no applications found
                                                     } else {
                                                         res.json({ success: true, applications: applications }); // Return success and applications array
                                                     }

@@ -118,16 +118,16 @@ export class AuthService {
   public userSearch(searchs: Observable<string>,language) {
     return searchs.debounceTime(400)
       .distinctUntilChanged()
-      .switchMap(search => this.getAllUsersSearch(search,language));
+      .switchMap(search => this.getUsersSearch(search,language));
   }
    // Function to get all themes from the database
-  public getAllUsersSearch(search,language) {
+  public getUsersSearch(search,language) {
     if(!search){
       this.route='';
     }else{
       this.route= encodeURIComponent(search) +'/';
     }    
-    return this.http.get<any>(this.domain + 'event/allUsersSearch/'+this.route+language);
+    return this.http.get<any>(this.domain + 'event/usersSearch/'+this.route+language);
   }
   // Function to get allusers
   public getAllUsers(language) {

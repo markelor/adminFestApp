@@ -102,7 +102,7 @@ export class CreateCategoryComponent implements OnInit {
         }else{
           this.submitted = false;
           this.category=new Category();
-          this.getAllCategories();
+          this.getCategories();
           this.createForm(); // Reset all form fields
           this.messageClass='alert alert-success ks-solid'
           this.message=data.message
@@ -182,9 +182,9 @@ export class CreateCategoryComponent implements OnInit {
     }
   }
 
-  private getAllCategories(){
+  private getCategories(){
     //Get thematic
-      this.categoryService.getAllCategories(this.localizeService.parser.currentLang).subscribe(data=>{
+      this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success){        
           this.parentCategories=data.categories;  
           this.categories=this.groupByPipe.transform(data.categories,'firstParentId');
@@ -200,7 +200,7 @@ export class CreateCategoryComponent implements OnInit {
       this.style.height = (this.scrollHeight) + 'px';
     });
     this.createSettings(); 
-    this.getAllCategories();
+    this.getCategories();
   	/*this.authService.getAllCategorys(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         if(data.permission==="admin" || data.permission==="moderator"){

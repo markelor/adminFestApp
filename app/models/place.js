@@ -66,7 +66,7 @@ const longitudeValidators = [
     }
 ];
 
-// Category Model Definition
+// Place Model Definition
 const placeSchema = new Schema({
     sponsorId: { type: String, required: false },
     language: { type: String, required: true },

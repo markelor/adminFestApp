@@ -716,14 +716,14 @@ module.exports = (router) => {
     /* ===============================================================
            GET ALL users search
         =============================================================== */
-    router.get('/allUsersSearch/:search?/:language', (req, res) => {
+    router.get('/usersSearch/:search?/:language', (req, res) => {
         var language = req.params.language;
         var search = req.params.search;
         if (!language) {
             res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
         } else {
             if (!search) {
-                res.json({ success: false, message: eval(language + '.allUsersSearch.searchTermProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.usersSearch.searchTermProvidedError') }); // Return error
             } else {
                 // Search database for all users posts
                 User.find({
@@ -754,7 +754,7 @@ module.exports = (router) => {
                     } else {
                         // Check if users were found in database
                         if (!users) {
-                            res.json({ success: false, message: eval(language + '.allUsersSearch.usersError') }); // Return error of no users found
+                            res.json({ success: false, message: eval(language + '.usersSearch.usersError') }); // Return error of no users found
                         } else {
                             res.json({ success: true, users: users }); // Return success and users array
                         }
@@ -776,8 +776,10 @@ module.exports = (router) => {
         var token = req.headers['authorization']; // Create token found in headers
         if (req.path === '/allThemes/' + language && req.method === 'GET') {
             next();
-        } else if (req.path === '/allEventsSearch/' + route + language && req.method === 'GET') {
+        } else if (req.path === '/eventsSearch/' + route + language && req.method === 'GET') {
             next();
+        } else if (req.path === '/getEvents/' + language && req.method === 'GET') {
+            next()
         } else if (req.path === '/getEvent/' + route + language && req.method === 'GET') {
             next()
         } else if (req.path === '/getApplicationEvents/' + route + language && req.method === 'GET') {

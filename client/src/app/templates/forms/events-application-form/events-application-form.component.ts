@@ -21,11 +21,15 @@ export class EventsApplicationFormComponent implements OnInit {
   private event:AbstractControl;
   @Input() applicationId;
   private application;
-  private events=[];
+  private eventsAplication;
+  private placesAplication;
+  private events;
+  private places;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
   private dtOptions: any = {};
-  private dtTrigger: Subject<any> = new Subject();
+  private addTrigger: Subject<any> = new Subject();
+  private deleteTrigger: Subject<any> = new Subject();
   private search:boolean=true;
   private eventsSearch;
   private searchTerm = new Subject<string>();
@@ -62,7 +66,7 @@ export class EventsApplicationFormComponent implements OnInit {
       responsive: true
     };
   }
-  private addEvent(){
+  private addEventAplication(){
     var index=this.eventsSearch.map(event => event.title).indexOf(this.event.value);
     if(this.event.value && !this.application.events.includes(this.eventsSearch[index]._id) && this.eventsSearch.filter(event => event.title === this.event.value).length > 0){
       this.application.events.push(this.eventsSearch[index]._id);
@@ -74,16 +78,33 @@ export class EventsApplicationFormComponent implements OnInit {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            this.events.push(this.eventsSearch[index]);
-            // Call the dtTrigger to rerender again
-            this.dtTrigger.next();
+            this.eventsAplication.push(this.eventsSearch[index]);
+            // Call the addTrigger to rerender again
+            this.deleteTrigger.next();
           });
         }
       });
     }
   }
-  private deleteEvent(indexEvent){
-      var indexAplicatonEvent=this.application.events.indexOf(this.events[indexEvent]._id);
+  private addEventAplicationTable(indexEvent){
+    if(!this.application.events.includes(this.events[indexEvent]._id)){
+      this.application.events.push(this.events[indexEvent]._id);
+      // Edit application
+      this.applicationService.editApplication(this.application).subscribe(data => {
+        if(data.success){ 
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            this.eventsAplication.push(this.events[indexEvent]);
+            // Call the addTrigger to rerender again
+            this.deleteTrigger.next();
+          });
+        }
+      });
+    }  
+  }
+  private deleteEventAplicationTable(indexEvent){
+      var indexAplicatonEvent=this.application.events.indexOf(this.eventsAplication[indexEvent]._id);
       this.application.events.splice(indexAplicatonEvent,1);
       // Edit application
       this.applicationService.editApplication(this.application).subscribe(data => {
@@ -91,9 +112,9 @@ export class EventsApplicationFormComponent implements OnInit {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            this.events.splice(indexEvent,1);
-            // Call the dtTrigger to rerender again
-            this.dtTrigger.next();
+            this.eventsAplication.splice(indexEvent,1);
+            // Call the addTrigger to rerender again
+            this.deleteTrigger.next();
           });
         }
       });
@@ -107,14 +128,25 @@ export class EventsApplicationFormComponent implements OnInit {
       this.search=false;
     }
   }
-  private getAllApplicationEvents(){
+  private getApplicationEvents(){
     // Get application
     this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
-      console.log(data);
       if(data.success){
         this.application=data.application;
+        this.eventsAplication=data.events;
+        this.placesAplication=data.places;
+        this.deleteTrigger.next();
+      }
+    });
+  }
+  // Function to get events from the database
+  private getEvents() {
+    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
+      console.log(data);
+      if(data.success){
         this.events=data.events;
-        this.dtTrigger.next();
+        this.places=data.places;
+        this.addTrigger.next();
       }
     });
   }
@@ -125,7 +157,8 @@ export class EventsApplicationFormComponent implements OnInit {
       this.style.height = (this.scrollHeight) + 'px';
     }); 
     this.createSettings(); 
-    this.getAllApplicationEvents();
+    this.getApplicationEvents();
+    this.getEvents();
     this.eventService.eventSearch(this.searchTerm,this.localizeService.parser.currentLang).subscribe(data=>{
       console.log(data);
       if(data.success){

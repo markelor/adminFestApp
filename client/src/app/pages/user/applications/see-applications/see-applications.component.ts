@@ -23,8 +23,8 @@ export class SeeApplicationsComponent implements OnInit {
     ) { }
 
   // Function to get all user applications from the database
-  private getAllUserApplications() {
-    this.applicationService.getAllUserApplications(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+  private getUserApplications() {
+    this.applicationService.getUserApplications(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       console.log(data);
       if(data.success){
         this.applications = data.applications; // Assign array to use in HTML
@@ -41,7 +41,7 @@ export class SeeApplicationsComponent implements OnInit {
         this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
       }
     });
-  	this.getAllUserApplications();
+  	this.getUserApplications();
   } 
 
 }

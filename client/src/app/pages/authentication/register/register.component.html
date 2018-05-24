@@ -77,7 +77,7 @@
                         <span *ngIf="!passwords.valid && (password.dirty || repeatPassword.dirty)" class="help-block form-error" translate>{{'validation.password-match'}}</span>
                     </div>
                     <!-- About Yourself textarea -->
-                    <div class="form-group" [ngClass]="{'has-error': (!aboutYourself.valid && aboutYourself.dirty), 'has-success': (aboutYourself.value && aboutYourself.valid)}">
+                    <div class="form-group" [ngClass]="{'has-error': (!aboutYourself.valid && aboutYourself.dirty), 'has-success': (aboutYourself.valid && aboutYourself.value)}">
                         <div class="input-icon icon-left icon-lg icon-color-primary">
                         	<textarea [formControl]="aboutYourself" capitalize class="form-control" rows="6"[placeholder]="'auth-form.about-yourself'| translate"></textarea>
                         </div>

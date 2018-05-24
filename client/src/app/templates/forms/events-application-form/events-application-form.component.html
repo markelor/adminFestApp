@@ -9,7 +9,7 @@
   <div class="row">
     <!-- Event -->
     <div class="col-sm-12">
-      <div class="form-group required" [ngClass]="{'has-error': (!event.valid && event.dirty), 'has-success': (event.valid)}">
+      <div class="form-group required" [ngClass]="{'has-error': (!event.valid && event.dirty), 'has-success': (event.valid && event.value)}">
         <label for="textareaEvent" translate>{{'application-form.events'}}</label>
         <div class="input-group icon">
           <input (keyup)="searchTerm.next($event.target.value)" [formControl]="event" capitalize type="text" class="form-control" id="inputEvent">

@@ -9,11 +9,11 @@ import { ObservableService } from '../../../services/observable.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 @Component({
-  selector: 'app-user-administrator',
-  templateUrl: './user-administrator.component.html',
-  styleUrls: ['./user-administrator.component.css']
+  selector: 'app-users-administrator',
+  templateUrl: './users-administrator.component.html',
+  styleUrls: ['./users-administrator.component.css']
 })
-export class UserAdministratorComponent implements OnInit {
+export class UsersAdministratorComponent implements OnInit {
   private users;
   private messageClass;
   private message;

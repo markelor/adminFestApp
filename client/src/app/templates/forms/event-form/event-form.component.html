@@ -40,7 +40,7 @@
     </div>
     <!-- Participants input -->
     <div class="col-sm-12">
-      <div class="form-group required" [ngClass]="{'has-error': (!participant.valid && participant.dirty), 'has-success': (participant.valid)}">
+      <div class="form-group required" [ngClass]="{'has-error': (!participant.valid && participant.dirty), 'has-success': (participant.valid && participant.value)}">
         <label for="inputParticipant" translate>{{'event-form.participants'}}</label>
         <div class="input-group icon">
           <input [formControl]="participant" capitalize type="text" class="form-control" id="inputParticipant">
@@ -126,9 +126,9 @@
           <!--<button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                         <span class="glyphicon glyphicon-upload"></span> Upload all
                       </button>-->
-          <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+          <!--<button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
             <span class="fa fa-trash" translate>{{'event-form.delete-all'}}</span>
-          </button>
+          </button>-->
         </div>
       </div>
     </div>

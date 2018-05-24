@@ -1,0 +1,38 @@
+<div class="ks-page-content">
+  <div class="ks-page-content-body">
+    <div class="ks-nav-body-wrapper">
+      <div class="container-fluid ks-rows-section">
+        <div class="row">
+          <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+              <thead>
+                <tr>
+                  <th>Created By</th>
+                  <th>Title</th>
+                  <th>Start</th>
+                  <th>End</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let event of events; let i=index">
+                  <td>{{event.createdBy}}</td>
+                  <td>{{event.title}}</td>
+                  <td>{{event.start}}</td>
+                  <td>{{event.end }}</td>
+                  <td class="ks-status">
+	                <a href="javascript:void(0)" [routerLink]="['/user-route','events-route','edit-route',event._id] | localize"><span class="fa fa-edit ks-color-info">Edit</span></a>
+	                <a href="javascript:void(0)" (click)="eventDeleteClick(i,user);deleteUploaderClick(index)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+	              </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <aside class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <!--<ba-right-sidebar></ba-right-sidebar>-->
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

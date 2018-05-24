@@ -32,7 +32,8 @@
     "event": "Ekintza",
     "application": "Aplikazioa",
     "administrator": "Administratzailea",
-    "users": "Erabiltzaileak"
+    "users": "Erabiltzaileak",
+    "events": "Ekintzak"
   },
   "dashboard":
   {

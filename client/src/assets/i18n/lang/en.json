@@ -32,7 +32,8 @@
     "event": "Event",
     "application": "Application",
     "administrator": "Administrator",
-    "users": "Users"
+    "users": "Users",
+    "events": "Events"
   },
   "dashboard":
   {

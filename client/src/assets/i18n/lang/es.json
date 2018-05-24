@@ -31,7 +31,8 @@
     "event": "Evento",
     "application": "Aplicación",
     "administrator": "Administrador",
-    "users": "Usuarios"
+    "users": "Usuarios",
+    "events": "Eventos"
   },
   "dashboard":
   {

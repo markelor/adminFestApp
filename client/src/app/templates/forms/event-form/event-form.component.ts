@@ -6,6 +6,7 @@ import { AlphanumericValidator,LatitudeValidator,LongitudeValidator,DateValidato
 import { AuthService } from '../../../services/auth.service';
 import { CategoryService } from '../../../services/category.service';
 import { EventService } from '../../../services/event.service';
+import { PlaceService } from '../../../services/place.service';
 import { FileUploaderService} from '../../../services/file-uploader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FileUploader,FileUploaderOptions,FileItem } from 'ng2-file-upload';
@@ -131,6 +132,7 @@ export class EventFormComponent implements OnInit {
     private authService: AuthService,
     private categoryService: CategoryService,
     private eventService: EventService,
+    private placeService: PlaceService,
     private fileUploaderService:FileUploaderService,
     private translate: TranslateService,
     private observableService: ObservableService,
@@ -271,8 +273,8 @@ export class EventFormComponent implements OnInit {
       this.observations.setValue(this.editObservations);
     if(this.editImagesPoster){
       this.imagesPoster=this.editImagesPoster;
-      for (var j = 0; j < this.editImagesPoster.length; ++j) {
-        let file = new File([],decodeURIComponent(this.editImagesPoster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1], {type: this.editImagesPoster[j].mimetype, lastModified: Date.now()});
+      for (var j = 0; j < this.imagesPoster.length; ++j) {
+        let file = new File([],decodeURIComponent(this.editImagesPoster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
         let fileItem = new FileItem(this.uploader, file, {});
         fileItem.file.size=this.editImagesPoster[j].size;
         fileItem.progress = 100;
@@ -365,6 +367,7 @@ export class EventFormComponent implements OnInit {
         this.enableFormNewEventForm(); // Enable form
       } else {
         this.createNewEventForm(); // Reset all form fields
+        this.uploader.clearQueue();
         this.messageClass = 'alert alert-success ks-solid'; // Return success class
         this.message = data.message; // Return success message
         // Clear form data after two seconds
@@ -380,9 +383,23 @@ export class EventFormComponent implements OnInit {
     });  
   }
   private editEvent() {
+    //see delete images
+    var deleteImages=[];
+    for (var i = 0; i < this.imagesPoster.length; ++i) {
+      let file = new File([],decodeURIComponent(this.editImagesPoster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+      let fileItem = new FileItem(this.uploader, file, {});
+      if(this.uploader.queue.some(e => e.file.name !== fileItem.file.name)){
+        deleteImages.push(this.imagesPoster[i]);
+        this.imagesPoster.splice(i,1);
+        this.event.setImagesPoster=this.imagesPoster;        
+      }
+    }
+    if(deleteImages.length>0){
+      this.deleteUploadImages('poster',deleteImages);
+    }
     // Function to save event into database
     this.eventService.editEvent(this.event,this.place).subscribe(data => {
-      console.log(data);
+      //console.log(data);
       /*console.log(data);
       // Check if event was saved to database or not
       if (!data.success) {
@@ -410,7 +427,11 @@ export class EventFormComponent implements OnInit {
   private deleteUploadImages(type,images){
     if(type==='poster'){
       for (var i = 0; i < images.length; ++i) {
-        this.fileUploaderService.deleteImages(images[i].key,"poster",this.localizeService.parser.currentLang).subscribe(data=>{
+        var currentUrlSplit = images[i].url.split("/");
+        let imageName = currentUrlSplit[currentUrlSplit.length - 1];
+        console.log(imageName);
+        var urlSplit = imageName.split("%2F");
+        this.fileUploaderService.deleteImages(urlSplit[0],"poster",this.localizeService.parser.currentLang).subscribe(data=>{
         });
       }
     }else if(type==='descriptionOne'){
@@ -435,7 +456,7 @@ export class EventFormComponent implements OnInit {
       }
     }
   }
-    // Function on seleccted categories
+   // Function on seleccted categories
   private onSelectedCategory(index,level){
     if (index===-1){
       // remove
@@ -486,6 +507,13 @@ export class EventFormComponent implements OnInit {
         lat:this.municipalitiesEvent[index].lat,
         lng:this.municipalitiesEvent[index].lng
       }
+      this.placeService.getPlaceCoordinates(this.municipalitiesEvent[index].lat,this.municipalitiesEvent[index].lng,this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success && data.place){
+          this.location.setValue(data.place.location);
+        }else{
+          this.location.setValue("");
+        }
+      });
       this.passCoordinates(coordinates);
       this.place.setGeonameIdMunicipality=this.municipalitiesEvent[index].geonameId;
     }
@@ -535,7 +563,6 @@ export class EventFormComponent implements OnInit {
     this.uploader.setOptions(this.uploadOptions);
     //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
     this.uploader.onAfterAddingFile = (file)=> { 
-         console.log(this.uploader);
       file.withCredentials = false;
       if(this.uploader.queue.length>1){
         this.uploader.queue.splice(0,1);

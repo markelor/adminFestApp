@@ -20,7 +20,7 @@
     </div>
      <!-- Entity -->
     <div class="col-sm-12">
-      <div class="form-group required" [ngClass]="{'has-error': (!entityName.valid && entityName.dirty), 'has-success': (entityName.valid)}">
+      <div class="form-group required" [ngClass]="{'has-error': (!entityName.valid && entityName.dirty), 'has-success': (entityName.valid && entityName.value)}">
         <label for="inputEntity" translate>{{'application-form.entity-name'}}</label>
         <input [formControl]="entityName" capitalize type="text" class="form-control" id="inputEntity">
         <span *ngIf="entityName.errors?.minlength && entityName.dirty || entityName.errors?.maxlength && entityName.dirty " class="help-block form-error" translate>{{'validation.entityName-length'}}</span>
@@ -28,7 +28,7 @@
     </div>
     <!-- User -->
     <div class="col-sm-12">
-      <div class="form-group required" [ngClass]="{'has-error': (!user.valid && user.dirty), 'has-success': (user.valid)}">
+      <div class="form-group required" [ngClass]="{'has-error': (!user.valid && user.dirty), 'has-success': (user.valid && user.value)}">
         <label for="textareaUser" translate>{{'application-form.users'}}</label>
         <div class="input-group icon">
           <input (keyup)="searchTerm.next($event.target.value)" [formControl]="user" capitalize type="text" class="form-control" id="inputUser">
@@ -72,7 +72,7 @@
     </div>
     <!-- Conditions input -->
     <div class="col-sm-12">
-        <div class="form-group required" [ngClass]="{'has-error': (!condition.valid && condition.dirty), 'has-success': (condition.valid)}">
+        <div class="form-group required" [ngClass]="{'has-error': (!condition.valid && condition.dirty), 'has-success': (condition.valid && condition.value)}">
             <label for="inputCondition" translate>{{'application-form.conditions'}}</label>
             <div class="input-group icon">
                 <input [formControl]="condition" capitalize type="text" class="form-control" id="inputCondition">

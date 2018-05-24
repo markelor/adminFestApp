@@ -41,8 +41,6 @@ export class EditEventComponent implements OnInit {
       	this.place=data.place;
       	this.categories=data.categories;
       }
-    });
-  	
+    }); 	
   }
-
 }

@@ -7,23 +7,37 @@
         <span translate>{{'menu.home'}}</span>
     </a>
     </li>
-    <!--Create item-->
+    <!--Category item-->
     <li class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
         <span class="ks-icon la la-paw"></span>
-        <span translate>{{'menu.create'}}</span>
+        <span translate>{{'menu.category'}}</span>
       </div>
       <!--Create category-->
       <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/create-route','category-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.category'}}</a>
+        <a class="dropdown-item" [routerLink]="['/category-route','create-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.create'}}</a>
+      </div>
+    </li>
+    <!--Event item-->
+    <li class="nav-item dropdown">
+      <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="ks-icon la la-paw"></span>
+        <span translate>{{'menu.event'}}</span>
       </div>
       <!--Create event-->
       <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/create-route','event-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.event'}}</a>
+        <a class="dropdown-item" [routerLink]="['/event-route','create-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.create'}}</a>
+      </div>
+    </li>
+    <!--Aplication item-->
+    <li class="nav-item dropdown">
+      <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="ks-icon la la-paw"></span>
+        <span translate>{{'menu.application'}}</span>
       </div>
       <!--Create application-->
       <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/create-route','application-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.application'}}</a>
+        <a class="dropdown-item" [routerLink]="['/application-route','create-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.create'}}</a>
       </div>
     </li>
     <!--Administrator item-->

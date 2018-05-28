@@ -8,6 +8,7 @@ const eu = require('../translate/eu'); // Import translate eu
 const en = require('../translate/en'); // Import translate en
 const nodemailer = require('nodemailer');
 const emailConfig = require('../config/email'); // Mongoose Email
+var ObjectId = require('mongodb').ObjectId;
 module.exports = (router) => {
     // create reusable transporter object using the default SMTP transport
     var transporter = nodemailer.createTransport({
@@ -286,82 +287,26 @@ module.exports = (router) => {
        GET Events
     =============================================================== */
     router.get('/getEvents/:language', (req, res) => {
-        console.log("ia ba");
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            // Search database for Events
-            Event.find({
-                language: language
-            }).sort({ 'start': 1 }).exec((err, events) => {
-                // Check if error was found or not
-                if (err) {
-                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                    var mailOptions = {
-                        from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
-                        to: ['mundoarqueologia@gmail.com'],
-                        subject: ' Find 1 get events error ',
-                        text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                        html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
-                    };
-                    // Function to send e-mail to myself
-                    transporter.sendMail(mailOptions, function(err, info) {
-                        if (err) {
-                            console.log(err); // If error with sending e-mail, log to console/terminal
-                        } else {
-                            console.log(info); // Log success message to console if sent
-                            console.log(user.email); // Display e-mail that it was sent to
-                        }
-                    });
-                    res.json({ success: false, message: eval(language + '.general.generalError') });
-                } else {
-                    // Check if events were found in database
-                    if (!events) {
-                        res.json({ success: false, message: eval(language + '.eventsSearch.eventsError') }); // Return error of no events found
-                    } else {
-                        var placesArray = [];
-                        for (var i = 0; i < events.length; i++) {
-                            placesArray.push(events[i].placeId);
-                        }
-                        // Search database for all application Places
-                        Place.find({
-                            _id: placesArray,
-                            language: language
-                        }, (err, places) => {
-                            // Check if error was found or not
-                            if (err) {
-                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                var mailOptions = {
-                                    from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
-                                    to: ['mundoarqueologia@gmail.com'],
-                                    subject: ' Find 2 get events error ',
-                                    text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                                    html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
-                                };
-                                // Function to send e-mail to myself
-                                transporter.sendMail(mailOptions, function(err, info) {
-                                    if (err) {
-                                        console.log(err); // If error with sending e-mail, log to console/terminal
-                                    } else {
-                                        console.log(info); // Log success message to console if sent
-                                        console.log(user.email); // Display e-mail that it was sent to
-                                    }
-                                });
-                                res.json({ success: false, message: eval(language + '.general.generalError') });
-                            } else {
-                                // Check if places were found in database
-                                if (!places) {
-                                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
-                                } else {
-                                    res.json({ success: true, events: events, places: places }); // Return success and place 
-                                }
-                            }
-                        }); // Sort places from newest to oldest
-                    }
+            Event.aggregate([{
+                // Join with Place table
+                $lookup: {
+                    from: "places", // other table name
+                    localField: "placeId", // placeId of Event table field
+                    foreignField: "_id", // _id of Place table field
+                    as: "place" // alias for userinfo table
                 }
-            }); // Sort events from newest to oldest
-
+            }, { $unwind: "$place" }]).exec(function(err, events) {
+                // Check if places were found in database
+                if (!events) {
+                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
+                } else {
+                    res.json({ success: true, events: events }); // Return success and place 
+                }
+            });
         }
     });
     /* ===============================================================
@@ -375,122 +320,81 @@ module.exports = (router) => {
             if (!req.params.id) {
                 res.json({ success: false, message: eval(language + '.getEvent.idProvidedError') }); // Return error
             } else {
-                Event.findOne({
-                    language: language,
-                    _id: req.params.id
-                }, (err, event) => {
-                    // Check if error was found or not
-                    if (err) {
-                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                        var mailOptions = {
-                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                            to: [emailConfig.email], // list of receivers
-                            subject: ' Find 1 getEvent error ',
-                            text: 'The following error has been reported in Kultura: ' + err,
-                            html: 'The following error has been reported in Kultura:<br><br>' + err
-                        };
-                        // Function to send e-mail to myself
-                        transporter.sendMail(mailOptions, function(err, info) {
+                Event.aggregate([{
+                        $match: {
+                            language: language,
+                            _id: ObjectId(req.params.id)
+                        }
+                    }, {
+                        // Join with Place table
+                        $lookup: {
+                            from: "places", // other table name
+                            localField: "placeId", // placeId of Event table field
+                            foreignField: "_id", // _id of Place table field
+                            as: "place" // alias for userinfo table
+                        }
+                    },
+                    { $unwind: "$place" }
+
+                ]).exec(function(err, event) {
+                    // Check if places were found in database
+                    if (!event) {
+                        res.json({ success: false, message: eval(language + '.getEvent.eventError') }); // Return error of no event found
+                    } else {
+                        Category.find({
+                            language: language
+                        }, (err, categories) => {
+                            // Check if error was found or not
                             if (err) {
-                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                var mailOptions = {
+                                    from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                    to: [emailConfig.email], // list of receivers
+                                    subject: ' Find 3 getEvent error ',
+                                    text: 'The following error has been reported in Kultura: ' + err,
+                                    html: 'The following error has been reported in Kultura:<br><br>' + err
+                                };
+                                // Function to send e-mail to myself
+                                transporter.sendMail(mailOptions, function(err, info) {
+                                    if (err) {
+                                        console.log(err); // If error with sending e-mail, log to console/terminal
+                                    } else {
+                                        console.log(info); // Log success message to console if sent
+                                        console.log(user.email); // Display e-mail that it was sent to
+                                    }
+                                });
+                                res.json({ success: false, message: eval(language + '.general.generalError') });
                             } else {
-                                console.log(info); // Log success message to console if sent
-                                console.log(user.email); // Display e-mail that it was sent to
+                                // Check if categoryChild were found in database
+                                if (!categories) {
+                                    res.json({ success: false, message: eval(language + '.getEvent.categoryError') }); // Return error of no event found
+                                } else {
+                                    var categoryArray = [];
+
+                                    function findCategory(childId) {
+                                        for (var i in categories) {
+                                            if (categories[i]._id.toString() === eval(childId).toString()) {
+                                                return categories[i];
+                                            }
+                                        }
+                                    }
+                                    var child = findCategory('event[0].categoryId');
+                                    categoryArray.unshift(child);
+                                    while (child.parentId !== null) {
+                                        child = findCategory('child.parentId');
+                                        categoryArray.unshift(child);
+                                    }
+                                    res.json({ success: true, event: event[0], categories: categoryArray }); // Return success and place 
+                                }
                             }
                         });
-                        res.json({ success: false, message: eval(language + '.general.generalError') });
-                    } else {
-                        // Check if event were found in database
-                        if (!event) {
-                            res.json({ success: false, message: eval(language + '.getEvent.eventError') }); // Return error of no event found
-                        } else {
-                            Category.find({
-                                language: language
-                            }, (err, categories) => {
-                                // Check if error was found or not
-                                if (err) {
-                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                    var mailOptions = {
-                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                        to: [emailConfig.email], // list of receivers
-                                        subject: ' Find 3 getEvent error ',
-                                        text: 'The following error has been reported in Kultura: ' + err,
-                                        html: 'The following error has been reported in Kultura:<br><br>' + err
-                                    };
-                                    // Function to send e-mail to myself
-                                    transporter.sendMail(mailOptions, function(err, info) {
-                                        if (err) {
-                                            console.log(err); // If error with sending e-mail, log to console/terminal
-                                        } else {
-                                            console.log(info); // Log success message to console if sent
-                                            console.log(user.email); // Display e-mail that it was sent to
-                                        }
-                                    });
-                                    res.json({ success: false, message: eval(language + '.general.generalError') });
-                                } else {
-                                    // Check if categoryChild were found in database
-                                    if (!categories) {
-                                        res.json({ success: false, message: eval(language + '.getEvent.categoryError') }); // Return error of no event found
-                                    } else {
-                                        var categoryArray = [];
-
-                                        function findCategory(childId) {
-                                            for (var i in categories) {
-                                                if (categories[i]._id == eval(childId)) {
-                                                    return categories[i];
-                                                }
-                                            }
-                                        }
-                                        var child = findCategory('event.categoryId');
-                                        categoryArray.unshift(child);
-                                        while (child.parentId !== null) {
-                                            child = findCategory('child.parentId');
-                                            categoryArray.unshift(child);
-                                        }
-
-                                        Place.findOne({
-                                            language: language,
-                                            _id: event.placeId
-                                        }, (err, place) => {
-                                            // Check if error was found or not
-                                            if (err) {
-                                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                                var mailOptions = {
-                                                    from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                                    to: [emailConfig.email], // list of receivers
-                                                    subject: ' Find 4 getEvent error ',
-                                                    text: 'The following error has been reported in Kultura: ' + err,
-                                                    html: 'The following error has been reported in Kultura:<br><br>' + err
-                                                };
-                                                // Function to send e-mail to myself
-                                                transporter.sendMail(mailOptions, function(err, info) {
-                                                    if (err) {
-                                                        console.log(err); // If error with sending e-mail, log to console/terminal
-                                                    } else {
-                                                        console.log(info); // Log success message to console if sent
-                                                        console.log(user.email); // Display e-mail that it was sent to
-                                                    }
-                                                });
-                                                res.json({ success: false, message: eval(language + '.general.generalError') });
-                                            } else {
-                                                // Check if place were found in database
-                                                if (!place) {
-                                                    res.json({ success: false, message: eval(language + '.getEvent.placeError') }); // Return error of no event found
-                                                } else {
-                                                    res.json({ success: true, event: event, place: place, categories: categoryArray }); // Return success and event array
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                        }
                     }
                 });
+
             }
         }
     });
-    
+
     /* ===============================================================
         Route to update/edit a event
     =============================================================== */
@@ -806,11 +710,11 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
-                            from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
-                            to: ['mundoarqueologia@gmail.com'],
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                            to: [emailConfig.email], // list of receivers
                             subject: ' Find 1 allThemes error ',
-                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                            text: 'The following error has been reported in the Kultura: ' + err,
+                            html: 'The following error has been reported in the Kultura:<br><br>' + err
                         };
                         // Function to send e-mail to myself
                         transporter.sendMail(mailOptions, function(err, info) {

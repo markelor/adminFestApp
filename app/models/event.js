@@ -93,9 +93,8 @@ const descriptionValidators = [
 // Event Model Definition
 const eventSchema = new Schema({
     createdBy: { type: String, required: true },
-    categoryId: { type: String, required: true },
-    placeId: { type: String, required: true },
-    sponsorIds: { type: Array, required: false },
+    categoryId: { type: Schema.Types.ObjectId, required: true },
+    placeId: { type: Schema.Types.ObjectId, required: true },
     language: { type: String, required: true },
     visible: { type: Boolean, required: true, default: true },
     participants: { type: Array, required: false },

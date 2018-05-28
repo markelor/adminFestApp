@@ -14,7 +14,6 @@ import { DataTableDirective } from 'angular-datatables';
 })
 export class EventsAdministratorComponent implements OnInit {
   private events;
-  private places;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
   private dtOptions: any = {};
@@ -43,7 +42,8 @@ export class EventsAdministratorComponent implements OnInit {
         'csv',
 
       ],
-      responsive: true
+      responsive: true,
+      scrollX: true
     };
   }
    // Function to get events from the database
@@ -52,7 +52,6 @@ export class EventsAdministratorComponent implements OnInit {
       console.log(data);
       if(data.success){
         this.events=data.events;
-        this.places=data.places;
         this.dtTrigger.next();
       }
     });

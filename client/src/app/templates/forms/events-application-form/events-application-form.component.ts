@@ -73,7 +73,6 @@ export class EventsApplicationFormComponent implements OnInit {
       this.event.setValue("");
       // Edit application
       this.applicationService.editApplication(this.application).subscribe(data => {
-        console.log(data);
         if(data.success){ 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
@@ -87,10 +86,13 @@ export class EventsApplicationFormComponent implements OnInit {
     }
   }
   private addEventAplicationTable(indexEvent){
-    if(!this.application.events.includes(this.events[indexEvent]._id)){
+    console.log(this.events[indexEvent]._id);
+    console.log(this.application);
+    if(!this.application || !this.application.events.includes(this.events[indexEvent]._id)){
       this.application.events.push(this.events[indexEvent]._id);
       // Edit application
       this.applicationService.editApplication(this.application).subscribe(data => {
+        console.log(data);
         if(data.success){ 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
@@ -132,9 +134,10 @@ export class EventsApplicationFormComponent implements OnInit {
     // Get application
     this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
+           console.log(data);
         this.application=data.application;
-        this.eventsAplication=data.events;
-        this.placesAplication=data.places;
+        this.eventsAplication=data.application.events;
+        this.placesAplication=data.application.places;
         this.deleteTrigger.next();
       }
     });

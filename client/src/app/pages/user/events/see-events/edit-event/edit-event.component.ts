@@ -38,7 +38,7 @@ export class EditEventComponent implements OnInit {
     this.eventService.getEvent(this.activatedRoute.snapshot.params['id'],this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
       	this.event=data.event;
-      	this.place=data.place;
+      	this.place=data.event.place;
       	this.categories=data.categories;
       }
     }); 	

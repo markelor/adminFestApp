@@ -68,7 +68,6 @@ const longitudeValidators = [
 
 // Place Model Definition
 const placeSchema = new Schema({
-    sponsorId: { type: String, required: false },
     language: { type: String, required: true },
     province: {
         name: { type: String, required: true },

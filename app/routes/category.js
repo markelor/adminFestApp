@@ -45,8 +45,8 @@ module.exports = (router) => {
                         language: language,
                         title: req.body.title,
                         description: req.body.description,
-                        createdAt:Date.now(),
-                        updatedAt:Date.now()
+                        createdAt: Date.now(),
+                        updatedAt: Date.now()
                     });
 
                     // Save category into database
@@ -134,8 +134,8 @@ module.exports = (router) => {
             if (!req.params.id) {
                 res.json({ success: false, message: eval(language + '.categories.idProvidedError') }); // Return error
             } else {
-                if(req.params.id==="null"){
-                    req.params.id=null;
+                if (req.params.id === "null") {
+                    req.params.id = null;
                 }
                 Category.find({
                     language: language,

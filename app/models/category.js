@@ -71,8 +71,8 @@ const descriptionValidators = [
 
 // Category Model Definition
 const categorySchema = new Schema({
-    firstParentId: { type: String,required: false, default: null },
-    parentId: { type: String ,required: false, default: null },
+    firstParentId: { type: Schema.Types.ObjectId,required: false, default: null },
+    parentId: { type: Schema.Types.ObjectId ,required: false, default: null },
     language: { type: String, required: true },
     level:{ type: Number, required: true,default: 0 },
     title: { type: String, required: true, unique: true, validate: titleValidators },

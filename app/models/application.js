@@ -89,7 +89,7 @@ const applicationSchema = new Schema({
     language: { type: String, required: true },
 	users: { type: Array, required: true },
 	title: { type: String, required: true, validate: titleValidators  },
-    events: { type: Array, required: true, default: [] },
+    events: [{type: Schema.Types.ObjectId, required: true}],
     entityName: { type: String, required: false, validate: nameValidators},
     license: {
         name: { type: String, required: true },

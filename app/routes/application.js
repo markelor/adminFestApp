@@ -8,6 +8,7 @@ const eu = require('../translate/eu'); // Import translate eu
 const en = require('../translate/en'); // Import translate en
 const nodemailer = require('nodemailer');
 const emailConfig = require('../config/email'); // Mongoose Email
+var ObjectId = require('mongodb').ObjectId;
 module.exports = (router) => {
     // create reusable transporter object using the default SMTP transport
     var transporter = nodemailer.createTransport({
@@ -223,49 +224,57 @@ module.exports = (router) => {
                                             if (saveErrorPermission) {
                                                 res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
                                             } else {
-                                                Application.findOne({
-                                                    language: language,
-                                                    _id: req.params.id
-                                                }, (err, application) => {
-                                                    // Check if error was found or not
-                                                    if (err) {
-                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                                        var mailOptions = {
-                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                                            to: [emailConfig.email], // list of receivers
-                                                            subject: ' Find 3 get application error ',
-                                                            text: 'The following error has been reported in Kultura: ' + err,
-                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
-                                                        };
-                                                        // Function to send e-mail to myself
-                                                        transporter.sendMail(mailOptions, function(err, info) {
-                                                            if (err) {
-                                                                console.log(err); // If error with sending e-mail, log to console/terminal
-                                                            } else {
-                                                                console.log(info); // Log success message to console if sent
-                                                                console.log(user.email); // Display e-mail that it was sent to
-                                                            }
-                                                        });
-                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                Application.aggregate([{
+                                                        $match: {
+                                                            language: language,
+                                                            _id: ObjectId(req.params.id)
+                                                        }
+                                                    }, {
+                                                        // Join with Place table
+                                                        $lookup: {
+                                                            from: "events",
+                                                            localField: "events",
+                                                            foreignField: "_id",
+                                                            as: "eventsArray" 
+                                                        }
+                                                    },
+                                                    // Join with Place table
+                                                    {
+                                                        $lookup: {
+                                                            from: "places",
+                                                            localField: "eventsArray.placeId",
+                                                            foreignField: "_id",
+                                                            as: "place" 
+                                                        },
+                                                    },
+                                                    // Join with Place table
+                                                    {
+                                                        $lookup: {
+                                                            from: "categories",
+                                                            localField: "eventsArray.categoryId",
+                                                            foreignField: "_id",
+                                                            as: "category" 
+                                                        },
+                                                    }, { $unwind: "$category" }
+                                                ]).exec(function(err, application) {
+                                                    // Check if places were found in database
+                                                    if (!application) {
+                                                        res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
                                                     } else {
-                                                        // Check if application were found in database
-                                                        if (!application) {
-                                                            res.json({ success: false, message: eval(language + '.getApplication.applicationError') }); // Return error of no application found
-                                                        } else {
-                                                            // Search database for application Events
-                                                            Event.find({
-                                                                _id: application.events,
-                                                                language: language
-                                                            }).sort({ 'start': 1 }).exec((err, events) => {
+                                                        if (application.length === 0) {;
+                                                            Application.findOne({
+                                                                language: language,
+                                                                _id: ObjectId(req.params.id)
+                                                            }, (err, application) => {
                                                                 // Check if error was found or not
                                                                 if (err) {
                                                                     // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                                                                     var mailOptions = {
-                                                                        from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
-                                                                        to: ['mundoarqueologia@gmail.com'],
-                                                                        subject: ' Find 4 get application error ',
-                                                                        text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                                                                        html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                                        to: [emailConfig.email], // list of receivers
+                                                                        subject: ' Find 3 get application error ',
+                                                                        text: 'The following error has been reported in Kultura: ' + err,
+                                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
                                                                     };
                                                                     // Function to send e-mail to myself
                                                                     transporter.sendMail(mailOptions, function(err, info) {
@@ -278,51 +287,16 @@ module.exports = (router) => {
                                                                     });
                                                                     res.json({ success: false, message: eval(language + '.general.generalError') });
                                                                 } else {
-                                                                    // Check if events were found in database
-                                                                    if (!events) {
-                                                                        res.json({ success: false, message: eval(language + '.eventsSearch.eventsError') }); // Return error of no events found
+                                                                    // Check if application were found in database
+                                                                    if (!application) {
+                                                                        res.json({ success: false, message: eval(language + '.getApplication.applicationError') }); // Return error of no application found
                                                                     } else {
-                                                                        var placesArray = [];
-                                                                        for (var i = 0; i < events.length; i++) {
-                                                                            placesArray.push(events[i].placeId);
-                                                                        }
-                                                                        // Search database for all application Places
-                                                                        Place.find({
-                                                                            _id: placesArray,
-                                                                            language: language
-                                                                        }, (err, places) => {
-                                                                            // Check if error was found or not
-                                                                            if (err) {
-                                                                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                                                                var mailOptions = {
-                                                                                    from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
-                                                                                    to: ['mundoarqueologia@gmail.com'],
-                                                                                    subject: ' Find 5 get application error ',
-                                                                                    text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                                                                                    html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
-                                                                                };
-                                                                                // Function to send e-mail to myself
-                                                                                transporter.sendMail(mailOptions, function(err, info) {
-                                                                                    if (err) {
-                                                                                        console.log(err); // If error with sending e-mail, log to console/terminal
-                                                                                    } else {
-                                                                                        console.log(info); // Log success message to console if sent
-                                                                                        console.log(user.email); // Display e-mail that it was sent to
-                                                                                    }
-                                                                                });
-                                                                                res.json({ success: false, message: eval(language + '.general.generalError') });
-                                                                            } else {
-                                                                                // Check if places were found in database
-                                                                                if (!places) {
-                                                                                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
-                                                                                } else {
-                                                                                    res.json({ success: true, application: application, events: events, places: places }); // Return success and place 
-                                                                                }
-                                                                            }
-                                                                        }); // Sort places from newest to oldest
+                                                                        res.json({ success: true, application: application }); // Return success and place 
                                                                     }
                                                                 }
-                                                            }); // Sort events from newest to oldest
+                                                            });
+                                                        }else{
+                                                            res.json({ success: true, application: application[0] }); // Return success and place 
                                                         }
                                                     }
                                                 });
@@ -386,11 +360,11 @@ module.exports = (router) => {
                                 if (err) {
                                     // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                                     var mailOptions = {
-                                        from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
-                                        to: ['mundoarqueologia@gmail.com'],
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                        to: [emailConfig.email], // list of receivers
                                         subject: ' Find 2 get applicationEevents error ',
-                                        text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                                        html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                                        text: 'The following error has been reported in the Kultura: ' + err,
+                                        html: 'The following error has been reported in the Kultura:<br><br>' + err
                                     };
                                     // Function to send e-mail to myself
                                     transporter.sendMail(mailOptions, function(err, info) {
@@ -637,7 +611,7 @@ module.exports = (router) => {
                                                 res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
                                             } else {
                                                 // Look for application in database
-                                                Application.findOne({ _id: req.body._id }, function(err, application) {
+                                                Application.findOne({ _id: ObjectId(req.body._id) }, function(err, application) {
                                                     if (err) {
                                                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                                                         var mailOptions = {

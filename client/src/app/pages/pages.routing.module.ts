@@ -11,7 +11,9 @@ export const routes:Routes=[
 	  children:[
 	    { path: '', loadChildren: './home/home.module#HomeModule', pathMatch: 'full' },
 	    { path: 'admin-route',loadChildren: './administrator/administrator.module#AdministratorModule'},
-	    { path: 'create-route',loadChildren: './create/create.module#CreateModule'},
+	    { path: 'category-route',loadChildren: './category/category.module#CategoryModule'},
+	    { path: 'event-route',loadChildren: './event/event.module#EventModule'},
+	    { path: 'application-route',loadChildren: './application/application.module#ApplicationModule'},
 	    { path: 'user-route',loadChildren: './user/user.module#UserModule'}  	
 	  ]	
 	},

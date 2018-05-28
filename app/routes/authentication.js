@@ -199,7 +199,7 @@ module.exports = (router) => {
                         if (err) {
                             // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                             var mailOptions = {
-                                from: 'Mundoarqueologia, ' + emailConfig.email,
+                                from: 'Kultura, ' + emailConfig.email,
                                 to: emailConfig.email,
                                 subject: 'Error Logged',
                                 text: 'The following error has been reported in Login part: ' + err,
@@ -735,11 +735,11 @@ module.exports = (router) => {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
-                            from: '"Fred Foo 👻" <mundoarqueologia@gmail.com>', // sender address
-                            to: ['mundoarqueologia@gmail.com'],
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                            to: [emailConfig.email], // list of receivers
                             subject: ' Find 1 usersSearch error ',
-                            text: 'The following error has been reported in the Mundoarqueologia: ' + err,
-                            html: 'The following error has been reported in the Mundoarqueologia:<br><br>' + err
+                            text: 'The following error has been reported in the Kultura: ' + err,
+                            html: 'The following error has been reported in the Kultura:<br><br>' + err
                         };
                         // Function to send e-mail to myself
                         transporter.sendMail(mailOptions, function(err, info) {

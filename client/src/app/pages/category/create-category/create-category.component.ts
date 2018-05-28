@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../../services/auth.service';
@@ -13,6 +13,7 @@ import { Category } from '../../../class/category';
 import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
+import {DataTableDirective} from 'angular-datatables';
 @Component({
   selector: 'app-create-category',
   templateUrl: './create-category.component.html',
@@ -25,6 +26,8 @@ export class CreateCategoryComponent implements OnInit {
   private subscription: Subscription;
   private submitted:boolean = false;
   private parentCategories;
+  @ViewChild(DataTableDirective)
+  private dtElement: DataTableDirective;
   private form:FormGroup;
   private title:AbstractControl;
   private description:AbstractControl;
@@ -181,14 +184,27 @@ export class CreateCategoryComponent implements OnInit {
       });
     }
   }
-
-  private getCategories(){
+ private getCategoriesInit(){
     //Get thematic
       this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success){        
           this.parentCategories=data.categories;  
           this.categories=this.groupByPipe.transform(data.categories,'firstParentId');
           this.dtTrigger.next();
+        }    
+      });                 
+  }
+  private getCategories(){
+    //Get thematic
+      this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success){    
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            this.parentCategories=data.categories;  
+            this.categories=this.groupByPipe.transform(data.categories,'firstParentId');
+            this.dtTrigger.next();
+          });
         }    
       });                 
   }
@@ -200,7 +216,7 @@ export class CreateCategoryComponent implements OnInit {
       this.style.height = (this.scrollHeight) + 'px';
     });
     this.createSettings(); 
-    this.getCategories();
+    this.getCategoriesInit();
   	/*this.authService.getAllCategorys(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         if(data.permission==="admin" || data.permission==="moderator"){

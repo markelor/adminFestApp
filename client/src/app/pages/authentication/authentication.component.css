@@ -161,7 +161,7 @@ body {
 
 .ks-page .ks-page-content .ks-panel .form-control:focus {
   /*When focus*/
-  border-color: rgba(57, 81, 155, .3);
+  /*border-color: rgba(57, 81, 155, .3);*/
 }
 
 .ks-page .ks-page-content .ks-panel .icon-addon span {

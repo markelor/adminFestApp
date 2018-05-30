@@ -99,7 +99,7 @@
     "eu": "Euskara",
     "profile": "Perfila",
     "events": "Ekintzak",
-    "applications":"Aplikazioak"
+    "applications": "Aplikazioak"
   },
   "profile":
   {
@@ -182,6 +182,7 @@
     "lat": "Koordenatuak I-H (Lat)",
     "lng": "Koordenatuak E-M (Lng)",
     "check": "Egiaztatau",
+    "locations-exists":"Existitzen diren kokapenak",
     "location": "kokapena",
     "description": "Deskribapena",
     "observations": "Oharrak",
@@ -190,17 +191,18 @@
     "select-category": "-- AUKERATU KATEGORIA --",
     "select-province": "-- AUKERATU PROBINTZIA --",
     "select-municipality": "-- AUKERATU UDALERRIA --",
+    "select-locations-exists": "-- AUKERATU KOKAPENA --",
     "send": "Bidali"
   },
-   "application-form":
+  "application-form":
   {
-    "title":"Titulua",
-    "entity-name":"Entitate izena",
+    "title": "Titulua",
+    "entity-name": "Entitate izena",
     "events": "Ekintzak",
     "users": "Erabiltzaileak",
     "license": "Lizentzia",
-    "conditions":"Baldintzak",
-    "price":"Prezioa",
+    "conditions": "Baldintzak",
+    "price": "Prezioa",
     "expiry-date": "Iraungitze data",
     "send": "Bidali"
   },

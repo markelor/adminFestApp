@@ -209,11 +209,27 @@
         <span *ngIf="!municipality.value && municipality.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
       </div>
     </div>
+    <!-- Location exists-->
+    <div *ngIf="!location.value && locationsExistsEvent.length > 0" class="col-sm-12">
+      <div class="form-group required" [ngClass]="{'has-error': (!locationsExists.value && locationsExists.dirty), 'has-success': (locationsExists.value)}">
+        <label for="selectLocationsExistsEvent" translate>{{'event-form.locations-exists'}}</label>
+        <select [formControl]="locationsExists" class="form-control" id="selectLocationsExistsEvent" (change)="onSelectedLocationsExists($event.target.selectedIndex-1)">
+          <option value="" translate>{{'event-form.select-locations-exists'}}</option>
+          <option *ngFor="let locationsExistsEvent of locationsExistsEvent" [ngValue]="locationsExistsEvent.location">
+            {{locationsExistsEvent.location}}
+          </option>
+        </select>
+        <!-- Validation -->
+        <span *ngIf="!locationsExists.value && locationsExists.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+      </div>
+    </div>
     <!-- Location -->
-    <div class="col-sm-12">
+    <div *ngIf="!locationsExists.value" class="col-sm-12">
       <div class="form-group" [ngClass]="{'has-error': (!location.valid && location.dirty), 'has-success': (location.value)}">
         <label for="textareaLocation" translate>{{'event-form.location'}}</label>
         <textarea [formControl]="location" capitalize class="form-control" id="textareaLocation"></textarea>
+        <!-- Validation -->
+        <span *ngIf="!location.value && location.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
         <span *ngIf="location.errors?.maxlength && location.dirty " class="help-block form-error" translate>{{'validation.location-length'}}</span>
       </div>
     </div>

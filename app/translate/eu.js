@@ -236,6 +236,12 @@ module.exports = {
         userError: "Erabiltzailea ez da aurkitu.",
         applicationError: "Aplikazioa ez da aurkitu."
     },
+    //getPlacesCoordinates
+    getPlacesCoordinates: {
+        latProvidedError: 'Latitudea ez da eman.',
+        lngProvidedError: 'Luzeera ez da eman.',
+        placesError: "Lekuak ez dira aurkitu."
+    },
     //newPlace
     newPlace: {
         eventIdProvidedError: 'Ekintzaren IDa beharrezkoa da.',
@@ -245,6 +251,7 @@ module.exports = {
         geonameIdMunicipalityProvidedError: "Udalerriaren geoname ID beharrezkoa da.",
         latProvidedError: "Latitudea beharrezkoa da.",
         lngProvidedError: "Luzeera beharrezkoa da.",
+        locationProvidedError: "Kokapena beharrezkoa da.",
         saveError: "Lekua ezin da gorde. Errorea:",
         success: "Lekua gorde da!"
     },

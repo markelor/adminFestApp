@@ -182,11 +182,13 @@
     "lat": "Coordinates N-S (Lat)",
     "lng": "Coordinates E-W (Lng)",
     "check": "Check",
+    "locations-exists":"Location exists",
     "location": "Location",
     "description": "Description",
     "observations": "Observations",
     "select-category": "-- SELECT A CATEGORY --",
     "select-province": "-- SELECT A PROVINCE --",
+    "select-locations-exists":"-- SELECT A LOCATION --",
     "select-municipality": "-- SELECT A MUNICIPALITY --",
     "send": "Send"
   },

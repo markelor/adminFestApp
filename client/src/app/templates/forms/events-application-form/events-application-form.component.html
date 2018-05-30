@@ -14,7 +14,7 @@
         <div class="input-group icon">
           <input (keyup)="searchTerm.next($event.target.value)" [formControl]="event" capitalize type="text" class="form-control" id="inputEvent">
           <div class="input-group-append ">
-            <button (click)="addEventAplication()" type="button" class="btn btn-success ks-light ks-no-text">
+            <button (click)="addEventApplication()" type="button" class="btn btn-success ks-light ks-no-text">
               <span class="la la-plus ks-icon"></span>
             </button>
           </div>
@@ -39,20 +39,24 @@
   <thead>
     <tr>
       <th>Created By</th>
+      <th>Category</th>
       <th>Title</th>
-      <th>Start</th>
-      <th>End</th>
+      <th>Description</th>
+      <th>Province</th>
+      <th>Municipality</th>
       <th>Delete</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let eventAplication of eventsAplication; let i=index">
-      <td>{{eventAplication.createdBy}}</td>
-      <td>{{eventAplication.title}}</td>
-      <td>{{eventAplication.start}}</td>
-      <td>{{eventAplication.end }}</td>
+    <tr *ngFor="let eventApplication of eventsApplication; let i=index">
+      <td>{{eventApplication.createdBy}}</td>
+      <td>{{categoryApplication[i].title}}</td>
+      <td>{{eventApplication.title}}</td>
+      <td [innerHTML]="eventApplication.description"></td>
+      <td>{{placesApplication[i].province.name}}</td>
+      <td>{{placesApplication[i].municipality.name}}</td>
       <td class="ks-status">
-        <a href="javascript:void(0)" (click)="deleteEventAplicationTable(i)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+        <a href="javascript:void(0)" (click)="deleteEventApplicationTable(i)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
       </td>
     </tr>
   </tbody>
@@ -61,22 +65,25 @@
   <thead>
     <tr>
       <th>Created By</th>
+      <th>Category</th>
       <th>Title</th>
-      <th>Start</th>
-      <th>End</th>
-      <th>Delete</th>
+      <th>Description</th>
+      <th>Province</th>
+      <th>Municipality</th>
+      <th>Add</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let event of events; let i=index">
       <td>{{event.createdBy}}</td>
+      <td>{{event.category.title}}</td>
       <td>{{event.title}}</td>
-      <td>{{event.start}}</td>
-      <td>{{event.end }}</td>
+      <td [innerHTML]="event.description"></td>
+      <td>{{event.place.province.name}}</td>
+      <td>{{event.place.municipality.name }}</td>
       <td class="ks-status">
-        <a href="javascript:void(0)" (click)="addEventAplicationTable(i)"><span class="fa fa-plus ks-color-success">Add</span></a>
+        <a href="javascript:void(0)" (click)="addEventApplicationTable(i)"><span class="fa fa-plus ks-color-success">Add</span></a>
       </td>
     </tr>
   </tbody>
 </table>
-

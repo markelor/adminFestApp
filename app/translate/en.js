@@ -17,7 +17,7 @@ module.exports = {
         aboutYourselfLength: "About Yourself must be no longer than 500 characters.",
         titleLength: "Title must be more than 3 characters but no more than 35.",
         titleValid: "Title must not have any special characters.",
-        locationLength: "Location must be no longer than 1000 characters.",  
+        locationLength: "Location must be no longer than 1000 characters.",
         categoryDescriptionLength: "Description must be more than 5 characters but no more than 200.",
         eventDescriptionLength: "Description must be more than 50 characters but no more than 20000.",
         observationsLength: "Observations must be no longer than 1000 characters.",
@@ -144,7 +144,7 @@ module.exports = {
     authentication: {
         userError: "No user was found."
     },
-    profile:{
+    profile: {
         usernameProvidedError: "Username was not provided.",
     },
     editUser: {
@@ -209,7 +209,7 @@ module.exports = {
     //userApplications
     userApplications: {
         usernameProvidedError: "Application username is not provided.",
-        userError: "No user found.",      
+        userError: "No user found.",
         applicationsError: "No applications found."
     },
     //usersSearch
@@ -217,7 +217,7 @@ module.exports = {
         searchTermProvidedError: "Search term is not provided.",
         usersError: "Users not found.",
     },
-     //eventsSearch
+    //eventsSearch
     eventsSearch: {
         searchTermProvidedError: "Search term is not provided.",
         eventsError: "Events not found.",
@@ -228,24 +228,31 @@ module.exports = {
         idProvidedError: "Event ID is not provided.",
         usernameProvidedError: "Application username is not provided.",
         eventError: "No event found.",
-        placeError:"No place found.",
-        categoryError:"No category found."
+        placeError: "No place found.",
+        categoryError: "No category found."
     },
     //getApplication
-     getApplication: {
+    getApplication: {
         idProvidedError: 'Application ID was not provided.',
-        userError: "No user found.",      
+        userError: "No user found.",
         applicationError: "No application found."
+    },
+    //getPlacesCoordinates
+    getPlacesCoordinates: {
+        latProvidedError: 'Latitude was not provided.',
+        lngProvidedError: 'Longitude was not provided.',
+        placesError: "No places found."
     },
     //newPlace
     newPlace: {
         eventIdProvidedError: 'Event ID is required.',
         provinceProvidedError: "Province is required.",
-        geonameIdProvinceProvidedError:"Province geoname ID is required.",
+        geonameIdProvinceProvidedError: "Province geoname ID is required.",
         municipalityProvidedError: "Municipality is required.",
-        geonameIdMunicipalityProvidedError:"Municipality geoname ID is required.",
+        geonameIdMunicipalityProvidedError: "Municipality geoname ID is required.",
         latProvidedError: "Latitude is required.",
         lngProvidedError: "Longitude is required.",
+        locationProvidedError: "Location is required.",
         saveError: "Could not save place. Error:",
         success: "Place saved!"
     },
@@ -273,7 +280,7 @@ module.exports = {
     },
     editEvent: {
         idProvidedError: 'Event ID was not provided.',
-        createdByProvidedError:'Username was not provided.',
+        createdByProvidedError: 'Username was not provided.',
         saveError: "Could not edit event. Error: ",
         success: "Event edited!"
     },

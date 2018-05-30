@@ -11,6 +11,7 @@ const path = require('path'); // NodeJS Package for file paths
 const authentication = require('./app/routes/authentication')(router); // Import Authentication Routes
 const category = require('./app/routes/category')(router); // Import Category Routes
 const event = require('./app/routes/event')(router); // Import Event Routes
+const place = require('./app/routes/place')(router); // Import Place Routes
 const application = require('./app/routes/application')(router); // Import Application Routes
 const fileUploader = require('./app/routes/fileUploader')(router); // Import File Uploader
 var bodyParser = require('body-parser'); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
@@ -33,6 +34,7 @@ app.use(express.static(__dirname + '/client/src/')); // Provide static directory
 app.use('/authentication', authentication); // Use Authentication routes in appplication
 app.use('/category', category); // Use Authentication routes in appplication
 app.use('/event', event); // Use Event routes in appplication
+app.use('/place', place); // Use Place routes in appplication
 app.use('/application', application); // Use Application routes in appplication
 app.use('/fileUploader', fileUploader); // Use FileUploader routes in appplication
 // Connect server to Angular 2 Index.html

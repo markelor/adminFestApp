@@ -66,7 +66,7 @@ module.exports = (router) => {
                                             if (!req.body.place.municipality) {
                                                 res.json({ success: false, message: eval(language + '.newPlace.municipalityProvidedError') }); // Return error message
                                             } else {
-                                                // Check if place geonameIdmunicipality was provided
+                                                // Check if place geonameIdMunicipality was provided
                                                 if (!req.body.place.geonameIdMunicipality) {
                                                     res.json({ success: false, message: eval(language + '.newPlace.geonameIdMunicipalityProvidedError') }); // Return error message
                                                 } else {
@@ -78,149 +78,154 @@ module.exports = (router) => {
                                                         if (!req.body.place.lng) {
                                                             res.json({ success: false, message: eval(language + '.newPlace.lngProvidedError') }); // Return error message
                                                         } else {
-                                                            function eventSave(place) {
-                                                                const event = new Event({
-                                                                    createdBy: req.body.event.createdBy,
-                                                                    categoryId: req.body.event.categoryId,
-                                                                    placeId: place._id,
+                                                            // Check if location was provided
+                                                            if (!req.body.place.location) {
+                                                                res.json({ success: false, message: eval(language + '.newPlace.locationProvidedError') }); // Return error message
+                                                            } else {
+                                                                function eventSave(place) {
+                                                                    const event = new Event({
+                                                                        createdBy: req.body.event.createdBy,
+                                                                        categoryId: req.body.event.categoryId,
+                                                                        placeId: place._id,
+                                                                        language: language,
+                                                                        title: req.body.event.title,
+                                                                        participants: req.body.event.participants,
+                                                                        start: req.body.event.start,
+                                                                        end: req.body.event.end,
+                                                                        description: req.body.event.description,
+                                                                        observations: req.body.event.observations,
+                                                                        images: {
+                                                                            poster: req.body.event.imagesPoster,
+                                                                            description: req.body.event.imagesDescription
+                                                                        },
+                                                                        createdAt: Date.now(),
+                                                                        updatedAt: Date.now()
+                                                                    });
+                                                                    // Save event into database
+                                                                    event.save((err, event) => {
+                                                                        // Check if error
+                                                                        if (err) {
+                                                                            // Check if error is a validation error
+                                                                            if (err.errors) {
+                                                                                // Check if validation error is in the category field
+                                                                                place.remove((err) => {
+                                                                                    if (err) {
+                                                                                        res.json({ success: false, message: eval(language + '.deletePlace.saveError'), err }); // Return general error message
+                                                                                    }
+                                                                                });
+                                                                                if (err.errors['title']) {
+                                                                                    res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
+                                                                                } else {
+                                                                                    if (err.errors['description']) {
+                                                                                        res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
+                                                                                    } else {
+                                                                                        if (err.errors['observations']) {
+                                                                                            res.json({ success: false, message: eval(language + err.errors['observations'].message) }); // Return error message
+                                                                                        } else {
+                                                                                            res.json({ success: false, message: err }); // Return general error message
+                                                                                        }
+                                                                                    }
+
+                                                                                }
+                                                                            } else {
+                                                                                res.json({ success: false, message: eval(language + '.newEvent.saveError'), err }); // Return general error message
+                                                                            }
+                                                                        } else {
+                                                                            res.json({ success: true, message: eval(language + '.newEvent.success') }); // Return success message
+                                                                        }
+                                                                    });
+                                                                }
+                                                                const place = new Place({
                                                                     language: language,
-                                                                    title: req.body.event.title,
-                                                                    participants: req.body.event.participants,
-                                                                    start: req.body.event.start,
-                                                                    end: req.body.event.end,
-                                                                    description: req.body.event.description,
-                                                                    observations: req.body.event.observations,
-                                                                    images: {
-                                                                        poster: req.body.event.imagesPoster,
-                                                                        description: req.body.event.imagesDescription
+                                                                    province: {
+                                                                        name: req.body.place.province,
+                                                                        geonameId: req.body.place.geonameIdProvince
+                                                                    },
+                                                                    municipality: {
+                                                                        name: req.body.place.municipality,
+                                                                        geonameId: req.body.place.geonameIdMunicipality,
+                                                                    },
+                                                                    location: req.body.place.location,
+                                                                    coordinates: {
+                                                                        lat: req.body.place.lat,
+                                                                        lng: req.body.place.lng
                                                                     },
                                                                     createdAt: Date.now(),
                                                                     updatedAt: Date.now()
                                                                 });
-                                                                // Save event into database
-                                                                event.save((err, event) => {
-                                                                    // Check if error
+                                                                Place.findOne({
+                                                                    language: language,
+                                                                    province: {
+                                                                        name: req.body.place.province,
+                                                                        geonameId: req.body.place.geonameIdProvince
+                                                                    },
+                                                                    municipality: {
+                                                                        name: req.body.place.municipality,
+                                                                        geonameId: req.body.place.geonameIdMunicipality,
+                                                                    },
+                                                                    location: req.body.place.location,
+                                                                    coordinates: {
+                                                                        lat: req.body.place.lat,
+                                                                        lng: req.body.place.lng
+                                                                    }
+                                                                }, (err, findPlace) => {
+                                                                    // Check if error was found or not
                                                                     if (err) {
-                                                                        // Check if error is a validation error
-                                                                        if (err.errors) {
-                                                                            // Check if validation error is in the category field
-                                                                            place.remove((err) => {
+                                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                        var mailOptions = {
+                                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                                            to: [emailConfig.email], // list of receivers
+                                                                            subject: ' Find 1 newEvent error ',
+                                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                                        };
+                                                                        // Function to send e-mail to myself
+                                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                                            if (err) {
+                                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                            } else {
+                                                                                console.log(info); // Log success message to console if sent
+                                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                                            }
+                                                                        });
+                                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                                    } else {
+                                                                        // Check if place were found in database
+                                                                        if (!findPlace) {
+                                                                            // Save place into database
+                                                                            place.save((err, place) => {
+                                                                                // Check if error
                                                                                 if (err) {
-                                                                                    res.json({ success: false, message: eval(language + '.deletePlace.saveError'), err }); // Return general error message
+                                                                                    // Check if error is a validation error         
+                                                                                    if (err.errors) {
+                                                                                        console.log(err.errors);
+                                                                                        // Check if validation error is in the category field
+                                                                                        if (err.errors['location']) {
+                                                                                            res.json({ success: false, message: eval(language + err.errors['location'].message) }); // Return error message
+                                                                                        } else {
+                                                                                            if (err.errors['coordinates.lat']) {
+                                                                                                res.json({ success: false, message: eval(language + err.errors['coordinates.lat'].message) }); // Return error message
+                                                                                            } else {
+                                                                                                if (err.errors['coordinates.lng']) {
+                                                                                                    res.json({ success: false, message: eval(language + err.errors['coordinates.lng'].message) }); // Return error message
+                                                                                                } else {
+                                                                                                    res.json({ success: false, message: err }); // Return general error message
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    } else {
+                                                                                        res.json({ success: false, message: eval(language + '.newPlace.saveError'), err }); // Return general error message
+                                                                                    }
+                                                                                } else {
+                                                                                    eventSave(place);
                                                                                 }
                                                                             });
-                                                                            if (err.errors['title']) {
-                                                                                res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
-                                                                            } else {
-                                                                                if (err.errors['description']) {
-                                                                                    res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
-                                                                                } else {
-                                                                                    if (err.errors['observations']) {
-                                                                                        res.json({ success: false, message: eval(language + err.errors['observations'].message) }); // Return error message
-                                                                                    } else {
-                                                                                        res.json({ success: false, message: err }); // Return general error message
-                                                                                    }
-                                                                                }
-
-                                                                            }
                                                                         } else {
-                                                                            res.json({ success: false, message: eval(language + '.newEvent.saveError'), err }); // Return general error message
+                                                                            eventSave(findPlace);
                                                                         }
-                                                                    } else {
-                                                                        res.json({ success: true, message: eval(language + '.newEvent.success') }); // Return success message
                                                                     }
                                                                 });
                                                             }
-                                                            const place = new Place({
-                                                                language: language,
-                                                                province: {
-                                                                    name: req.body.place.province,
-                                                                    geonameId: req.body.place.geonameIdProvince
-                                                                },
-                                                                municipality: {
-                                                                    name: req.body.place.municipality,
-                                                                    geonameId: req.body.place.geonameIdMunicipality,
-                                                                },
-                                                                location: req.body.place.location,
-                                                                coordinates: {
-                                                                    lat: req.body.place.lat,
-                                                                    lng: req.body.place.lng
-                                                                },
-                                                                createdAt: Date.now(),
-                                                                updatedAt: Date.now()
-                                                            });
-                                                            Place.findOne({
-                                                                language: language,
-                                                                province: {
-                                                                    name: req.body.place.province,
-                                                                    geonameId: req.body.place.geonameIdProvince
-                                                                },
-                                                                municipality: {
-                                                                    name: req.body.place.municipality,
-                                                                    geonameId: req.body.place.geonameIdMunicipality,
-                                                                },
-                                                                location: req.body.place.location,
-                                                                coordinates: {
-                                                                    lat: req.body.place.lat,
-                                                                    lng: req.body.place.lng
-                                                                }
-                                                            }, (err, findPlace) => {
-                                                                // Check if error was found or not
-                                                                if (err) {
-                                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                                                    var mailOptions = {
-                                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                                                        to: [emailConfig.email], // list of receivers
-                                                                        subject: ' Find 1 newEvent error ',
-                                                                        text: 'The following error has been reported in Kultura: ' + err,
-                                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
-                                                                    };
-                                                                    // Function to send e-mail to myself
-                                                                    transporter.sendMail(mailOptions, function(err, info) {
-                                                                        if (err) {
-                                                                            console.log(err); // If error with sending e-mail, log to console/terminal
-                                                                        } else {
-                                                                            console.log(info); // Log success message to console if sent
-                                                                            console.log(user.email); // Display e-mail that it was sent to
-                                                                        }
-                                                                    });
-                                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
-                                                                } else {
-                                                                    // Check if place were found in database
-                                                                    if (!findPlace) {
-                                                                        // Save place into database
-                                                                        place.save((err, place) => {
-                                                                            // Check if error
-                                                                            if (err) {
-                                                                                // Check if error is a validation error         
-                                                                                if (err.errors) {
-                                                                                    console.log(err.errors);
-                                                                                    // Check if validation error is in the category field
-                                                                                    if (err.errors['location']) {
-                                                                                        res.json({ success: false, message: eval(language + err.errors['location'].message) }); // Return error message
-                                                                                    } else {
-                                                                                        if (err.errors['coordinates.lat']) {
-                                                                                            res.json({ success: false, message: eval(language + err.errors['coordinates.lat'].message) }); // Return error message
-                                                                                        } else {
-                                                                                            if (err.errors['coordinates.lng']) {
-                                                                                                res.json({ success: false, message: eval(language + err.errors['coordinates.lng'].message) }); // Return error message
-                                                                                            } else {
-                                                                                                res.json({ success: false, message: err }); // Return general error message
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                } else {
-                                                                                    res.json({ success: false, message: eval(language + '.newPlace.saveError'), err }); // Return general error message
-                                                                                }
-                                                                            } else {
-                                                                                eventSave(place);
-                                                                            }
-                                                                        });
-                                                                    } else {
-                                                                        eventSave(findPlace);
-                                                                    }
-                                                                }
-                                                            });
                                                         }
                                                     }
                                                 }
@@ -292,14 +297,24 @@ module.exports = (router) => {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             Event.aggregate([{
-                // Join with Place table
-                $lookup: {
-                    from: "places", // other table name
-                    localField: "placeId", // placeId of Event table field
-                    foreignField: "_id", // _id of Place table field
-                    as: "place" // alias for userinfo table
-                }
-            }, { $unwind: "$place" }]).exec(function(err, events) {
+                    // Join with Place table
+                    $lookup: {
+                        from: "places", // other table name
+                        localField: "placeId", // placeId of Event table field
+                        foreignField: "_id", // _id of Place table field
+                        as: "place" // alias for userinfo table
+                    }
+                }, { $unwind: "$place" },
+                // Join with Category table
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "categoryId",
+                        foreignField: "_id",
+                        as: "category"
+                    }
+                }, { $unwind: "$category" },
+            ]).exec(function(err, events) {
                 // Check if places were found in database
                 if (!events) {
                     res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found

@@ -230,7 +230,7 @@ module.exports = (router) => {
                                                             _id: ObjectId(req.params.id)
                                                         }
                                                     }, {
-                                                        // Join with Place table
+                                                        // Join with Events table
                                                         $lookup: {
                                                             from: "events",
                                                             localField: "events",
@@ -244,10 +244,10 @@ module.exports = (router) => {
                                                             from: "places",
                                                             localField: "eventsArray.placeId",
                                                             foreignField: "_id",
-                                                            as: "place" 
+                                                            as: "places" 
                                                         },
                                                     },
-                                                    // Join with Place table
+                                                    // Join with Category table
                                                     {
                                                         $lookup: {
                                                             from: "categories",
@@ -255,7 +255,7 @@ module.exports = (router) => {
                                                             foreignField: "_id",
                                                             as: "category" 
                                                         },
-                                                    }, { $unwind: "$category" }
+                                                    }
                                                 ]).exec(function(err, application) {
                                                     // Check if places were found in database
                                                     if (!application) {

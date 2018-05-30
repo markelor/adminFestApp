@@ -77,7 +77,7 @@ const placeSchema = new Schema({
         name: { type: String, required: true },
         geonameId: { type: Number, required: true }
     },
-    location: { type: String, required: false, validate: locationValidators },
+    location: { type: String, required: true, validate: locationValidators },
     coordinates: {
         lat: { type: Number, requireed: true, validate: latitudeValidators },
         lng: { type: Number, requireed: true, validate: longitudeValidators }

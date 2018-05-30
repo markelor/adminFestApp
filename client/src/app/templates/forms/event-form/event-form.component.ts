@@ -82,18 +82,19 @@ export class EventFormComponent implements OnInit {
   private title:AbstractControl;
   private categories: any[] = [];
   @Input() editCategories;
+  private participant:AbstractControl;
+  @Input() editParticipants;
   private province:AbstractControl;
   @Input() editProvince;
   private municipality:AbstractControl;
   @Input() editMunicipality;
-  private participant:AbstractControl;
-  @Input() editParticipants;
+  private locationsExists:AbstractControl;
+  private location:AbstractControl;
+  @Input() editLocation:string;
   private start:AbstractControl;
   @Input() editStart:string;
   private end:AbstractControl;
   @Input() editEnd:string;
-  private location:AbstractControl;
-  @Input() editLocation:string;
   private lat:AbstractControl;
   @Input() editLat:string;
   private lng:AbstractControl;
@@ -112,6 +113,7 @@ export class EventFormComponent implements OnInit {
   private countrysArcheology;
   private regionsArcheology;
   private municipalitiesEvent;
+  private locationsExistsEvent=[];
   private uploadAllSuccess:Boolean=true;
   private froalaSignature;
   private froalaEvent;
@@ -161,25 +163,28 @@ export class EventFormComponent implements OnInit {
         AlphanumericValidator.validate
       ])],
       categories: this.fb.array([ this.createItem('') ]),
+      participant: ['', Validators.compose([
+        /*Validators.maxLength(30),
+        Validators.minLength(5),
+        AlphanumericValidator.validate*/
+      ])],
       province: ['', Validators.compose([
         Validators.required
       ])],
       municipality: ['', Validators.compose([
         Validators.required
       ])],
-      participant: ['', Validators.compose([
-        /*Validators.maxLength(30),
-        Validators.minLength(5),
-        AlphanumericValidator.validate*/
+      locationsExists: ['', Validators.compose([
+        Validators.required,Validators.maxLength(1000)
+      ])],
+      location: ['', Validators.compose([
+        Validators.required,Validators.maxLength(1000)
       ])],
       start: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/
       ])],
       end: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/
-      ])],
-      location: ['', Validators.compose([
-        Validators.maxLength(1000)
       ])],
        lat: ['', Validators.compose([
         Validators.required,LatitudeValidator.validate
@@ -203,6 +208,7 @@ export class EventFormComponent implements OnInit {
     this.municipality = this.form.controls['municipality'];
     this.start = this.form.controls['start'];
     this.end = this.form.controls['end'];
+    this.locationsExists = this.form.controls['locationsExists'];
     this.location = this.form.controls['location'];
     this.lat = this.form.controls['lat'];
     this.lng = this.form.controls['lng'];
@@ -333,7 +339,11 @@ export class EventFormComponent implements OnInit {
     this.event.setObservations=this.form.get('observations').value; // Observations field
     this.place.setProvince=this.form.get('province').value; // Province field
     this.place.setMunicipality=this.form.get('municipality').value; // Municipality field
-    this.place.setLocation=this.form.get('location').value; //Location field,
+    if(this.form.get('location').value){
+      this.place.setLocation=this.form.get('location').value; //Location field,
+    }else if(this.form.get('locationsExists').value){
+      this.place.setLocation=this.form.get('locationsExists').value; //Location exists field,
+    }
     this.place.setLat=Number(this.form.get('lat').value); // Lat field
     this.place.setLng=Number(this.form.get('lng').value); // Lng field
     if(this.uploader.queue.length>0){
@@ -367,6 +377,10 @@ export class EventFormComponent implements OnInit {
       } else {
         this.createNewEventForm(); // Reset all form fields
         this.uploader.clearQueue();
+        this.imagesPoster=[];
+        this.imagesDescription=[];
+        this.participants=[];
+        this.locationsExistsEvent=[];
         this.messageClass = 'alert alert-success ks-solid'; // Return success class
         this.message = data.message; // Return success message
         // Clear form data after two seconds
@@ -499,22 +513,33 @@ export class EventFormComponent implements OnInit {
     }
     this.form.controls['municipality'].setValue("");
   }
-  // Function on seleccted event province
+  // Function on seleccted event municipality
   private onSelectedMunicipality(index){
     if(index!==-1){
       var coordinates={
         lat:this.municipalitiesEvent[index].lat,
         lng:this.municipalitiesEvent[index].lng
       }
-      this.placeService.getPlaceCoordinates(this.municipalitiesEvent[index].lat,this.municipalitiesEvent[index].lng,this.localizeService.parser.currentLang).subscribe(data=>{
-        if(data.success && data.place){
-          this.location.setValue(data.place.location);
+      this.placeService.getPlacesCoordinates(this.municipalitiesEvent[index].lat,this.municipalitiesEvent[index].lng,this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success && data.places.length>0){
+          this.locationsExistsEvent=data.places;
         }else{
-          this.location.setValue("");
+          this.locationsExistsEvent=[];
+          this.locationsExists.setValue("");
         }
       });
       this.passCoordinates(coordinates);
       this.place.setGeonameIdMunicipality=this.municipalitiesEvent[index].geonameId;
+    }
+  }
+     // Function on seleccted locations exists
+  private onSelectedLocationsExists(index){
+     if (index===-1){
+      this.location.setValidators([Validators.compose([Validators.required,Validators.maxLength(1000)])]);
+      this.location.updateValueAndValidity(); //Need to call this to trigger a update
+    }else{
+      this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+      this.location.updateValueAndValidity(); //Need to call this to trigger a update
     }
   }
   private chargeAll(){
@@ -664,6 +689,15 @@ export class EventFormComponent implements OnInit {
       }else{
         this.username = authentication.user.username; // Used when creating new categories posts and comments
       } 
+    });
+    this.location.valueChanges.subscribe(data=>{
+      if(data===''){
+        this.locationsExists.setValidators([Validators.compose([Validators.required,Validators.maxLength(1000)])]);
+        this.locationsExists.updateValueAndValidity(); //Need to call this to trigger a update
+      }else{
+        this.locationsExists.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+        this.locationsExists.updateValueAndValidity(); //Need to call this to trigger a update
+      }
     });
     //File uploader options
     this.setUploaderOptions();

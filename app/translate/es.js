@@ -232,9 +232,15 @@ module.exports = {
     },
     //getApplication
     getApplication: {
-        idProvidedError: '"El ID de la aplicación no fue proporcionado.',
+        idProvidedError: "El ID de la aplicación no fue proporcionado.",
         userError: "No se encontró el usuario.",
         applicationError: "No se encontró la aplicación."
+    },
+    //getPlacesCoordinates
+    getPlacesCoordinates: {
+        latProvidedError: 'La latitud no fue proporcionada.',
+        lngProvidedError: 'La longitud no fue proporcionada.',
+        placesError: "No se encontraron lugares."
     },
     //newPlace
     newPlace: {
@@ -245,6 +251,7 @@ module.exports = {
         geonameIdMunicipalityProvidedError: "Geoname ID del municipio es requerido.",
         latProvidedError: "La latitud es requerida.",
         lngProvidedError: "La longitud es requerida.",
+          locationProvidedError: "La localización es requerida.",
         saveError: "No se pudo guardar el lugar. Error:",
         success: "¡Lugar guardado!"
     },

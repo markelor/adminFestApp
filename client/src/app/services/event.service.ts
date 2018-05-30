@@ -40,7 +40,6 @@ export class EventService {
   // Function to edit/update theme post
   public editEvent(event,place) {
     var data = {'event': event, 'place': place };
-    console.log(data);
     return this.http.put<any>(this.domain + 'event/editEvent', data);
   }
   public eventSearch(searchs: Observable<string>,language) {

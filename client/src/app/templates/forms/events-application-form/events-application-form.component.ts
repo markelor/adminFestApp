@@ -21,10 +21,10 @@ export class EventsApplicationFormComponent implements OnInit {
   private event:AbstractControl;
   @Input() applicationId;
   private application;
-  private eventsAplication;
-  private placesAplication;
+  private eventsApplication;
+  private placesApplication;
+  private categoryApplication
   private events;
-  private places;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
   private dtOptions: any = {};
@@ -66,7 +66,7 @@ export class EventsApplicationFormComponent implements OnInit {
       responsive: true
     };
   }
-  private addEventAplication(){
+  private addEventApplication(){
     var index=this.eventsSearch.map(event => event.title).indexOf(this.event.value);
     if(this.event.value && !this.application.events.includes(this.eventsSearch[index]._id) && this.eventsSearch.filter(event => event.title === this.event.value).length > 0){
       this.application.events.push(this.eventsSearch[index]._id);
@@ -77,7 +77,7 @@ export class EventsApplicationFormComponent implements OnInit {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            this.eventsAplication.push(this.eventsSearch[index]);
+            this.eventsApplication.push(this.eventsSearch[index]);
             // Call the addTrigger to rerender again
             this.deleteTrigger.next();
           });
@@ -85,7 +85,7 @@ export class EventsApplicationFormComponent implements OnInit {
       });
     }
   }
-  private addEventAplicationTable(indexEvent){
+  private addEventApplicationTable(indexEvent){
     console.log(this.events[indexEvent]._id);
     console.log(this.application);
     if(!this.application || !this.application.events.includes(this.events[indexEvent]._id)){
@@ -97,7 +97,7 @@ export class EventsApplicationFormComponent implements OnInit {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            this.eventsAplication.push(this.events[indexEvent]);
+            this.eventsApplication.push(this.events[indexEvent]);
             // Call the addTrigger to rerender again
             this.deleteTrigger.next();
           });
@@ -105,8 +105,8 @@ export class EventsApplicationFormComponent implements OnInit {
       });
     }  
   }
-  private deleteEventAplicationTable(indexEvent){
-      var indexAplicatonEvent=this.application.events.indexOf(this.eventsAplication[indexEvent]._id);
+  private deleteEventApplicationTable(indexEvent){
+      var indexAplicatonEvent=this.application.events.indexOf(this.eventsApplication[indexEvent]._id);
       this.application.events.splice(indexAplicatonEvent,1);
       // Edit application
       this.applicationService.editApplication(this.application).subscribe(data => {
@@ -114,7 +114,7 @@ export class EventsApplicationFormComponent implements OnInit {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            this.eventsAplication.splice(indexEvent,1);
+            this.eventsApplication.splice(indexEvent,1);
             // Call the addTrigger to rerender again
             this.deleteTrigger.next();
           });
@@ -134,10 +134,10 @@ export class EventsApplicationFormComponent implements OnInit {
     // Get application
     this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
-           console.log(data);
         this.application=data.application;
-        this.eventsAplication=data.application.events;
-        this.placesAplication=data.application.places;
+        this.eventsApplication=data.application.eventsArray;
+        this.placesApplication=data.application.places;
+        this.categoryApplication=data.application.category;
         this.deleteTrigger.next();
       }
     });
@@ -148,7 +148,6 @@ export class EventsApplicationFormComponent implements OnInit {
       console.log(data);
       if(data.success){
         this.events=data.events;
-        this.places=data.places;
         this.addTrigger.next();
       }
     });

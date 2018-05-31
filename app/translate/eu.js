@@ -20,6 +20,7 @@ module.exports = {
         locationLength: "Kokapenak 1000 karaktere baino gutxiago izan behar ditu.",
         categoryDescriptionLength: "Deskribapenak gutxienez 5 karaktere izan behar ditu, baina ez 200 baino gehiago.",
         eventDescriptionLength: "Deskribapenak gutxienez 50 karaktere izan behar ditu, baina ez 20000 baino gehiago.",
+        applicationObservationsDescriptionLength: "Deskribapenak gutxienez 5 karaktere izan behar ditu, baina ez 300 baino gehiago.",
         observationLength: "Oharrak 1000 karaktere baino gutxiago izan behar ditu.",
         discoveryLength: "Aurkikuntzak 1000 karaktere baino gutxiago izan behar ditu.",
         bibliographyLength: "Bibliografiak 1000 karaktere baino gutxiago izan behar ditu.",
@@ -196,6 +197,7 @@ module.exports = {
         conditionsProvidedError: "Aplikazioaren baldintzak beharrezkoak dira.",
         priceProvidedError: "Aplikazioaren prezioa beharrezkoa da.",
         expiredAtProvidedError: "Aplikazioaren iraungitze data beharrezkoa da.",
+        imagesProvidedError: "Aplikazioaren irudia beharrezkoa da.",
         userError: "Erabiltzailea ez da aurkitu.",
         saveError: "Aplikazioa ezin da gorde. Errorea:",
         success: "Aplikazioa gorde da!"

@@ -3,7 +3,6 @@ export class Event{
     id:string;
     createdBy: string;
     categoryId:string;
-    sponsorIds: Array<string>;
     language:string;
     visible: boolean;
     participants: Array<string>;
@@ -34,12 +33,6 @@ export class Event{
     }
     set setCategoryId(categoryId:string) {
         this.categoryId = categoryId;
-    }
-    get getSponsorIds():Array<string> {
-        return this.sponsorIds;
-    }
-    set setSponsorIds(sponsorIds:Array<string>) {
-        this.sponsorIds = sponsorIds;
     }
     get getLanguage():string {
         return this.language;

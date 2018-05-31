@@ -1,5 +1,4 @@
 export class Place{
-    sponsorId:string;
 	eventId: string;
 	language: string;
     province: string;
@@ -11,12 +10,6 @@ export class Place{
     lng:number;
     createdAt: Date;
     updatedAt: Date; 
-    get getSponsorId():string {
-        return this.sponsorId;
-    }
-    set setSponsorId(sponsorId:string) {
-        this.sponsorId = sponsorId;
-    }
     get getEventId():string {
         return this.eventId;
     }

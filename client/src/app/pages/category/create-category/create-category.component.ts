@@ -3,7 +3,7 @@ import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/fo
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../../services/auth.service';
 import { CategoryService } from '../../../services/category.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { CategoryModalComponent } from './category-modal/category-modal.component';
 import { ModalComponent } from '../../../templates/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,10 +20,10 @@ import {DataTableDirective} from 'angular-datatables';
   styleUrls: ['./create-category.component.css']
 })
 export class CreateCategoryComponent implements OnInit {
-  private language:string;
   private message;
   private messageClass;
-  private subscription: Subscription;
+  private subscriptionObservable: Subscription;
+  private subscriptionLanguage: Subscription;
   private submitted:boolean = false;
   private parentCategories;
   @ViewChild(DataTableDirective)
@@ -147,8 +147,8 @@ export class CreateCategoryComponent implements OnInit {
     this.observableService.modalType="modal-edit-category";
     if(this.observableService.modalCount<1){
       this.categoryStaticModalShow(category);
-      this.subscription=this.observableService.notifyObservable.subscribe(res => {
-        this.subscription.unsubscribe();
+      this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
+        this.subscriptionObservable.unsubscribe();
         if (res.hasOwnProperty('option') && res.option === 'modal-edit-category') {
           if(res.data.success){
               this.messageClass = 'alert alert-success ks-solid '; // Set bootstrap success class
@@ -167,8 +167,8 @@ export class CreateCategoryComponent implements OnInit {
     this.observableService.modalType="modal-delete-category";
     if(this.observableService.modalCount<1){
       this.staticModalShow();
-      this.subscription=this.observableService.notifyObservable.subscribe(res => {
-        this.subscription.unsubscribe();
+      this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
+        this.subscriptionObservable.unsubscribe();
         if (res.hasOwnProperty('option') && res.option === 'modal-delete-category') {
           this.categoryService.deleteCategory(category._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){  
@@ -209,7 +209,6 @@ export class CreateCategoryComponent implements OnInit {
       });                 
   }
   ngOnInit() {
-    this.language=this.localizeService.parser.currentLang;
     $('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
     }).on('input', function () {
@@ -217,6 +216,10 @@ export class CreateCategoryComponent implements OnInit {
     });
     this.createSettings(); 
     this.getCategoriesInit();
+    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.localizeService.parser.currentLang=event.lang;
+      this.getCategories(); 
+    });
   	/*this.authService.getAllCategorys(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         if(data.permission==="admin" || data.permission==="moderator"){
@@ -224,6 +227,9 @@ export class CreateCategoryComponent implements OnInit {
         }       
       }     
     });*/     	  
+  }
+  ngOnDestroy(){
+      this.subscriptionLanguage.unsubscribe();
   }
 }
 

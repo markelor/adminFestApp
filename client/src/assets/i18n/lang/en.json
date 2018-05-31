@@ -19,7 +19,6 @@
   "details-route": "details",
   "region-route": "region",
   "user-route": "user",
-  "profile-route": "profile",
   "map-route": "map",
   "all-route": "all",
   "admin-route": "admin",
@@ -92,24 +91,19 @@
     "pie_with_labels": "Pie with labels",
     "donut": "Donut"
   },
-  "profile":
+    "navbar":
   {
-    "settings": "Settings"
+    "es": "Spanish",
+    "en": "English",
+    "eu": "Euskara",
+    "user": "User",
+    "events": "Events",
+    "applications":"Applications"
   },
   "events":
   {
     "events": "Events",
     "applications": "Applications"
-  },
-  "navbar":
-  {
-    "es": "Spanish",
-    "en": "English",
-    "eu": "Euskara",
-    "profile": "Profile",
-    "events": "Events",
-    "applications":"Applications"
-
   },
   "event":
   {

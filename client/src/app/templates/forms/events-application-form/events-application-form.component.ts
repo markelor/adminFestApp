@@ -23,7 +23,7 @@ export class EventsApplicationFormComponent implements OnInit {
   private application;
   private eventsApplication;
   private placesApplication;
-  private categoryApplication
+  private categoriesApplication
   private events;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
@@ -60,10 +60,19 @@ export class EventsApplicationFormComponent implements OnInit {
         'colvis',
         'copy',
         'print',
-        'csv',
-
+        'csv'
       ],
-      responsive: true
+      scrollX: true,
+      responsive: true,
+      columnDefs: [
+        { responsivePriority: 3, targets: 0 },
+        { responsivePriority: 4, targets: 1 },
+        { responsivePriority: 1, targets: 2 },
+        { responsivePriority: 7, targets: 3 },
+        { responsivePriority: 5, targets: 4 },
+        { responsivePriority: 6, targets: 5 },
+        { responsivePriority: 2, targets: 6 }
+      ]
     };
   }
   private addEventApplication(){
@@ -86,17 +95,16 @@ export class EventsApplicationFormComponent implements OnInit {
     }
   }
   private addEventApplicationTable(indexEvent){
-    console.log(this.events[indexEvent]._id);
-    console.log(this.application);
     if(!this.application || !this.application.events.includes(this.events[indexEvent]._id)){
       this.application.events.push(this.events[indexEvent]._id);
       // Edit application
       this.applicationService.editApplication(this.application).subscribe(data => {
-        console.log(data);
         if(data.success){ 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
+            this.categoriesApplication.push(this.events[indexEvent].category);
+            this.placesApplication.push(this.events[indexEvent].place);
             this.eventsApplication.push(this.events[indexEvent]);
             // Call the addTrigger to rerender again
             this.deleteTrigger.next();
@@ -115,6 +123,8 @@ export class EventsApplicationFormComponent implements OnInit {
             // Destroy the table first
             dtInstance.destroy();
             this.eventsApplication.splice(indexEvent,1);
+            this.categoriesApplication.splice(indexEvent,1);
+            this.placesApplication.splice(indexEvent,1);
             // Call the addTrigger to rerender again
             this.deleteTrigger.next();
           });
@@ -137,7 +147,7 @@ export class EventsApplicationFormComponent implements OnInit {
         this.application=data.application;
         this.eventsApplication=data.application.eventsArray;
         this.placesApplication=data.application.places;
-        this.categoryApplication=data.application.category;
+        this.categoriesApplication=data.application.categories;
         this.deleteTrigger.next();
       }
     });
@@ -145,7 +155,6 @@ export class EventsApplicationFormComponent implements OnInit {
   // Function to get events from the database
   private getEvents() {
     this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
-      console.log(data);
       if(data.success){
         this.events=data.events;
         this.addTrigger.next();
@@ -162,12 +171,9 @@ export class EventsApplicationFormComponent implements OnInit {
     this.getApplicationEvents();
     this.getEvents();
     this.eventService.eventSearch(this.searchTerm,this.localizeService.parser.currentLang).subscribe(data=>{
-      console.log(data);
       if(data.success){
         this.eventsSearch=data.events;
         this.search=true; 
-        console.log(this.eventsSearch);
-  
       }     
     }); 	  
   }

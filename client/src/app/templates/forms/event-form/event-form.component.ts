@@ -264,14 +264,21 @@ export class EventFormComponent implements OnInit {
       this.end.setValue(calendar); 
       this.timeEnd.hour=hour;
       this.timeEnd.minute=minute; 
-    }
-    
-    if(this.editLocation)
-      this.location.setValue(this.editLocation);
+    }    
     if(this.editLat)
       this.lat.setValue(this.editLat);
     if(this.editLng)
       this.lng.setValue(this.editLng);
+    if(this.editLocation && this.editLat && this.editLng)
+      this.locationsExists.setValue(this.editLocation);
+      this.placeService.getPlacesCoordinates(this.editLat,this.editLng,this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success && data.places.length>0){
+          this.locationsExistsEvent=data.places;
+        }else{
+          this.locationsExistsEvent=[];
+          this.locationsExists.setValue("");
+        }
+    });
     if(this.editDescription)
       this.description.setValue(this.editDescription);
   	if(this.editObservations)

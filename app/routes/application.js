@@ -54,78 +54,83 @@ module.exports = (router) => {
                                 if (!req.body.expiredAt) {
                                     res.json({ success: false, message: eval(language + '.newApplication.expiredAtProvidedError') }); // Return error message
                                 } else {
-                                    User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
-                                        if (err) {
-                                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                            var mailOptions = {
-                                                from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
-                                                to: [emailConfig.email],
-                                                subject: ' Find one 1 newApplication error ',
-                                                text: 'The following error has been reported in Kultura: ' + err,
-                                                html: 'The following error has been reported in Kultura:<br><br>' + err
-                                            };
-                                            // Function to send e-mail to myself
-                                            transporter.sendMail(mailOptions, function(err, info) {
-                                                if (err) {
-                                                    console.log(err); // If error with sending e-mail, log to console/terminal
-                                                } else {
-                                                    console.log(info); // Log success message to console if sent
-                                                    console.log(user.email); // Display e-mail that it was sent to
-                                                }
-                                            });
-                                            res.json({ success: false, message: eval(language + '.general.generalError') });
-                                        } else {
-                                            // Check if logged in user is found in database
-                                            if (!mainUser) {
-                                                res.json({ success: false, message: eval(language + '.newApplication.userError') }); // Return error
+                                    // Check if application expiredAt was provided
+                                    if (!req.body.imagesApplication) {
+                                        res.json({ success: false, message: eval(language + '.newApplication.imagesProvidedError') }); // Return error message
+                                    } else {
+                                        User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                                            if (err) {
+                                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                var mailOptions = {
+                                                    from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                                    to: [emailConfig.email],
+                                                    subject: ' Find one 1 newApplication error ',
+                                                    text: 'The following error has been reported in Kultura: ' + err,
+                                                    html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                };
+                                                // Function to send e-mail to myself
+                                                transporter.sendMail(mailOptions, function(err, info) {
+                                                    if (err) {
+                                                        console.log(err); // If error with sending e-mail, log to console/terminal
+                                                    } else {
+                                                        console.log(info); // Log success message to console if sent
+                                                        console.log(user.email); // Display e-mail that it was sent to
+                                                    }
+                                                });
+                                                res.json({ success: false, message: eval(language + '.general.generalError') });
                                             } else {
-                                                // Check if is admin or moderator
-                                                if (mainUser.permission !== 'admin' && mainUser.permission !== 'moderator') {
-                                                    res.json({ success: false, message: eval(language + '.general.permissionError') }); // Return error
+                                                // Check if logged in user is found in database
+                                                if (!mainUser) {
+                                                    res.json({ success: false, message: eval(language + '.newApplication.userError') }); // Return error
                                                 } else {
-                                                    const application = new Application({
-                                                        language: language,
-                                                        users: req.body.users,
-                                                        title: req.body.title,
-                                                        events: req.body.events,
-                                                        entityName: req.body.entityName,
-                                                        license: {
-                                                            name: req.body.licenseName,
-                                                            conditions: req.body.conditions,
-                                                            price: req.body.price,
-                                                            expiredAt: req.body.expiredAt
-                                                        },
-                                                        createdAt: Date.now(),
-                                                        updatedAt: Date.now()
-                                                    });
-                                                    // Save application into database
-                                                    application.save((err) => {
-                                                        // Check if error
-                                                        if (err) {
-                                                            console.log(err);
-                                                            // Check if error is a validation error
-                                                            if (err.errors) {
-                                                                // Check if validation error is in the application field
-                                                                if (err.errors['title']) {
-                                                                    res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
-                                                                } else {
-                                                                    if (err.errors['entityName']) {
-                                                                        res.json({ success: false, message: eval(language + err.errors['entityName'].message) }); // Return error message
+                                                    // Check if is admin or moderator
+                                                    if (mainUser.permission !== 'admin' && mainUser.permission !== 'moderator') {
+                                                        res.json({ success: false, message: eval(language + '.general.permissionError') }); // Return error
+                                                    } else {
+                                                        const application = new Application({
+                                                            language: language,
+                                                            users: req.body.users,
+                                                            title: req.body.title,
+                                                            events: req.body.events,
+                                                            entityName: req.body.entityName,
+                                                            license: {
+                                                                name: req.body.licenseName,
+                                                                conditions: req.body.conditions,
+                                                                price: req.body.price,
+                                                                expiredAt: req.body.expiredAt
+                                                            },
+                                                            images: req.body.imagesApplication,
+                                                            createdAt: Date.now(),
+                                                            updatedAt: Date.now()
+                                                        });
+                                                        // Save application into database
+                                                        application.save((err) => {
+                                                            // Check if error
+                                                            if (err) {
+                                                                // Check if error is a validation error
+                                                                if (err.errors) {
+                                                                    // Check if validation error is in the application field
+                                                                    if (err.errors['title']) {
+                                                                        res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
                                                                     } else {
-                                                                        res.json({ success: false, message: err }); // Return general error message
+                                                                        if (err.errors['entityName']) {
+                                                                            res.json({ success: false, message: eval(language + err.errors['entityName'].message) }); // Return error message
+                                                                        } else {
+                                                                            res.json({ success: false, message: err }); // Return general error message
+                                                                        }
                                                                     }
+                                                                } else {
+                                                                    res.json({ success: false, message: eval(language + '.newApplication.saveError'), err }); // Return general error message
                                                                 }
                                                             } else {
-                                                                res.json({ success: false, message: eval(language + '.newApplication.saveError'), err }); // Return general error message
+                                                                res.json({ success: true, message: eval(language + '.newApplication.success') }); // Return success message
                                                             }
-                                                        } else {
-                                                            res.json({ success: true, message: eval(language + '.newApplication.success') }); // Return success message
-                                                        }
-                                                    });
+                                                        });
+                                                    }
                                                 }
                                             }
-                                        }
-                                    });
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -235,7 +240,7 @@ module.exports = (router) => {
                                                             from: "events",
                                                             localField: "events",
                                                             foreignField: "_id",
-                                                            as: "eventsArray" 
+                                                            as: "eventsArray"
                                                         }
                                                     },
                                                     // Join with Place table
@@ -244,7 +249,7 @@ module.exports = (router) => {
                                                             from: "places",
                                                             localField: "eventsArray.placeId",
                                                             foreignField: "_id",
-                                                            as: "places" 
+                                                            as: "places"
                                                         },
                                                     },
                                                     // Join with Category table
@@ -253,7 +258,7 @@ module.exports = (router) => {
                                                             from: "categories",
                                                             localField: "eventsArray.categoryId",
                                                             foreignField: "_id",
-                                                            as: "category" 
+                                                            as: "categories"
                                                         },
                                                     }
                                                 ]).exec(function(err, application) {
@@ -295,7 +300,7 @@ module.exports = (router) => {
                                                                     }
                                                                 }
                                                             });
-                                                        }else{
+                                                        } else {
                                                             res.json({ success: true, application: application[0] }); // Return success and place 
                                                         }
                                                     }

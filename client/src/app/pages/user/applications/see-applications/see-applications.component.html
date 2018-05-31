@@ -30,6 +30,7 @@
             <div *ngFor="let application of applications" class="ks-plan ks-info">
               <div class="ks-header">
                 <h5 class="ks-name">{{application.title}}</h5>
+                 <img src="{{application.images[0].url}}" height="200px">
                 <div class="ks-price">
                   <div class="ks-currency">€</div>
                   <div class="ks-amount">{{application.license.price}}</div>

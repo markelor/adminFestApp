@@ -1,5 +1,5 @@
 {
-  "authentication": "autentificación",
+  "authentication": "autentificacion",
   "activate-route": "activar",
   "sign-in-route": "iniciar-sesion",
   "resend-route": "reenviar",
@@ -10,15 +10,14 @@
   "create-route": "crear",
   "edit-route": "editar",
   "edit-events-route": "editar-eventos",
-  "category-route": "categoría",
+  "category-route": "categoria",
   "event-route": "evento",
   "events-route": "eventos",
-  "application-route": "aplicación",
+  "application-route": "aplicacion",
   "applications-route": "aplicaciones",
   "details-route": "detalles",
-  "region-route": "región",
+  "region-route": "region",
   "user-route": "usuario",
-  "profile-route": "perfil",
   "map-route": "mapa",
   "all-route": "todos",
   "admin-route": "admin",
@@ -96,13 +95,9 @@
     "es": "Castellano",
     "eu": "Euskara",
     "en": "Inglés",
-    "profile": "Perfil",
+    "user": "Usuario",
     "events": "Eventos",
     "applications": "Aplicaciones"
-  },
-  "profile":
-  {
-    "settings": "Ajustes"
   },
   "events":
   {

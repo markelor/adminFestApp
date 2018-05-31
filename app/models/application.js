@@ -84,6 +84,29 @@ const nameValidators = [
         message: '.validation.nameValid'
     }
 ];
+// Validate Function to check description length
+let descriptionLengthChecker = (description) => {
+    // Check if description exists
+    if (!description) {
+        return false; // Return error
+    } else {
+        // Check length of description
+        if (description.length < 5 || description.length > 300) {
+            return false; // Return error if does not meet length requirement
+        } else {
+            return true; // Return as valid description
+        }
+    }
+};
+
+// Array of Description validators
+const descriptionValidators = [
+    // First description validator
+    {
+        validator: descriptionLengthChecker,
+        message: '.validation.applicationObservationsDescriptionLength'
+    }
+];
 // Application Model Definition
 const applicationSchema = new Schema({
     language: { type: String, required: true },
@@ -97,6 +120,12 @@ const applicationSchema = new Schema({
         price: { type: Number, required: true },
         expiredAt: { type: Date, required: true }     
     },
+    images: { type: Array, required: true },
+    observations: [{
+        title: { type: String, required: true, validate: titleValidators },
+        description: { type: String, required: true, validate: descriptionValidators },
+        expiredAt: { type: Date, required: true }     
+    }],
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });

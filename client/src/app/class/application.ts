@@ -8,6 +8,10 @@ export class Application{
     conditions: Array<string>;
     price: number;
     expiredAt: Date;
+    imagesApplication: Array<string>;
+    observationsTitle: string;
+    observationsDescription: string;
+    observationsExpiredAt: Date;
     createdAt: Date;
     updatedAt: Date;
     get getUsers():Array<string> {
@@ -63,6 +67,30 @@ export class Application{
     }
     set setExpiredAt(expiredAt:Date) {
         this.expiredAt = expiredAt;
+    }
+    get getImagesApplication():Array<string> {
+        return this.imagesApplication;
+    }
+    set setImagesApplication(imagesApplication:Array<string>) {
+        this.imagesApplication = imagesApplication;
+    } 
+    get getObservationsTitle():string {
+        return this.observationsTitle;
+    }
+    set setObservationsTitle(observationsTitle:string) {
+        this.observationsTitle = observationsTitle;
+    }
+    get getObservationsDescription():string {
+        return this.observationsDescription;
+    }
+    set setObservationsDescription(observationsDescription:string) {
+        this.observationsDescription = observationsDescription;
+    }
+    get getObservationsExpiredAt():Date {
+        return this.observationsExpiredAt;
+    }
+    set setObservationsExpiredAt(observationsExpiredAt:Date) {
+        this.observationsExpiredAt = observationsExpiredAt;
     }
     get getCreatedAt():Date {
         return this.createdAt;

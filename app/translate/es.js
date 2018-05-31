@@ -20,6 +20,7 @@ module.exports = {
         locationLength: "La localización no debe tener más de 1000 caracteres.",
         categoryDescriptionLength: "La descripción debe tener al menos 5 caracteres pero no más de 200.",
         eventDescriptionLength: "La descripción debe tener al menos 50 caracteres pero no más de 20000.",
+        applicationObservationsDescriptionLength: "La descripción debe tener al menos 5 caracteres pero no más de 300.",
         observationsLength: "Observaciones no debe tener más de 1000 caracteres.",
         discoveryLength: "El descubrimiento no debe tener más de 1000 caracteres.",
         bibliographyLength: "La bibliografía no debe tener más de 1000 caracteres.",
@@ -196,6 +197,7 @@ module.exports = {
         conditionsProvidedError: "Las condiciones de la aplicación son requeridas.",
         priceProvidedError: "El precio de la aplicación es requerida.",
         expiredAtProvidedError: "La fecha de caducidad de la aplicación es requerida.",
+        imagesProvidedError: "La imagen de la aplicación es requerida.",
         userError: "No se encontró el usuario.",
         saveError: "No se pudo guardar la aplicación. Error:",
         success: "¡Aplicación guardada!"

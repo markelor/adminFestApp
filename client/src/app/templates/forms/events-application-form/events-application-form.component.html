@@ -35,7 +35,7 @@
     </div>
   </div>
 </form>
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="deleteTrigger" class="row-border hover">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="deleteTrigger" class="row-border hover" cellspacing="0" width="100%">
   <thead>
     <tr>
       <th>Created By</th>
@@ -50,7 +50,7 @@
   <tbody>
     <tr *ngFor="let eventApplication of eventsApplication; let i=index">
       <td>{{eventApplication.createdBy}}</td>
-      <td>{{categoryApplication[i].title}}</td>
+      <td>{{categoriesApplication[i].title}}</td>
       <td>{{eventApplication.title}}</td>
       <td [innerHTML]="eventApplication.description"></td>
       <td>{{placesApplication[i].province.name}}</td>
@@ -61,7 +61,7 @@
     </tr>
   </tbody>
 </table>
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="addTrigger" class="row-border hover">
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="addTrigger" class="row-border hover" cellspacing="0" width="100%">
   <thead>
     <tr>
       <th>Created By</th>

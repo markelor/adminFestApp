@@ -19,7 +19,6 @@
   "details-route": "xehetasunak",
   "region-route": "eskualdea",
   "user-route": "erabiltzailea",
-  "profile-route": "profila",
   "map-route": "mapa",
   "all-route": "denak",
   "admin-route": "admin",
@@ -97,13 +96,9 @@
     "es": "Gaztelera",
     "en": "Ingelesa",
     "eu": "Euskara",
-    "profile": "Perfila",
+    "user": "Erabiltzailea",
     "events": "Ekintzak",
     "applications": "Aplikazioak"
-  },
-  "profile":
-  {
-    "settings": "Ezarpenak"
   },
   "events":
   {

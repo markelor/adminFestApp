@@ -20,6 +20,7 @@ module.exports = {
         locationLength: "Location must be no longer than 1000 characters.",
         categoryDescriptionLength: "Description must be more than 5 characters but no more than 200.",
         eventDescriptionLength: "Description must be more than 50 characters but no more than 20000.",
+        applicationObservationsDescriptionLength: "Application must be more than 5 characters but no more than 300.",
         observationsLength: "Observations must be no longer than 1000 characters.",
         discoveryLength: "Discovery must be no longer than 1000 characters.",
         bibliographyLength: "Bibliography must be no longer than 1000 characters.",
@@ -197,6 +198,7 @@ module.exports = {
         conditionsProvidedError: "Application conditions are required.",
         priceProvidedError: "Application price is required.",
         expiredAtProvidedError: "Application expired date is required.",
+        imagesProvidedError: "Application image is required.",
         userError: "No user found.",
         saveError: "Could not save application. Error:",
         success: "Application saved!"

@@ -274,6 +274,8 @@ export class EventFormComponent implements OnInit {
       this.placeService.getPlacesCoordinates(this.editLat,this.editLng,this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success && data.places.length>0){
           this.locationsExistsEvent=data.places;
+          this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+          this.location.updateValueAndValidity(); //Need to call this to trigger a update
         }else{
           this.locationsExistsEvent=[];
           this.locationsExists.setValue("");
@@ -297,7 +299,6 @@ export class EventFormComponent implements OnInit {
     }
     if(this.editImagesDescription){
       this.imagesDescription=this.editImagesDescription;
-      console.log(this.editImagesDescription);
       //this.observations.setValue(this.editIma);
     }
     if(this.editTitle && this.categoryId.length>0 && this.editLat && this.editLng){
@@ -334,6 +335,7 @@ export class EventFormComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
   private onEventSubmit(){
+    this.submitted = true;
     // Create event object from form fields
     this.event.setLanguage=this.localizeService.parser.currentLang;// Language field
     this.event.setCreatedBy=this.username; // CreatedBy field
@@ -354,8 +356,6 @@ export class EventFormComponent implements OnInit {
     this.place.setLat=Number(this.form.get('lat').value); // Lat field
     this.place.setLng=Number(this.form.get('lng').value); // Lng field
     if(this.uploader.queue.length>0){
-      this.submitted = false; // Disable submit button
-      //this.disableFormNewEventForm(); // Lock form
       this.uploader.uploadAll();
       if(this.uploader.queue[0].isUploaded){
         this.editEvent();
@@ -372,7 +372,6 @@ export class EventFormComponent implements OnInit {
   private createEvent() {
     // Function to save event into database
     this.eventService.newEvent(this.event,this.place).subscribe(data => {
-      this.submitted = true;
       // Check if event was saved to database or not
       if (!data.success) {
         this.deleteUploadImages('poster',this.imagesPoster);
@@ -395,7 +394,6 @@ export class EventFormComponent implements OnInit {
           //this.newPost = false; // Hide form
           this.submitted = false; // Enable submit button
           this.message = false; // Erase error/success message
-          this.uploader.clearQueue()//Reset uploader
           this.enableFormNewEventForm(); // Enable the form fields
           this.participants=[];
         }, 2000);
@@ -449,7 +447,6 @@ export class EventFormComponent implements OnInit {
       for (var i = 0; i < images.length; ++i) {
         var currentUrlSplit = images[i].url.split("/");
         let imageName = currentUrlSplit[currentUrlSplit.length - 1];
-        console.log(imageName);
         var urlSplit = imageName.split("%2F");
         this.fileUploaderService.deleteImages(urlSplit[0],"poster",this.localizeService.parser.currentLang).subscribe(data=>{
         });
@@ -542,8 +539,8 @@ export class EventFormComponent implements OnInit {
      // Function on seleccted locations exists
   private onSelectedLocationsExists(index){
      if (index===-1){
-      this.location.setValidators([Validators.compose([Validators.required,Validators.maxLength(1000)])]);
-      this.location.updateValueAndValidity(); //Need to call this to trigger a update
+      this.locationsExists.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+      this.locationsExists.updateValueAndValidity(); //Need to call this to trigger a update
     }else{
       this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
       this.location.updateValueAndValidity(); //Need to call this to trigger a update
@@ -595,6 +592,7 @@ export class EventFormComponent implements OnInit {
     //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
     this.uploader.onAfterAddingFile = (file)=> { 
       file.withCredentials = false;
+      this.uploader.progress=0;
       if(this.uploader.queue.length>1){
         this.uploader.queue.splice(0,1);
       }
@@ -618,7 +616,6 @@ export class EventFormComponent implements OnInit {
           this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]);
         }
         this.uploadAllSuccess=false;
-        this.submitted = true; // Enable submit button
         this.enableFormNewEventForm(); // Enable form
       }else{
         var file={
@@ -628,6 +625,17 @@ export class EventFormComponent implements OnInit {
         this.imagesPoster.push(file);   
         if(this.uploader.progress===100 && this.uploadAllSuccess){
           this.event.setImagesPoster=this.imagesPoster;
+          //Image preview update
+          for (var j = 0; j < this.imagesPoster.length; ++j) {
+            let file = new File([],decodeURIComponent(this.imagesPoster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+            let fileItem = new FileItem(this.uploader, file, {});
+            fileItem.file.size=this.imagesPoster[j].size;
+            fileItem.progress = 100;
+            fileItem.isUploaded = true;
+            fileItem.isSuccess = true;
+            this.uploader.queue.splice(0,1);
+            this.uploader.queue.push(fileItem);
+          }
           if(this.operation==='create'){
             this.createEvent();
           }else if(this.operation==='edit'){
@@ -671,7 +679,9 @@ export class EventFormComponent implements OnInit {
     $('#textareaDescription')
       // Catch image remove
       .on('froalaEditor.image.removed', function (e, editor, $img) {
-        context.deleteUploadImages('descriptionOne',$img);
+        if(!context.submitted){
+          context.deleteUploadImages('descriptionOne',$img);
+        }      
       }); 
   }
   private addParticipant() {

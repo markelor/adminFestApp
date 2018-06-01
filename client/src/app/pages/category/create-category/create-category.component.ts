@@ -96,7 +96,6 @@ export class CreateCategoryComponent implements OnInit {
       this.category.setParentId=this.form.get('parentCategory').value;
       this.category.setTitle=this.form.get('title').value;
       this.category.setDescription=this.form.get('description').value;
-      console.log(this.form.get('parentCategory').value);
       this.categoryService.newCategory(this.category).subscribe(data=>{
         if(!data.success){
           this.messageClass='alert alert-danger ks-solid';

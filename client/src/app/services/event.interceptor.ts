@@ -17,6 +17,7 @@ export class EventInterceptor implements HttpInterceptor {
      this.authService = this.injector.get(AuthService);
      this.eventService = this.injector.get(EventService);
      this.localizeService=this.injector.get(LocalizeRouterService);
+     console.log(request.url);
      if(request.url==="assets/i18n/lang.json"){
 
      }else if(request.url==="http://localhost:8080/event/newEvent"){
@@ -67,20 +68,16 @@ export class EventInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang,
             'route':this.eventService.route
           }
-        });   
-          
-     }else if(request.url==="http://localhost:8080/themes/deleteReactionTheme"){
+        });             
+     }else if(request.url==="http://localhost:8080/event/deleteEvent/"+this.eventService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+this.authService.authToken, // Attach token
             'language':this.localizeService.parser.currentLang
           }
-        });
-     
-     }else{
-
-       
+        });    
+     }else{    
         /*request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json', // Format set to JSON

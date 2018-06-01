@@ -3,11 +3,13 @@ const Event = require('../models/event'); // Import Event Model Schema
 const Category = require('../models/category'); // Import Category Model Schema
 const Place = require('../models/place'); // Import Place Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
+const config = require('../config/aws'); // Import database configuration
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
 const en = require('../translate/en'); // Import translate en
 const nodemailer = require('nodemailer');
 const emailConfig = require('../config/email'); // Mongoose Email
+var aws = require('aws-sdk');
 var ObjectId = require('mongodb').ObjectId;
 module.exports = (router) => {
     // create reusable transporter object using the default SMTP transport
@@ -20,7 +22,14 @@ module.exports = (router) => {
             pass: emailConfig.password
         }
     });
-
+    router.use(function(req, res, next) { //allow cross origin requests
+        res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Credentials", true);
+        next();
+    });
+    var s3 = new aws.S3(config);
     /* ===============================================================
        CREATE NEW category
     =============================================================== */
@@ -754,6 +763,191 @@ module.exports = (router) => {
             }
         }
 
+    });
+    /* ===============================================================
+        Route to delete a event
+    =============================================================== */
+    router.delete('/deleteEvent/:username/:id/:language', function(req, res) {
+        var language = req.params.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            // Check if username was provided
+            if (!req.params.username) {
+                res.json({ success: false, message: eval(language + '.deleteEvent.usernameProvidedError') }); // Return error
+            } else {
+                // Check if event id was provided
+                if (!req.params.id) {
+                    res.json({ success: false, message: eval(language + '.deleteEvent.usernameProvidedError') }); // Return error
+                } else {
+                    var deleteUser = req.params.username; // Assign the username from request parameters to a variable
+                    // Look for logged in user in database to check if have appropriate access
+                    User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                        if (err) {
+                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                            var mailOptions = {
+                                from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                to: [emailConfig.email],
+                                subject: ' Find one 1 delete event error ',
+                                text: 'The following error has been reported in Kultura: ' + err,
+                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                            };
+                            // Function to send e-mail to myself
+                            transporter.sendMail(mailOptions, function(err, info) {
+                                if (err) {
+                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                } else {
+                                    console.log(info); // Log success message to console if sent
+                                    console.log(user.email); // Display e-mail that it was sent to
+                                }
+                            });
+                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                        } else {
+                            // Check if logged in user is found in database
+                            if (!mainUser) {
+                                res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                            } else {
+                                // Look for user in database
+                                User.findOne({ username: deleteUser }, function(err, user) {
+                                    if (err) {
+                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                        var mailOptions = {
+                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                            to: [emailConfig.email],
+                                            subject: ' Find one 2 delete event error ',
+                                            text: 'The following error has been reported in Kultura: ' + err,
+                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                        }; // Function to send e-mail to myself
+                                        transporter.sendMail(mailOptions, function(err, info) {
+                                            if (err) {
+                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                            } else {
+                                                console.log(info); // Log success message to console if sent
+                                                console.log(user.email); // Display e-mail that it was sent to
+                                            }
+                                        });
+                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                    } else {
+                                        // Check if user is in database
+                                        if (!user) {
+                                            res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                        } else {
+                                            var saveErrorPermission = false;
+                                            // Check if is owner
+                                            if (mainUser._id.toString() === user._id.toString()) {} else {
+                                                // Check if the current permission is 'admin'
+                                                if (mainUser.permission === 'admin') {
+                                                    // Check if user making changes has access
+                                                    if (user.permission === 'admin') {
+                                                        saveErrorPermission = language + '.general.adminOneError';
+                                                    } else {}
+                                                } else {
+                                                    // Check if the current permission is moderator
+                                                    if (mainUser.permission === 'moderator') {
+                                                        // Check if contributor making changes has access
+                                                        if (user.permission === 'contributor') {} else {
+                                                            saveErrorPermission = language + '.general.adminOneError';
+                                                        }
+                                                    } else {
+                                                        saveErrorPermission = language + '.general.permissionError';
+                                                    }
+                                                }
+                                            }
+                                            //check saveError permision to save changes or not
+                                            if (saveErrorPermission) {
+                                                res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                            } else {
+                                                // Fine the user that needs to be deleted
+                                                Event.findOneAndRemove({ _id: req.params.id }, function(err, event) {
+                                                    if (err) {
+                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                        var mailOptions = {
+                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                            to: [emailConfig.email],
+                                                            subject: ' Find one and remove for delete event ',
+                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                        };
+                                                        // Function to send e-mail to myself
+                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                            if (err) {
+                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                            } else {
+                                                                console.log(info); // Log success message to console if sent
+                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                            }
+                                                        });
+                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                    } else {
+                                                        function deleteImages(images, bucket) {
+                                                            var imagesKey = [];
+                                                            for (var i = 0; i < images.length; i++) {
+                                                                if (bucket === "poster") {
+                                                                    var currentUrlSplit = images[i].url.split("/");
+                                                                    let imageName = currentUrlSplit[currentUrlSplit.length - 1];
+                                                                    var urlSplit = imageName.split("%2F");
+                                                                    imagesKey.push({
+                                                                        Key: bucket+"/"+urlSplit[0]
+                                                                    });
+                                                                } else if (bucket === "description") {
+                                                                    var currentUrlSplit = images[i].split("/");
+                                                                    let imageName = currentUrlSplit[currentUrlSplit.length - 1];
+                                                                    var urlSplit = imageName.split("%2F");
+                                                                    imagesKey.push({
+                                                                        Key: bucket+"/"+urlSplit[1]
+                                                                    });
+                                                                }
+                                                            }
+                                                            console.log(imagesKey);
+                                                            s3.deleteObjects({
+                                                                Bucket: "culture-bucket",
+                                                                Delete: {
+                                                                    Objects: imagesKey,
+                                                                    Quiet: false
+                                                                }
+                                                            }, function(err, data) {
+                                                                if (err) {
+                                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                    var mailOptions = {
+                                                                        from: emailConfig.email,
+                                                                        to: emailConfig.email,
+                                                                        subject: 'Error deleteImages',
+                                                                        text: 'The following error has been reported in File Upload part: ' + 'Date:' + Date.now().toString() + err,
+                                                                        html: 'The following error has been reported in the File Upload part:<br><br>' + 'Date:' + Date.now().toString() + err
+                                                                    };
+                                                                    // Function to send e-mail to myself
+                                                                    transporter.sendMail(mailOptions, function(err, info) {
+                                                                        if (err) {
+                                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                        } else {
+                                                                            console.log(info); // Log success message to console if sent
+                                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                                        }
+                                                                    });
+                                                                    res.json({ success: false, message: eval(language + '.fileUpload.deleteError') });
+                                                                } else {
+                                                                    if (bucket === "poster") {
+                                                                        deleteImages(event.images.description, "description");
+                                                                    } else {
+                                                                        //res.json({ success: true, message: eval(language + '.fileUpload.deleteSuccess') });
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                        deleteImages(event.images.poster, "poster");
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        }
     });
 
     return router;

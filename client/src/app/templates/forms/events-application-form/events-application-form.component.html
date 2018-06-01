@@ -50,11 +50,11 @@
   <tbody>
     <tr *ngFor="let eventApplication of eventsApplication; let i=index">
       <td>{{eventApplication.createdBy}}</td>
-      <td>{{categoriesApplication[i].title}}</td>
+      <td>{{eventApplication.category.title}}</td>
       <td>{{eventApplication.title}}</td>
       <td [innerHTML]="eventApplication.description"></td>
-      <td>{{placesApplication[i].province.name}}</td>
-      <td>{{placesApplication[i].municipality.name}}</td>
+      <td>{{eventApplication.place.province.name}}</td>
+      <td>{{eventApplication.place.municipality.name}}</td>
       <td class="ks-status">
         <a href="javascript:void(0)" (click)="deleteEventApplicationTable(i)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
       </td>

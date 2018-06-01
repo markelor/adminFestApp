@@ -26,7 +26,7 @@
                   <td>{{event.place.municipality.name }}</td>
                   <td class="ks-status">
                     <a href="javascript:void(0)" [routerLink]="['/user-route','events-route','edit-route',event._id] | localize"><span class="fa fa-edit ks-color-info">Edit</span></a>
-                    <a href="javascript:void(0)" (click)="eventDeleteClick(i,user);deleteUploaderClick(index)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+                    <a href="javascript:void(0)" (click)="eventDeleteClick(i,event)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
                   </td>
                 </tr>
               </tbody>

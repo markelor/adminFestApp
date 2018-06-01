@@ -22,8 +22,6 @@ export class EventsApplicationFormComponent implements OnInit {
   @Input() applicationId;
   private application;
   private eventsApplication;
-  private placesApplication;
-  private categoriesApplication
   private events;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
@@ -103,8 +101,6 @@ export class EventsApplicationFormComponent implements OnInit {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            this.categoriesApplication.push(this.events[indexEvent].category);
-            this.placesApplication.push(this.events[indexEvent].place);
             this.eventsApplication.push(this.events[indexEvent]);
             // Call the addTrigger to rerender again
             this.deleteTrigger.next();
@@ -123,8 +119,6 @@ export class EventsApplicationFormComponent implements OnInit {
             // Destroy the table first
             dtInstance.destroy();
             this.eventsApplication.splice(indexEvent,1);
-            this.categoriesApplication.splice(indexEvent,1);
-            this.placesApplication.splice(indexEvent,1);
             // Call the addTrigger to rerender again
             this.deleteTrigger.next();
           });
@@ -145,9 +139,7 @@ export class EventsApplicationFormComponent implements OnInit {
     this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
-        this.eventsApplication=data.application.eventsArray;
-        this.placesApplication=data.application.places;
-        this.categoriesApplication=data.application.categories;
+        this.eventsApplication=data.events;
         this.deleteTrigger.next();
       }
     });

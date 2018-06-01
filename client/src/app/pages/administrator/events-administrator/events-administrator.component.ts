@@ -7,27 +7,42 @@ import { AuthGuard} from '../../guards/auth.guard';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { DataTableDirective } from 'angular-datatables';
+import { ModalComponent } from '../../../templates/modal/modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ObservableService } from '../../../services/observable.service';
+import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-events-administrator',
   templateUrl: './events-administrator.component.html',
   styleUrls: ['./events-administrator.component.css']
 })
 export class EventsAdministratorComponent implements OnInit {
+  private messageClass;
+  private message;
   private events;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
+  private subscriptionObservable: Subscription;
   private dtOptions: any = {};
   private dtTrigger: Subject<any> = new Subject();
   constructor(
   	private eventService:EventService,
   	private authService:AuthService,
+    private observableService:ObservableService,
     private localizeService:LocalizeRouterService,
     private translate:TranslateService,
     private router:Router,
     private activatedRoute: ActivatedRoute,
-    private authGuard:AuthGuard
+    private authGuard:AuthGuard,
+    private modalService: NgbModal
   ) { }
+  private staticModalShow() {
+    const activeModal = this.modalService.open(ModalComponent, {size: 'sm',backdrop: 'static'});
+    activeModal.componentInstance.modalHeader = 'Modal user';
+    activeModal.componentInstance.modalContent = `This is static modal, backdrop click
+ will not close it. Click × or confirmation button to close modal.`;
 
+  }
   private createSettings(){
     this.dtOptions = {
       // Declare the use of the extension in the dom parameter
@@ -55,10 +70,36 @@ export class EventsAdministratorComponent implements OnInit {
       ]
     };
   }
+  private eventDeleteClick(index,event): void {
+    this.observableService.modalType="modal-delete-user";
+    if(this.observableService.modalCount<1){
+      this.staticModalShow();
+      this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
+        this.subscriptionObservable.unsubscribe();
+        if (res.hasOwnProperty('option') && res.option === 'modal-delete-user') {
+          this.eventService.deleteEvent(this.authService.user.username,event._id,this.localizeService.parser.currentLang).subscribe(data=>{
+            if(data.success){ 
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              // Destroy the table first
+              dtInstance.destroy();
+              this.events.splice(index,1);
+              // Call the addTrigger to rerender again
+              this.dtTrigger.next();
+            }); 
+              this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
+              this.message = data.message; // Set success messag
+            }else{
+              this.messageClass = 'alert alert-danger ks-solid'; // Set bootstrap error class
+              this.message = data.message; // Set error message
+            }
+          });
+        }
+      });
+    }
+  }
    // Function to get events from the database
   private getEvents() {
     this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
-      console.log(data);
       if(data.success){
         this.events=data.events;
         this.dtTrigger.next();

@@ -47,7 +47,7 @@ export class EventService {
       .distinctUntilChanged()
       .switchMap(search => this.getEventsSearch(search,language));
   }
-   // Function to get all themes from the database
+  // Function to get all themes from the database
   public getEventsSearch(search,language) {
     if(!search){
       this.route='';
@@ -55,6 +55,11 @@ export class EventService {
       this.route= encodeURIComponent(search) +'/';
     }    
     return this.http.get<any>(this.domain + 'event/eventsSearch/'+this.route+language);
+  }
+  // Function to delete a event
+  public deleteEvent(username,id,language) {
+    this.route= username+'/'+id +'/'
+    return this.http.delete<any>(this.domain + 'event/deleteEvent/'+this.route+language);
   }
   // Function to get all archeology themes from the database
   public getAllThemesThematic(thematic,visible,language) {
@@ -81,13 +86,6 @@ export class EventService {
     this.route= id +'/'
     return this.http.get<any>(this.domain + 'event/singleTheme/'+this.route+language);
   }
-
-  // Function to delete a theme
-  public deleteTheme(id,language) {
-    this.route= id +'/'
-    return this.http.delete<any>(this.domain + 'event/deleteTheme/' +this.route+language);
-  }
-
   // Function to like a theme post
   public addReactionTheme(id,reaction,language) {
     const themeData = { id: id,reaction:reaction,language:language };

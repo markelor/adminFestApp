@@ -229,79 +229,67 @@ module.exports = (router) => {
                                             if (saveErrorPermission) {
                                                 res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
                                             } else {
-                                                Application.aggregate([{
-                                                        $match: {
-                                                            language: language,
-                                                            _id: ObjectId(req.params.id)
-                                                        }
-                                                    }, {
-                                                        // Join with Events table
-                                                        $lookup: {
-                                                            from: "events",
-                                                            localField: "events",
-                                                            foreignField: "_id",
-                                                            as: "eventsArray"
-                                                        }
-                                                    },
-                                                    // Join with Place table
-                                                    {
-                                                        $lookup: {
-                                                            from: "places",
-                                                            localField: "eventsArray.placeId",
-                                                            foreignField: "_id",
-                                                            as: "places"
-                                                        },
-                                                    },
-                                                    // Join with Category table
-                                                    {
-                                                        $lookup: {
-                                                            from: "categories",
-                                                            localField: "eventsArray.categoryId",
-                                                            foreignField: "_id",
-                                                            as: "categories"
-                                                        },
-                                                    }
-                                                ]).exec(function(err, application) {
-                                                    // Check if places were found in database
-                                                    if (!application) {
-                                                        res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
+                                                Application.findOne({
+                                                    language: language,
+                                                    _id: ObjectId(req.params.id)
+                                                }, (err, application) => {
+                                                    // Check if error was found or not
+                                                    if (err) {
+                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                        var mailOptions = {
+                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                            to: [emailConfig.email], // list of receivers
+                                                            subject: ' Find 3 get application error ',
+                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                        };
+                                                        // Function to send e-mail to myself
+                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                            if (err) {
+                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                            } else {
+                                                                console.log(info); // Log success message to console if sent
+                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                            }
+                                                        });
+                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
                                                     } else {
-                                                        if (application.length === 0) {;
-                                                            Application.findOne({
-                                                                language: language,
-                                                                _id: ObjectId(req.params.id)
-                                                            }, (err, application) => {
-                                                                // Check if error was found or not
-                                                                if (err) {
-                                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                                                    var mailOptions = {
-                                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                                                        to: [emailConfig.email], // list of receivers
-                                                                        subject: ' Find 3 get application error ',
-                                                                        text: 'The following error has been reported in Kultura: ' + err,
-                                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
-                                                                    };
-                                                                    // Function to send e-mail to myself
-                                                                    transporter.sendMail(mailOptions, function(err, info) {
-                                                                        if (err) {
-                                                                            console.log(err); // If error with sending e-mail, log to console/terminal
-                                                                        } else {
-                                                                            console.log(info); // Log success message to console if sent
-                                                                            console.log(user.email); // Display e-mail that it was sent to
-                                                                        }
-                                                                    });
-                                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
-                                                                } else {
-                                                                    // Check if application were found in database
-                                                                    if (!application) {
-                                                                        res.json({ success: false, message: eval(language + '.getApplication.applicationError') }); // Return error of no application found
-                                                                    } else {
-                                                                        res.json({ success: true, application: application }); // Return success and place 
+                                                        // Check if application were found in database
+                                                        if (!application) {
+                                                            res.json({ success: false, message: eval(language + '.getApplication.applicationError') }); // Return error of no application found
+                                                        } else {
+                                                            //res.json({ success: true, application: application }); // Return success and place 
+                                                            Event.aggregate([{
+                                                                    $match: {
+                                                                        language: language,
+                                                                        _id: {$in: application.events}
                                                                     }
+                                                                }, {
+                                                                    // Join with Place table
+                                                                    $lookup: {
+                                                                        from: "places", // other table name
+                                                                        localField: "placeId", // placeId of Event table field
+                                                                        foreignField: "_id", // _id of Place table field
+                                                                        as: "place" // alias for userinfo table
+                                                                    }
+                                                                }, { $unwind: "$place" },
+                                                                // Join with Category table
+                                                                {
+                                                                    $lookup: {
+                                                                        from: "categories",
+                                                                        localField: "categoryId",
+                                                                        foreignField: "_id",
+                                                                        as: "category"
+                                                                    }
+                                                                }, { $unwind: "$category" },
+                                                            ]).exec(function(err, events) {
+                                                                // Check if places were found in database
+                                                                if (!events) {
+                                                                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
+                                                                } else {
+                                                                    res.json({ success: true, application: application,events:events }); // Return success and place 
                                                                 }
                                                             });
-                                                        } else {
-                                                            res.json({ success: true, application: application[0] }); // Return success and place 
                                                         }
                                                     }
                                                 });

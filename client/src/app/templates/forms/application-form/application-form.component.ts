@@ -166,7 +166,6 @@ export class ApplicationFormComponent implements OnInit {
       this.application.setPrice=Number(this.form.get('price').value);
       this.application.setExpiredAt=new Date(this.form.get('expiryDate').value.year,this.form.get('expiryDate').value.month,this.form.get('expiryDate').value.day,this.timeExpiryDate.hour,this.timeExpiryDate.minute);
       if(this.uploader.queue.length>0){
-        this.submitted = false; // Disable submit button
         this.uploader.uploadAll();
         if(this.uploader.queue[0].isUploaded){
           this.editApplication();
@@ -181,10 +180,8 @@ export class ApplicationFormComponent implements OnInit {
     }   
   }
   private createApplication() {
-    console.log("sartze naiz");
     // Function to save application into database
     this.applicationService.newApplication(this.application).subscribe(data=>{
-      console.log(data);
       if(!data.success){
         this.deleteUploadImages('application',this.imagesApplication);
         this.submitted = false;
@@ -270,10 +267,6 @@ export class ApplicationFormComponent implements OnInit {
           url:responseJson.file[0].location
         }
         this.imagesApplication.push(file);   
-        console.log(this.operation);
-        console.log(this.uploader.progress);
-        console.log(this.uploadAllSuccess);
-
         if(this.uploader.progress===100 && this.uploadAllSuccess){
           this.application.setImagesApplication=this.imagesApplication;
           if(this.operation==='create'){

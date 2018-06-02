@@ -291,13 +291,11 @@ module.exports = {
         saveError: "No se pudo editar la aplicación. Error: ",
         success: "¡Aplicación editada!"
     },
-    deleteTheme: {
-        idProvidedError: 'El ID del tema, no fue proporcionado.',
-        themeError: "No se encontró el tema.",
-        userError: "No se encontró el usuario.",
-        permissionError: "No estás autorizado para eliminar esta publicación de tema.",
-        saveError: "No se pudo eliminar el tema. Error: ",
-        success: "¡Tema eliminado!"
+    deleteEvent: {
+        usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
+        idProvidedError: 'El ID del evento, no fue proporcionado.',
+        saveError: "No se pudo eliminar el evento. Error: ",
+        success: "¡Evento eliminado!"
     },
     addThemeReaction: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',

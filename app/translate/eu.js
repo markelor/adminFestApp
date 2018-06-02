@@ -291,13 +291,11 @@ module.exports = {
         saveError: "Ezin izan da aplikazioa aldatu. Akatsa: ",
         success: "Aplikazioa aldatu da!"
     },
-    deleteTheme: {
-        idProvidedError: 'Ez da gaiaren IDa eman.',
-        themeError: "Gaia ez da aurkitu.",
-        userError: "Erabiltzailea ez da aurkitu.",
-        permissionError: "Ez duzu gaiaren publikazio hau ezabatzeko baimenik.",
-        saveError: "Ezin izan da gaia ezabatu. Akatsa: ",
-        success: "Gaia ezabatu da!"
+    deleteEvent: {
+        usernameProvidedError: 'Erabiltzaile izena ez da eman.',
+        idProvidedError: 'Ez da ekintzaren IDa eman.',
+        saveError: "Ezin izan da ekintza ezabatu. Akatsa: ",
+        success: "Ekintza ezabatu da!"
     },
     addThemeReaction: {
         idProvidedError: 'Ez da gaiaren IDa eman.',

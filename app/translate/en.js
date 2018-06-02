@@ -292,13 +292,11 @@ module.exports = {
         saveError: "Could not edit application. Error: ",
         success: "Application edited!"
     },
-    deleteTheme: {
-        idProvidedError: 'Theme ID was not provided.',
-        themeError: "No theme was found.",
-        userError: "No user was found.",
-        permissionError: "You are not authorized to delete this theme post.",
-        saveError: "Could not delete theme. Error: ",
-        success: "Theme deleted!"
+    deleteEvent: {
+        usernameProvidedError: 'Username was not provided.',
+        idProvidedError: 'Event ID was not provided.',
+        saveError: "Could not delete event. Error: ",
+        success: "Event deleted!"
     },
     addThemeReaction: {
         idProvidedError: 'Theme ID was not provided',

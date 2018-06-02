@@ -2,7 +2,8 @@ const User = require('../models/user'); // Import User Model Schema
 const Event = require('../models/event'); // Import Event Model Schema
 const Category = require('../models/category'); // Import Category Model Schema
 const Place = require('../models/place'); // Import Place Model Schema
-const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
+const Application = require('../models/application'); // Import Application Model Schema
+const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.const Place = require('../models/place'); // Import Place Model Schema
 const config = require('../config/aws'); // Import database configuration
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
@@ -779,7 +780,7 @@ module.exports = (router) => {
             } else {
                 // Check if event id was provided
                 if (!req.params.id) {
-                    res.json({ success: false, message: eval(language + '.deleteEvent.usernameProvidedError') }); // Return error
+                    res.json({ success: false, message: eval(language + '.deleteEvent.idProvidedError') }); // Return error
                 } else {
                     var deleteUser = req.params.username; // Assign the username from request parameters to a variable
                     // Look for logged in user in database to check if have appropriate access
@@ -880,6 +881,31 @@ module.exports = (router) => {
                                                         });
                                                         res.json({ success: false, message: eval(language + '.general.generalError') });
                                                     } else {
+                                                        Application.update({
+                                                            events: ObjectId(req.params.id)
+                                                        }, { $pull: { events: ObjectId(req.params.id) } }, { multi: true }, function(err, application) {
+                                                            // Check if error
+                                                            if (err) {
+                                                                console.log(err);
+                                                                // Check if error is a validation error
+                                                                if (err.errors) {
+                                                                    // Check if validation error is in the category field
+                                                                    if (err.errors['title']) {
+                                                                        res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
+                                                                    } else {
+                                                                        if (err.errors['name']) {
+                                                                            res.json({ success: false, message: eval(language + err.errors['name'].message) }); // Return error message
+                                                                        } else {
+                                                                            res.json({ success: false, message: err }); // Return general error message
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    res.json({ success: false, message: eval(language + '.deleteEvent.saveError'), err }); // Return general error message
+                                                                }
+                                                            } else {
+                                                                res.json({ success: true, message: eval(language + '.deleteEvent.success') }); // Return success message
+                                                            }
+                                                        });
                                                         function deleteImages(images, bucket) {
                                                             var imagesKey = [];
                                                             for (var i = 0; i < images.length; i++) {
@@ -888,18 +914,17 @@ module.exports = (router) => {
                                                                     let imageName = currentUrlSplit[currentUrlSplit.length - 1];
                                                                     var urlSplit = imageName.split("%2F");
                                                                     imagesKey.push({
-                                                                        Key: bucket+"/"+urlSplit[0]
+                                                                        Key: bucket + "/" + urlSplit[0]
                                                                     });
                                                                 } else if (bucket === "description") {
                                                                     var currentUrlSplit = images[i].split("/");
                                                                     let imageName = currentUrlSplit[currentUrlSplit.length - 1];
                                                                     var urlSplit = imageName.split("%2F");
                                                                     imagesKey.push({
-                                                                        Key: bucket+"/"+urlSplit[1]
+                                                                        Key: bucket + "/" + urlSplit[1]
                                                                     });
                                                                 }
                                                             }
-                                                            console.log(imagesKey);
                                                             s3.deleteObjects({
                                                                 Bucket: "culture-bucket",
                                                                 Delete: {
@@ -929,8 +954,6 @@ module.exports = (router) => {
                                                                 } else {
                                                                     if (bucket === "poster") {
                                                                         deleteImages(event.images.description, "description");
-                                                                    } else {
-                                                                        //res.json({ success: true, message: eval(language + '.fileUpload.deleteSuccess') });
                                                                     }
                                                                 }
                                                             });

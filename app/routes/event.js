@@ -307,6 +307,10 @@ module.exports = (router) => {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             Event.aggregate([{
+                    $match: {
+                        language: language
+                    }
+                }, {
                     // Join with Place table
                     $lookup: {
                         from: "places", // other table name
@@ -906,6 +910,7 @@ module.exports = (router) => {
                                                                 res.json({ success: true, message: eval(language + '.deleteEvent.success') }); // Return success message
                                                             }
                                                         });
+
                                                         function deleteImages(images, bucket) {
                                                             var imagesKey = [];
                                                             for (var i = 0; i < images.length; i++) {

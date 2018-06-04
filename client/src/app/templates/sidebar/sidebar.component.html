@@ -29,7 +29,7 @@
         <a class="dropdown-item" [routerLink]="['/event-route','create-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.create'}}</a>
       </div>
     </li>
-    <!--Aplication item-->
+    <!--Application item-->
     <li class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
         <span class="ks-icon la la-paw"></span>
@@ -53,6 +53,10 @@
       <!--Administrator events-->
       <div class="dropdown-menu">
         <a class="dropdown-item" [routerLink]="['/admin-route','events-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.events'}}</a>
+      </div>
+      <!--Administrator applications-->
+      <div class="dropdown-menu">
+        <a class="dropdown-item" [routerLink]="['/admin-route','applications-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.applications'}}</a>
       </div>
     </li>
     <li class="nav-item dropdown">

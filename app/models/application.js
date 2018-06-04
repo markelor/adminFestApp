@@ -109,23 +109,31 @@ const descriptionValidators = [
 ];
 // Application Model Definition
 const applicationSchema = new Schema({
-    language: { type: String, required: true },
-	users: { type: Array, required: true },
-	title: { type: String, required: true, validate: titleValidators  },
-    events: [{type: Schema.Types.ObjectId, required: true}],
-    entityName: { type: String, required: false, validate: nameValidators},
-    license: {
-        name: { type: String, required: true },
-        conditions: { type: Array, required: true},
-        price: { type: Number, required: true },
-        expiredAt: { type: Date, required: true }     
-    },
+    users: { type: Array, required: true },
+    events: [{ type: Schema.Types.ObjectId, required: true }],
+    languages: [{
+        eu: {
+            title: { type: String, required: true, validate: titleValidators },
+            entityName: { type: String, required: false, validate: nameValidators },
+            name: { type: String, required: true },
+            conditions: { type: Array, required: true }
+        },
+        es: {
+            title: { type: String, required: true, validate: titleValidators },
+            entityName: { type: String, required: false, validate: nameValidators },
+            name: { type: String, required: true },
+            conditions: { type: Array, required: true }
+        },
+        en: {
+            title: { type: String, required: true, validate: titleValidators },
+            entityName: { type: String, required: false, validate: nameValidators },
+            name: { type: String, required: true },
+            conditions: { type: Array, required: true }
+        }
+    }, ],
+    price: { type: Number, required: true },
+    expiredAt: { type: Date, required: true },
     images: { type: Array, required: true },
-    observations: [{
-        title: { type: String, required: true, validate: titleValidators },
-        description: { type: String, required: true, validate: descriptionValidators },
-        expiredAt: { type: Date, required: true }     
-    }],
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });

@@ -68,16 +68,41 @@ const longitudeValidators = [
 
 // Place Model Definition
 const placeSchema = new Schema({
-    language: { type: String, required: true },
-    province: {
-        name: { type: String, required: true },
-        geonameId: { type: Number, required: true }
-    },
-    municipality: {
-        name: { type: String, required: true },
-        geonameId: { type: Number, required: true }
-    },
-    location: { type: String, required: true, validate: locationValidators },
+    languages: [{
+        eu: {
+            province: {
+                name: { type: String, required: true },
+                geonameId: { type: Number, required: true }
+            },
+            municipality: {
+                name: { type: String, required: true },
+                geonameId: { type: Number, required: true }
+            },
+            location: { type: String, required: true, validate: locationValidators },
+        },
+        es: {
+            province: {
+                name: { type: String, required: true },
+                geonameId: { type: Number, required: true }
+            },
+            municipality: {
+                name: { type: String, required: true },
+                geonameId: { type: Number, required: true }
+            },
+            location: { type: String, required: true, validate: locationValidators },
+        },
+        en: {
+            province: {
+                name: { type: String, required: true },
+                geonameId: { type: Number, required: true }
+            },
+            municipality: {
+                name: { type: String, required: true },
+                geonameId: { type: Number, required: true }
+            },
+            location: { type: String, required: true, validate: locationValidators },
+        }
+    }],
     coordinates: {
         lat: { type: Number, requireed: true, validate: latitudeValidators },
         lng: { type: Number, requireed: true, validate: longitudeValidators }

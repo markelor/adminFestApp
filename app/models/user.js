@@ -186,7 +186,7 @@ let aboutYourselfLengthChecker = (aboutYourself) => {
 const aboutYourselfValidators = [
     // First aboutYourself Validator
     {
-        validator:aboutYourselfLengthChecker,
+        validator: aboutYourselfLengthChecker,
         message: '.validation.aboutYourselfLength'
     }
 ];
@@ -199,7 +199,17 @@ const userSchema = new Schema({
     username: { type: String, required: true, unique: true, validate: usernameValidators },
     password: { type: String, required: true, validate: passwordValidators, select: false },
     active: { type: Boolean, required: true, default: false },
-    aboutYourself:{ type: String, required: false,validate:aboutYourselfValidators },
+    languages: [{
+        eu: {
+            aboutYourself: { type: String, required: false, validate: aboutYourselfValidators }
+        },
+        es: {
+            aboutYourself: { type: String, required: false, validate: aboutYourselfValidators }
+        },
+        en: {
+            aboutYourself: { type: String, required: false, validate: aboutYourselfValidators }
+        }
+    }],
     temporaryToken: { type: String, required: true },
     resetToken: { type: String, required: false },
     permission: { type: String, required: true, default: 'contributor' },
@@ -210,16 +220,16 @@ const userSchema = new Schema({
 
 // Middleware to ensure password is encrypted before saving user to database
 userSchema.pre('save', function(next) {
-  // Ensure password is new or modified before applying encryption
-  if (!this.isModified('password'))
-    return next();
+    // Ensure password is new or modified before applying encryption
+    if (!this.isModified('password'))
+        return next();
 
-  // Apply encryption
-  bcrypt.hash(this.password, null, null, (err, hash) => {
-    if (err) return next(err); // Ensure no errors
-    this.password = hash; // Apply encryption to password
-    next(); // Exit middleware
-  });
+    // Apply encryption
+    bcrypt.hash(this.password, null, null, (err, hash) => {
+        if (err) return next(err); // Ensure no errors
+        this.password = hash; // Apply encryption to password
+        next(); // Exit middleware
+    });
 });
 
 // Methods to compare password to encrypted password upon login

@@ -29,6 +29,7 @@
     "category": "Categoría",
     "event": "Evento",
     "application": "Aplicación",
+    "applications": "Aplicaciones",
     "administrator": "Administrador",
     "users": "Usuarios",
     "events": "Eventos"
@@ -152,20 +153,9 @@
     "select-parent-category": "-- SELECCIONE UNA CATEGORÍA --",
     "send": "Enviar"
   },
-  "application-form":
-  {
-    "title": "Título",
-    "entity-name": "Nombre de la entidad",
-    "events": "Eventos",
-    "users": "Usuarios",
-    "license": "Licencia",
-    "conditions": "Condiciones",
-    "price": "Precio",
-    "expiry-date": "Fecha de caducidad",
-    "send": "Enviar"
-  },
   "event-form":
   {
+    "created-by": "Creado por",
     "title": "Título",
     "caregory": "Categoría",
     "participants": "Participantes",
@@ -187,17 +177,36 @@
     "lat": "Coordenadas N-S (Lat)",
     "lng": "Coordenada E-O (Lng)",
     "check": "Comprobar",
-    "locations-exists":"Localización existente",
+    "locations-exists": "Localización existente",
     "location": "Localización",
     "description": "Descripción",
     "observations": "Observaciones",
     "select-category": "-- SELECCIONE UNA CATEGORÍA --",
     "select-province": "-- SELECCIONE UNA PROVINCIA --",
     "select-municipality": "-- SELECCIONE UN MUNICIPIO --",
-    "select-locations-exists":"-- SELECCIONE UNA LOCALIZACIÓN --",
+    "select-locations-exists": "-- SELECCIONE UNA LOCALIZACIÓN --",
     "send": "Enviar",
     "entity-name": "Nombre de la entidad",
     "price": "Prezioa"
+  },
+  "application-form":
+  {
+    "title": "Título",
+    "entity-name": "Nombre de la entidad",
+    "events": "Eventos",
+    "users": "Usuarios",
+    "license": "Licencia",
+    "conditions": "Condiciones",
+    "price": "Precio",
+    "expiry-date": "Fecha de caducidad",
+    "send": "Enviar"
+  },
+  "crud":
+  {
+    "add": "Añadir",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "edit-delete": "Editar/Eliminar"
   },
   "comment":
   {

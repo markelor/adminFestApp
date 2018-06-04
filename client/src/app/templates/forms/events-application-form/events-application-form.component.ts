@@ -1,13 +1,14 @@
 import { Component, OnInit,Injectable,Input,ViewChild } from '@angular/core';
-import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 import { EventService } from '../../../services/event.service';
 import { ApplicationService } from '../../../services/application.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Application } from '../../../class/application';
 import { Subject } from 'rxjs/Subject';
 import {DataTableDirective} from 'angular-datatables';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-events-application-form',
@@ -17,8 +18,7 @@ import {DataTableDirective} from 'angular-datatables';
 export class EventsApplicationFormComponent implements OnInit {
   private message;
   private messageClass;
-  private form:FormGroup;
-  private event:AbstractControl;
+  private subscriptionLanguage: Subscription;
   @Input() applicationId;
   private application;
   private eventsApplication;
@@ -28,25 +28,15 @@ export class EventsApplicationFormComponent implements OnInit {
   private dtOptions: any = {};
   private addTrigger: Subject<any> = new Subject();
   private deleteTrigger: Subject<any> = new Subject();
-  private search:boolean=true;
-  private eventsSearch;
-  private searchTerm = new Subject<string>();
   constructor(
-    private fb: FormBuilder,
     private localizeService:LocalizeRouterService,
     private applicationService:ApplicationService,
     private authService:AuthService,
     private eventService:EventService,
-    private translate: TranslateService){
-    this.createForm(); // Create new theme form on start up
+    private translate: TranslateService,
+    private router:Router){
     }
-    // Function to create new theme form
-  private createForm() {
-    this.form = this.fb.group({
-      event: [''],
-    })
-    this.event = this.form.controls['event'];
-  }
+
   private createSettings(){
     this.dtOptions = {
       // Declare the use of the extension in the dom parameter
@@ -72,25 +62,6 @@ export class EventsApplicationFormComponent implements OnInit {
         { responsivePriority: 2, targets: 6 }
       ]
     };
-  }
-  private addEventApplication(){
-    var index=this.eventsSearch.map(event => event.title).indexOf(this.event.value);
-    if(this.event.value && !this.application.events.includes(this.eventsSearch[index]._id) && this.eventsSearch.filter(event => event.title === this.event.value).length > 0){
-      this.application.events.push(this.eventsSearch[index]._id);
-      this.event.setValue("");
-      // Edit application
-      this.applicationService.editApplication(this.application).subscribe(data => {
-        if(data.success){ 
-          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            // Destroy the table first
-            dtInstance.destroy();
-            this.eventsApplication.push(this.eventsSearch[index]);
-            // Call the addTrigger to rerender again
-            this.deleteTrigger.next();
-          });
-        }
-      });
-    }
   }
   private addEventApplicationTable(indexEvent){
     if(!this.application || !this.application.events.includes(this.events[indexEvent]._id)){
@@ -125,15 +96,6 @@ export class EventsApplicationFormComponent implements OnInit {
         }
       });
   }
-  private selectEvent(index) {
-    this.search=false;
-    this.event.setValue(this.eventsSearch[index].title);
-  }
-  private onClickOutside() {
-    if(this.search){
-      this.search=false;
-    }
-  }
   private getApplicationEvents(){
     // Get application
     this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
@@ -161,13 +123,15 @@ export class EventsApplicationFormComponent implements OnInit {
     }); 
     this.createSettings(); 
     this.getApplicationEvents();
-    this.getEvents();
-    this.eventService.eventSearch(this.searchTerm,this.localizeService.parser.currentLang).subscribe(data=>{
-      if(data.success){
-        this.eventsSearch=data.events;
-        this.search=true; 
-      }     
-    }); 	  
-  }
+    this.getEvents();	  
+    this.subscriptionLanguage =this.localizeService.routerEvents.subscribe((language: string) => {
+      setTimeout(()=>{
+        this.router.navigate([this.localizeService.translateRoute('/user-route')]); // Return error and route to login page
+      },0);
 
+    });      
+  }
+  ngOnDestroy(){
+      this.subscriptionLanguage.unsubscribe();
+  }
 }

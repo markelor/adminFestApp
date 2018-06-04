@@ -29,9 +29,12 @@ export class LoginComponent implements OnInit {
     private localizeService:LocalizeRouterService,
     private formBuilder:FormBuilder,
     private authService:AuthService,
-    private router:Router,private translate: TranslateService,
-    private authGuard:AuthGuard,private userGuard:UserGuard,
-    private moderatorGuard:ModeratorGuard, private adminGuard:AdminGuard) {
+    private router:Router,
+    private translate: TranslateService,
+    private authGuard:AuthGuard,
+    private userGuard:UserGuard,
+    private moderatorGuard:ModeratorGuard,
+     private adminGuard:AdminGuard) {
     this.createForm();  // Create Login Form when component is constructed
   	}
 

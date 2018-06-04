@@ -30,6 +30,7 @@
     "category": "Kategoria",
     "event": "Ekintza",
     "application": "Aplikazioa",
+    "applications": "Aplikazioak",
     "administrator": "Administratzailea",
     "users": "Erabiltzaileak",
     "events": "Ekintzak"
@@ -156,6 +157,7 @@
   },
   "event-form":
   {
+    "created-by": "Publikatzailea",
     "title": "Izenburua",
     "category": "Kategoria",
     "participants": "Parte Hartzaileak",
@@ -200,6 +202,13 @@
     "price": "Prezioa",
     "expiry-date": "Iraungitze data",
     "send": "Bidali"
+  },
+    "crud":
+  {
+    "add": "Gehitu",
+    "delete": "Ezabatu",
+    "edit": "Aldatu",
+    "edit-delete": "Aldatu/Ezabatu"
   },
   "comment":
   {

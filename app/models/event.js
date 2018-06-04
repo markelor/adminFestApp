@@ -95,14 +95,27 @@ const eventSchema = new Schema({
     createdBy: { type: String, required: true },
     categoryId: { type: Schema.Types.ObjectId, required: true },
     placeId: { type: Schema.Types.ObjectId, required: true },
-    language: { type: String, required: true },
-    visible: { type: Boolean, required: true, default: true },
     participants: { type: Array, required: false },
-    title: { type: String, required: true, validate: titleValidators },
+    languages: [{
+        eu: {
+            title: { type: String, required: true, validate: titleValidators },
+            description: { type: String, required: true, validate: descriptionValidators },
+            observations: { type: String, validate: observationsValidators },
+        },
+        es: {
+            title: { type: String, required: true, validate: titleValidators },
+            description: { type: String, required: true, validate: descriptionValidators },
+            observations: { type: String, validate: observationsValidators },
+        },
+        en: {
+            title: { type: String, required: true, validate: titleValidators },
+            description: { type: String, required: true, validate: descriptionValidators },
+            observations: { type: String, validate: observationsValidators },
+        }
+    }],
+    visible: { type: Boolean, required: true, default: true },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
-    description: { type: String, required: true, validate: descriptionValidators },
-    observations: { type: String, validate: observationsValidators },
     reactions: {
         likeBy: { type: Array, required: false },
         loveBy: { type: Array, required: false },

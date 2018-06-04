@@ -4,47 +4,16 @@
     {{ message }}
   </div>
 </div>
-<!-- Events Application Form -->
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-horizontal">
-  <div class="row">
-    <!-- Event -->
-    <div class="col-sm-12">
-      <div class="form-group required" [ngClass]="{'has-error': (!event.valid && event.dirty), 'has-success': (event.valid && event.value)}">
-        <label for="textareaEvent" translate>{{'application-form.events'}}</label>
-        <div class="input-group icon">
-          <input (keyup)="searchTerm.next($event.target.value)" [formControl]="event" capitalize type="text" class="form-control" id="inputEvent">
-          <div class="input-group-append ">
-            <button (click)="addEventApplication()" type="button" class="btn btn-success ks-light ks-no-text">
-              <span class="la la-plus ks-icon"></span>
-            </button>
-          </div>
-        </div>
-        <table click-outside (clickOutside)="onClickOutside()" *ngIf="searchTerm.observers[0].destination.key && search" class="table table-hover ks-table-cells-vertical-align-middle ks-crm-contacts-events-list-column-table">
-          <tbody>
-            <tr (click)="selectEvent(i)" *ngFor="let event of eventsSearch; let i=index">
-              <td width="1">
-                <img src="{{event.images.poster[0].url}}" class="ks-avatar rounded-circle" width="36" height="36">
-              </td>
-              <td width="200">
-                <div class="ks-name">{{event.title}}</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</form>
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="deleteTrigger" class="row-border hover" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th>Created By</th>
-      <th>Category</th>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Province</th>
-      <th>Municipality</th>
-      <th>Delete</th>
+      <th translate>{{'event-form.created-by'}}</th>
+      <th translate>{{'event-form.category'}}</th>
+      <th translate>{{'event-form.title'}}</th>
+      <th translate>{{'event-form.description'}}</th>
+      <th translate>{{'event-form.province'}}</th>
+      <th translate>{{'event-form.municipality'}}</th>
+      <th translate>{{'crud.delete'}}</th>
     </tr>
   </thead>
   <tbody>
@@ -56,7 +25,7 @@
       <td>{{eventApplication.place.province.name}}</td>
       <td>{{eventApplication.place.municipality.name}}</td>
       <td class="ks-status">
-        <a href="javascript:void(0)" (click)="deleteEventApplicationTable(i)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+        <a href="javascript:void(0)" (click)="deleteEventApplicationTable(i)"><span class="fa fa-trash ks-color-danger" translate>{{'crud.delete'}}</span></a>
       </td>
     </tr>
   </tbody>
@@ -64,13 +33,13 @@
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="addTrigger" class="row-border hover" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th>Created By</th>
-      <th>Category</th>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Province</th>
-      <th>Municipality</th>
-      <th>Add</th>
+      <th translate>{{'event-form.created-by'}}</th>
+      <th translate>{{'event-form.category'}}</th>
+      <th translate>{{'event-form.title'}}</th>
+      <th translate>{{'event-form.description'}}</th>
+      <th translate>{{'event-form.province'}}</th>
+      <th translate>{{'event-form.municipality'}}</th>
+      <th translate>{{'crud.add'}}</th>
     </tr>
   </thead>
   <tbody>
@@ -82,7 +51,7 @@
       <td>{{event.place.province.name}}</td>
       <td>{{event.place.municipality.name }}</td>
       <td class="ks-status">
-        <a href="javascript:void(0)" (click)="addEventApplicationTable(i)"><span class="fa fa-plus ks-color-success">Add</span></a>
+        <a href="javascript:void(0)" (click)="addEventApplicationTable(i)"><span class="fa fa-plus ks-color-success" translate>{{'crud.add'}}</span></a>
       </td>
     </tr>
   </tbody>

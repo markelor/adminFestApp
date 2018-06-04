@@ -12,11 +12,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ObservableService } from '../../../services/observable.service';
 import { Subscription } from 'rxjs/Subscription';
 @Component({
-  selector: 'app-events-administrator',
-  templateUrl: './events-administrator.component.html',
-  styleUrls: ['./events-administrator.component.css']
+  selector: 'app-applications-administrator',
+  templateUrl: './applications-administrator.component.html',
+  styleUrls: ['./applications-administrator.component.css']
 })
-export class EventsAdministratorComponent implements OnInit {
+export class ApplicationsAdministratorComponent implements OnInit {
   private messageClass;
   private message;
   private subscriptionLanguage: Subscription;

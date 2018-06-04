@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../services/auth.service';
 import { EventService } from '../../../../services/event.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../../../guards/auth.guard';
 import { Router } from '@angular/router';
-
+import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-see-events',
   templateUrl: './see-events.component.html',
   styleUrls: ['./see-events.component.css']
 })
 export class SeeEventsComponent implements OnInit {
+  private subscriptionLanguage: Subscription;
   private events;
-
   constructor(
   	private eventService:EventService,
   	private authService:AuthService,
@@ -43,5 +43,12 @@ export class SeeEventsComponent implements OnInit {
       }
     });
   	this.getAllUserEvents();
+    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.localizeService.parser.currentLang=event.lang;
+      this.getAllUserEvents(); 
+    });
+  }
+  ngOnDestroy(){
+      this.subscriptionLanguage.unsubscribe();
   } 
 }

@@ -17,6 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { EventFormComponent } from './forms/event-form/event-form.component';
+import { CategoryFormComponent } from './forms/category-form/category-form.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MapModule } from '../pages/map/map.module';
 import { AgmCoreModule } from '@agm/core';
@@ -35,10 +36,10 @@ import { EventsApplicationFormComponent } from './forms/events-application-form/
     SharedModule,TranslateModule,TemplatesRoutingModule,DataTablesModule,NgbModule
   ],
   declarations: [
-  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent, FormsComponent, EventsApplicationFormComponent
+  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent,CategoryFormComponent, FormsComponent, EventsApplicationFormComponent
   ],
   exports: [
-    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent, EventsApplicationFormComponent
+    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent,CategoryFormComponent, EventsApplicationFormComponent
     ],
    providers:[
    	GroupByPipe,SpacePipe,BindContentPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}

@@ -96,6 +96,9 @@
     "es": "Castellano",
     "eu": "Euskara",
     "en": "Inglés",
+    "es-short": "Es",
+    "en-short": "En",
+    "eu-short": "Eu",
     "user": "Usuario",
     "events": "Eventos",
     "applications": "Aplicaciones"

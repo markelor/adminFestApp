@@ -74,19 +74,13 @@ const categorySchema = new Schema({
     firstParentId: { type: Schema.Types.ObjectId, required: false, default: null },
     parentId: { type: Schema.Types.ObjectId, required: false, default: null },
     level: { type: Number, required: true, default: 0 },
-    languages: [{
-        eu: {
-            title: { type: String, required: true, unique: true, validate: titleValidators },
-            description: { type: String, required: true, validate: descriptionValidators }
-        },
-        es: {
-            title: { type: String, required: true, unique: true, validate: titleValidators },
-            description: { type: String, required: true, validate: descriptionValidators }
-        },
-        en: {
-            title: { type: String, required: true, unique: true, validate: titleValidators },
-            description: { type: String, required: true, validate: descriptionValidators }
-        }
+    language: { type: String, required: true },
+    title: { type: String, required: true, validate: titleValidators },
+    description: { type: String, required: true, validate: descriptionValidators },
+    translation: [{
+        language: { type: String, required: true },
+        title: { type: String, required: true, validate: titleValidators },
+        description: { type: String, required: true, validate: descriptionValidators }
     }],
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }

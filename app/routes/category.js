@@ -48,11 +48,11 @@ module.exports = (router) => {
                         createdAt: Date.now(),
                         updatedAt: Date.now()
                     });
-
                     // Save category into database
                     category.save((err) => {
                         // Check if error
                         if (err) {
+                            console.log(err);
                             // Check if error is a validation error
                             if (err.errors) {
                                 // Check if validation error is in the category field

@@ -111,26 +111,18 @@ const descriptionValidators = [
 const applicationSchema = new Schema({
     users: { type: Array, required: true },
     events: [{ type: Schema.Types.ObjectId, required: true }],
-    languages: [{
-        eu: {
-            title: { type: String, required: true, validate: titleValidators },
-            entityName: { type: String, required: false, validate: nameValidators },
-            name: { type: String, required: true },
-            conditions: { type: Array, required: true }
-        },
-        es: {
-            title: { type: String, required: true, validate: titleValidators },
-            entityName: { type: String, required: false, validate: nameValidators },
-            name: { type: String, required: true },
-            conditions: { type: Array, required: true }
-        },
-        en: {
-            title: { type: String, required: true, validate: titleValidators },
-            entityName: { type: String, required: false, validate: nameValidators },
-            name: { type: String, required: true },
-            conditions: { type: Array, required: true }
-        }
-    }, ],
+    language: { type: String, required: true },
+    title: { type: String, required: true, validate: titleValidators },
+    entityName: { type: String, required: false, validate: nameValidators },
+    name: { type: String, required: true },
+    conditions: { type: Array, required: true },
+    translation: [{
+        language: { type: String, required: true },
+        title: { type: String, required: true, validate: titleValidators },
+        entityName: { type: String, required: false, validate: nameValidators },
+        name: { type: String, required: true },
+        conditions: { type: Array, required: true }
+    }],
     price: { type: Number, required: true },
     expiredAt: { type: Date, required: true },
     images: { type: Array, required: true },

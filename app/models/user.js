@@ -199,16 +199,11 @@ const userSchema = new Schema({
     username: { type: String, required: true, unique: true, validate: usernameValidators },
     password: { type: String, required: true, validate: passwordValidators, select: false },
     active: { type: Boolean, required: true, default: false },
-    languages: [{
-        eu: {
-            aboutYourself: { type: String, required: false, validate: aboutYourselfValidators }
-        },
-        es: {
-            aboutYourself: { type: String, required: false, validate: aboutYourselfValidators }
-        },
-        en: {
-            aboutYourself: { type: String, required: false, validate: aboutYourselfValidators }
-        }
+    language: { type: String, required: true },
+    aboutYourself: { type: String, required: false, validate: aboutYourselfValidators },
+    translation: [{
+        language: { type: String, required: true },
+        aboutYourself: { type: String, required: false, validate: aboutYourselfValidators }
     }],
     temporaryToken: { type: String, required: true },
     resetToken: { type: String, required: false },

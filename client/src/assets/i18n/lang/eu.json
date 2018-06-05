@@ -97,6 +97,9 @@
     "es": "Gaztelera",
     "en": "Ingelesa",
     "eu": "Euskara",
+    "es-short": "Es",
+    "en-short": "En",
+    "eu-short": "Eu",
     "user": "Erabiltzailea",
     "events": "Ekintzak",
     "applications": "Aplikazioak"

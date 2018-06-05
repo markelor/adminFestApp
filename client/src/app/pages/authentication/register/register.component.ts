@@ -52,8 +52,8 @@ export class RegisterComponent implements OnInit {
         'password': ['', Validators.compose([Validators.required,PasswordValidator.validate, Validators.minLength(8),Validators.maxLength(35)])],
         'repeatPassword': ['', Validators.compose([Validators.required,PasswordValidator.validate, Validators.minLength(8),Validators.maxLength(35)])]
       }, {validator: EqualPasswordsValidator.validate('password', 'repeatPassword')}),
-      // Username Input
-      'aboutYourself': ['']
+      // About yourself Input
+      'aboutYourself': ['', Validators.compose([Validators.maxLength(500)])] 
     });
     this.name = this.form.controls['name'];
     this.username = this.form.controls['username'];

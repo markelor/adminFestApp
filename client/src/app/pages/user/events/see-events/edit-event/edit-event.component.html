@@ -3,30 +3,48 @@
     <div class="ks-nav-body-wrapper">
       <div class="container-fluid ks-rows-section">
         <div class="row">
-          <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <app-event-form *ngIf="event"
-            [id]="event._id" 
-            [createdBy]="event.createdBy"
-            [editTitle]="event.title"
-            [editCategories]="categories"
-            [editParticipants]="event.participants"
-            [editProvince]="place.province"
-            [editMunicipality]="place.municipality"
-            [editStart]="event.start"
-            [editEnd]="event.end"
-            [editLocation]="place.location"
-            [editLat]="place.coordinates.lat"
-            [editLng]="place.coordinates.lng"
-            [editDescription]="event.description"
-            [editObservations]="event.observations"
-            [editImagesPoster]="event.images.poster"
-            [editImagesDescription]="event.images.description"
-            [operation]="'edit'"
-            ></app-event-form>
+          <section class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card panel ks-widget ks-widget-post">
+              <h5 class="card-header">
+              <span class="ks-text" translate>{{'navbar.user'}}</span>
+            </h5>
+              <div class="card-block">
+                <div class="ks-tabs-container ks-tabs-default ks-tabs-no-separator ks-widget-attachments">
+                  <ul class="nav ks-nav-tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#" data-toggle="tab" data-target="#tab1" translate>
+                        <span class="ks-icon la la-user text-info"></span>
+                        {{'navbar.eu'}}
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" data-toggle="tab" data-target="#tab2" translate>
+                        <span class="ks-icon la la-camera text-success"></span>
+                        {{'navbar.es'}}
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" data-toggle="tab" data-target="#tab3" translate>
+                        <span class="ks-icon la la-file-text-o text-danger"></span>
+                        {{'navbar.en'}}
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="tab1" role="tabpanel">
+                      <app-event-form *ngIf="event" [inputOperation]="'edit'" [inputLanguage]="'eu'" [inputEvent]="event" [inputCategories]="categories"></app-event-form>
+                    </div>
+                    <div class="tab-pane" id="tab2" role="tabpanel">
+                      <app-event-form *ngIf="event" [inputOperation]="'edit'" [inputLanguage]="'es'" [inputEvent]="event" [inputCategories]="categories"></app-event-form>
+                    </div>
+                    <div class="tab-pane" id="tab3" role="tabpanel">
+                     <app-event-form *ngIf="event" [inputOperation]="'edit'" [inputLanguage]="'en'" [inputEvent]="event" [inputCategories]="categories"></app-event-form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
-          <aside class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <!--<ba-right-sidebar></ba-right-sidebar>-->
-          </aside>
         </div>
       </div>
     </div>

@@ -68,40 +68,25 @@ const longitudeValidators = [
 
 // Place Model Definition
 const placeSchema = new Schema({
-    languages: [{
-        eu: {
-            province: {
-                name: { type: String, required: true },
-                geonameId: { type: Number, required: true }
-            },
-            municipality: {
-                name: { type: String, required: true },
-                geonameId: { type: Number, required: true }
-            },
-            location: { type: String, required: true, validate: locationValidators },
+    language: { type: String, required: true },
+    province: {
+        geonameId: { type: Number, required: true },
+        name: { type: String, required: true }
+    },
+    municipality: {
+        geonameId: { type: Number, required: true },
+        name: { type: String, required: true }
+    },
+    location: { type: String, required: true, validate: locationValidators },
+    translation: [{
+        language: { type: String, required: true },
+        province: {
+            name: { type: String, required: true }
         },
-        es: {
-            province: {
-                name: { type: String, required: true },
-                geonameId: { type: Number, required: true }
-            },
-            municipality: {
-                name: { type: String, required: true },
-                geonameId: { type: Number, required: true }
-            },
-            location: { type: String, required: true, validate: locationValidators },
+        municipality: {
+            name: { type: String, required: true }
         },
-        en: {
-            province: {
-                name: { type: String, required: true },
-                geonameId: { type: Number, required: true }
-            },
-            municipality: {
-                name: { type: String, required: true },
-                geonameId: { type: Number, required: true }
-            },
-            location: { type: String, required: true, validate: locationValidators },
-        }
+        location: { type: String, required: true, validate: locationValidators }
     }],
     coordinates: {
         lat: { type: Number, requireed: true, validate: latitudeValidators },

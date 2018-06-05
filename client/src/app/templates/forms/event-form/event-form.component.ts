@@ -73,37 +73,24 @@ export class EventFormComponent implements OnInit {
   private submitted:boolean = false;
   private username;
   private imagesPoster=[];
-  @Input() editImagesPoster;
+  @Input() inputLanguage;
+  @Input() inputOperation:string;
+  @Input() inputEvent;
+  @Input() inputCategories;
   private imagesDescription=[];
-  @Input() editImagesDescription;
-  @Input() id:string;
-  @Input() createdBy:string;
-  @Input() editTitle:string;
   private title:AbstractControl;
   private categories: any[] = [];
-  @Input() editCategories;
   private participant:AbstractControl;
-  @Input() editParticipants;
   private province:AbstractControl;
-  @Input() editProvince;
   private municipality:AbstractControl;
-  @Input() editMunicipality;
   private locationsExists:AbstractControl;
   private location:AbstractControl;
-  @Input() editLocation:string;
   private start:AbstractControl;
-  @Input() editStart:string;
   private end:AbstractControl;
-  @Input() editEnd:string;
   private lat:AbstractControl;
-  @Input() editLat:string;
   private lng:AbstractControl;
-  @Input() editLng:string;
   private description:AbstractControl;
-  @Input() editDescription:string;
   private observations:AbstractControl;
-  @Input() editObservations:string;
-  @Input() operation:string;
   private timeStart = {hour: 13, minute: 30};
   private timeEnd = {hour: 13, minute: 30};
   private categoryId=[];
@@ -216,21 +203,31 @@ export class EventFormComponent implements OnInit {
     this.observations = this.form.controls['observations'];
   }
   private initializeForm(){
-    if(this.id)
-      this.event.setId=this.id;
-     if(this.createdBy)
-      this.event.setCreatedBy=this.createdBy;
-  	if(this.editTitle)
-      this.title.setValue(this.editTitle);
-    if(this.editCategories){
+    if(this.inputEvent._id)
+      this.event.setId=this.inputEvent._id;
+    if(this.inputEvent.createdBy)
+      this.event.setCreatedBy=this.inputEvent.createdBy;
+  	if(this.inputEvent.editTitle)
+      this.title.setValue(this.inputEvent.editTitle);
+    if(this.inputCategories){
       (this.form.controls['categories'] as FormArray).removeAt(0);
-      for (var i in this.editCategories) {
-        this.categoryId.push(this.editCategories[i]._id);
-       (this.form.controls['categories'] as FormArray).push(this.createItem(this.editCategories[i].title));
+      for (var i in this.inputCategories) {
+        this.categoryId.push(this.inputCategories[i]._id);
+        var originalCategory=true;
+        for (var j = 0; j < this.inputCategories[i].translation.length; ++j) {
+          if(this.inputCategories[i].translation[j].language===this.inputLanguage){
+            originalCategory=false;
+          }
+        }
+        if(originalCategory){
+           (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[i].title));
+        }else{
+           (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[i].translation[j].title));
+        }  
       } 
     }
-    if(this.editParticipants)
-      this.participants=this.editParticipants;
+   /* if(this.inputEvent.participants)
+      this.participants=this.inputEvent.participants;
   	if(this.editProvince){
       this.province.setValue(this.editProvince.name);
       this.place.setGeonameIdProvince=this.editProvince.geonameId;
@@ -243,32 +240,32 @@ export class EventFormComponent implements OnInit {
         this.form.get('municipality').enable(); // Enable municipality field
       });
     }
-    if(this.editStart){
-      var year=Number(this.editStart.split("-")[0]);
-      var month=Number(this.editStart.split("-")[1]);
-      var day=Number(this.editStart.split('-').pop().split('T').shift());
-      var hour=Number(this.editStart.split('T').pop().split(':').shift());
-      var minute=Number(this.editStart.split(':')[1]);
+    if(this.inputEvent.start){
+      var year=Number(this.inputEvent.start.split("-")[0]);
+      var month=Number(this.inputEvent.start.split("-")[1]);
+      var day=Number(this.inputEvent.start.split('-').pop().split('T').shift());
+      var hour=Number(this.inputEvent.start.split('T').pop().split(':').shift());
+      var minute=Number(this.inputEvent.start.split(':')[1]);
       var calendar= {year:year , month: month,day: day};
       this.start.setValue(calendar);
       this.timeStart.hour=hour;
       this.timeStart.minute=minute; 
     }     
-    if(this.editEnd){
-       var year=Number(this.editEnd.split("-")[0]);
-      var month=Number(this.editEnd.split("-")[1]);
-      var day=Number(this.editEnd.split('-').pop().split('T').shift());
-      var hour=Number(this.editEnd.split('T').pop().split(':').shift());
-      var minute=Number(this.editEnd.split(':')[1]);
+    if(this.inputEvent.end){
+       var year=Number(this.inputEvent.end.split("-")[0]);
+      var month=Number(this.inputEvent.end.split("-")[1]);
+      var day=Number(this.inputEvent.end.split('-').pop().split('T').shift());
+      var hour=Number(this.inputEvent.end.split('T').pop().split(':').shift());
+      var minute=Number(this.inputEvent.end.split(':')[1]);
       var calendar= {year:year , month: month,day: day};
       this.end.setValue(calendar); 
       this.timeEnd.hour=hour;
       this.timeEnd.minute=minute; 
     }    
-    if(this.editLat)
-      this.lat.setValue(this.editLat);
-    if(this.editLng)
-      this.lng.setValue(this.editLng);
+    if(this.inputEvent.coordinates.lat)
+      this.lat.setValue(this.inputEvent.coordinates.lat);
+    if(this.inputEvent.coordinates.lng)
+      this.lng.setValue(this.inputEvent.coordinates.lng);
     if(this.editLocation && this.editLat && this.editLng)
       this.locationsExists.setValue(this.editLocation);
       this.placeService.getPlacesCoordinates(this.editLat,this.editLng,this.localizeService.parser.currentLang).subscribe(data=>{
@@ -285,30 +282,30 @@ export class EventFormComponent implements OnInit {
       this.description.setValue(this.editDescription);
   	if(this.editObservations)
       this.observations.setValue(this.editObservations);
-    if(this.editImagesPoster){
-      this.imagesPoster=this.editImagesPoster;
+    if(this.inputEvent.images.poster){
+      this.imagesPoster=this.inputEvent.images.poster;
       for (var j = 0; j < this.imagesPoster.length; ++j) {
-        let file = new File([],decodeURIComponent(this.editImagesPoster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+        let file = new File([],decodeURIComponent(this.inputEvent.images.poster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
         let fileItem = new FileItem(this.uploader, file, {});
-        fileItem.file.size=this.editImagesPoster[j].size;
+        fileItem.file.size=this.inputEvent.images.poster[j].size;
         fileItem.progress = 100;
         fileItem.isUploaded = true;
         fileItem.isSuccess = true;
         this.uploader.queue.push(fileItem);
       }
     }
-    if(this.editImagesDescription){
-      this.imagesDescription=this.editImagesDescription;
+    if(this.inputEvent.images.description){
+      this.imagesDescription=this.inputEvent.images.description;
       //this.observations.setValue(this.editIma);
     }
-    if(this.editTitle && this.categoryId.length>0 && this.editLat && this.editLng){
+    if(this.editTitle && this.categoryId.length>0 && this.inputEvent.coordinates.lat && this.inputEvent.coordinates.lng){
       // After 2 seconds, redirect to dashboard page
       setTimeout(() => {
         this.passCoordinates(undefined);
-      },0);
-      
-    }    
+      },0);   
+    }    */
   }
+
   // Enable new categories form
   private enableFormNewEventForm() {
     this.form.enable(); // Enable form
@@ -361,9 +358,9 @@ export class EventFormComponent implements OnInit {
         this.editEvent();
       }
     }else{
-      if(this.operation==='create'){
+      if(this.inputOperation==='create'){
         this.createEvent();
-      }else if(this.operation==='edit'){
+      }else if(this.inputOperation==='edit'){
         this.editEvent();
       }      
     }
@@ -404,13 +401,13 @@ export class EventFormComponent implements OnInit {
     //see delete images
     var deleteImages=[];
     for (var i = 0; i < this.imagesPoster.length; ++i) {
-      let file = new File([],decodeURIComponent(this.editImagesPoster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+      /*let file = new File([],decodeURIComponent(this.editImagesPoster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
       let fileItem = new FileItem(this.uploader, file, {});
       if(this.uploader.queue.some(e => e.file.name !== fileItem.file.name)){
         deleteImages.push(this.imagesPoster[i]);
         this.imagesPoster.splice(i,1);
         this.event.setImagesPoster=this.imagesPoster;        
-      }
+      }*/
     }
     if(deleteImages.length>0){
       this.deleteUploadImages('poster',deleteImages);
@@ -636,9 +633,9 @@ export class EventFormComponent implements OnInit {
             this.uploader.queue.splice(0,1);
             this.uploader.queue.push(fileItem);
           }
-          if(this.operation==='create'){
+          if(this.inputOperation==='create'){
             this.createEvent();
-          }else if(this.operation==='edit'){
+          }else if(this.inputOperation==='edit'){
             this.editEvent();
           }
         }

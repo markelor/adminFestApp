@@ -1,65 +1,57 @@
 <div class="modal-content">
   <div class="modal-header">
     <h4 class="modal-title">{{modalHeader}}</h4>
+    <div class="ks-tabs-container ks-tabs-default ks-tabs-no-separator">
+      <ul class="nav ks-nav-tabs">
+        <li class="nav-item">   
+        <a class="nav-link nav-eu" href="#" data-toggle="tab" data-target="#tab1" translate>
+          <span class="la la-users">
+            <span class="icon-number badge" translate>{{'navbar.eu-short'}}</span>
+          </span>
+        </a>
+        </li>
+        <li class="nav-item">   
+          <a class="nav-link nav-es" href="#" data-toggle="tab" data-target="#tab2" translate>
+            <span class="la la-users">
+              <span class="icon-number badge" translate>{{'navbar.es-short'}}</span>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-en" href="#" data-toggle="tab" data-target="#tab3">
+            <span class="la la-users">
+              <span class="icon-number badge" translate>{{'navbar.en-short'}}</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
     <button class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <!-- Custom Success/Error Message -->
-    <div class="row">
-      <div [ngClass]="messageClass">
-        {{ message }}
+  <div class="tab-content">
+    <div class="tab-pane nav-eu" id="tab1" role="tabpanel">
+    <span class="ks-name">bbbb</span>
+      <app-category-form *ngIf="inputParentCategories && inputCategory" [inputOperation]="'edit'" [inputCategory]="inputCategory" [inputParentCategories]="inputParentCategories"></app-category-form>
+    </div>
+    <div class="tab-pane nav-es" id="tab2" role="tabpanel" >
+      <div class="ks-user">
+        <span class="badge badge-pill badge-default ks-label la like-btn-like"></span>
+          <span class="ks-name">bbbb</span>   
       </div>
     </div>
-    <!-- Archeology Form -->
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-horizontal">
-      <div class="row">
-        <!-- Title -->
-        <div class="col-sm-12">
-          <div class="form-group required" [ngClass]="{'has-error': (!title.valid && title.dirty), 'has-success': (title.valid)}">
-            <label for="inputTitle" translate>{{'category-form.title'}}</label>
-            <input [formControl]="title" capitalize type="text" class="form-control" id="inputTitle">
-            <!-- Validation -->
-            <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-            <span *ngIf="title.errors?.minlength && title.dirty || title.errors?.maxlength && title.dirty " class="help-block form-error" translate>{{'validation.title-length'}}</span>
-            <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>
-                    {{'validation.title-validation'}}</span>
-          </div>
-        </div>
-        <!-- Description -->
-        <div class="col-sm-12">
-          <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
-            <label for="textareaDescription" translate>{{'category-form.description'}}</label>
-            <textarea [formControl]="description" capitalize class="form-control"></textarea>
-            <!-- Validation -->
-            <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-            <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.description-length'}}</span>
-          </div>
-        </div>
-        <!-- Parent category-->
-        <div class="col-sm-12">
-          <div class="form-group" [ngClass]="{'has-success': (parentCategory.value)}">
-            <label for="selectParentCategory" translate>{{'category-form.parent-category'}}</label>
-            <select [formControl]="parentCategory" class="form-control" id="selectParentCategory" (change)="onSelectedParentCategory($event.target.selectedIndex-1)">
-              <option value="" translate>{{'category-form.select-parent-category'}}</option>
-              <option *ngFor="let parentCategory of oldParentCategories" [ngValue]="parentCategory._id" >
-                {{parentCategory.title}}
-              </option>
-            </select>
-          </div>
-        </div>
-        <!-- Submit Button -->
-        <div class="col-sm-12">
-          <div class="form-group text-center">
-            <button [disabled]="!title.valid || !description.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'category-form.send'}}</button>
-          </div>
-        </div>
+    <div class="tab-pane nav-en" id="tab3" role="tabpanel">
+      <div class="ks-user">
+        <span class="badge badge-pill badge-default ks-label la like-btn-love"></span>
+          <span class="ks-name">cccc</span>   
       </div>
-    </form>
+    </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary confirm-btn" (click)="confirmModal()">Acept</button>
     <button class="btn btn-primary confirm-btn" (click)="cancelModal()">Close</button>
   </div>
 </div>
+

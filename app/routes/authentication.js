@@ -45,14 +45,12 @@ module.exports = (router) => {
                         } else {
                             // Create the user object for insertion into database
                             let user = new User(); // Create new User object
-                            console.log(user);
                             user.username = req.body.username; // Save username from request to User object
                             user.password = req.body.password; // Save password from request to User object
                             user.email = req.body.email; // Save email from request to User object
                             user.name = req.body.name; // Save name from request to User object
-                            user.languages = [{
-                                [language]: { aboutYourself: req.body.aboutYourself }
-                            }]; // Save aboutYourself from request to User object
+                            user.language = req.body.language;
+                            user.aboutYourself=req.body.aboutYourself;
                             user.temporaryToken = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' }); // Create a token for activating account through e-mail
                             // Save user to database
                             user.save((err) => {
@@ -81,8 +79,8 @@ module.exports = (router) => {
                                                             res.json({ success: false, message: eval(language + err.errors.password.message) }); // Return error
                                                         } else {
                                                             // Check if validation error is in the aboutYourself field
-                                                            if (err.errors['languages.0.' + language + '.aboutYourself']) {
-                                                                res.json({ success: false, message: eval(language + err.errors['languages.0.' + language + '.aboutYourself'].message) }); // Return error
+                                                            if (err.errors.aboutYourself) {
+                                                                res.json({ success: false, message: eval(language + err.errors.aboutYourself.message) }); // Return error
                                                             } else {
                                                                 res.json({ success: false, message: err }); // Return any other error not already covered
                                                             }

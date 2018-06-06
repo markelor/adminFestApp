@@ -34,16 +34,40 @@
         <label for="selectParentCategory" translate>{{'category-form.parent-category'}}</label>
         <select [formControl]="parentCategory" class="form-control" id="selectParentCategory" (change)="onSelectedParentCategory($event.target.selectedIndex-1)">
           <option value="" translate>{{'category-form.select-parent-category'}}</option>
-          <option *ngFor="let parentCategory of inputParentCategories" [ngValue]="parentCategory._id">
-            {{parentCategory.title}}
-          </option>
+          <ng-container *ngIf="inputOperation==='create'" >
+            <ng-container *ngFor="let parentCategory of inputParentCategories">
+              <option *ngIf="localizeService.parser.currentLang===parentCategory.language" [ngValue]="parentCategory._id">
+                {{parentCategory.title}}
+              </option>        
+              <ng-container *ngIf="localizeService.parser.currentLang!==parentCategory.language">
+                <option *ngFor="let translation of parentCategory.translation; let i=index;" [ngValue]="parentCategory._id">
+                  {{translation.title}}
+                </option>
+              </ng-container>
+            </ng-container>          
+          </ng-container>
+
+          <ng-container *ngIf="inputOperation==='edit'" >
+            <ng-container *ngFor="let parentCategory of inputParentCategories">
+              <option *ngIf="inputLanguage===parentCategory.language" [ngValue]="parentCategory._id">
+                {{parentCategory.title}}
+              </option>        
+              <ng-container *ngIf="inputLanguage!==parentCategory.language">
+                <option *ngFor="let translation of parentCategory.translation; let i=index;" [ngValue]="parentCategory._id">
+                  {{translation.title}}
+                </option>
+              </ng-container>
+            </ng-container>          
+          </ng-container>
+        
+          
         </select>
       </div>
     </div>
     <!-- Submit Button -->
-    <div class="col-sm-12">
+    <div class="col-sm-12" *ngIf="inputOperation==='create'">
       <div class="form-group text-center">
-        <button *ngIf="inputOperator==='create'" [disabled]="!title.valid || !description.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'category-form.send'}}</button>
+        <button [disabled]="!title.valid || !description.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'category-form.send'}}</button>
       </div>
     </div>
   </div>

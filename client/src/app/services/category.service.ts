@@ -34,6 +34,6 @@ export class CategoryService {
   }
   // Function to edit a category
   public editCategory(category) {
-    return this.http.put<any>(this.domain + 'category/updateCategory',category);
+    return this.http.put<any>(this.domain + 'category/editCategory',category);
   }
 }

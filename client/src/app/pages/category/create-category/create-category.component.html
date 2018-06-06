@@ -17,7 +17,8 @@
           <tbody>
             <ng-container *ngFor="let categoryGroup of categories">
               <tr *ngFor="let category of categoryGroup.value | sort :'level':false let i=index">
-                <td>{{ category._id }}</td>
+              <ng-container *ngIf="localizeService.parser.currentLang===category.language">
+               <td>{{ category._id }}</td>
                 <td>{{ category.parentId}}</td>
                 <td>{{ category.level}}</td>
                 <td>{{ category.title }}</td>
@@ -26,6 +27,20 @@
                   <a href="javascript:void(0)" (click)="categoryEditClick(category)"><span class="fa fa-edit ks-color-info">Edit</span></a>
                   <a href="javascript:void(0)" (click)="categoryDeleteClick(i,category)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
                 </td>
+              </ng-container>
+              <ng-container *ngIf="localizeService.parser.currentLang!==category.language">
+                <ng-container *ngFor="let translation of category.translation; let i=index;">
+                  <td>{{ category._id }}</td>
+                  <td>{{ category.parentId}}</td>
+                  <td>{{ category.level}}</td>
+                  <td>{{ translation.title }}</td>
+                  <td>{{ translation.description }}</td>
+                  <td class="ks-status">
+                    <a href="javascript:void(0)" (click)="categoryEditClick(category)"><span class="fa fa-edit ks-color-info">Edit</span></a>
+                    <a href="javascript:void(0)" (click)="categoryDeleteClick(i,category)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+                  </td>             
+                </ng-container>
+              </ng-container>     
               </tr>
             </ng-container>
           </tbody>

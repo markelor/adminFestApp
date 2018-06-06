@@ -21,7 +21,8 @@ import {DataTableDirective} from 'angular-datatables';
 export class CreateCategoryComponent implements OnInit {
   private message;
   private messageClass;
-  private subscriptionObservable: Subscription;
+  private subscriptionObservableSuccess: Subscription;
+  private subscriptionObservableDelete: Subscription;
   private subscriptionLanguage: Subscription;
   private submitted:boolean = false;
   private parentCategories;
@@ -78,11 +79,10 @@ export class CreateCategoryComponent implements OnInit {
     this.observableService.modalType="modal-delete-category";
     if(this.observableService.modalCount<1){
       this.staticModalShow();
-      this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
-        this.subscriptionObservable.unsubscribe();
+      this.subscriptionObservableDelete=this.observableService.notifyObservable.subscribe(res => {
+        this.subscriptionObservableDelete.unsubscribe();
         if (res.hasOwnProperty('option') && res.option === 'modal-delete-category') {
           this.categoryService.deleteCategory(category._id,this.localizeService.parser.currentLang).subscribe(data=>{
-            console.log(data);
             if(data.success){  
               this.parentCategories.splice(index,1);
               this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
@@ -96,11 +96,19 @@ export class CreateCategoryComponent implements OnInit {
       });
     }
   }
+  private observableCategorySuccess(){
+    this.subscriptionObservableSuccess=this.observableService.notifyObservable.subscribe(res => {
+      console.log(res);
+      if (res.hasOwnProperty('option') && res.option === 'modal-edit-category-success') {
+       this.getCategories();
+      } 
+    });   
+  }
  private getCategoriesInit(){
     //Get thematic
       this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success){        
-          this.parentCategories=data.categories;  
+          this.parentCategories=data.categories;   
           this.categories=this.groupByPipe.transform(data.categories,'firstParentId');
           this.dtTrigger.next();
         }    
@@ -113,7 +121,7 @@ export class CreateCategoryComponent implements OnInit {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            this.parentCategories=data.categories;  
+            this.parentCategories=data.categories; 
             this.categories=this.groupByPipe.transform(data.categories,'firstParentId');
             this.dtTrigger.next();
           });
@@ -128,6 +136,7 @@ export class CreateCategoryComponent implements OnInit {
     });
     this.createSettings(); 
     this.getCategoriesInit();
+    this.observableCategorySuccess();
     this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.localizeService.parser.currentLang=event.lang;
       this.getCategories(); 

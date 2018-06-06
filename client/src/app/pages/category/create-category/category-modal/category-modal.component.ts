@@ -11,11 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./category-modal.component.css']
 })
 export class CategoryModalComponent implements OnInit {
-  private language:string;
-  private message;
-  private messageClass;
-  private submitted:boolean = false;
-  private parentCategories;
+  private tabLanguage:string;
   @Input() inputCategory;
   @Input() inputParentCategories;
   constructor(
@@ -31,17 +27,18 @@ export class CategoryModalComponent implements OnInit {
     this.observableService.modalCount=this.observableService.modalCount-1;
 
   }
-  
   public cancelModal(){
     this.closeModal();
 
   }
   public confirmModal() {
   	this.observableService.modalType="modal-edit-category";
-    this.observableService.notifyOther({option: this.observableService.modalType});
+    this.observableService.notifyOther({option: this.observableService.modalType,language:this.tabLanguage});
     this.closeModal();
   }
-
+  public clickLanguage(language){
+    this.tabLanguage=language;
+  }
   ngOnInit() {
     setTimeout(() => {
       $(".nav-"+this.localizeService.parser.currentLang).addClass('active');

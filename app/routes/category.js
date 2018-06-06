@@ -88,7 +88,7 @@ module.exports = (router) => {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             Category.find({
-                language: language
+                $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }]
             }).sort({ '_id': 1 }).exec((err, categories) => {
                 // Check if error was found or not
                 if (err) {
@@ -178,13 +178,15 @@ module.exports = (router) => {
     /* ===============================================================
         Route to update/edit a category
     =============================================================== */
-    router.put('/updateCategory', (req, res) => {
+    router.put('/editCategory', (req, res) => {
+        console.log(req.body);
         var language = req.body.language;
         if (req.body.firstParentId) var newFirstParentId = req.body.firstParentId; // Check if a change to firstParentId was requested
-        if (req.body.parentId) var newParentId = req.body.parentId; // Check if a change to parentId was requested
+        if (req.body.parentId){} var newParentId = req.body.parentId; // Check if a change to parentId was requested
         if (req.body.level) var newLevel = req.body.level; // Check if a change to level was requested
         if (req.body.title) var newTitle = req.body.title; // Check if a change to title was requested
         if (req.body.description) var newDescription = req.body.description; // Check if a change to description was requested
+        if (req.body.translation) var newTranslation = req.body.translation; //Check if a change to translation was requested
         // Check if id was provided
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
@@ -251,10 +253,16 @@ module.exports = (router) => {
                                             res.json({ success: false, message: eval(language + '.updateCategory.permissionError') }); // Return error message
                                         } else {
                                             if (newFirstParentId) category.firstParentId = newFirstParentId; // Assign new firstParentId to category in database
-                                            if (newParentId) category.parentId = newParentId; // Assign new parentId to category in database
+                                            if (newParentId){
+                                                category.parentId = newParentId;
+                                            }else{
+                                                category.parentId = null;
+                                            }  
+                                            // Assign new parentId to category in database
                                             if (newLevel) category.level = newLevel; // Assign new level to category in database
                                             if (newTitle) category.title = newTitle; // Assign new title to category in database
                                             if (newDescription) category.description = newDescription; // Assign new description to category in database
+                                            if (newTranslation) category.translation = newTranslation; // Assign new translation to category in database
                                             category.save((err) => {
                                                 if (err) {
                                                     if (err.errors) {

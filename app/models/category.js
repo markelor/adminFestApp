@@ -80,7 +80,8 @@ const categorySchema = new Schema({
     translation: [{
         language: { type: String, required: true },
         title: { type: String, required: true, validate: titleValidators },
-        description: { type: String, required: true, validate: descriptionValidators }
+        description: { type: String, required: true, validate: descriptionValidators },
+        _id: false
     }],
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }

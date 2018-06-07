@@ -43,7 +43,7 @@
     </li>
     <!--Administrator item-->
 
-    <li *ngIf="isAdmin" class="nav-item dropdown">
+    <li *ngIf="permission" class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
         <span class="ks-icon la la-cog"></span>
         <span translate>{{'menu.administrator'}}</span>

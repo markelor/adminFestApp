@@ -11,19 +11,21 @@ declare let $: any;
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
-
+  private permission;
+ 
   constructor(
     private authService:AuthService,
+     private localizeService:LocalizeRouterService
   ) { 
   }
 
-  private isAdmin(lang) {
+  private isAdmin() {
     this.authService.getPermission(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
-        if(data.isAdmin=="admin")
+        if(data.permission=="admin")
         this.permission = true; // Assign array to use in HTML
       }else{
-          this.permission = false;
+        this.permission = false;
       }
     });
   }
@@ -31,7 +33,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     sidebarObj.init();
     sidebarObj.secondLevel();
-    this.isAdmin(this.localizeService.parser.currentLang);
+    this.isAdmin();
   } 
 
 }

@@ -39,28 +39,25 @@
               <option *ngIf="localizeService.parser.currentLang===parentCategory.language" [ngValue]="parentCategory._id">
                 {{parentCategory.title}}
               </option>        
-              <ng-container *ngIf="localizeService.parser.currentLang!==parentCategory.language">
-                <option *ngFor="let translation of parentCategory.translation; let i=index;" [ngValue]="parentCategory._id">
+              <ng-container *ngFor="let translation of parentCategory.translation; let i=index;">
+                <option *ngIf="localizeService.parser.currentLang===translation.language" [ngValue]="parentCategory._id">
                   {{translation.title}}
                 </option>
               </ng-container>
             </ng-container>          
           </ng-container>
-
           <ng-container *ngIf="inputOperation==='edit'" >
             <ng-container *ngFor="let parentCategory of inputParentCategories">
               <option *ngIf="inputLanguage===parentCategory.language" [ngValue]="parentCategory._id">
                 {{parentCategory.title}}
               </option>        
-              <ng-container *ngIf="inputLanguage!==parentCategory.language">
-                <option *ngFor="let translation of parentCategory.translation; let i=index;" [ngValue]="parentCategory._id">
+              <ng-container *ngFor="let translation of parentCategory.translation; let i=index;">
+                <option *ngIf="inputLanguage===translation.language" [ngValue]="parentCategory._id">
                   {{translation.title}}
                 </option>
               </ng-container>
             </ng-container>          
-          </ng-container>
-        
-          
+          </ng-container>        
         </select>
       </div>
     </div>

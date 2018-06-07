@@ -28,8 +28,8 @@
                   <a href="javascript:void(0)" (click)="categoryDeleteClick(i,category)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
                 </td>
               </ng-container>
-              <ng-container *ngIf="localizeService.parser.currentLang!==category.language">
-                <ng-container *ngFor="let translation of category.translation; let i=index;">
+              <ng-container *ngFor="let translation of category.translation; let i=index;">
+                <ng-container *ngIf="localizeService.parser.currentLang===translation.language">
                   <td>{{ category._id }}</td>
                   <td>{{ category.parentId}}</td>
                   <td>{{ category.level}}</td>

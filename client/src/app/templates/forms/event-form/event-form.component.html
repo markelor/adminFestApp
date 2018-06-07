@@ -27,9 +27,16 @@
             <select formControlName="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.selectedIndex-1,i)">
               <option value="" translate>{{'event-form.select-category'}}</option>
               <ng-container *ngFor="let levelCategory of levelCategories | eventCategory:i">
-                <option [hidden]="levelCategory.parentId!==categoryId[i]" [ngValue]="levelCategory.title">
+                <option *ngIf="levelCategory.parentId===categoryId[i] && localizeService.parser.currentLang===levelCategory.language" [ngValue]="levelCategory.title">
                   {{levelCategory.title}}
                 </option>
+              </ng-container>
+              <ng-container *ngFor="let levelCategory of levelCategories | eventCategory:i">
+                <ng-container *ngFor="let translation of levelCategory.translation">
+                  <option *ngIf="levelCategory.parentId===categoryId[i] && localizeService.parser.currentLang===translation.language" [ngValue]="translation.title">
+                    {{translation.title}}
+                  </option>
+                </ng-container>
               </ng-container>
             </select>
           </div>

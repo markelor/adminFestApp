@@ -39,7 +39,7 @@
               <option *ngIf="localizeService.parser.currentLang===parentCategory.language" [ngValue]="parentCategory._id">
                 {{parentCategory.title}}
               </option>        
-              <ng-container *ngFor="let translation of parentCategory.translation; let i=index;">
+              <ng-container *ngFor="let translation of parentCategory.translation">
                 <option *ngIf="localizeService.parser.currentLang===translation.language" [ngValue]="parentCategory._id">
                   {{translation.title}}
                 </option>

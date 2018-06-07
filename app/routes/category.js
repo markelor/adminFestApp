@@ -179,7 +179,6 @@ module.exports = (router) => {
         Route to update/edit a category
     =============================================================== */
     router.put('/editCategory', (req, res) => {
-        console.log(req.body);
         var language = req.body.language;
         if (req.body.firstParentId) var newFirstParentId = req.body.firstParentId; // Check if a change to firstParentId was requested
         if (req.body.parentId){} var newParentId = req.body.parentId; // Check if a change to parentId was requested

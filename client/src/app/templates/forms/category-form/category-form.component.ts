@@ -140,10 +140,13 @@ export class CategoryFormComponent implements OnInit {
       this.form.controls['parentCategory'].setValue("");
     }else{
       this.category.setLevel=this.inputParentCategories[index].level+1;
+      this.inputCategory.level=this.inputParentCategories[index].level+1;
       if(this.inputParentCategories[index].parentId){
         this.category.setFirstParentId=this.inputParentCategories[index].firstParentId;
+        this.inputCategory.setFirstParentId=this.inputParentCategories[index].firstParentId;
       }else{
-        this.category.setFirstParentId=this.inputParentCategories[index]._id;
+        this.inputCategory.setFirstParentId=this.inputParentCategories[index]._id;
+        this.inputCategory.setFirstParentId=this.inputParentCategories[index]._id;
       }
     }
   }

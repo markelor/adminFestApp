@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 //import { ThemeService } from '../../services/theme.service';
+import { AuthService } from '../../services/auth.service';
 import { LocalizeRouterService } from 'localize-router';
 import { TranslateService } from '@ngx-translate/core';
 import 'assets/scripts/common.js'
@@ -12,12 +13,25 @@ declare let $: any;
 export class SidebarComponent implements OnInit {
 
   constructor(
+    private authService:AuthService,
   ) { 
+  }
+
+  private isAdmin(lang) {
+    this.authService.getPermission(this.localizeService.parser.currentLang).subscribe(data => {
+      if(data.success){
+        if(data.isAdmin=="admin")
+        this.permission = true; // Assign array to use in HTML
+      }else{
+          this.permission = false;
+      }
+    });
   }
 
   ngOnInit() {
     sidebarObj.init();
     sidebarObj.secondLevel();
+    this.isAdmin(this.localizeService.parser.currentLang);
   } 
 
 }

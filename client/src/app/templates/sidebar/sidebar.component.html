@@ -10,40 +10,42 @@
     <!--Category item-->
     <li class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-        <span class="ks-icon la la-paw"></span>
+        <span class="ks-icon la la-tags"></span>
         <span translate>{{'menu.category'}}</span>
       </div>
       <!--Create category-->
       <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/category-route','create-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.create'}}</a>
+        
+        <a class="dropdown-item" [routerLink]="['/category-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
       </div>
     </li>
     <!--Event item-->
     <li class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-        <span class="ks-icon la la-paw"></span>
+        <span class="ks-icon la la-calendar-o"></span>
         <span translate>{{'menu.event'}}</span>
       </div>
       <!--Create event-->
       <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/event-route','create-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.create'}}</a>
+        <a class="dropdown-item" [routerLink]="['/event-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-calendar-plus-o"></span>{{'menu.create'}}</a>
       </div>
     </li>
     <!--Application item-->
     <li class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-        <span class="ks-icon la la-paw"></span>
+        <span class="ks-icon la la-mobile-phone"></span>
         <span translate>{{'menu.application'}}</span>
       </div>
       <!--Create application-->
       <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/application-route','create-route'] | localize" routerLinkActive="ks-active" translate>{{'menu.create'}}</a>
+        <a class="dropdown-item" [routerLink]="['/application-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
       </div>
     </li>
     <!--Administrator item-->
-    <li class="nav-item dropdown">
+
+    <li *ngIf="isAdmin" class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-        <span class="ks-icon la la-paw"></span>
+        <span class="ks-icon la la-cog"></span>
         <span translate>{{'menu.administrator'}}</span>
       </div>
       <!--Administrator users-->

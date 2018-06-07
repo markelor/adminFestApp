@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewInit } from '@angular/core';
 //import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
 import { LocalizeRouterService } from 'localize-router';
@@ -31,9 +31,8 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    sidebarObj.init();
-    sidebarObj.secondLevel();
-    this.isAdmin();
+      this.isAdmin();
+      sidebarObj.init();
+      sidebarObj.secondLevel();    
   } 
-
 }

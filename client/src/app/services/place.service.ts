@@ -10,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
 export class PlaceService {
   public domain = this.authService.domain;
   public route;
-
+  public language;
   constructor(
     private authService: AuthService,
     private localizeService:LocalizeRouterService,
@@ -20,6 +20,7 @@ export class PlaceService {
   // Function to get all user places from the database
   public getPlacesCoordinates(lat,lng,language) {
     this.route= lat+'/'+lng+'/';
+    this.language=language;
     return this.http.get<any>(this.domain + 'place/getPlacesCoordinates/'+this.route+language);
   }
 }

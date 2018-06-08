@@ -38,9 +38,8 @@ export class EventService {
     return this.http.get<any>(this.domain + 'event/getEvent/'+this.route+language);
   }
   // Function to edit/update theme post
-  public editEvent(event,place) {
-    var data = {'event': event, 'place': place };
-    return this.http.put<any>(this.domain + 'event/editEvent', data);
+  public editEvent(event) {
+    return this.http.put<any>(this.domain + 'event/editEvent', event);
   }
   public eventSearch(searchs: Observable<string>,language) {
     return searchs.debounceTime(400)

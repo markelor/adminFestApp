@@ -106,7 +106,7 @@ module.exports = (router) => {
                     res.json({ success: false, message: eval(language + '.getPlacesCoordinates.lngProvidedError') }); // Return error
                 } else {
                     Place.find({
-                        language: language,
+                        $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                         coordinates: {
                             lat: Number(req.params.lat),
                             lng: Number(req.params.lng)

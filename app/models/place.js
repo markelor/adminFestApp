@@ -86,7 +86,8 @@ const placeSchema = new Schema({
         municipality: {
             name: { type: String, required: true }
         },
-        location: { type: String, required: true, validate: locationValidators }
+        location: { type: String, required: true, validate: locationValidators },
+        _id: false
     }],
     coordinates: {
         lat: { type: Number, requireed: true, validate: latitudeValidators },

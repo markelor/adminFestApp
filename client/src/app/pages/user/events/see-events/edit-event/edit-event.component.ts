@@ -40,7 +40,11 @@ export class EditEventComponent implements OnInit {
       	this.event=data.event;
       	this.place=data.event.place;
       	this.categories=data.categories;
+        setTimeout(() => {
+          $(".nav-"+this.localizeService.parser.currentLang).addClass('active');
+          $( ".nav-"+this.localizeService.parser.currentLang).click ();
+        }, 0);  
       }
-    }); 	
+    }); 
   }
 }

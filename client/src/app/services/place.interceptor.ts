@@ -16,11 +16,11 @@ export class PlaceInterceptor implements HttpInterceptor {
       this.placeService = this.injector.get(PlaceService);
       this.localizeService=this.injector.get(LocalizeRouterService);
      
-      if(request.url==="http://localhost:8080/place/getPlacesCoordinates/"+this.placeService.route+this.localizeService.parser.currentLang){
+      if(request.url==="http://localhost:8080/place/getPlacesCoordinates/"+this.placeService.route+this.placeService.language){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json', // Format set to JSON
-            'language':this.localizeService.parser.currentLang,
+            'language':this.placeService.language,
             'route':this.placeService.route
           }
         });    

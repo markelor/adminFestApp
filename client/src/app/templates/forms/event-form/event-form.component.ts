@@ -204,41 +204,86 @@ export class EventFormComponent implements OnInit {
   }
   private initializeForm(){
     if(this.inputEvent){
-      if(this.inputEvent._id)
-        this.event.setId=this.inputEvent._id;
-      if(this.inputEvent.createdBy)
-        this.event.setCreatedBy=this.inputEvent.createdBy;
-      if(this.inputEvent.editTitle)
-        this.title.setValue(this.inputEvent.editTitle);
+      if(this.inputEvent.title){
+        if(this.inputEvent.language===this.inputLanguage){
+          this.title.setValue(this.inputEvent.title);
+        }else{
+          for (var i = 0; i < this.inputEvent.translation.length; ++i) {
+            if(this.inputEvent.translation[i].language===this.inputLanguage){
+              this.title.setValue(this.inputEvent.translation[i].title);
+            }
+          }
+          
+        }      
+      }
       if(this.inputCategories){
         (this.form.controls['categories'] as FormArray).removeAt(0);
-        for (var i in this.inputCategories) {
-          this.categoryId.push(this.inputCategories[i]._id);
-          for (var j = 0; j < this.inputCategories[i].translation.length; ++j) {
-            if(this.inputCategories[i].translation[j].language===this.inputLanguage){
-              console.log(this.inputCategories[i].translation[j].title);
-              (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[i].translation[j].title));
-            }else{
-              console.log(this.inputCategories[i].title);
-              (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[i].title));
+        for (var j in this.inputCategories) {
+          this.categoryId.push(this.inputCategories[j]._id);
+          for (var k = 0; k < this.inputCategories[j].translation.length; ++k) {
+            if(this.inputCategories[j].language===this.inputLanguage){
+              (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].title));
             }
-          }  
+            else if(this.inputCategories[j].translation[k].language===this.inputLanguage){
+              (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].translation[k].title));
+            }else{
+              if(this.form.controls['categories'].value.length===0){
+                (this.form.controls['categories'] as FormArray).push(this.createItem(''));
+              }        
+            }
+          } 
         } 
       }
       if(this.inputEvent.participants)
         this.participants=this.inputEvent.participants;
-      if(this.inputEvent.province){
-        this.province.setValue(this.inputEvent.province.name);
-        this.place.setGeonameIdProvince=this.inputEvent.province.geonameId;
-      }
-      if(this.inputEvent.municipality){
-        this.eventService.getEventGeonamesJson('municipality',this.localizeService.parser.currentLang,this.inputEvent.province.name.toLowerCase()).subscribe(municipalitiesEvent => {
+      if(this.inputEvent.place.province){
+        //Get provinces on page load
+        this.eventService.getEventGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesEvent => {
+          this.provincesEvent=provincesEvent.geonames;
+          if(this.inputEvent.place.language===this.inputLanguage){
+            this.province.setValue(this.inputEvent.place.province.name);
+          }else{
+            var traductionProvince=false;
+            for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
+              if(this.inputEvent.place.translation[i].language===this.inputLanguage){
+                traductionProvince=true
+                this.province.setValue(this.inputEvent.place.translation[i].province.name);
+              }
+            } 
+            if(!traductionProvince){
+              for (var i = 0; i < this.provincesEvent.length; ++i) {
+                if(this.provincesEvent[i].geonameId===this.inputEvent.place.province.geonameId){
+                  this.province.setValue(this.provincesEvent[i].name);         
+                }
+              }      
+            }    
+          }          
+        });        
+      } 
+      if(this.inputEvent.place.municipality){
+        this.eventService.getEventGeonamesJson('municipality',this.inputLanguage,this.inputEvent.place.province.name.toLowerCase()).subscribe(municipalitiesEvent => {
           this.municipalitiesEvent=municipalitiesEvent.geonames;
-          this.municipality.setValue(this.inputEvent.municipality.name);
-          this.place.setGeonameIdMunicipality=this.inputEvent.municipality.geonameId;
           this.form.get('municipality').enable(); // Enable municipality field
-        });
-      }
+          if(this.inputEvent.place.language===this.inputLanguage){
+            this.municipality.setValue(this.inputEvent.place.municipality.name);
+          }else{
+            var traductionProvince=false;
+            for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
+              if(this.inputEvent.place.translation[i].language===this.inputLanguage){
+                traductionProvince=true
+                this.municipality.setValue(this.inputEvent.place.translation[i].municipality.name);
+              }
+            } 
+            if(!traductionProvince){
+              for (var i = 0; i < this.municipalitiesEvent.length; ++i) {
+                if(this.municipalitiesEvent[i].geonameId===this.inputEvent.place.municipality.geonameId){
+                  this.municipality.setValue(this.municipalitiesEvent[i].name);         
+                }
+              }      
+            }    
+          } 
+        });        
+      } 
       if(this.inputEvent.start){
         var year=Number(this.inputEvent.start.split("-")[0]);
         var month=Number(this.inputEvent.start.split("-")[1]);
@@ -261,14 +306,22 @@ export class EventFormComponent implements OnInit {
         this.timeEnd.hour=hour;
         this.timeEnd.minute=minute; 
       }    
-      console.log(this.inputEvent);
       if(this.inputEvent.place.coordinates.lat)
         this.lat.setValue(this.inputEvent.place.coordinates.lat);
       if(this.inputEvent.place.coordinates.lng)
         this.lng.setValue(this.inputEvent.place.coordinates.lng);
-      if(this.inputEvent.location && this.inputEvent.place.coordinates.lat && this.inputEvent.place.coordinates.lng)
-        this.locationsExists.setValue(this.inputEvent.location);
-        this.placeService.getPlacesCoordinates(this.inputEvent.place.coordinates.lat,this.inputEvent.place.coordinates.lng,this.localizeService.parser.currentLang).subscribe(data=>{
+      if(this.inputEvent.place.location && this.inputEvent.place.coordinates.lat && this.inputEvent.place.coordinates.lng)
+      if(this.inputEvent.place.location){      
+        if(this.inputEvent.place.language===this.inputLanguage){
+          this.locationsExists.setValue(this.inputEvent.place.location);
+        }else{
+          for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
+            if(this.inputEvent.place.translation[i].language===this.inputLanguage){
+              this.locationsExists.setValue(this.inputEvent.place.translation[i].location);
+            }
+          }     
+        }
+        this.placeService.getPlacesCoordinates(this.inputEvent.place.coordinates.lat,this.inputEvent.place.coordinates.lng,this.inputLanguage).subscribe(data=>{
           if(data.success && data.places.length>0){
             this.locationsExistsEvent=data.places;
             this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
@@ -277,17 +330,36 @@ export class EventFormComponent implements OnInit {
             this.locationsExistsEvent=[];
             this.locationsExists.setValue("");
           }
-      });
-      if(this.inputEvent.description)
-        this.description.setValue(this.inputEvent.description);
-      if(this.inputEvent.observations)
-        this.observations.setValue(this.inputEvent.observations);
+        }); 
+      }     
+      if(this.inputEvent.description){
+        if(this.inputEvent.language===this.inputLanguage){
+          this.description.setValue(this.inputEvent.description);
+        }else{
+          for (var i = 0; i < this.inputEvent.translation.length; ++i) {
+            if(this.inputEvent.translation[i].language===this.inputLanguage){
+              this.description.setValue(this.inputEvent.translation[i].description);
+            }
+          }     
+        }      
+      }
+      if(this.inputEvent.observations){      
+        if(this.inputEvent.language===this.inputLanguage){
+          this.observations.setValue(this.inputEvent.observations);
+        }else{
+          for (var i = 0; i < this.inputEvent.translation.length; ++i) {
+            if(this.inputEvent.translation[i].language===this.inputLanguage){
+              this.observations.setValue(this.inputEvent.translation[i].observations);
+            }
+          }     
+        } 
+      }  
       if(this.inputEvent.images.poster){
         this.imagesPoster=this.inputEvent.images.poster;
-        for (var j = 0; j < this.imagesPoster.length; ++j) {
-          let file = new File([],decodeURIComponent(this.inputEvent.images.poster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+        for (var z = 0; z < this.imagesPoster.length; ++z) {
+          let file = new File([],decodeURIComponent(this.inputEvent.images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
           let fileItem = new FileItem(this.uploader, file, {});
-          fileItem.file.size=this.inputEvent.images.poster[j].size;
+          fileItem.file.size=this.inputEvent.images.poster[z].size;
           fileItem.progress = 100;
           fileItem.isUploaded = true;
           fileItem.isSuccess = true;
@@ -298,11 +370,11 @@ export class EventFormComponent implements OnInit {
         this.imagesDescription=this.inputEvent.images.description;
         //this.observations.setValue(this.editIma);
       }
-      if(this.inputEvent.title && this.categoryId.length>0 && this.inputEvent.place.coordinates.lat && this.inputEvent.place.coordinates.lng){
+      if(this.title.value && this.categoryId.length>0 && this.inputEvent.place.coordinates.lat && this.inputEvent.place.coordinates.lng){
         // After 2 seconds, redirect to dashboard page
         setTimeout(() => {
           this.passCoordinates(undefined);
-        },0);   
+        });   
       } 
     }   
   }
@@ -402,21 +474,102 @@ export class EventFormComponent implements OnInit {
     //see delete images
     var deleteImages=[];
     for (var i = 0; i < this.imagesPoster.length; ++i) {
-      /*let file = new File([],decodeURIComponent(this.editImagesPoster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+      let file = new File([],decodeURIComponent(this.inputEvent.images.poster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
       let fileItem = new FileItem(this.uploader, file, {});
       if(this.uploader.queue.some(e => e.file.name !== fileItem.file.name)){
         deleteImages.push(this.imagesPoster[i]);
         this.imagesPoster.splice(i,1);
-        this.event.setImagesPoster=this.imagesPoster;        
-      }*/
+        this.inputEvent.images.poster=this.imagesPoster;        
+      }
     }
     if(deleteImages.length>0){
       this.deleteUploadImages('poster',deleteImages);
     }
+    if(this.inputEvent){
+      var hasTranslationEvent=false;
+      var hasTranslationPlace=false;
+      this.inputEvent.createdBy=this.username; // CreatedBy field   
+      this.inputEvent.participants=this.participants;
+      this.inputEvent.start=new Date(this.form.get('start').value.year,this.form.get('start').value.month,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
+      this.inputEvent.end=new Date(this.form.get('end').value.year,this.form.get('end').value.month,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
+      this.inputEvent.categoryId=this.categoryId[this.categoryId.length-1]; 
+      this.inputEvent.place.coordinates.lat=Number(this.form.get('lat').value); // Lat field
+      this.inputEvent.place.coordinates.lng=Number(this.form.get('lng').value); // Lng field
+      //event translation
+      for (var i = 0; i < this.inputEvent.translation.length; ++i) {
+        if(this.inputEvent.translation[i].language===this.inputLanguage){
+          hasTranslationEvent=true;
+          this.inputEvent.translation[i].language=this.inputLanguage;// Language field        
+          this.inputEvent.translation[i].title=this.form.get('title').value; // Title field
+          this.inputEvent.translation[i].description= this.form.get('description').value; // Description field
+          this.inputEvent.translation[i].observations=this.form.get('observations').value; // Observations field
+        }
+      }
+      //place translation
+      for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
+        if(this.inputEvent.place.translation[i].language===this.inputLanguage){
+          hasTranslationPlace=true;
+          this.inputEvent.place.translation[i].province.name=this.form.get('province').value; // Province field
+          this.inputEvent.place.translation[i].municipality.name=this.form.get('municipality').value; // Municipality field
+          if(this.form.get('location').value){
+            this.inputEvent.place.translation[i].location=this.form.get('location').value; //Location field,
+          }else if(this.form.get('locationsExists').value){
+            this.inputEvent.place.translation[i].location=this.form.get('locationsExists').value; //Location exists field,
+          }
+        }
+      }
+      if(!hasTranslationEvent){
+        //if event has original language and not has translation
+        if(this.inputEvent.language===this.inputLanguage){
+          this.inputEvent.language=this.inputLanguage;// Language field        
+          this.inputEvent.title=this.form.get('title').value; // Title field
+          this.inputEvent.description= this.form.get('description').value; // Description field
+          this.inputEvent.observations=this.form.get('observations').value; // Observations field
+        }else{
+          //event push new translation
+          var eventTranslationObj={
+            language:this.inputLanguage,
+            title:this.form.get('title').value,
+            description:this.form.get('description').value,
+            observations:this.form.get('observations').value
+          }
+          this.inputEvent.translation.push(eventTranslationObj);        
+        }
+      }
+      if(!hasTranslationPlace){
+        //if place has original language and not has translation
+        if(this.inputEvent.place.language===this.inputLanguage){
+          this.inputEvent.place.province.name=this.form.get('province').value; // Province field
+          this.inputEvent.place.municipality.name=this.form.get('municipality').value; // Municipality field
+          if(this.form.get('location').value){
+            this.inputEvent.place.location=this.form.get('location').value; //Location field,
+          }else if(this.form.get('locationsExists').value){
+            this.inputEvent.place.location=this.form.get('locationsExists').value; //Location exists field,
+          }
+        }else{
+          //place push new translation
+          var location;
+          if(this.form.get('location').value){
+            location=this.form.get('location').value; //Location field,
+          }else if(this.form.get('locationsExists').value){
+            location=this.form.get('locationsExists').value; //Location exists field,
+          }
+          var placeTranslationObj={
+            language:this.inputLanguage,
+            province:{
+              name:this.form.get('province').value
+            },
+            municipality:{
+              name:this.form.get('municipality').value
+            },
+            location:this.form.get('location').value
+          }
+          this.inputEvent.place.translation.push(placeTranslationObj);           
+        }
+      }
+    }
     // Function to save event into database
-    this.eventService.editEvent(this.event,this.place).subscribe(data => {
-      //console.log(data);
-      /*console.log(data);
+    this.eventService.editEvent(this.inputEvent).subscribe(data => {
       // Check if event was saved to database or not
       if (!data.success) {
         this.deleteUploadImages('poster',this.imagesPoster);
@@ -426,7 +579,6 @@ export class EventFormComponent implements OnInit {
         this.submitted = true; // Enable submit button
         this.enableFormNewEventForm(); // Enable form
       } else {
-        this.createNewEventForm(); // Reset all form fields
         this.messageClass = 'alert alert-success ks-solid'; // Return success class
         this.message = data.message; // Return success message
         // Clear form data after two seconds
@@ -434,10 +586,8 @@ export class EventFormComponent implements OnInit {
           //this.newPost = false; // Hide form
           this.submitted = false; // Enable submit button
           this.message = false; // Erase error/success message
-          this.uploader.clearQueue()//Reset uploader
-          this.enableFormNewEventForm(); // Enable the form fields
         }, 2000);
-      }*/
+      }
     });  
   }
   private deleteUploadImages(type,images){
@@ -550,15 +700,15 @@ export class EventFormComponent implements OnInit {
     //Get categories
     this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
-        console.log(data);
         this.levelCategories=this.groupByPipe.transform(data.categories,'level');
-        console.log(this.levelCategories);
       }   
     });
-    //Get continents on page load
-    this.eventService.getEventGeonamesJson('province',this.localizeService.parser.currentLang,'euskal-herria').subscribe(provincesEvent => {
-      this.provincesEvent=provincesEvent.geonames;
-    });
+    //Get provinces on page load
+    if(this.inputOperation==='create'){
+      this.eventService.getEventGeonamesJson('province',this.localizeService.parser.currentLang,'euskal-herria').subscribe(provincesEvent => {
+        this.provincesEvent=provincesEvent.geonames;
+      });
+    }
   }
   private passCoordinates(defaultCoordinates){
     if (defaultCoordinates){
@@ -692,11 +842,6 @@ export class EventFormComponent implements OnInit {
     }
   ngOnInit() {
   	this.initializeForm();
-    $('textarea').each(function () {
-      this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
-    }).on('input', function () {
-      this.style.height = (this.scrollHeight) + 'px';
-    });
     // Get profile username on page load
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){

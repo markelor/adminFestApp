@@ -104,7 +104,8 @@ const eventSchema = new Schema({
         language: { type: String, required: true },
         title: { type: String, required: true, validate: titleValidators },
         description: { type: String, required: true, validate: descriptionValidators },
-        observations: { type: String, validate: observationsValidators }
+        observations: { type: String, validate: observationsValidators },
+        _id: false
     }],
     visible: { type: Boolean, required: true, default: true },
     start: { type: Date, required: true },

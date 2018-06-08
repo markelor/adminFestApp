@@ -121,7 +121,8 @@ const applicationSchema = new Schema({
         title: { type: String, required: true, validate: titleValidators },
         entityName: { type: String, required: false, validate: nameValidators },
         name: { type: String, required: true },
-        conditions: { type: Array, required: true }
+        conditions: { type: Array, required: true },
+        _id: false
     }],
     price: { type: Number, required: true },
     expiredAt: { type: Date, required: true },

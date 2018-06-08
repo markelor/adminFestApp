@@ -203,7 +203,8 @@ const userSchema = new Schema({
     aboutYourself: { type: String, required: false, validate: aboutYourselfValidators },
     translation: [{
         language: { type: String, required: true },
-        aboutYourself: { type: String, required: false, validate: aboutYourselfValidators }
+        aboutYourself: { type: String, required: false, validate: aboutYourselfValidators },
+        _id: false
     }],
     temporaryToken: { type: String, required: true },
     resetToken: { type: String, required: false },

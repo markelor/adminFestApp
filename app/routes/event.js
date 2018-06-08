@@ -164,7 +164,7 @@ module.exports = (router) => {
                                                                     updatedAt: Date.now()
                                                                 });
                                                                 Place.findOne({
-                                                                    language: language,
+                                                                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                                                                     province: {
                                                                         name: req.body.place.province,
                                                                         geonameId: req.body.place.geonameIdProvince
@@ -351,7 +351,7 @@ module.exports = (router) => {
             } else {
                 Event.aggregate([{
                         $match: {
-                            language: language,
+                            $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                             _id: ObjectId(req.params.id)
                         }
                     }, {
@@ -371,7 +371,7 @@ module.exports = (router) => {
                         res.json({ success: false, message: eval(language + '.getEvent.eventError') }); // Return error of no event found
                     } else {
                         Category.find({
-                            language: language
+                            $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }]
                         }, (err, categories) => {
                             // Check if error was found or not
                             if (err) {
@@ -429,32 +429,33 @@ module.exports = (router) => {
     =============================================================== */
 
     router.put('/editEvent', function(req, res) {
-        var language = req.body.event.language;
+        var language = req.body.language;
         // Check if language was provided
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if id was provided
-            if (!req.body.event.id) {
+            if (!req.body._id) {
                 res.json({ success: false, message: eval(language + '.editEvent.idProvidedError') }); // Return error
             } else {
                 // Check if id was provided
-                if (!req.body.event.createdBy) {
+                if (!req.body.createdBy) {
                     res.json({ success: false, message: eval(language + '.editEvent.createdByProvidedError') }); // Return error
                 } else {
-                    var editUser = req.body.event.createdBy; // Assign _id from event to be editted to a variable
-                    if (req.body.event.createdBy) var newEventCreatedBy = req.body.event.createdBy; // Check if a change to createdBy was requested
-                    if (req.body.event.categoryId) var newEventCategoryId = req.body.event.categoryId; // Check if a change to categoryId was requested
-                    if (req.body.event.language) var newEventLanguage = req.body.event.language; // Check if a change to language was requested
-                    if (req.body.event.title) var newEventTitle = req.body.event.title; // Check if a change to title was requested
-                    if (req.body.event.participants) var newEventParticipants = req.body.event.participants; // Check if a change to participants was requested
-                    if (req.body.event.start) var newEventStart = req.body.event.start; // Check if a change to start was requested
-                    if (req.body.event.end) var newEventEnd = req.body.event.end; // Check if a change to end was requested
-                    if (req.body.event.description) var newEventDescription = req.body.event.description; // Check if a change to description was requested
-                    if (req.body.event.observations) var newEventObservations = req.body.event.observations; // Check if a change to observations was requested
-                    if (req.body.event.participants) var newEventParticipants = req.body.event.participants; // Check if a change to participants was requested
-                    if (req.body.event.imagesPoster) var newEventImagesPoster = req.body.event.imagesPoster; // Check if a change to imagesPoster was requested
-                    if (req.body.event.imagesDescription) var newEventImagesDescription = req.body.event.imagesDescription; // Check if a change to imagesDescription was requeste
+                    var editUser = req.body.createdBy; // Assign _id from event to be editted to a variable
+                    if (req.body.createdBy) var newEventCreatedBy = req.body.createdBy; // Check if a change to createdBy was requested
+                    if (req.body.categoryId) var newEventCategoryId = req.body.categoryId; // Check if a change to categoryId was requested
+                    if (req.body.language) var newEventLanguage = req.body.language; // Check if a change to language was requested
+                    if (req.body.title) var newEventTitle = req.body.title; // Check if a change to title was requested
+                    if (req.body.participants) var newEventParticipants = req.body.participants; // Check if a change to participants was requested
+                    if (req.body.start) var newEventStart = req.body.start; // Check if a change to start was requested
+                    if (req.body.end) var newEventEnd = req.body.end; // Check if a change to end was requested
+                    if (req.body.description) var newEventDescription = req.body.description; // Check if a change to description was requested
+                    if (req.body.observations) var newEventObservations = req.body.observations; // Check if a change to observations was requested
+                    if (req.body.participants) var newEventParticipants = req.body.participants; // Check if a change to participants was requested
+                    if (req.body.images.poster) var newEventImagesPoster = req.body.images.poster; // Check if a change to imagesPoster was requested
+                    if (req.body.images.description) var newEventImagesDescription = req.body.images.description; // Check if a change to imagesDescription was requeste
+                    if (req.body.translation) var newEventTranslation = req.body.translation; //Check if a change to translation was requested
                     // Look for logged in user in database to check if have appropriate access
                     User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
                         if (err) {
@@ -488,7 +489,7 @@ module.exports = (router) => {
                                         var mailOptions = {
                                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                             to: [emailConfig.email],
-                                            subject: ' Find one 2 edit event error ',
+                                            subject: ' Find one 1 edit event error ',
                                             text: 'The following error has been reported in Kultura: ' + err,
                                             html: 'The following error has been reported in Kultura:<br><br>' + err
                                         }; // Function to send e-mail to myself
@@ -532,19 +533,19 @@ module.exports = (router) => {
                                                 res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
                                             } else {
                                                 Place.findOne({
-                                                    language: language,
+                                                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                                                     province: {
-                                                        name: req.body.place.province,
-                                                        geonameId: req.body.place.geonameIdProvince
+                                                        name: req.body.place.province.name,
+                                                        geonameId: req.body.place.province.geonameId
                                                     },
                                                     municipality: {
-                                                        name: req.body.place.municipality,
-                                                        geonameId: req.body.place.geonameIdMunicipality,
+                                                        name: req.body.place.municipality.name,
+                                                        geonameId: req.body.place.municipality.geonameId,
                                                     },
                                                     location: req.body.place.location,
                                                     coordinates: {
-                                                        lat: req.body.place.lat,
-                                                        lng: req.body.place.lng
+                                                        lat: req.body.place.coordinates.lat,
+                                                        lng: req.body.place.coordinates.lng
                                                     }
                                                 }, (err, findPlace) => {
                                                     // Check if error was found or not
@@ -553,7 +554,7 @@ module.exports = (router) => {
                                                         var mailOptions = {
                                                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                                             to: [emailConfig.email], // list of receivers
-                                                            subject: ' Find 1 newEvent error ',
+                                                            subject: ' Find one 2 edit event error ',
                                                             text: 'The following error has been reported in Kultura: ' + err,
                                                             html: 'The following error has been reported in Kultura:<br><br>' + err
                                                         };
@@ -568,87 +569,118 @@ module.exports = (router) => {
                                                         });
                                                         res.json({ success: false, message: eval(language + '.general.generalError') });
                                                     } else {
-                                                        function eventSave(place) {
-                                                            // Look for event in database
-                                                            Event.findOne({ _id: req.body.event.id }, function(err, event) {
+                                                        //save traduction
+                                                        function eventSave(place) {                                                            
+                                                            place.translation=req.body.place.translation;
+                                                            place.save((err, place) => {
+                                                                // Check if error
                                                                 if (err) {
-                                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                                                    var mailOptions = {
-                                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                                                        to: [emailConfig.email],
-                                                                        subject: ' Find one 3 edit event error ',
-                                                                        text: 'The following error has been reported in Kultura: ' + err,
-                                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
-                                                                    }; // Function to send e-mail to myself
-                                                                    transporter.sendMail(mailOptions, function(err, info) {
-                                                                        if (err) {
-                                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                    console.log(err);
+                                                                    // Check if error is a validation error         
+                                                                    if (err.errors) {
+                                                                        console.log(err.errors);
+                                                                        // Check if validation error is in the category field
+                                                                        if (err.errors['location']) {
+                                                                            res.json({ success: false, message: eval(language + err.errors['location'].message) }); // Return error message
                                                                         } else {
-                                                                            console.log(info); // Log success message to console if sent
-                                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                                            if (err.errors['coordinates.lat']) {
+                                                                                res.json({ success: false, message: eval(language + err.errors['coordinates.lat'].message) }); // Return error message
+                                                                            } else {
+                                                                                if (err.errors['coordinates.lng']) {
+                                                                                    res.json({ success: false, message: eval(language + err.errors['coordinates.lng'].message) }); // Return error message
+                                                                                } else {
+                                                                                    res.json({ success: false, message: err }); // Return general error message
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        res.json({ success: false, message: eval(language + '.newPlace.saveError'), err }); // Return general error message
+                                                                    }
+                                                                } else {
+                                                                    // Look for event in database
+                                                                    Event.findOne({ _id: req.body._id }, function(err, event) {
+                                                                        if (err) {
+                                                                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                            var mailOptions = {
+                                                                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                                                to: [emailConfig.email],
+                                                                                subject: ' Find one 3 edit event error ',
+                                                                                text: 'The following error has been reported in Kultura: ' + err,
+                                                                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                                            }; // Function to send e-mail to myself
+                                                                            transporter.sendMail(mailOptions, function(err, info) {
+                                                                                if (err) {
+                                                                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                                } else {
+                                                                                    console.log(info); // Log success message to console if sent
+                                                                                    console.log(user.email); // Display e-mail that it was sent to
+                                                                                }
+                                                                            });
+                                                                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                                        } else {
+                                                                            // Check if event is in database
+                                                                            if (!event) {
+                                                                                res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                                                            } else {
+                                                                                if (newEventCreatedBy)
+                                                                                    event.createdBy = newEventCreatedBy; // Assign new createdBy to event in database
+                                                                                if (newEventCategoryId)
+                                                                                    event.categoryId = newEventCategoryId; // Assign new categoryId to event in database
+                                                                                if (place._id)
+                                                                                    event.placeId = place._id; // Assign new placeId to event in database
+                                                                                if (newEventLanguage)
+                                                                                    event.language = newEventLanguage; // Assign new language to event in database
+                                                                                if (newEventTitle)
+                                                                                    event.title = newEventTitle; // Assign new title to event in database
+                                                                                if (newEventParticipants)
+                                                                                    event.participants = newEventParticipants; // Assign new participants to event in database
+                                                                                if (newEventStart)
+                                                                                    event.start = newEventStart; // Assign new start to event in database
+                                                                                if (newEventEnd)
+                                                                                    event.end = newEventEnd; // Assign new end to event in database
+                                                                                if (newEventDescription)
+                                                                                    event.description = newEventDescription; // Assign new description to event in database
+                                                                                if (newEventObservations)
+                                                                                    event.observations = newEventObservations; // Assign new observations to event in database
+                                                                                if (newEventParticipants)
+                                                                                    event.participants = newEventParticipants; // Assign new participants to event in database
+                                                                                if (newEventImagesPoster)
+                                                                                    event.images.poster = newEventImagesPoster; // Assign new imagesPoster to event in database
+                                                                                if (newEventImagesDescription)
+                                                                                    event.images.description = newEventImagesDescription; // Assign new imagesDescription to event in database
+                                                                                if (newEventTranslation)
+                                                                                    event.translation = newEventTranslation; // Assign newTranslation to event in database
+                                                                                event.updatedAt = Date.now();
+                                                                                // Save event into database
+                                                                                event.save((err, event) => {
+                                                                                    // Check if error
+                                                                                    if (err) {
+                                                                                        // Check if error is a validation error
+                                                                                        if (err.errors) {
+                                                                                            // Check if validation error is in the category field
+                                                                                            if (err.errors['title']) {
+                                                                                                res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
+                                                                                            } else {
+                                                                                                if (err.errors['description']) {
+                                                                                                    res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
+                                                                                                } else {
+                                                                                                    if (err.errors['observations']) {
+                                                                                                        res.json({ success: false, message: eval(language + err.errors['observations'].message) }); // Return error message
+                                                                                                    } else {
+                                                                                                        res.json({ success: false, message: err }); // Return general error message
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        } else {
+                                                                                            res.json({ success: false, message: eval(language + '.editEvent.saveError'), err }); // Return general error message
+                                                                                        }
+                                                                                    } else {
+                                                                                        res.json({ success: true, message: eval(language + '.editEvent.success') }); // Return success message
+                                                                                    }
+                                                                                });
+                                                                            }
                                                                         }
                                                                     });
-                                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
-                                                                } else {
-                                                                    // Check if event is in database
-                                                                    if (!event) {
-                                                                        res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
-                                                                    } else {
-                                                                        if (newEventCreatedBy)
-                                                                            event.createdBy = newEventCreatedBy; // Assign new createdBy to event in database
-                                                                        if (newEventCategoryId)
-                                                                            event.categoryId = newEventCategoryId; // Assign new categoryId to event in database
-                                                                        if (place._id)
-                                                                            event.placeId = place._id; // Assign new placeId to event in database
-                                                                        if (newEventLanguage)
-                                                                            event.language = newEventLanguage; // Assign new language to event in database
-                                                                        if (newEventTitle)
-                                                                            event.title = newEventTitle; // Assign new title to event in database
-                                                                        if (newEventParticipants)
-                                                                            event.participants = newEventParticipants; // Assign new participants to event in database
-                                                                        if (newEventStart)
-                                                                            event.start = newEventStart; // Assign new start to event in database
-                                                                        if (newEventEnd)
-                                                                            event.end = newEventEnd; // Assign new end to event in database
-                                                                        if (newEventDescription)
-                                                                            event.description = newEventDescription; // Assign new description to event in database
-                                                                        if (newEventObservations)
-                                                                            event.observations = newEventObservations; // Assign new observations to event in database
-                                                                        if (newEventParticipants)
-                                                                            event.participants = newEventParticipants; // Assign new participants to event in database
-                                                                        if (newEventImagesPoster)
-                                                                            event.images.poster = newEventImagesPoster; // Assign new imagesPoster to event in database
-                                                                        if (newEventImagesDescription)
-                                                                            event.images.description = newEventImagesDescription; // Assign new imagesDescription to event in database
-                                                                        event.updatedAt = Date.now();
-                                                                        // Save event into database
-                                                                        event.save((err, event) => {
-                                                                            // Check if error
-                                                                            if (err) {
-                                                                                // Check if error is a validation error
-                                                                                if (err.errors) {
-                                                                                    // Check if validation error is in the category field
-                                                                                    if (err.errors['title']) {
-                                                                                        res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
-                                                                                    } else {
-                                                                                        if (err.errors['description']) {
-                                                                                            res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
-                                                                                        } else {
-                                                                                            if (err.errors['observations']) {
-                                                                                                res.json({ success: false, message: eval(language + err.errors['observations'].message) }); // Return error message
-                                                                                            } else {
-                                                                                                res.json({ success: false, message: err }); // Return general error message
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                } else {
-                                                                                    res.json({ success: false, message: eval(language + '.editEvent.saveError'), err }); // Return general error message
-                                                                                }
-                                                                            } else {
-                                                                                res.json({ success: true, message: eval(language + '.editEvent.success') }); // Return success message
-                                                                            }
-                                                                        });
-                                                                    }
                                                                 }
                                                             });
                                                         }
@@ -657,17 +689,18 @@ module.exports = (router) => {
                                                             const place = new Place({
                                                                 language: language,
                                                                 province: {
-                                                                    name: req.body.place.province,
-                                                                    geonameId: req.body.place.geonameIdProvince
+                                                                    name: req.body.place.province.name,
+                                                                    geonameId: req.body.place.province.geonameId
                                                                 },
                                                                 municipality: {
-                                                                    name: req.body.place.municipality,
-                                                                    geonameId: req.body.place.geonameIdMunicipality,
+                                                                    name: req.body.place.municipality.name,
+                                                                    geonameId: req.body.place.municipality.geonameId,
                                                                 },
                                                                 location: req.body.place.location,
+                                                                translation: req.body.place.translation,
                                                                 coordinates: {
-                                                                    lat: req.body.place.lat,
-                                                                    lng: req.body.place.lng
+                                                                    lat: req.body.place.coordinates.lat,
+                                                                    lng: req.body.place.coordinates.lng
                                                                 },
                                                                 createdAt: Date.now(),
                                                                 updatedAt: Date.now()

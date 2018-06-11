@@ -263,8 +263,8 @@ module.exports = (router) => {
                 res.json({ success: false, message: eval(language + '.userEvents.usernameProvidedError') }); // Return error
             } else {
                 Event.find({
-                    language: language,
-                    createdBy: req.params.username
+                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
+                    $or: [{ createdBy: language }, { translation: { $elemMatch: { createdBy: req.params.username } } }]
                 }).sort({ 'start': 1 }).exec((err, events) => {
                     // Check if error was found or not
                     if (err) {
@@ -308,7 +308,7 @@ module.exports = (router) => {
         } else {
             Event.aggregate([{
                     $match: {
-                        language: language
+                        $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }]
                     }
                 }, {
                     // Join with Place table

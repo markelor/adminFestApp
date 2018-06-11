@@ -114,19 +114,24 @@ const applicationSchema = new Schema({
     language: { type: String, required: true },
     title: { type: String, required: true, validate: titleValidators },
     entityName: { type: String, required: false, validate: nameValidators },
-    name: { type: String, required: true },
+    licenseName: { type: String, required: true },
     conditions: { type: Array, required: true },
     translation: [{
         language: { type: String, required: true },
         title: { type: String, required: true, validate: titleValidators },
         entityName: { type: String, required: false, validate: nameValidators },
-        name: { type: String, required: true },
+        licenseName: { type: String, required: true },
         conditions: { type: Array, required: true },
         _id: false
     }],
     price: { type: Number, required: true },
     expiredAt: { type: Date, required: true },
     images: { type: Array, required: true },
+    info:[{
+        title: { type: String, required: true, validate: titleValidators },
+        description: { type: String, required: true, validate: descriptionValidators },
+        expiredAt: { type: Date, required: true }
+    }],
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });

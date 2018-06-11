@@ -26,10 +26,8 @@ export class SeeApplicationsComponent implements OnInit {
   // Function to get all user applications from the database
   private getUserApplications() {
     this.applicationService.getUserApplications(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
-      console.log(data);
       if(data.success){
         this.applications = data.applications; // Assign array to use in HTML
-        console.log(this.applications);
       }
     });
   }

@@ -66,8 +66,8 @@
     <!-- Participant list -->
     <div class="col-sm-12">
       <div class="form-group">
-        <label *ngFor="let participant of participants" class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input">
+        <label *ngFor="let participant of participants; let i=index;" class="custom-control custom-checkbox">
+          <input type="checkbox" [checked]="participant" (change)="deleteParticipant(i)" class="custom-control-input">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">{{participant}}</span>
         </label>
@@ -145,7 +145,7 @@
       <div class="form-group required" [ngClass]="{'has-error': (!start.valid && start.dirty), 'has-success': (start.valid)}">
         <label for="inputStart" translate>{{'event-form.start'}}</label>
         <div class="input-group icon">
-          <input [formControl]="start" ngbDatepicker #calendarStart="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputStart">
+          <input [formControl]="start" ngbDatepicker #calendarStart="ngbDatepicker" type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputStart">
           <div class="input-group-append ">
             <button (click)="calendarStart.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
               <span class="la la-calendar ks-icon"></span>
@@ -169,7 +169,7 @@
       <div class="form-group required" [ngClass]="{'has-error': (!end.valid && end.dirty), 'has-success': (end.valid)}">
         <label for="inputEnd" translate>{{'event-form.end'}}</label>
         <div class="input-group icon">
-          <input [formControl]="end" ngbDatepicker #calendarEnd="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputEnd">
+          <input [formControl]="end" ngbDatepicker #calendarEnd="ngbDatepicker" type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputEnd">
           <div class="input-group-append ">
             <button (click)="calendarEnd.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
               <span class="la la-calendar ks-icon"></span>
@@ -283,7 +283,7 @@
     <div class="col-sm-12">
       <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
         <label for="textareaDescription" translate>{{'event-form.description'}}</label>
-        <textarea id="textareaDescription" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="description" capitalize class="form-control"></textarea>
+        <textarea [id]="'textareaDescription'+inputLanguage" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="description" capitalize class="form-control"></textarea>
         <!-- Validation -->
         <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
         <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.description-length'}}</span>

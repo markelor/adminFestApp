@@ -224,6 +224,12 @@ export class ApplicationFormComponent implements OnInit {
       this.search=false;
     }
   }
+  private deleteUser(index){
+    this.selectedUsers.splice(index,1);
+  }
+  private deleteCondition(index){
+    this.conditions.splice(index,1);
+  }
   private setUploaderOptions(){
     const authHeader: Array<{
      name: string;

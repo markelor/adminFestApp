@@ -116,8 +116,8 @@
     <!-- Users list -->
     <div class="col-sm-12">
       <div class="form-group">
-        <label *ngFor="let user of selectedUsers" class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input">
+        <label *ngFor="let user of selectedUsers; let i=index;" class="custom-control custom-checkbox">
+          <input type="checkbox" [checked]="user" (change)="deleteUser(i)" class="custom-control-input">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">{{user}}</span>
         </label>
@@ -148,8 +148,8 @@
     <!-- Condition list -->
     <div class="col-sm-12">
       <div class="form-group">
-        <label *ngFor="let condition of conditions" class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input">
+        <label *ngFor="let condition of conditions let i=index;" class="custom-control custom-checkbox">
+          <input type="checkbox" [checked]="condition" (change)="deleteCondition(i)" class="custom-control-input">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">{{condition}}</span>
         </label>
@@ -159,7 +159,7 @@
     <div class="col-sm-12">
       <div class="form-group required" [ngClass]="{'has-error': (!price.valid && price.dirty), 'has-success': (price.valid)}">
         <label for="inputPrice" translate>{{'application-form.price'}}</label>
-        <input [formControl]="price" capitalize type="text" class="form-control" id="inputPrice">
+        <input [formControl]="price" type="number" class="form-control" id="inputPrice">
         <!-- Validation -->
         <span *ngIf="price.errors?.required && price.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
       </div>
@@ -169,7 +169,7 @@
       <div class="form-group required" [ngClass]="{'has-error': (!expiryDate.valid && expiryDate.dirty), 'has-success': (expiryDate.valid)}">
         <label for="inputExpiryDate" translate>{{'application-form.expiry-date'}}</label>
         <div class="input-group icon">
-          <input [formControl]="expiryDate" ngbDatepicker #calendarExpiryDate="ngbDatepicker" capitalize type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputExpiryDate">
+          <input [formControl]="expiryDate" ngbDatepicker #calendarExpiryDate="ngbDatepicker" type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputExpiryDate">
           <div class="input-group-append ">
             <button (click)="calendarExpiryDate.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
               <span class="la la-calendar ks-icon"></span>

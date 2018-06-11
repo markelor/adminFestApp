@@ -76,6 +76,7 @@ export class EventFormComponent implements OnInit {
   @Input() inputLanguage;
   @Input() inputOperation:string;
   @Input() inputEvent;
+  private inputEventCopy;
   @Input() inputCategories;
   private imagesDescription=[];
   private title:AbstractControl;
@@ -204,6 +205,7 @@ export class EventFormComponent implements OnInit {
   }
   private initializeForm(){
     if(this.inputEvent){
+      this.inputEventCopy=JSON.parse(JSON.stringify(this.inputEvent));
       if(this.inputEvent.title){
         if(this.inputEvent.language===this.inputLanguage){
           this.title.setValue(this.inputEvent.title);
@@ -212,24 +214,20 @@ export class EventFormComponent implements OnInit {
             if(this.inputEvent.translation[i].language===this.inputLanguage){
               this.title.setValue(this.inputEvent.translation[i].title);
             }
-          }
-          
+          }    
         }      
       }
       if(this.inputCategories){
         (this.form.controls['categories'] as FormArray).removeAt(0);
         for (var j in this.inputCategories) {
           this.categoryId.push(this.inputCategories[j]._id);
+          if(this.inputCategories[j].language===this.inputLanguage){
+            (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].title));
+          }
           for (var k = 0; k < this.inputCategories[j].translation.length; ++k) {
-            if(this.inputCategories[j].language===this.inputLanguage){
-              (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].title));
-            }
-            else if(this.inputCategories[j].translation[k].language===this.inputLanguage){
+            if(this.inputCategories[j].translation[k].language===this.inputLanguage){
+              //console.log(this.inputLanguage);
               (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].translation[k].title));
-            }else{
-              if(this.form.controls['categories'].value.length===0){
-                (this.form.controls['categories'] as FormArray).push(this.createItem(''));
-              }        
             }
           } 
         } 
@@ -296,7 +294,7 @@ export class EventFormComponent implements OnInit {
         this.timeStart.minute=minute; 
       }     
       if(this.inputEvent.end){
-         var year=Number(this.inputEvent.end.split("-")[0]);
+        var year=Number(this.inputEvent.end.split("-")[0]);
         var month=Number(this.inputEvent.end.split("-")[1]);
         var day=Number(this.inputEvent.end.split('-').pop().split('T').shift());
         var hour=Number(this.inputEvent.end.split('T').pop().split(':').shift());
@@ -355,21 +353,45 @@ export class EventFormComponent implements OnInit {
         } 
       }  
       if(this.inputEvent.images.poster){
-        this.imagesPoster=this.inputEvent.images.poster;
-        for (var z = 0; z < this.imagesPoster.length; ++z) {
-          let file = new File([],decodeURIComponent(this.inputEvent.images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
-          let fileItem = new FileItem(this.uploader, file, {});
-          fileItem.file.size=this.inputEvent.images.poster[z].size;
-          fileItem.progress = 100;
-          fileItem.isUploaded = true;
-          fileItem.isSuccess = true;
-          this.uploader.queue.push(fileItem);
-        }
-      }
-      if(this.inputEvent.images.description){
-        this.imagesDescription=this.inputEvent.images.description;
-        //this.observations.setValue(this.editIma);
-      }
+        var hasTranslation=false;
+        for (var i = 0; i < this.inputEvent.translation.length; ++i) {
+          if(this.inputEvent.translation[i].language===this.inputLanguage){
+            hasTranslation=true;
+            this.imagesPoster=this.inputEvent.translation[i].images.poster;
+            for (var z = 0; z < this.imagesPoster.length; ++z) {
+              let file = new File([],decodeURIComponent(this.inputEvent.translation[i].images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+              let fileItem = new FileItem(this.uploader, file, {});
+              fileItem.file.size=this.inputEvent.translation[i].images.poster[z].size;
+              fileItem.progress = 100;
+              fileItem.isUploaded = true;
+              fileItem.isSuccess = true;
+              this.uploader.queue.push(fileItem);
+            }
+          }
+        } 
+        if(!hasTranslation){
+          this.imagesPoster=this.inputEvent.images.poster;
+          for (var z = 0; z < this.imagesPoster.length; ++z) {
+            let file = new File([],decodeURIComponent(this.inputEvent.images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+            let fileItem = new FileItem(this.uploader, file, {});
+            fileItem.file.size=this.inputEvent.images.poster[z].size;
+            fileItem.progress = 100;
+            fileItem.isUploaded = true;
+            fileItem.isSuccess = true;
+            this.uploader.queue.push(fileItem);
+          }
+        }        
+      }      
+        if(this.inputEvent.language===this.inputLanguage){  
+          this.imagesDescription=this.inputEvent.images.description;          
+        }else{
+          for (var i = 0; i < this.inputEvent.translation.length; ++i) {
+            if(this.inputEvent.translation[i].language===this.inputLanguage){
+              this.imagesDescription=this.inputEvent.translation[i].images.description;
+            }                
+          }     
+        } 
+          
       if(this.title.value && this.categoryId.length>0 && this.inputEvent.place.coordinates.lat && this.inputEvent.place.coordinates.lng){
         // After 2 seconds, redirect to dashboard page
         setTimeout(() => {
@@ -470,21 +492,23 @@ export class EventFormComponent implements OnInit {
       }
     });  
   }
-  private editEvent() {
-    //see delete images
+  private deleteEditImages(){
+     //see delete images
     var deleteImages=[];
     for (var i = 0; i < this.imagesPoster.length; ++i) {
-      let file = new File([],decodeURIComponent(this.inputEvent.images.poster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+      let file = new File([],decodeURIComponent(this.imagesPoster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
       let fileItem = new FileItem(this.uploader, file, {});
       if(this.uploader.queue.some(e => e.file.name !== fileItem.file.name)){
         deleteImages.push(this.imagesPoster[i]);
-        this.imagesPoster.splice(i,1);
-        this.inputEvent.images.poster=this.imagesPoster;        
+        this.imagesPoster.splice(i,1);            
       }
     }
     if(deleteImages.length>0){
       this.deleteUploadImages('poster',deleteImages);
     }
+  }
+
+  private editEvent() {
     if(this.inputEvent){
       var hasTranslationEvent=false;
       var hasTranslationPlace=false;
@@ -495,14 +519,17 @@ export class EventFormComponent implements OnInit {
       this.inputEvent.categoryId=this.categoryId[this.categoryId.length-1]; 
       this.inputEvent.place.coordinates.lat=Number(this.form.get('lat').value); // Lat field
       this.inputEvent.place.coordinates.lng=Number(this.form.get('lng').value); // Lng field
+      this.deleteEditImages();
       //event translation
       for (var i = 0; i < this.inputEvent.translation.length; ++i) {
         if(this.inputEvent.translation[i].language===this.inputLanguage){
           hasTranslationEvent=true;
-          this.inputEvent.translation[i].language=this.inputLanguage;// Language field        
+          this.inputEvent.translation[i].language=this.inputLanguage;// Language field  
+          this.inputEvent.translation[i].createdBy=this.authService.user.username;// Language field      
           this.inputEvent.translation[i].title=this.form.get('title').value; // Title field
           this.inputEvent.translation[i].description= this.form.get('description').value; // Description field
           this.inputEvent.translation[i].observations=this.form.get('observations').value; // Observations field
+          this.inputEvent.translation[i].images.description=this.imagesDescription;
         }
       }
       //place translation
@@ -521,17 +548,25 @@ export class EventFormComponent implements OnInit {
       if(!hasTranslationEvent){
         //if event has original language and not has translation
         if(this.inputEvent.language===this.inputLanguage){
-          this.inputEvent.language=this.inputLanguage;// Language field        
+          this.inputEvent.language=this.inputLanguage;// Language field   
+          this.inputEvent.createdBy=this.authService.user.username;// Language field       
           this.inputEvent.title=this.form.get('title').value; // Title field
           this.inputEvent.description= this.form.get('description').value; // Description field
-          this.inputEvent.observations=this.form.get('observations').value; // Observations field
+          this.inputEvent.observations=this.form.get('observations').value; // Observations field     
+          this.inputEvent.images.description=this.imagesDescription;  
         }else{
+          this.inputEvent.images.poster=this.inputEventCopy.images.poster;
           //event push new translation
           var eventTranslationObj={
             language:this.inputLanguage,
+            createdBy:this.inputEvent.createdBy=this.authService.user.username,  
             title:this.form.get('title').value,
             description:this.form.get('description').value,
-            observations:this.form.get('observations').value
+            observations:this.form.get('observations').value,
+            images:{
+              poster:this.imagesPoster,
+              description:this.imagesDescription
+            }
           }
           this.inputEvent.translation.push(eventTranslationObj);        
         }
@@ -568,6 +603,7 @@ export class EventFormComponent implements OnInit {
         }
       }
     }
+    console.log(this.inputEvent);
     // Function to save event into database
     this.eventService.editEvent(this.inputEvent).subscribe(data => {
       // Check if event was saved to database or not
@@ -588,7 +624,7 @@ export class EventFormComponent implements OnInit {
           this.message = false; // Erase error/success message
         }, 2000);
       }
-    });  
+    }); 
   }
   private deleteUploadImages(type,images){
     if(type==='poster'){
@@ -693,6 +729,9 @@ export class EventFormComponent implements OnInit {
       this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
       this.location.updateValueAndValidity(); //Need to call this to trigger a update
     }
+  }
+  private deleteParticipant(index){
+    this.participants.splice(index,1);
   }
   private chargeAll(){
     //First category parentId null on initialize
@@ -821,18 +860,21 @@ export class EventFormComponent implements OnInit {
         initControls.initialize();
       }
     });
-    $('#textareaDescription').on('froalaEditor.image.inserted', function (e, editor, $img, response) {
-      // Do something here.
-      context.imagesDescription.push($img[0].currentSrc);
-      context.event.setImagesDescription=context.imagesDescription;
-    });
-    $('#textareaDescription')
-      // Catch image remove
-      .on('froalaEditor.image.removed', function (e, editor, $img) {
-        if(!context.submitted){
-          context.deleteUploadImages('descriptionOne',$img);
-        }      
-      }); 
+    setTimeout(() => {
+      $('#textareaDescription'+this.inputLanguage).on('froalaEditor.image.inserted', function (e, editor, $img, response) {
+        // Do something here.
+        context.imagesDescription.push($img[0].currentSrc);
+        console.log(context.imagesDescription);
+        context.event.setImagesDescription=context.imagesDescription;
+      });
+      $('#textareaDescription'+this.inputLanguage)
+        // Catch image remove
+        .on('froalaEditor.image.removed', function (e, editor, $img) {
+          if(!context.submitted){
+            context.deleteUploadImages('descriptionOne',$img);
+          }      
+        }); 
+      });  
   }
   private addParticipant() {
       if(this.participant.value && !this.participants.includes(this.participant.value)){

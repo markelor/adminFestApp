@@ -92,13 +92,11 @@ module.exports = (router) => {
                                                             users: req.body.users,
                                                             title: req.body.title,
                                                             events: req.body.events,
-                                                            entityName: req.body.entityName,
-                                                            license: {
-                                                                name: req.body.licenseName,
-                                                                conditions: req.body.conditions,
-                                                                price: req.body.price,
-                                                                expiredAt: req.body.expiredAt
-                                                            },
+                                                            entityName: req.body.entityName,          
+                                                            licenseName: req.body.licenseName,
+                                                            conditions: req.body.conditions,
+                                                            price: req.body.price,
+                                                            expiredAt: req.body.expiredAt,                                     
                                                             images: req.body.imagesApplication,
                                                             createdAt: Date.now(),
                                                             updatedAt: Date.now()
@@ -107,6 +105,7 @@ module.exports = (router) => {
                                                         application.save((err) => {
                                                             // Check if error
                                                             if (err) {
+                                                                console.log(err);
                                                                 // Check if error is a validation error
                                                                 if (err.errors) {
                                                                     // Check if validation error is in the application field
@@ -230,7 +229,7 @@ module.exports = (router) => {
                                                 res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
                                             } else {
                                                 Application.findOne({
-                                                    language: language,
+                                                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                                                     _id: ObjectId(req.params.id)
                                                 }, (err, application) => {
                                                     // Check if error was found or not
@@ -262,7 +261,7 @@ module.exports = (router) => {
                                                             Event.aggregate([{
                                                                     $match: {
                                                                         language: language,
-                                                                        _id: {$in: application.events}
+                                                                        _id: { $in: application.events }
                                                                     }
                                                                 }, {
                                                                     // Join with Place table
@@ -287,7 +286,7 @@ module.exports = (router) => {
                                                                 if (!events) {
                                                                     res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
                                                                 } else {
-                                                                    res.json({ success: true, application: application,events:events }); // Return success and place 
+                                                                    res.json({ success: true, application: application, events: events }); // Return success and place 
                                                                 }
                                                             });
                                                         }
@@ -316,7 +315,7 @@ module.exports = (router) => {
                 res.json({ success: false, message: eval(language + '.getApplication.idProvidedError') }); // Return error
             } else {
                 Application.findOne({
-                    language: language,
+                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                     _id: req.params.id
                 }, (err, application) => {
                     // Check if error was found or not
@@ -472,7 +471,7 @@ module.exports = (router) => {
                                             res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
                                         } else {
                                             Application.find({
-                                                language: language,
+                                                $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                                                 users: req.params.username
                                             }).sort({ 'expiredAt': 1 }).exec((err, applications) => {
                                                 // Check if error was found or not
@@ -536,7 +535,7 @@ module.exports = (router) => {
                     if (req.body.title) var newTitle = req.body.title; // Check if a change to title was requested
                     if (req.body.events) var newEvents = req.body.events; // Check if a change to events was requested
                     if (req.body.entityName) var newEntityName = req.body.entityName; // Check if a change to entityName was requested
-                    if (req.body.name) var newName = req.body.name; // Check if a change to name was requested
+                    if (req.body.liceseName) var newLicenseName = req.body.liceseName; // Check if a change to name was requested
                     if (req.body.conditions) var newConditions = req.body.conditions; // Check if a change to conditions was requested
                     if (req.body.price) var newPrice = req.body.price; // Check if a change to price was requested
                     if (req.body.expiredAt) var newExpiredAt = req.body.expiredAt; // Check if a change to expiredAt was requested
@@ -638,14 +637,14 @@ module.exports = (router) => {
                                                                 application.events = newEvents; // Assign new events to application in database
                                                             if (newEntityName)
                                                                 application.entityName = newEntityName; // Assign new entityName to application in database
-                                                            if (newName)
-                                                                application.license.name = newName; // Assign new name to application in database
+                                                            if (newLicenseName)
+                                                                application.licenseName = newLicenseName; // Assign new name to application in database
                                                             if (newConditions)
-                                                                application.license.conditions = newConditions; // Assign new conditions to application in database
+                                                                application.conditions = newConditions; // Assign new conditions to application in database
                                                             if (newPrice)
-                                                                application.license.price = newPrice; // Assign new price to application in database
+                                                                application.price = newPrice; // Assign new price to application in database
                                                             if (newExpiredAt)
-                                                                application.license.expiredAt = newExpiredAt; // Assign new expiredAt to application in database
+                                                                application.expiredAt = newExpiredAt; // Assign new expiredAt to application in database
                                                             application.updatedAt = Date.now();
                                                             // Save application into database
                                                             application.save((err, application) => {

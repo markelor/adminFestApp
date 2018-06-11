@@ -98,7 +98,7 @@ export class EventsApplicationFormComponent implements OnInit {
   }
   private getApplicationEvents(){
     // Get application
-    this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationService.getApplicationUser(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
         this.eventsApplication=data.events;

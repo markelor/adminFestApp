@@ -1,3 +1,4 @@
+
 <div class="ks-page-content">
   <div class="ks-page-content-body">
     <div class="ks-nav-body-wrapper">
@@ -7,26 +8,26 @@
             <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th translate>{{'event-form.created-by'}}</th>
-                  <th translate>{{'event-form.category'}}</th>
-                  <th translate>{{'event-form.title'}}</th>
-                  <th translate>{{'event-form.description'}}</th>
-                  <th translate>{{'event-form.province'}}</th>
-                  <th translate>{{'event-form.municipality'}}</th>
+                  <th translate>{{'application-form.title'}}</th>
+                  <th translate>{{'application-form.entity-name'}}</th>
+                  <th translate>{{'application-form.conditions'}}</th>
+                  <th translate>{{'application-form.license'}}</th>
+                  <th translate>{{'application-form.price'}}</th>
+                  <th translate>{{'application-form.expiry-date'}}</th>
                   <th translate>{{'crud.edit-delete'}}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let event of events; let i=index">
-                  <td>{{event.createdBy}}</td>
-                  <td>{{event.category.title}}</td>
-                  <td>{{event.title}}</td>
-                  <td [innerHTML]="event.description"></td>
-                  <td>{{event.place.province.name}}</td>
-                  <td>{{event.place.municipality.name }}</td>
+                <tr *ngFor="let application of applications; let i=index">
+                  <td>{{application.title}}</td>
+                  <td>{{application.entityName}}</td>
+                  <td>{{application.conditions}}</td>
+                  <td>{{application.licenseName}}</td>
+                  <td>{{application.price}}</td>
+                  <td>{{application.expiredAt}}</td>
                   <td class="ks-status">
-                    <a href="javascript:void(0)" [routerLink]="['/user-route','events-route','edit-route',event._id] | localize"><span class="fa fa-edit ks-color-info" translate>{{'crud.edit'}}</span></a>
-                    <a href="javascript:void(0)" (click)="eventDeleteClick(i,event)"><span class="fa fa-trash ks-color-danger" translate>{{'crud.delete'}}</span></a>
+                    <a href="javascript:void(0)" [routerLink]="['/admin-route','applications-route','edit-route',application._id] | localize"><span class="fa fa-edit ks-color-info" translate>{{'crud.edit'}}</span></a>
+                    <a href="javascript:void(0)" (click)="applicationDeleteClick(i,application)"><span class="fa fa-trash ks-color-danger" translate>{{'crud.delete'}}</span></a>
                   </td>
                 </tr>
               </tbody>

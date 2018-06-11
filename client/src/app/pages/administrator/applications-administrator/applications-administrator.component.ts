@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { EventService } from '../../../services/event.service';
+import { ApplicationService } from '../../../services/application.service';
 import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../../guards/auth.guard';
@@ -20,14 +20,14 @@ export class ApplicationsAdministratorComponent implements OnInit {
   private messageClass;
   private message;
   private subscriptionLanguage: Subscription;
-  private events;
+  private applications;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
   private subscriptionObservable: Subscription;
   private dtOptions: any = {};
   private dtTrigger: Subject<any> = new Subject();
   constructor(
-  	private eventService:EventService,
+  	private applicationService:ApplicationService,
   	private authService:AuthService,
     private observableService:ObservableService,
     private localizeService:LocalizeRouterService,
@@ -61,24 +61,24 @@ export class ApplicationsAdministratorComponent implements OnInit {
       scrollX: true,
       responsive: true,
       columnDefs: [
-        { responsivePriority: 3, targets: 0 },
-        { responsivePriority: 4, targets: 1 },
-        { responsivePriority: 1, targets: 2 },
-        { responsivePriority: 7, targets: 3 },
+        { responsivePriority: 1, targets: 0 },
+        { responsivePriority: 3, targets: 1 },
+        { responsivePriority: 7, targets: 2 },
+        { responsivePriority: 4, targets: 3 },
         { responsivePriority: 5, targets: 4 },
         { responsivePriority: 6, targets: 5 },
         { responsivePriority: 2, targets: 6 }
       ]
     };
   }
-  private eventDeleteClick(index,event): void {
+  /*private applicationDeleteClick(index,event): void {
     this.observableService.modalType="modal-delete-user";
     if(this.observableService.modalCount<1){
       this.staticModalShow();
       this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
         this.subscriptionObservable.unsubscribe();
         if (res.hasOwnProperty('option') && res.option === 'modal-delete-user') {
-          this.eventService.deleteEvent(this.authService.user.username,event._id,this.localizeService.parser.currentLang).subscribe(data=>{
+          this.applicationService.deleteEvent(this.authService.user.username,event._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){ 
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               // Destroy the table first
@@ -97,25 +97,25 @@ export class ApplicationsAdministratorComponent implements OnInit {
         }
       });
     }
-  }
+  }*/
     // Function to get events from the database
-  private getEvents() {
-    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
+  private getApplications() {
+    this.applicationService.getApplications(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           // Destroy the table first
           dtInstance.destroy();
-          this.events=data.events;
+          this.applications=data.applications;
           this.dtTrigger.next();
         });
       }
     });
   }
    // Function to get events from the database
-  private getEventsInit() {
-    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
+  private getApplicationsInit() {
+    this.applicationService.getApplications(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
-        this.events=data.events;
+        this.applications=data.applications;
         this.dtTrigger.next();
       }
     });
@@ -130,10 +130,10 @@ export class ApplicationsAdministratorComponent implements OnInit {
       }
     });
     this.createSettings(); 
-    this.getEventsInit();
+    this.getApplicationsInit();
     this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.localizeService.parser.currentLang=event.lang;
-      this.getEvents(); 
+      this.getApplications(); 
     });
   }
   ngOnDestroy(){

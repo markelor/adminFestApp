@@ -69,7 +69,7 @@ const descriptionValidators = [
     }
 ];
 
-// Category Model Definition
+// serviceType Model Definition
 const serviceTypeSchema = new Schema({
     language: { type: String, required: true },
     title: { type: String, required: true, validate: titleValidators },

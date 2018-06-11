@@ -10,13 +10,14 @@ export class PlaceInterceptor implements HttpInterceptor {
   private authService;
   private placeService;
   private localizeService;
+  private domain;
   constructor(private injector: Injector) {}
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       this.authService = this.injector.get(AuthService);
       this.placeService = this.injector.get(PlaceService);
       this.localizeService=this.injector.get(LocalizeRouterService);
-     
-      if(request.url==="http://localhost:8080/place/getPlacesCoordinates/"+this.placeService.route+this.placeService.language){
+      this.domain = this.authService.domain;
+      if(request.url===this.domain+"place/getPlacesCoordinates/"+this.placeService.route+this.placeService.language){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json', // Format set to JSON

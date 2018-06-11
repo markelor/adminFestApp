@@ -10,6 +10,7 @@ export class EventInterceptor implements HttpInterceptor {
   private authService;
   private eventService;
   private localizeService;
+  private domain;
   constructor(private injector: Injector) {}
 
 
@@ -17,10 +18,10 @@ export class EventInterceptor implements HttpInterceptor {
      this.authService = this.injector.get(AuthService);
      this.eventService = this.injector.get(EventService);
      this.localizeService=this.injector.get(LocalizeRouterService);
-     console.log(request.url);
+     this.domain = this.authService.domain;
      if(request.url==="assets/i18n/lang.json"){
 
-     }else if(request.url==="http://localhost:8080/event/newEvent"){
+     }else if(request.url===this.domain+"event/newEvent"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -28,7 +29,7 @@ export class EventInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         }); 
-     }else if(request.url==="http://localhost:8080/event/userEvents/"+this.eventService.route+this.localizeService.parser.currentLang){
+     }else if(request.url===this.domain+"event/userEvents/"+this.eventService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -37,7 +38,7 @@ export class EventInterceptor implements HttpInterceptor {
           }
         });  
      }
-     else if(request.url==="http://localhost:8080/event/getEvents/"+this.localizeService.parser.currentLang){
+     else if(request.url===this.domain+"event/getEvents/"+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json', // Format set to JSON
@@ -45,7 +46,7 @@ export class EventInterceptor implements HttpInterceptor {
           }
         }); 
      }
-     else if(request.url==="http://localhost:8080/event/getEvent/"+this.eventService.route+this.localizeService.parser.currentLang){
+     else if(request.url===this.domain+"event/getEvent/"+this.eventService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json', // Format set to JSON
@@ -53,7 +54,7 @@ export class EventInterceptor implements HttpInterceptor {
             'route':this.eventService.route
           }
         }); 
-     }else if(request.url==="http://localhost:8080/event/editEvent"){
+     }else if(request.url===this.domain+"event/editEvent"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ export class EventInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         }); 
-     }else if(request.url==="http://localhost:8080/event/eventsSearch/"+this.eventService.route+this.localizeService.parser.currentLang){
+     }else if(request.url===this.domain+"event/eventsSearch/"+this.eventService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json', // Format set to JSON
@@ -69,7 +70,7 @@ export class EventInterceptor implements HttpInterceptor {
             'route':this.eventService.route
           }
         });             
-     }else if(request.url==="http://localhost:8080/event/deleteEvent/"+this.eventService.route+this.localizeService.parser.currentLang){
+     }else if(request.url===this.domain+"event/deleteEvent/"+this.eventService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

@@ -65,7 +65,9 @@ export class ApplicationFormComponent implements OnInit {
   private submitted:boolean = false;
   private parentCategories;
   private form:FormGroup;
-  @Input() operation:string;
+  @Input() inputOperation:string;
+  @Input() inputApplication;
+  @Input() inputLanguage;
   private title:AbstractControl;
   private entityName:AbstractControl;
   private user:AbstractControl;
@@ -134,6 +136,56 @@ export class ApplicationFormComponent implements OnInit {
     this.price = this.form.controls['price'];
     this.expiryDate=this.form.controls['expiryDate'];
   }
+  private initializeForm(){
+    if(this.inputApplication){
+      if(this.inputApplication.title){
+        if(this.inputApplication.language===this.inputLanguage){
+          this.title.setValue(this.inputApplication.title);
+        }else{
+          for (var i = 0; i < this.inputApplication.translation.length; ++i) {
+            if(this.inputApplication.translation[i].language===this.inputLanguage){
+              this.title.setValue(this.inputApplication.translation[i].title);
+            }
+          }    
+        }      
+      }
+      if(this.inputApplication.entityName){
+        if(this.inputApplication.language===this.inputLanguage){
+          this.entityName.setValue(this.inputApplication.entityName);
+        }else{
+          for (var i = 0; i < this.inputApplication.translation.length; ++i) {
+            if(this.inputApplication.translation[i].language===this.inputLanguage){
+              this.entityName.setValue(this.inputApplication.translation[i].entityName);
+            }
+          }    
+        }      
+      }
+      if(this.inputApplication.licenseName){
+        if(this.inputApplication.language===this.inputLanguage){
+          this.license.setValue(this.inputApplication.licenseName);
+        }else{
+          for (var i = 0; i < this.inputApplication.translation.length; ++i) {
+            if(this.inputApplication.translation[i].language===this.inputLanguage){
+              this.license.setValue(this.inputApplication.translation[i].licenseName);
+            }
+          }    
+        }      
+      }
+      
+      if(this.inputApplication.price){
+        console.log(this.inputApplication);
+        var year=Number(this.inputApplication.start.split("-")[0]);
+        var month=Number(this.inputApplication.start.split("-")[1]);
+        var day=Number(this.inputApplication.start.split('-').pop().split('T').shift());
+        var hour=Number(this.inputApplication.start.split('T').pop().split(':').shift());
+        var minute=Number(this.inputApplication.start.split(':')[1]);
+        var calendar= {year:year , month: month,day: day};
+        this.expiryDate.setValue(calendar);
+        this.timeExpiryDate.hour=hour;
+        this.timeExpiryDate.minute=minute; 
+      }     
+    }   
+  }
   // Function to disable the registration form
   private disableForm(){
     this.form.disable(); // Disable form
@@ -171,9 +223,9 @@ export class ApplicationFormComponent implements OnInit {
           this.editApplication();
         }
       }else{
-        if(this.operation==='create'){
+        if(this.inputOperation==='create'){
           this.createApplication();
-        }else if(this.operation==='edit'){
+        }else if(this.inputOperation==='edit'){
           this.editApplication();
         }      
       }
@@ -275,9 +327,9 @@ export class ApplicationFormComponent implements OnInit {
         this.imagesApplication.push(file);   
         if(this.uploader.progress===100 && this.uploadAllSuccess){
           this.application.setImagesApplication=this.imagesApplication;
-          if(this.operation==='create'){
+          if(this.inputOperation==='create'){
             this.createApplication();
-          }else if(this.operation==='edit'){
+          }else if(this.inputOperation==='edit'){
             this.editApplication();
           }
         }
@@ -294,6 +346,7 @@ export class ApplicationFormComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.initializeForm();
     $('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
     }).on('input', function () {

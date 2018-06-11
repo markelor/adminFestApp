@@ -82,7 +82,7 @@ module.exports = (router) => {
     /* ===============================================================
        GET Categories
     =============================================================== */
-    router.get('/categories/:language', (req, res) => {
+    router.get('/getCategories/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error

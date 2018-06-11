@@ -132,6 +132,7 @@ const applicationSchema = new Schema({
         description: { type: String, required: true, validate: descriptionValidators },
         expiredAt: { type: Date, required: true }
     }],
+    services: { type: Array, required: false },
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });

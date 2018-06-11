@@ -69,8 +69,8 @@ const descriptionValidators = [
     }
 ];
 
-// Category Model Definition
-const categorySchema = new Schema({
+// Service Model Definition
+const serviceSchema = new Schema({
     firstParentId: { type: Schema.Types.ObjectId, required: false, default: null },
     parentId: { type: Schema.Types.ObjectId, required: false, default: null },
     level: { type: Number, required: true, default: 0 },
@@ -83,9 +83,13 @@ const categorySchema = new Schema({
         description: { type: String, required: true, validate: descriptionValidators },
         _id: false
     }],
+    coordinates: {
+        lat: { type: Number, requireed: true, validate: latitudeValidators },
+        lng: { type: Number, requireed: true, validate: longitudeValidators }
+    },
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });
 
 // Export Module/Schema
-module.exports = mongoose.model('Category', categorySchema);
+module.exports = mongoose.model('Service', serviceSchema);

@@ -10,6 +10,7 @@ export class FileUploaderInterceptor implements HttpInterceptor {
   private authService;
   private fileUploaderService;
   private localizeService;
+  private domain;
   constructor(private injector: Injector) {}
 
 
@@ -17,7 +18,8 @@ export class FileUploaderInterceptor implements HttpInterceptor {
      this.authService = this.injector.get(AuthService);
      this.fileUploaderService=this.injector.get(FileUploaderService)
      this.localizeService=this.injector.get(LocalizeRouterService);
-     if(request.url==="http://localhost:8080/fileUploader/getSignatureFroala"){
+     this.domain = this.authService.domain;
+     if(request.url===this.domain+"fileUploader/getSignatureFroala"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -26,7 +28,7 @@ export class FileUploaderInterceptor implements HttpInterceptor {
           }
         });
         
-     }else if(request.url==="http://localhost:8080/fileUploader/deleteImages/"+this.fileUploaderService.route+this.localizeService.parser.currentLang){
+     }else if(request.url===this.domain+"fileUploader/deleteImages/"+this.fileUploaderService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -35,7 +37,7 @@ export class FileUploaderInterceptor implements HttpInterceptor {
           }
         });
         
-     }else if(request.url==="http://localhost:8080/fileUploader/uploadImagesBase64"){
+     }else if(request.url===this.domain+"fileUploader/uploadImagesBase64"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -43,7 +45,7 @@ export class FileUploaderInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });
-     }else if(request.url==="http://localhost:8080/fileUploader/deleteProfileImage/"+this.fileUploaderService.route+this.localizeService.parser.currentLang){
+     }else if(request.url===this.domain+"fileUploader/deleteProfileImage/"+this.fileUploaderService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

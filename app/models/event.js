@@ -119,6 +119,7 @@ const eventSchema = new Schema({
     visible: { type: Boolean, required: true, default: true },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
+    services: { type: Array, required: false },
     reactions: {
         likeBy: { type: Array, required: false },
         loveBy: { type: Array, required: false },

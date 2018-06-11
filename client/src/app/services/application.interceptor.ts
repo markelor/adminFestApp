@@ -10,6 +10,7 @@ export class ApplicationInterceptor implements HttpInterceptor {
   private authService;
   private applicationService;
   private localizeService;
+  private domain;
   constructor(private injector: Injector) {}
 
 
@@ -17,23 +18,8 @@ export class ApplicationInterceptor implements HttpInterceptor {
      this.authService = this.injector.get(AuthService);
      this.applicationService = this.injector.get(ApplicationService);
      this.localizeService=this.injector.get(LocalizeRouterService);
-    if(request.url==="http://localhost:8080/application/newApplication"){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
-            'language':this.localizeService.parser.currentLang
-          }
-        });     
-      }else if(request.url==="http://localhost:8080/application/userApplications/"+this.applicationService.route+this.localizeService.parser.currentLang){
-        request = request.clone({
-          setHeaders: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
-            'language':this.localizeService.parser.currentLang
-          }
-        });
-      }else if(request.url==="http://localhost:8080/application/getApplication/"+this.applicationService.route+this.localizeService.parser.currentLang){
+     this.domain = this.authService.domain;
+    if(request.url===this.domain+"application/newApplication"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -41,7 +27,40 @@ export class ApplicationInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });  
-      } else if(request.url==="http://localhost:8080/application/editApplication"){
+      }else if(request.url===this.domain+"application/getApplications/"+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });    
+      }else if(request.url===this.domain+"application/userApplications/"+this.applicationService.route+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });
+      }
+      else if(request.url===this.domain+"application/getApplication/"+this.applicationService.route+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });  
+      }else if(request.url===this.domain+"application/getApplicationUser/"+this.applicationService.route+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });  
+      } else if(request.url===this.domain+"application/editApplication"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

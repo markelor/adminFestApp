@@ -27,7 +27,7 @@ export class CategoryInterceptor implements HttpInterceptor {
 	    'language':this.localizeService.parser.currentLang
 	  }
 	});
-	}else if(request.url===this.domain+"category/categories/"+this.localizeService.parser.currentLang){
+	}else if(request.url===this.domain+"category/getCategories/"+this.localizeService.parser.currentLang){
 	request = request.clone({
 	  setHeaders: {
 	    'Content-Type': 'application/json',

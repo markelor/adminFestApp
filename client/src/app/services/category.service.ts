@@ -20,7 +20,7 @@ export class CategoryService {
   }
    // Function to get ccategories from the database
   public getCategories(language) {
-    return this.http.get<any>(this.domain + 'category/categories/'+language);
+    return this.http.get<any>(this.domain + 'category/getCategories/'+language);
   }
    // Function to get ccategories from the database
   public getChildCategories(id,language) {

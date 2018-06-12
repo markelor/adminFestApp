@@ -14,6 +14,7 @@ export const routes:Routes=[
 	    { path: 'category-route',loadChildren: './category/category.module#CategoryModule'},
 	    { path: 'event-route',loadChildren: './event/event.module#EventModule'},
 	    { path: 'application-route',loadChildren: './application/application.module#ApplicationModule'},
+	    { path: 'service-route',loadChildren: './service/service.module#ServiceModule'},
 	    { path: 'user-route',loadChildren: './user/user.module#UserModule'}  	
 	  ]	
 	},

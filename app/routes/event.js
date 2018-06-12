@@ -262,9 +262,10 @@ module.exports = (router) => {
             if (!req.params.username) {
                 res.json({ success: false, message: eval(language + '.userEvents.usernameProvidedError') }); // Return error
             } else {
+                console.log(req.params);
                 Event.find({
                     $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
-                    $or: [{ createdBy: language }, { translation: { $elemMatch: { createdBy: req.params.username } } }]
+                    $or: [{ createdBy: req.params.username }, { translation: { $elemMatch: { createdBy: req.params.username } } }]
                 }).sort({ 'start': 1 }).exec((err, events) => {
                     // Check if error was found or not
                     if (err) {
@@ -975,7 +976,7 @@ module.exports = (router) => {
                                                                     var mailOptions = {
                                                                         from: emailConfig.email,
                                                                         to: emailConfig.email,
-                                                                        subject: 'Error deleteImages',
+                                                                        subject: 'Error delete images event',
                                                                         text: 'The following error has been reported in File Upload part: ' + 'Date:' + Date.now().toString() + err,
                                                                         html: 'The following error has been reported in the File Upload part:<br><br>' + 'Date:' + Date.now().toString() + err
                                                                     };

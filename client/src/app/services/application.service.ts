@@ -25,9 +25,9 @@ export class ApplicationService {
     return this.http.get<any>(this.domain + 'application/getApplications/'+language);
   }
   // Function to get application from the database
-  public getApplicationUser(id,username,language) {
+  public getApplication(id,username,language) {
     this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
-    return this.http.get<any>(this.domain + 'application/getApplicationUser/'+this.route+language);
+    return this.http.get<any>(this.domain + 'application/getApplication/'+this.route+language);
   }
   // Function to get all user applications from the database
   public getUserApplications(username,language) {
@@ -37,5 +37,10 @@ export class ApplicationService {
   // Function to edit/update theme post
   public editApplication(application) {
     return this.http.put<any>(this.domain + 'application/editApplication',application);
+  }
+  // Function to delete a event
+  public deleteApplication(username,id,language) {
+    this.route= username+'/'+id +'/'
+    return this.http.delete<any>(this.domain + 'application/deleteApplication/'+this.route+language);
   }
 }

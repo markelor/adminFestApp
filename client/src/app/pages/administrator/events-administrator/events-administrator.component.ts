@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { EventService } from '../../../services/event.service';
-import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
+import { TranslateService} from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../../guards/auth.guard';
 import { Router,ActivatedRoute } from '@angular/router';
@@ -19,7 +19,6 @@ import { Subscription } from 'rxjs/Subscription';
 export class EventsAdministratorComponent implements OnInit {
   private messageClass;
   private message;
-  private subscriptionLanguage: Subscription;
   private events;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
@@ -72,12 +71,12 @@ export class EventsAdministratorComponent implements OnInit {
     };
   }
   private eventDeleteClick(index,event): void {
-    this.observableService.modalType="modal-delete-user";
+    this.observableService.modalType="modal-delete-event";
     if(this.observableService.modalCount<1){
       this.staticModalShow();
       this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
         this.subscriptionObservable.unsubscribe();
-        if (res.hasOwnProperty('option') && res.option === 'modal-delete-user') {
+        if (res.hasOwnProperty('option') && res.option === 'modal-delete-event') {
           this.eventService.deleteEvent(this.authService.user.username,event._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){ 
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -98,24 +97,12 @@ export class EventsAdministratorComponent implements OnInit {
       });
     }
   }
-    // Function to get events from the database
+   // Function to get events from the database
   private getEvents() {
     this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-          // Destroy the table first
-          dtInstance.destroy();
-          this.events=data.events;
-          this.dtTrigger.next();
-        });
-      }
-    });
-  }
-   // Function to get events from the database
-  private getEventsInit() {
-    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
-      if(data.success){
         this.events=data.events;
+        console.log(this.events);
         this.dtTrigger.next();
       }
     });
@@ -130,13 +117,6 @@ export class EventsAdministratorComponent implements OnInit {
       }
     });
     this.createSettings(); 
-    this.getEventsInit();
-    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.localizeService.parser.currentLang=event.lang;
-      this.getEvents(); 
-    });
-  }
-  ngOnDestroy(){
-      this.subscriptionLanguage.unsubscribe();
+    this.getEvents();
   }
 }

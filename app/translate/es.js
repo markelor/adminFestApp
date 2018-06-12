@@ -297,6 +297,12 @@ module.exports = {
         saveError: "No se pudo eliminar el evento. Error: ",
         success: "¡Evento eliminado!"
     },
+    deleteApplication: {
+        usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
+        idProvidedError: 'El ID del evento, no fue proporcionado.',
+        saveError: "No se pudo eliminar la aplicación. Error: ",
+        success: "¡Aplikación eliminada!"
+    },
     addThemeReaction: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
         reactionProvidedError: 'La reacción del tema no fue proporcionada.',

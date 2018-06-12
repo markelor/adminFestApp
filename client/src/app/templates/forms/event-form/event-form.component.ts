@@ -206,58 +206,80 @@ export class EventFormComponent implements OnInit {
   private initializeForm(){
     if(this.inputEvent){
       this.inputEventCopy=JSON.parse(JSON.stringify(this.inputEvent));
-      if(this.inputEvent.title){
-        if(this.inputEvent.language===this.inputLanguage){
-          this.title.setValue(this.inputEvent.title);
-        }else{
-          for (var i = 0; i < this.inputEvent.translation.length; ++i) {
-            if(this.inputEvent.translation[i].language===this.inputLanguage){
-              this.title.setValue(this.inputEvent.translation[i].title);
-            }
-          }    
-        }      
-      }
-      if(this.inputCategories){
-        (this.form.controls['categories'] as FormArray).removeAt(0);
-        for (var j in this.inputCategories) {
-          this.categoryId.push(this.inputCategories[j]._id);
-          if(this.inputCategories[j].language===this.inputLanguage){
-            (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].title));
+      //general event translation
+      if(this.inputEvent.language===this.inputLanguage){
+        this.title.setValue(this.inputEvent.title);
+        this.description.setValue(this.inputEvent.description);
+        this.observations.setValue(this.inputEvent.observations);
+        this.imagesDescription=this.inputEvent.images.description;     
+      }else{
+        for (var i = 0; i < this.inputEvent.translation.length; ++i) {
+          if(this.inputEvent.translation[i].language===this.inputLanguage){
+            this.title.setValue(this.inputEvent.translation[i].title);
+            this.description.setValue(this.inputEvent.translation[i].description);
+            this.observations.setValue(this.inputEvent.translation[i].observations);
+            this.imagesDescription=this.inputEvent.translation[i].images.description;
           }
-          for (var k = 0; k < this.inputCategories[j].translation.length; ++k) {
-            if(this.inputCategories[j].translation[k].language===this.inputLanguage){
-              //console.log(this.inputLanguage);
-              (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].translation[k].title));
+        }    
+      } 
+      //general place translation
+      if(this.inputEvent.place.language===this.inputLanguage){
+        this.locationsExists.setValue(this.inputEvent.place.location);  
+      }else{
+        for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
+          if(this.inputEvent.place.translation[i].language===this.inputLanguage){
+            this.locationsExists.setValue(this.inputEvent.place.translation[i].location);      
+          }
+        }    
+      } 
+      //Location validation
+      this.placeService.getPlacesCoordinates(this.inputEvent.place.coordinates.lat,this.inputEvent.place.coordinates.lng,this.inputLanguage).subscribe(data=>{
+        if(data.success && data.places.length>0){
+          this.locationsExistsEvent=data.places;
+          this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+          this.location.updateValueAndValidity(); //Need to call this to trigger a update
+        }else{
+          this.locationsExistsEvent=[];
+          this.locationsExists.setValue("");
+        }
+      }); 
+      //Get categories on page load    
+      (this.form.controls['categories'] as FormArray).removeAt(0);
+      for (var j in this.inputCategories) {
+        this.categoryId.push(this.inputCategories[j]._id);
+        if(this.inputCategories[j].language===this.inputLanguage){
+          (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].title));
+        }
+        for (var k = 0; k < this.inputCategories[j].translation.length; ++k) {
+          if(this.inputCategories[j].translation[k].language===this.inputLanguage){
+            //console.log(this.inputLanguage);
+            (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].translation[k].title));
+          }
+        } 
+      } 
+      //Get provinces on page load
+      this.eventService.getEventGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesEvent => {
+        this.provincesEvent=provincesEvent.geonames;
+        if(this.inputEvent.place.language===this.inputLanguage){
+          this.province.setValue(this.inputEvent.place.province.name);
+        }else{
+          var traductionProvince=false;
+          for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
+            if(this.inputEvent.place.translation[i].language===this.inputLanguage){
+              traductionProvince=true
+              this.province.setValue(this.inputEvent.place.translation[i].province.name);
             }
           } 
-        } 
-      }
-      if(this.inputEvent.participants)
-        this.participants=this.inputEvent.participants;
-      if(this.inputEvent.place.province){
-        //Get provinces on page load
-        this.eventService.getEventGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesEvent => {
-          this.provincesEvent=provincesEvent.geonames;
-          if(this.inputEvent.place.language===this.inputLanguage){
-            this.province.setValue(this.inputEvent.place.province.name);
-          }else{
-            var traductionProvince=false;
-            for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
-              if(this.inputEvent.place.translation[i].language===this.inputLanguage){
-                traductionProvince=true
-                this.province.setValue(this.inputEvent.place.translation[i].province.name);
+          if(!traductionProvince){
+            for (var i = 0; i < this.provincesEvent.length; ++i) {
+              if(this.provincesEvent[i].geonameId===this.inputEvent.place.province.geonameId){
+                this.province.setValue(this.provincesEvent[i].name);         
               }
-            } 
-            if(!traductionProvince){
-              for (var i = 0; i < this.provincesEvent.length; ++i) {
-                if(this.provincesEvent[i].geonameId===this.inputEvent.place.province.geonameId){
-                  this.province.setValue(this.provincesEvent[i].name);         
-                }
-              }      
-            }    
-          }          
-        });        
-      } 
+            }      
+          }    
+        }          
+      });  
+      //Get municipality on page load      
       if(this.inputEvent.place.municipality){
         this.eventService.getEventGeonamesJson('municipality',this.inputLanguage,this.inputEvent.place.province.name.toLowerCase()).subscribe(municipalitiesEvent => {
           this.municipalitiesEvent=municipalitiesEvent.geonames;
@@ -282,116 +304,61 @@ export class EventFormComponent implements OnInit {
           } 
         });        
       } 
-      if(this.inputEvent.start){
-        var year=Number(this.inputEvent.start.split("-")[0]);
-        var month=Number(this.inputEvent.start.split("-")[1]);
-        var day=Number(this.inputEvent.start.split('-').pop().split('T').shift());
-        var hour=Number(this.inputEvent.start.split('T').pop().split(':').shift());
-        var minute=Number(this.inputEvent.start.split(':')[1]);
-        var calendar= {year:year , month: month,day: day};
-        this.start.setValue(calendar);
-        this.timeStart.hour=hour;
-        this.timeStart.minute=minute; 
-      }     
-      if(this.inputEvent.end){
-        var year=Number(this.inputEvent.end.split("-")[0]);
-        var month=Number(this.inputEvent.end.split("-")[1]);
-        var day=Number(this.inputEvent.end.split('-').pop().split('T').shift());
-        var hour=Number(this.inputEvent.end.split('T').pop().split(':').shift());
-        var minute=Number(this.inputEvent.end.split(':')[1]);
-        var calendar= {year:year , month: month,day: day};
-        this.end.setValue(calendar); 
-        this.timeEnd.hour=hour;
-        this.timeEnd.minute=minute; 
-      }    
-      if(this.inputEvent.place.coordinates.lat)
-        this.lat.setValue(this.inputEvent.place.coordinates.lat);
-      if(this.inputEvent.place.coordinates.lng)
-        this.lng.setValue(this.inputEvent.place.coordinates.lng);
-      if(this.inputEvent.place.location && this.inputEvent.place.coordinates.lat && this.inputEvent.place.coordinates.lng)
-      if(this.inputEvent.place.location){      
-        if(this.inputEvent.place.language===this.inputLanguage){
-          this.locationsExists.setValue(this.inputEvent.place.location);
-        }else{
-          for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
-            if(this.inputEvent.place.translation[i].language===this.inputLanguage){
-              this.locationsExists.setValue(this.inputEvent.place.translation[i].location);
-            }
-          }     
-        }
-        this.placeService.getPlacesCoordinates(this.inputEvent.place.coordinates.lat,this.inputEvent.place.coordinates.lng,this.inputLanguage).subscribe(data=>{
-          if(data.success && data.places.length>0){
-            this.locationsExistsEvent=data.places;
-            this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
-            this.location.updateValueAndValidity(); //Need to call this to trigger a update
-          }else{
-            this.locationsExistsEvent=[];
-            this.locationsExists.setValue("");
-          }
-        }); 
-      }     
-      if(this.inputEvent.description){
-        if(this.inputEvent.language===this.inputLanguage){
-          this.description.setValue(this.inputEvent.description);
-        }else{
-          for (var i = 0; i < this.inputEvent.translation.length; ++i) {
-            if(this.inputEvent.translation[i].language===this.inputLanguage){
-              this.description.setValue(this.inputEvent.translation[i].description);
-            }
-          }     
-        }      
-      }
-      if(this.inputEvent.observations){      
-        if(this.inputEvent.language===this.inputLanguage){
-          this.observations.setValue(this.inputEvent.observations);
-        }else{
-          for (var i = 0; i < this.inputEvent.translation.length; ++i) {
-            if(this.inputEvent.translation[i].language===this.inputLanguage){
-              this.observations.setValue(this.inputEvent.translation[i].observations);
-            }
-          }     
-        } 
-      }  
-      if(this.inputEvent.images.poster){
-        var hasTranslation=false;
-        for (var i = 0; i < this.inputEvent.translation.length; ++i) {
-          if(this.inputEvent.translation[i].language===this.inputLanguage){
-            hasTranslation=true;
-            this.imagesPoster=this.inputEvent.translation[i].images.poster;
-            for (var z = 0; z < this.imagesPoster.length; ++z) {
-              let file = new File([],decodeURIComponent(this.inputEvent.translation[i].images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
-              let fileItem = new FileItem(this.uploader, file, {});
-              fileItem.file.size=this.inputEvent.translation[i].images.poster[z].size;
-              fileItem.progress = 100;
-              fileItem.isUploaded = true;
-              fileItem.isSuccess = true;
-              this.uploader.queue.push(fileItem);
-            }
-          }
-        } 
-        if(!hasTranslation){
-          this.imagesPoster=this.inputEvent.images.poster;
+      //Get start on page load
+      this.participants=this.inputEvent.participants;
+      var year=Number(this.inputEvent.start.split("-")[0]);
+      var month=Number(this.inputEvent.start.split("-")[1]);
+      var day=Number(this.inputEvent.start.split('-').pop().split('T').shift());
+      var hour=Number(this.inputEvent.start.split('T').pop().split(':').shift());
+      var minute=Number(this.inputEvent.start.split(':')[1]);
+      var calendar= {year:year , month: month,day: day};
+      this.start.setValue(calendar);
+      this.timeStart.hour=hour;
+      this.timeStart.minute=minute; 
+        
+      //Get end on page load
+      var year=Number(this.inputEvent.end.split("-")[0]);
+      var month=Number(this.inputEvent.end.split("-")[1]);
+      var day=Number(this.inputEvent.end.split('-').pop().split('T').shift());
+      var hour=Number(this.inputEvent.end.split('T').pop().split(':').shift());
+      var minute=Number(this.inputEvent.end.split(':')[1]);
+      var calendar= {year:year , month: month,day: day};
+      this.end.setValue(calendar); 
+      this.timeEnd.hour=hour;
+      this.timeEnd.minute=minute; 
+      //Get lat on page load
+      this.lat.setValue(this.inputEvent.place.coordinates.lat);
+      //Get lng on page load
+      this.lng.setValue(this.inputEvent.place.coordinates.lng);    
+      //Get poster on page load   
+      var hasTranslation=false;
+      for (var i = 0; i < this.inputEvent.translation.length; ++i) {
+        if(this.inputEvent.translation[i].language===this.inputLanguage){
+          hasTranslation=true;
+          this.imagesPoster=this.inputEvent.translation[i].images.poster;
           for (var z = 0; z < this.imagesPoster.length; ++z) {
-            let file = new File([],decodeURIComponent(this.inputEvent.images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+            let file = new File([],decodeURIComponent(this.inputEvent.translation[i].images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
             let fileItem = new FileItem(this.uploader, file, {});
-            fileItem.file.size=this.inputEvent.images.poster[z].size;
+            fileItem.file.size=this.inputEvent.translation[i].images.poster[z].size;
             fileItem.progress = 100;
             fileItem.isUploaded = true;
             fileItem.isSuccess = true;
             this.uploader.queue.push(fileItem);
           }
-        }        
-      }      
-        if(this.inputEvent.language===this.inputLanguage){  
-          this.imagesDescription=this.inputEvent.images.description;          
-        }else{
-          for (var i = 0; i < this.inputEvent.translation.length; ++i) {
-            if(this.inputEvent.translation[i].language===this.inputLanguage){
-              this.imagesDescription=this.inputEvent.translation[i].images.description;
-            }                
-          }     
-        } 
-          
+        }       
+      } 
+      if(!hasTranslation){
+        this.imagesPoster=this.inputEvent.images.poster;
+        for (var z = 0; z < this.imagesPoster.length; ++z) {
+          let file = new File([],decodeURIComponent(this.inputEvent.images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+          let fileItem = new FileItem(this.uploader, file, {});
+          fileItem.file.size=this.inputEvent.images.poster[z].size;
+          fileItem.progress = 100;
+          fileItem.isUploaded = true;
+          fileItem.isSuccess = true;
+          this.uploader.queue.push(fileItem);
+        }
+      }                
       if(this.title.value && this.categoryId.length>0 && this.inputEvent.place.coordinates.lat && this.inputEvent.place.coordinates.lng){
         // After 2 seconds, redirect to dashboard page
         setTimeout(() => {

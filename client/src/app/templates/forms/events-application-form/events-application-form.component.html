@@ -18,12 +18,34 @@
   </thead>
   <tbody>
     <tr *ngFor="let eventApplication of eventsApplication; let i=index">
-      <td>{{eventApplication.createdBy}}</td>
-      <td>{{eventApplication.category.title}}</td>
-      <td>{{eventApplication.title}}</td>
-      <td [innerHTML]="eventApplication.description"></td>
-      <td>{{eventApplication.place.province.name}}</td>
-      <td>{{eventApplication.place.municipality.name}}</td>
+      <!--CreatedBy-->
+      <td *ngIf="eventApplication.language===localizeService.parser.currentLang">{{eventApplication.createdBy}}</td>
+      <ng-container *ngFor="let translation of eventApplication.translation">
+        <td *ngIf="translation.language===localizeService.parser.currentLang">
+          {{translation.createdBy}}
+        </td>        
+      </ng-container>
+      <!--Category-->
+      <td *ngIf="eventApplication.category.language===localizeService.parser.currentLang">{{eventApplication.category.title}}</td>
+      <ng-container *ngFor="let translation of eventApplication.category.translation">
+        <td *ngIf="translation.language===localizeService.parser.currentLang">
+          {{translation.title}}
+        </td>        
+      </ng-container>
+      <!--Title and Description-->
+      <td *ngIf="eventApplication.language===localizeService.parser.currentLang">{{eventApplication.title}}</td>
+      <td *ngIf="eventApplication.language===localizeService.parser.currentLang" [innerHTML]="eventApplication.description"></td>
+      <ng-container *ngFor="let translation of eventApplication.translation">
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.title}}</td>
+        <td *ngIf="translation.language===localizeService.parser.currentLang" [innerHTML]="translation.description"></td>        
+      </ng-container> 
+      <!--Province and Municipality-->         
+      <td *ngIf="eventApplication.place.language===localizeService.parser.currentLang">{{eventApplication.place.province.name}}</td>
+      <td *ngIf="eventApplication.place.language===localizeService.parser.currentLang">{{eventApplication.place.municipality.name }}</td>
+      <ng-container *ngFor="let translation of eventApplication.place.translation">
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.province.name}}</td>
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td>        
+      </ng-container> 
       <td class="ks-status">
         <a href="javascript:void(0)" (click)="deleteEventApplicationTable(i)"><span class="fa fa-trash ks-color-danger" translate>{{'crud.delete'}}</span></a>
       </td>
@@ -44,12 +66,34 @@
   </thead>
   <tbody>
     <tr *ngFor="let event of events; let i=index">
-      <td>{{event.createdBy}}</td>
-      <td>{{event.category.title}}</td>
-      <td>{{event.title}}</td>
-      <td [innerHTML]="event.description"></td>
-      <td>{{event.place.province.name}}</td>
-      <td>{{event.place.municipality.name }}</td>
+      <!--CreatedBy-->
+      <td *ngIf="event.language===localizeService.parser.currentLang">{{event.createdBy}}</td>
+      <ng-container *ngFor="let translation of event.translation">
+        <td *ngIf="translation.language===localizeService.parser.currentLang">
+          {{translation.createdBy}}
+        </td>        
+      </ng-container>
+      <!--Category-->
+      <td *ngIf="event.category.language===localizeService.parser.currentLang">{{event.category.title}}</td>
+      <ng-container *ngFor="let translation of event.category.translation">
+        <td *ngIf="translation.language===localizeService.parser.currentLang">
+          {{translation.title}}
+        </td>        
+      </ng-container>
+      <!--Title and Description-->
+      <td *ngIf="event.language===localizeService.parser.currentLang">{{event.title}}</td>
+      <td *ngIf="event.language===localizeService.parser.currentLang" [innerHTML]="event.description"></td>
+      <ng-container *ngFor="let translation of event.translation">
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.title}}</td>
+        <td *ngIf="translation.language===localizeService.parser.currentLang" [innerHTML]="translation.description"></td>        
+      </ng-container> 
+      <!--Province and Municipality-->         
+      <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.province.name}}</td>
+      <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.municipality.name }}</td>
+      <ng-container *ngFor="let translation of event.place.translation">
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.province.name}}</td>
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td>        
+      </ng-container> 
       <td class="ks-status">
         <a href="javascript:void(0)" (click)="addEventApplicationTable(i)"><span class="fa fa-plus ks-color-success" translate>{{'crud.add'}}</span></a>
       </td>

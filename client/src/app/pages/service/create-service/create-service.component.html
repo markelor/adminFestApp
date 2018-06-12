@@ -1,0 +1,51 @@
+<div class="ks-page-content">
+  <div class="ks-page-content-body">
+    <div class="ks-nav-body-wrapper">
+      <div class="container-fluid ks-rows-section">
+        <app-service-form *ngIf="parentCategories" [inputOperation]="'create'" [inputParentCategories]="parentCategories"></app-service-form>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Parent ID</th>
+              <th>Level</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Edit/Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let serviceGroup of categories">
+              <tr *ngFor="let service of serviceGroup.value | sort :'level':false let i=index">
+              <ng-container *ngIf="localizeService.parser.currentLang===service.language">
+               <td>{{ service._id }}</td>
+                <td>{{ service.parentId}}</td>
+                <td>{{ service.level}}</td>
+                <td>{{ service.title }}</td>
+                <td>{{ service.description }}</td>
+                <td class="ks-status">
+                  <a href="javascript:void(0)" (click)="serviceEditClick(service)"><span class="fa fa-edit ks-color-info">Edit</span></a>
+                  <a href="javascript:void(0)" (click)="serviceDeleteClick(i,service)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+                </td>
+              </ng-container>
+              <ng-container *ngFor="let translation of service.translation; let i=index;">
+                <ng-container *ngIf="localizeService.parser.currentLang===translation.language">
+                  <td>{{ service._id }}</td>
+                  <td>{{ service.parentId}}</td>
+                  <td>{{ service.level}}</td>
+                  <td>{{ translation.title }}</td>
+                  <td>{{ translation.description }}</td>
+                  <td class="ks-status">
+                    <a href="javascript:void(0)" (click)="serviceEditClick(service)"><span class="fa fa-edit ks-color-info">Edit</span></a>
+                    <a href="javascript:void(0)" (click)="serviceDeleteClick(i,service)"><span class="fa fa-trash ks-color-danger">Delete</span></a>
+                  </td>             
+                </ng-container>
+              </ng-container>     
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

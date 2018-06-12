@@ -136,54 +136,47 @@ export class ApplicationFormComponent implements OnInit {
     this.price = this.form.controls['price'];
     this.expiryDate=this.form.controls['expiryDate'];
   }
+
   private initializeForm(){
     if(this.inputApplication){
-      if(this.inputApplication.title){
-        if(this.inputApplication.language===this.inputLanguage){
-          this.title.setValue(this.inputApplication.title);
-        }else{
-          for (var i = 0; i < this.inputApplication.translation.length; ++i) {
-            if(this.inputApplication.translation[i].language===this.inputLanguage){
-              this.title.setValue(this.inputApplication.translation[i].title);
-            }
-          }    
-        }      
+      if(this.inputApplication.language===this.inputLanguage){
+        this.title.setValue(this.inputApplication.title);
+        this.entityName.setValue(this.inputApplication.entityName);
+        this.license.setValue(this.inputApplication.licenseName);
+        this.conditions=this.inputApplication.conditions;
+      }else{
+        for (var i = 0; i < this.inputApplication.translation.length; ++i) {
+          if(this.inputApplication.translation[i].language===this.inputLanguage){
+            this.title.setValue(this.inputApplication.translation[i].title);
+            this.entityName.setValue(this.inputApplication.translation[i].entityName);
+            this.license.setValue(this.inputApplication.translation[i].licenseName);
+            this.conditions=this.inputApplication.translation[i].conditions;
+          }
+        }               
       }
-      if(this.inputApplication.entityName){
-        if(this.inputApplication.language===this.inputLanguage){
-          this.entityName.setValue(this.inputApplication.entityName);
-        }else{
-          for (var i = 0; i < this.inputApplication.translation.length; ++i) {
-            if(this.inputApplication.translation[i].language===this.inputLanguage){
-              this.entityName.setValue(this.inputApplication.translation[i].entityName);
-            }
-          }    
-        }      
-      }
-      if(this.inputApplication.licenseName){
-        if(this.inputApplication.language===this.inputLanguage){
-          this.license.setValue(this.inputApplication.licenseName);
-        }else{
-          for (var i = 0; i < this.inputApplication.translation.length; ++i) {
-            if(this.inputApplication.translation[i].language===this.inputLanguage){
-              this.license.setValue(this.inputApplication.translation[i].licenseName);
-            }
-          }    
-        }      
-      }
-      
-      if(this.inputApplication.price){
-        console.log(this.inputApplication);
-        var year=Number(this.inputApplication.start.split("-")[0]);
-        var month=Number(this.inputApplication.start.split("-")[1]);
-        var day=Number(this.inputApplication.start.split('-').pop().split('T').shift());
-        var hour=Number(this.inputApplication.start.split('T').pop().split(':').shift());
-        var minute=Number(this.inputApplication.start.split(':')[1]);
-        var calendar= {year:year , month: month,day: day};
-        this.expiryDate.setValue(calendar);
-        this.timeExpiryDate.hour=hour;
-        this.timeExpiryDate.minute=minute; 
-      }     
+      this.selectedUsers=this.inputApplication.users;     
+      this.price.setValue(this.inputApplication.price);
+
+      var year=Number(this.inputApplication.expiredAt.split("-")[0]);
+      var month=Number(this.inputApplication.expiredAt.split("-")[1]);
+      var day=Number(this.inputApplication.expiredAt.split('-').pop().split('T').shift());
+      var hour=Number(this.inputApplication.expiredAt.split('T').pop().split(':').shift());
+      var minute=Number(this.inputApplication.expiredAt.split(':')[1]);
+      var calendar= {year:year , month: month,day: day};
+      this.expiryDate.setValue(calendar);
+      this.timeExpiryDate.hour=hour;
+      this.timeExpiryDate.minute=minute; 
+
+      this.imagesApplication=this.inputApplication.images;
+      for (var z = 0; z < this.imagesApplication.length; ++z) {
+        let file = new File([],decodeURIComponent(this.inputApplication.images[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/application/')[1]);
+        let fileItem = new FileItem(this.uploader, file, {});
+        fileItem.file.size=this.inputApplication.images[z].size;
+        fileItem.progress = 100;
+        fileItem.isUploaded = true;
+        fileItem.isSuccess = true;
+        this.uploader.queue.push(fileItem);   
+      } 
     }   
   }
   // Function to disable the registration form
@@ -252,8 +245,81 @@ export class ApplicationFormComponent implements OnInit {
       }
     });
   }
+  private deleteEditImages(){
+     //see delete images
+    var deleteImages=[];
+    for (var i = 0; i < this.imagesApplication.length; ++i) {
+      let file = new File([],decodeURIComponent(this.imagesApplication[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/application/')[1]);
+      let fileItem = new FileItem(this.uploader, file, {});
+      if(this.uploader.queue.some(e => e.file.name !== fileItem.file.name)){
+        deleteImages.push(this.imagesApplication[i]);
+        this.imagesApplication.splice(i,1);            
+      }
+    }
+    if(deleteImages.length>0){
+      this.deleteUploadImages('application',deleteImages);
+    }
+  }
   private editApplication() {
-    
+    if(this.inputApplication){
+      var hasTranslationApplication=false;
+      this.inputApplication.users=this.selectedUsers; // Users field   
+      this.inputApplication.price=this.form.get('price').value; // Price field
+      this.inputApplication.expiredAt=new Date(this.form.get('expiryDate').value.year,this.form.get('expiryDate').value.month,this.form.get('expiryDate').value.day,this.timeExpiryDate.hour,this.timeExpiryDate.minute);
+      this.deleteEditImages();   
+      //application translation
+      for (var i = 0; i < this.inputApplication.translation.length; ++i) {
+        if(this.inputApplication.translation[i].language===this.inputLanguage){
+          hasTranslationApplication=true;
+          this.inputApplication.translation[i].language=this.inputLanguage;// Language field        
+          this.inputApplication.translation[i].title=this.form.get('title').value; // Title field
+          this.inputApplication.translation[i].entityName= this.form.get('entityName').value; // Entity Name field
+          this.inputApplication.translation[i].licenseName=this.form.get('license').value; // License Name field
+          this.inputApplication.translation[i].conditions=this.conditions;// Conditions field
+        }
+      }
+
+      if(!hasTranslationApplication){
+        //if application has original language and not has translation
+        if(this.inputApplication.language===this.inputLanguage){
+          this.inputApplication.language=this.inputLanguage;// Language field        
+          this.inputApplication.title=this.form.get('title').value; // Title field
+          this.inputApplication.entityName= this.form.get('entityName').value; // Entity Name field
+          this.inputApplication.licenseName=this.form.get('license').value; // License Name field
+          this.inputApplication.conditions=this.conditions;// Conditions field  
+        }else{
+          //application push new translation
+          var applicationTranslationObj={
+            language:this.inputLanguage,
+            title:this.form.get('title').value,
+            entityName:this.form.get('entityName').value,
+            licenseName:this.form.get('license').value,
+            conditions:this.conditions
+          }
+          this.inputApplication.translation.push(applicationTranslationObj);        
+        }
+      }
+    }
+    console.log(this.inputApplication);
+    // Function to save event into database
+    this.applicationService.editApplication(this.inputApplication).subscribe(data => {
+      // Check if event was saved to database or not
+      if (!data.success) {
+        this.deleteUploadImages('application',this.imagesApplication);
+        this.messageClass = 'alert alert-danger ks-solid'; // Return error class
+        this.message = data.message; // Return error message
+        this.submitted = true; // Enable submit button
+      } else {
+        this.messageClass = 'alert alert-success ks-solid'; // Return success class
+        this.message = data.message; // Return success message
+        // Clear form data after two seconds
+        setTimeout(() => {
+          //this.newPost = false; // Hide form
+          this.submitted = false; // Enable submit button
+          this.message = false; // Erase error/success message
+        }, 2000);
+      }
+    });   
   }
   private addUser(index){
     if(this.user.value && !this.selectedUsers.includes(this.user.value) && this.usersSearch.filter(user => user.username === this.user.value).length > 0){
@@ -293,6 +359,7 @@ export class ApplicationFormComponent implements OnInit {
     //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
     this.uploader.onAfterAddingFile = (file)=> { 
       file.withCredentials = false;
+      this.uploader.progress=0;
       if(this.uploader.queue.length>1){
         this.uploader.queue.splice(0,1);
       }
@@ -309,7 +376,6 @@ export class ApplicationFormComponent implements OnInit {
     this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
       //console.log("ImageUpload:uploaded:", item, status, response);
       const responseJson=JSON.parse(response);
-      console.log(responseJson);
       if(!responseJson.success){
         if(responseJson.authentication===false){
           this.authService.logout();
@@ -317,24 +383,35 @@ export class ApplicationFormComponent implements OnInit {
           this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]);
         }
         this.uploadAllSuccess=false;
-        this.submitted = true; // Enable submit button
         this.enableForm();
       }else{
         var file={
           size:responseJson.file[0].size,
           url:responseJson.file[0].location
         }
-        this.imagesApplication.push(file);   
+        this.imagesApplication.push(file);
         if(this.uploader.progress===100 && this.uploadAllSuccess){
-          this.application.setImagesApplication=this.imagesApplication;
-          if(this.inputOperation==='create'){
-            this.createApplication();
-          }else if(this.inputOperation==='edit'){
-            this.editApplication();
+          this.application.setImagesApplication=this.imagesApplication; 
+          //Image preview update
+          for (var j = 0; j < this.imagesApplication.length; ++j) {
+            let file = new File([],decodeURIComponent(this.imagesApplication[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/application/')[1]);
+            let fileItem = new FileItem(this.uploader, file, {});
+            fileItem.file.size=this.imagesApplication[j].size;
+            fileItem.progress = 100;
+            fileItem.isUploaded = true;
+            fileItem.isSuccess = true;
+            this.uploader.queue.splice(0,1);
+            this.uploader.queue.push(fileItem);
+          }       
+            if(this.inputOperation==='create'){
+              this.createApplication();
+            }else if(this.inputOperation==='edit'){
+              this.editApplication();
           }
         }
       } 
     };
+
     this.uploader.onWhenAddingFileFailed = (fileItem) => {
       if(fileItem.size>10*1024*1024){
         console.log("fitzategi haundiegia");

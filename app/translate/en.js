@@ -298,6 +298,12 @@ module.exports = {
         saveError: "Could not delete event. Error: ",
         success: "Event deleted!"
     },
+    deleteApplication: {
+        usernameProvidedError: 'Username was not provided.',
+        idProvidedError: 'Event ID was not provided.',
+        saveError: "Could not delete application. Error: ",
+        success: "Application deleted!"
+    },
     addThemeReaction: {
         idProvidedError: 'Theme ID was not provided',
         reactionProvidedError: 'Theme reaction was not provided',

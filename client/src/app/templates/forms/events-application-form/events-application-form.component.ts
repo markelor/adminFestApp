@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Application } from '../../../class/application';
 import { Subject } from 'rxjs/Subject';
 import {DataTableDirective} from 'angular-datatables';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-events-application-form',
@@ -18,7 +17,6 @@ import { Subscription } from 'rxjs/Subscription';
 export class EventsApplicationFormComponent implements OnInit {
   private message;
   private messageClass;
-  private subscriptionLanguage: Subscription;
   @Input() applicationId;
   private application;
   private eventsApplication;
@@ -98,7 +96,7 @@ export class EventsApplicationFormComponent implements OnInit {
   }
   private getApplicationEvents(){
     // Get application
-    this.applicationService.getApplicationUser(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
         this.eventsApplication=data.events;
@@ -124,14 +122,6 @@ export class EventsApplicationFormComponent implements OnInit {
     this.createSettings(); 
     this.getApplicationEvents();
     this.getEvents();	  
-    this.subscriptionLanguage =this.localizeService.routerEvents.subscribe((language: string) => {
-      setTimeout(()=>{
-        this.router.navigate([this.localizeService.translateRoute('/user-route')]); // Return error and route to login page
-      },0);
-
-    });      
-  }
-  ngOnDestroy(){
-      this.subscriptionLanguage.unsubscribe();
+        
   }
 }

@@ -297,6 +297,12 @@ module.exports = {
         saveError: "Ezin izan da ekintza ezabatu. Akatsa: ",
         success: "Ekintza ezabatu da!"
     },
+    deleteApplication: {
+        usernameProvidedError: 'Erabiltzaile izena ez da eman.',
+        idProvidedError: 'Ez da ekintzaren IDa eman.',
+        saveError: "Ezin izan da ekintza ezabatu. Akatsa: ",
+        success: "Ekintza ezabatu da!"
+    },
     addThemeReaction: {
         idProvidedError: 'Ez da gaiaren IDa eman.',
         reactionProvidedError: 'La reacción del tema no fue proporcionada.',

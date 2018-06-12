@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { ApplicationService } from '../../../services/application.service';
-import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../../guards/auth.guard';
 import { Router,ActivatedRoute } from '@angular/router';
@@ -19,7 +19,6 @@ import { Subscription } from 'rxjs/Subscription';
 export class ApplicationsAdministratorComponent implements OnInit {
   private messageClass;
   private message;
-  private subscriptionLanguage: Subscription;
   private applications;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
@@ -71,19 +70,19 @@ export class ApplicationsAdministratorComponent implements OnInit {
       ]
     };
   }
-  /*private applicationDeleteClick(index,event): void {
-    this.observableService.modalType="modal-delete-user";
+  private applicationDeleteClick(index,application): void {
+    this.observableService.modalType="modal-delete-application";
     if(this.observableService.modalCount<1){
       this.staticModalShow();
       this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
         this.subscriptionObservable.unsubscribe();
-        if (res.hasOwnProperty('option') && res.option === 'modal-delete-user') {
-          this.applicationService.deleteEvent(this.authService.user.username,event._id,this.localizeService.parser.currentLang).subscribe(data=>{
+        if (res.hasOwnProperty('option') && res.option === 'modal-delete-application') {
+          this.applicationService.deleteApplication(this.authService.user.username,application._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){ 
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               // Destroy the table first
               dtInstance.destroy();
-              this.events.splice(index,1);
+              this.applications.splice(index,1);
               // Call the addTrigger to rerender again
               this.dtTrigger.next();
             }); 
@@ -97,22 +96,9 @@ export class ApplicationsAdministratorComponent implements OnInit {
         }
       });
     }
-  }*/
-    // Function to get events from the database
-  private getApplications() {
-    this.applicationService.getApplications(this.localizeService.parser.currentLang).subscribe(data => {
-      if(data.success){
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-          // Destroy the table first
-          dtInstance.destroy();
-          this.applications=data.applications;
-          this.dtTrigger.next();
-        });
-      }
-    });
   }
-   // Function to get events from the database
-  private getApplicationsInit() {
+   // Function to get applications from the database
+  private getApplications() {
     this.applicationService.getApplications(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.applications=data.applications;
@@ -130,13 +116,7 @@ export class ApplicationsAdministratorComponent implements OnInit {
       }
     });
     this.createSettings(); 
-    this.getApplicationsInit();
-    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.localizeService.parser.currentLang=event.lang;
-      this.getApplications(); 
-    });
+    this.getApplications();
   }
-  ngOnDestroy(){
-      this.subscriptionLanguage.unsubscribe();
-  }
+
 }

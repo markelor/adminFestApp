@@ -1,5 +1,5 @@
 <!-- Custom Success/Error Message -->
-<div class="row">
+<div *ngIf="message" class="row show-hide-message">
   <div [ngClass]="messageClass">
     {{ message }}
   </div>
@@ -29,7 +29,7 @@
     <!-- File upload start-->
     <div class="col-sm-12">
       <div class="form-group required">
-        <label for="fileUploadArcheology" translate>{{'event-form.images'}}</label>
+        <label for="fileUploadImages" translate>{{'event-form.images'}}</label>
         <button class="btn btn-primary ks-btn-file d-block">
           <span class="la la-cloud-upload ks-icon"></span>
           <span class="ks-text" translate>{{'event-form.choose-images'}}</span>
@@ -52,7 +52,7 @@
             <tr *ngFor="let item of uploader.queue">
               <td>
                 <div class="media-left">
-                  <img *ngIf="item.isUploaded" class="img-rounded" width="80" height="80" src="https://s3.eu-west-1.amazonaws.com/culture-bucket%2Fposter/{{item.file.name}}" class="media-object" />
+                  <img *ngIf="item.isUploaded" class="img-rounded" width="80" height="80" src="https://s3.eu-west-1.amazonaws.com/culture-bucket%2Fapplication/{{item.file.name}}" class="media-object" />
                   <img *ngIf="!item.isUploaded" class="img-rounded" width="80" height="80" src="" appImagePreview [image]="item?._file" class="media-object" />
                 </div>
               </td>

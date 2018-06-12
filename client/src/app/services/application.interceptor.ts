@@ -43,8 +43,7 @@ export class ApplicationInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });
-      }
-      else if(request.url===this.domain+"application/getApplication/"+this.applicationService.route+this.localizeService.parser.currentLang){
+      }else if(request.url===this.domain+"application/getApplication/"+this.applicationService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
@@ -52,15 +51,15 @@ export class ApplicationInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });  
-      }else if(request.url===this.domain+"application/getApplicationUser/"+this.applicationService.route+this.localizeService.parser.currentLang){
+      }else if(request.url===this.domain+"application/editApplication"){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+this.authService.authToken, // Attach token
             'language':this.localizeService.parser.currentLang
           }
-        });  
-      } else if(request.url===this.domain+"application/editApplication"){
+        }); 
+      }else if(request.url===this.domain+"application/deleteApplication/"+this.applicationService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

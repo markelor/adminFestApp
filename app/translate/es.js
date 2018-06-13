@@ -173,8 +173,10 @@ module.exports = {
     },
     //newCategory
     newCategory: {
+        idProvidedError: 'El ID de la categoría, no fue proporcionado.',
         titleProvidedError: "El título de la categoría es requerida.",
         descriptionProvidedError: "La descripción del la categoría es requerida.",
+        categoriesError: "No se encontró la categoría.",
         saveError: "No se pudo guardar la categoría. Error:",
         success: "¡Categoría guardada!"
     },
@@ -201,6 +203,18 @@ module.exports = {
         userError: "No se encontró el usuario.",
         saveError: "No se pudo guardar la aplicación. Error:",
         success: "¡Aplicación guardada!"
+    },
+    //newService
+    newService: {
+        idProvidedError: 'El ID del servicio, no fue proporcionado.',
+        serviceTypeIdProvidedError: "El ID del tipo de servicio es requerido.",
+        titleProvidedError: "El título del servicio es requerido.",
+        descriptionProvidedError: "La descripción del servicio es requerido.",
+        latProvidedError: 'La latitud no fue proporcionada.',
+        lngProvidedError: 'La longitud no fue proporcionada.',
+        servicesError: "No se encontró el servicio.",
+        saveError: "No se pudo guardar el servicio. Error:",
+        success:"!Servicio guardado!"
     },
     //userEvents
     userEvents: {
@@ -256,16 +270,6 @@ module.exports = {
           locationProvidedError: "La localización es requerida.",
         saveError: "No se pudo guardar el lugar. Error:",
         success: "¡Lugar guardado!"
-    },
-    categories: {
-        idProvidedError: 'El ID de la categoría, no fue proporcionado.',
-        categoriesError: "No se encontraron categorías.",
-        thematicProvidedError: "La temática no fue proporcionada.",
-        visibleProvidedError: "El parametro visible no fue proporcionado.",
-        themeProvidedError: "El tema no fue proporcionado.",
-        classProvidedError: "La clase no fue proporcionada.",
-        countryProvidedError: "El país no fue proporcionado.",
-        regionProvidedError: "La región no fue proporcionada."
     },
     singleTheme: {
         paramProvidedError: "El ID del tema, no fue proporcionado.",

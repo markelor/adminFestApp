@@ -899,7 +899,9 @@ module.exports = (router) => {
                                                             }
                                                         });
                                                     }
-                                                    deleteImages(application.images, "application");
+                                                    if (application.images.length > 0) {
+                                                        deleteImages(application.images, "application");
+                                                    }
                                                 });
                                             }
                                         }

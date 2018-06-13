@@ -23,7 +23,10 @@
       <div class="form-group required" [ngClass]="{'has-error': (!entityName.valid && entityName.dirty), 'has-success': (entityName.valid && entityName.value)}">
         <label for="inputEntity" translate>{{'application-form.entity-name'}}</label>
         <input [formControl]="entityName" capitalize type="text" class="form-control" id="inputEntity">
+       <!-- Validation -->
+        <span *ngIf="entityName.errors?.required && entityName.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
         <span *ngIf="entityName.errors?.minlength && entityName.dirty || entityName.errors?.maxlength && entityName.dirty " class="help-block form-error" translate>{{'validation.entityName-length'}}</span>
+        <span *ngIf="entityName.errors?.validateAlphanumeric && entityName.dirty" class="help-block form-error" translate>{{'validation.entityName-validation'}}</span>
       </div>
     </div>
     <!-- File upload start-->

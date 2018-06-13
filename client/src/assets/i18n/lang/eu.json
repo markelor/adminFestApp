@@ -16,6 +16,7 @@
   "events-route": "ekintzak",
   "application-route": "aplikazioa",
   "applications-route": "aplikazioak",
+  "service-route": "zerbitzua",
   "details-route": "xehetasunak",
   "region-route": "eskualdea",
   "user-route": "erabiltzailea",
@@ -31,6 +32,7 @@
     "event": "Ekintza",
     "application": "Aplikazioa",
     "applications": "Aplikazioak",
+    "service":"Zerbitzuak",
     "administrator": "Administratzailea",
     "users": "Erabiltzaileak",
     "events": "Ekintzak"
@@ -204,6 +206,14 @@
     "conditions": "Baldintzak",
     "price": "Prezioa",
     "expiry-date": "Iraungitze data",
+    "send": "Bidali"
+  },
+  "service-form":
+  {
+    "title": "Izenburua",
+    "description": "Deskribapena",
+    "lat": "Koordenatuak I-H (Lat)",
+    "lng": "Koordenatuak E-M (Lng)",
     "send": "Bidali"
   },
     "crud":

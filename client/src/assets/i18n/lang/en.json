@@ -16,6 +16,7 @@
   "events-route": "events",
   "application-route": "application",
   "applications-route": "applications",
+  "service-route": "service",
   "details-route": "details",
   "region-route": "region",
   "user-route": "user",
@@ -29,11 +30,14 @@
     "create": "Create",
     "category": "Category",
     "event": "Event",
-    "application": "Applications",
+    "application": "Application",
+    "applications": "Applications",
+    "service":"Service",
     "administrator": "Administrator",
     "users": "Users",
     "events": "Events"
   },
+
   "dashboard":
   {
     "acquisition_channels": "Acquisition Channels",
@@ -200,6 +204,14 @@
     "conditions": "Conditions",
     "price": "Price",
     "expiry-date": "Expiry date",
+    "send": "Send"
+  },
+  "service-form":
+  {
+    "title": "Title",
+    "description": "Description",
+    "lat": "Coordinates N-S (Lat)",
+    "lng": "Coordinates E-W (Lng)",
     "send": "Send"
   },
   "crud":

@@ -459,7 +459,7 @@ export class EventFormComponent implements OnInit {
       }
     });  
   }
-  private deleteEditImages(){
+  private deleteEditImages(deleteImage){
      //see delete images
     var deleteImages=[];
     for (var i = 0; i < this.imagesPoster.length; ++i) {
@@ -470,7 +470,7 @@ export class EventFormComponent implements OnInit {
         this.imagesPoster.splice(i,1);            
       }
     }
-    if(deleteImages.length>0){
+    if(deleteImages.length>0 && deleteImage){
       this.deleteUploadImages('poster',deleteImages);
     }
   }
@@ -486,10 +486,10 @@ export class EventFormComponent implements OnInit {
       this.inputEvent.categoryId=this.categoryId[this.categoryId.length-1]; 
       this.inputEvent.place.coordinates.lat=Number(this.form.get('lat').value); // Lat field
       this.inputEvent.place.coordinates.lng=Number(this.form.get('lng').value); // Lng field
-      this.deleteEditImages();
       //event translation
       for (var i = 0; i < this.inputEvent.translation.length; ++i) {
         if(this.inputEvent.translation[i].language===this.inputLanguage){
+          this.deleteEditImages(true);
           hasTranslationEvent=true;
           this.inputEvent.translation[i].language=this.inputLanguage;// Language field  
           this.inputEvent.translation[i].createdBy=this.authService.user.username;// Language field      
@@ -515,6 +515,7 @@ export class EventFormComponent implements OnInit {
       if(!hasTranslationEvent){
         //if event has original language and not has translation
         if(this.inputEvent.language===this.inputLanguage){
+          this.deleteEditImages(true);
           this.inputEvent.language=this.inputLanguage;// Language field   
           this.inputEvent.createdBy=this.authService.user.username;// Language field       
           this.inputEvent.title=this.form.get('title').value; // Title field
@@ -522,7 +523,9 @@ export class EventFormComponent implements OnInit {
           this.inputEvent.observations=this.form.get('observations').value; // Observations field     
           this.inputEvent.images.description=this.imagesDescription;  
         }else{
+          this.deleteEditImages(false);
           this.inputEvent.images.poster=this.inputEventCopy.images.poster;
+          this.inputEvent.translate=this.inputEventCopy.images.poster;
           //event push new translation
           var eventTranslationObj={
             language:this.inputLanguage,
@@ -531,11 +534,12 @@ export class EventFormComponent implements OnInit {
             description:this.form.get('description').value,
             observations:this.form.get('observations').value,
             images:{
-              poster:this.imagesPoster,
-              description:this.imagesDescription
+              poster:JSON.parse(JSON.stringify(this.imagesPoster)),
+              description:JSON.parse(JSON.stringify(this.imagesDescription))
             }
           }
-          this.inputEvent.translation.push(eventTranslationObj);        
+          this.inputEvent.translation.push(eventTranslationObj);   
+          console.log(this.inputEvent);     
         }
       }
       if(!hasTranslationPlace){

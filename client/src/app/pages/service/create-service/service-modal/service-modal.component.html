@@ -33,26 +33,23 @@
   <div class="modal-body">
   <div class="tab-content">
     <div (click)="clickLanguage('eu')" class="tab-pane nav-eu" id="tab1" role="tabpanel">
-      <app-service-form *ngIf="inputParentCategories && inputCategory" 
+      <app-service-form *ngIf="inputService" 
         [inputOperation]="'edit'" 
-        [inputCategory]="inputCategory" 
-        [inputParentCategories]="inputParentCategories" 
+        [inputService]="inputService" 
         [inputLanguage]="'eu'">
       </app-service-form>   
     </div>
     <div (click)="clickLanguage('es')" class="tab-pane nav-es" id="tab2" role="tabpanel" >
-      <app-service-form *ngIf="inputParentCategories && inputCategory" 
+      <app-service-form *ngIf="inputService" 
         [inputOperation]="'edit'" 
-        [inputCategory]="inputCategory" 
-        [inputParentCategories]="inputParentCategories" 
+        [inputService]="inputService" 
         [inputLanguage]="'es'">
       </app-service-form>  
     </div>
     <div (click)="clickLanguage('en')" class="tab-pane nav-en" id="tab3" role="tabpanel">
-      <app-service-form *ngIf="inputParentCategories && inputCategory" 
+      <app-service-form *ngIf="inputService" 
         [inputOperation]="'edit'" 
-        [inputCategory]="inputCategory" 
-        [inputParentCategories]="inputParentCategories" 
+        [inputService]="inputService" 
         [inputLanguage]="'en'">
       </app-service-form>   
     </div>

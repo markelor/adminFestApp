@@ -1,0 +1,63 @@
+<!-- Custom Success/Error Message -->
+<div class="row">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+<!-- Service Form -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-horizontal">
+  <div class="row">
+    <!-- Title -->
+    <div class="col-sm-12">
+      <div class="form-group required" [ngClass]="{'has-error': (!title.valid && title.dirty), 'has-success': (title.valid)}">
+        <label for="inputTitle" translate>{{'service-form.title'}}</label>
+        <input [formControl]="title" capitalize type="text" class="form-control" id="inputTitle">
+        <!-- Validation -->
+        <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <span *ngIf="title.errors?.minlength && title.dirty || title.errors?.maxlength && title.dirty " class="help-block form-error" translate>{{'validation.title-length'}}</span>
+        <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
+      </div>
+    </div>
+    <!-- Description -->
+    <div class="col-sm-12">
+      <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
+        <label for="textareaDescription" translate>{{'service-form.description'}}</label>
+        <textarea [formControl]="description" capitalize class="form-control"></textarea>
+        <!-- Validation -->
+        <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.description-length'}}</span>
+      </div>
+    </div>
+    <!-- Latitude -->
+    <div class="col-sm-6">
+      <div class="form-group required" [ngClass]="{'has-error': (!lat.valid && lat.dirty), 'has-success': (lat.valid)}">
+        <label for="inputLat" translate>{{'service-form.lat'}}</label>
+        <input [formControl]="lat" type="text" class="form-control" id="inputLat">
+        <!-- Validation -->
+        <span *ngIf="lat.errors?.required && lat.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <span *ngIf="lat.errors?.validateLatitude && lat.dirty" class="help-block form-error" translate>{{'validation.latitude-validation'}}</span>
+      </div>
+    </div>
+    <!-- Longitude -->
+    <div class="col-sm-6 ">
+      <div class="form-group required" [ngClass]="{'has-error': (!lng.valid && lng.dirty), 'has-success': (lng.valid)}">
+        <label for="inputLng" translate>{{'service-form.lng'}}</label>
+        <input [formControl]="lng" type="text" class="form-control" id="inputLng">
+        <!-- Validation -->
+        <span *ngIf="lng.errors?.required && lng.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <span *ngIf="lng.errors?.validateLongitude && lng.dirty" class="help-block form-error" translate>{{'validation.longitude-validation'}}</span>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="form-group text-center">
+        <event-form-map></event-form-map>
+      </div>
+    </div>
+    <!-- Submit Button -->
+    <div class="col-sm-12" *ngIf="inputOperation==='create'">
+      <div class="form-group text-center">
+        <button [disabled]="!title.valid || !description.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'service-form.send'}}</button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -174,8 +174,10 @@ module.exports = {
     },
     //newCategory
     newCategory: {
+        idProvidedError: 'Category ID was not provided.',
         titleProvidedError: "Category title is required.",
         descriptionProvidedError: "Category description is required.",
+        categoriesError: "Categories not found.",
         saveError: "Could not save category. Error:",
         success: "Category saved!"
     },
@@ -202,6 +204,18 @@ module.exports = {
         userError: "No user found.",
         saveError: "Could not save application. Error:",
         success: "Application saved!"
+    },
+     //newService
+    newService: {
+        idProvidedError: 'Service ID was not provided.',
+        serviceTypeIdProvidedError: "Service type ID is required.",
+        titleProvidedError: "Service title is required.",
+        descriptionProvidedError: "Service description is required.",
+        latProvidedError: 'Latitude was not provided.',
+        lngProvidedError: 'Longitude was not provided.',
+        servicesError: "Services not found.",
+        saveError: "Could not save service. Error:",
+        success: "Service saved!"
     },
     //userEvents
     userEvents: {
@@ -257,16 +271,6 @@ module.exports = {
         locationProvidedError: "Location is required.",
         saveError: "Could not save place. Error:",
         success: "Place saved!"
-    },
-    categories: {
-        idProvidedError: 'Category ID was not provided.',
-        categoriesError: "No categories found.",
-        thematicProvidedError: "Thematic was not provided.",
-        visibleProvidedError: "Visible parameter was not provided.",
-        themeProvidedError: "Theme was not provided.",
-        classProvidedError: "Class was not provided.",
-        countryProvidedError: "Country was not provided.",
-        regionProvidedError: "Country was not provided."
     },
     singleTheme: {
         paramProvidedError: "Theme ID was not provided.",

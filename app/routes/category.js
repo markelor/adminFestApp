@@ -113,7 +113,7 @@ module.exports = (router) => {
                 } else {
                     // Check if categories were found in database
                     if (!categories) {
-                        res.json({ success: false, message: eval(language + '.categories.categoriesError') }); // Return error of no categories found
+                        res.json({ success: false, message: eval(language + '.newCategory.categoriesError') }); // Return error of no categories found
                     } else {
                         res.json({ success: true, categories: categories }); // Return success and categories array
                     }
@@ -132,7 +132,7 @@ module.exports = (router) => {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.params.id) {
-                res.json({ success: false, message: eval(language + '.categories.idProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.newCategory.idProvidedError') }); // Return error
             } else {
                 if (req.params.id === "null") {
                     req.params.id = null;
@@ -164,7 +164,7 @@ module.exports = (router) => {
                     } else {
                         // Check if categories were found in database
                         if (!categories) {
-                            res.json({ success: false, message: eval(language + '.categories.categoriesError') }); // Return error of no categories found
+                            res.json({ success: false, message: eval(language + '.newCategory.categoriesError') }); // Return error of no categories found
                         } else {
                             res.json({ success: true, categories: categories }); // Return success and categories array
                         }

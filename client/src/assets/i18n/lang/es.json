@@ -15,6 +15,7 @@
   "events-route": "eventos",
   "application-route": "aplicacion",
   "applications-route": "aplicaciones",
+  "service-route": "servicio",
   "details-route": "detalles",
   "region-route": "region",
   "user-route": "usuario",
@@ -30,6 +31,7 @@
     "event": "Evento",
     "application": "Aplicación",
     "applications": "Aplicaciones",
+    "service":"Servicios",
     "administrator": "Administrador",
     "users": "Usuarios",
     "events": "Eventos"
@@ -202,6 +204,14 @@
     "conditions": "Condiciones",
     "price": "Precio",
     "expiry-date": "Fecha de caducidad",
+    "send": "Enviar"
+  },
+  "service-form":
+  {
+    "title": "Título",
+    "description": "Descripción",
+    "lat": "Coordenadas N-S (Lat)",
+    "lng": "Coordenada E-O (Lng)",
     "send": "Enviar"
   },
   "crud":

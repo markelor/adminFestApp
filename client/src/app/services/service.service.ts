@@ -19,13 +19,8 @@ export class ServiceService {
     return this.http.post<any>(this.domain + 'service/newService', service);
   }
    // Function to get ccategories from the database
-  public getCategories(language) {
-    return this.http.get<any>(this.domain + 'service/getCategories/'+language);
-  }
-   // Function to get ccategories from the database
-  public getChildCategories(id,language) {
-    this.route=  encodeURIComponent(id)+'/';
-    return this.http.get<any>(this.domain + 'service/childCategories/'+ this.route+language);
+  public getServices(language) {
+    return this.http.get<any>(this.domain + 'service/getServices/'+language);
   }
   // Function to delete a service
   public deleteService(id,language) {

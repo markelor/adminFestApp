@@ -173,8 +173,10 @@ module.exports = {
     },
     //newCategory
     newCategory: {
+        idProvidedError: 'Ez da kategoriaren IDa eman.',
         titleProvidedError: "Kategoriaren izenburua beharrezkoa da.",
         descriptionProvidedError: "Kategoriaren deskribapena beharrezkoa da.",
+        categoriesError: "Kategoria ez da aurkitu.",
         saveError: "Kategoria ezin da gorde. Errorea:",
         success: "Kategoria gorde da!"
     },
@@ -201,6 +203,18 @@ module.exports = {
         userError: "Erabiltzailea ez da aurkitu.",
         saveError: "Aplikazioa ezin da gorde. Errorea:",
         success: "Aplikazioa gorde da!"
+    },
+    //newService
+    newService: {
+        idProvidedError: 'Ez da categoriaren IDa eman.',
+        serviceTypeIdProvidedError: "Zerbitzu motaren IDa beharrezkoa da.",
+        titleProvidedError: "Zerbitzuaren izenburua beharrezkoa da.",
+        descriptionProvidedError: "Zerbitzuaren deskribapena beharrezkoa da.",
+        latProvidedError: 'Latitudea ez da eman.',
+        lngProvidedError: 'Luzeera ez da eman.',
+        servicesError: "Zerbitzua ez da aurkitu.",
+        saveError: "Zerbitzua ezin da gorde. Errorea:",
+        success: "Zerbitzua gorde da!"
     },
     //userEvents
     userEvents: {
@@ -256,16 +270,6 @@ module.exports = {
         locationProvidedError: "Kokapena beharrezkoa da.",
         saveError: "Lekua ezin da gorde. Errorea:",
         success: "Lekua gorde da!"
-    },
-    categories: {
-        idProvidedError: 'Ez da categoriaren IDa eman.',
-        categoriesError: "Ez da kategoriarik aurkitu.",
-        thematicProvidedError: "Ez da tematika eman.",
-        visibleProvidedError: "Ez da ikusgai parametroa eman.",
-        themeProvidedError: "Ez da gaia eman.",
-        classProvidedError: "Ez da mota eman.",
-        countryProvidedError: "Herrialdea ez da eman.",
-        regionProvidedError: "Eskualdea ez da eman."
     },
     singleTheme: {
         paramProvidedError: "Ez da gaiaren IDa eman.",

@@ -1,19 +1,10 @@
-export class Service{
-	serviceTypeId: string;
+export class ServiceType{
 	language: string;
     title: string;
-    description: string;
-    lat:number;
-    lng:number;
+    icon: string;
     createdAt: Date;
     updatedAt: Date; 
 
-    get getServiceTypeId():string {
-        return this.serviceTypeId;
-    }
-    set setServiceTypeId(serviceTypeId:string) {
-        this.serviceTypeId = serviceTypeId;
-    }
     get getLanguage():string {
         return this.language;
     }
@@ -26,23 +17,11 @@ export class Service{
     set setTitle(title:string) {
         this.title = title;
     }
-    get getDescription():string {
-        return this.description;
+    get getIcon():string {
+        return this.icon;
     }
-    set setDescription(description:string) {
-        this.description = description;
-    }
-    get getLat():number {
-        return this.lat;
-    }
-    set setLat(lat:number) {
-        this.lat = lat;
-    }
-    get getLng():number {
-        return this.lng;
-    }
-    set setLng(lng:number) {
-        this.lng = lng;
+    set setIcon(icon:string) {
+        this.icon = icon;
     }
     get getCreatedAt():Date {
         return this.createdAt;

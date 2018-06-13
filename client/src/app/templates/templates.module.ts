@@ -1,4 +1,3 @@
-
 export  class CreateModule { }
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +17,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { EventFormComponent } from './forms/event-form/event-form.component';
 import { CategoryFormComponent } from './forms/category-form/category-form.component';
+import { ServiceFormComponent } from './forms/service-form/service-form.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MapModule } from '../pages/map/map.module';
 import { AgmCoreModule } from '@agm/core';
@@ -36,10 +36,10 @@ import { EventsApplicationFormComponent } from './forms/events-application-form/
     SharedModule,TranslateModule,TemplatesRoutingModule,DataTablesModule,NgbModule
   ],
   declarations: [
-  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent,CategoryFormComponent, FormsComponent, EventsApplicationFormComponent
+  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent,CategoryFormComponent, FormsComponent, EventsApplicationFormComponent,ServiceFormComponent
   ],
   exports: [
-    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent,CategoryFormComponent, EventsApplicationFormComponent
+    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent,CategoryFormComponent, FormsComponent, EventsApplicationFormComponent,ServiceFormComponent
     ],
    providers:[
    	GroupByPipe,SpacePipe,BindContentPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}

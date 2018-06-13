@@ -73,12 +73,10 @@ const descriptionValidators = [
 const serviceTypeSchema = new Schema({
     language: { type: String, required: true },
     title: { type: String, required: true, validate: titleValidators },
-    description: { type: String, required: true, validate: descriptionValidators },
     icon:{type: String, required: true},
     translation: [{
         language: { type: String, required: true },
         title: { type: String, required: true, validate: titleValidators },
-        description: { type: String, required: true, validate: descriptionValidators },
         _id: false
     }],
     createdAt: { type: Date, required: true },

@@ -23,13 +23,6 @@ module.exports = (router) => {
             pass: emailConfig.password
         }
     });
-    router.use(function(req, res, next) { //allow cross origin requests
-        res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        res.header("Access-Control-Allow-Credentials", true);
-        next();
-    });
     var s3 = new aws.S3(config);
     /* ===============================================================
        CREATE NEW category
@@ -262,7 +255,6 @@ module.exports = (router) => {
             if (!req.params.username) {
                 res.json({ success: false, message: eval(language + '.userEvents.usernameProvidedError') }); // Return error
             } else {
-                console.log(req.params);
                 Event.find({
                     $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                     $or: [{ createdBy: req.params.username }, { translation: { $elemMatch: { createdBy: req.params.username } } }]
@@ -332,7 +324,7 @@ module.exports = (router) => {
             ]).exec(function(err, events) {
                 // Check if places were found in database
                 if (!events) {
-                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
+                    res.json({ success: false, message: eval(language + '.eventsSearch.eventsError') }); // Return error of no places found
                 } else {
                     res.json({ success: true, events: events }); // Return success and place 
                 }
@@ -571,8 +563,8 @@ module.exports = (router) => {
                                                         res.json({ success: false, message: eval(language + '.general.generalError') });
                                                     } else {
                                                         //save traduction
-                                                        function eventSave(place) {                                                            
-                                                            place.translation=req.body.place.translation;
+                                                        function eventSave(place) {
+                                                            place.translation = req.body.place.translation;
                                                             place.save((err, place) => {
                                                                 // Check if error
                                                                 if (err) {
@@ -964,6 +956,7 @@ module.exports = (router) => {
                                                                     });
                                                                 }
                                                             }
+                                                            console.log(imagesKey);
                                                             s3.deleteObjects({
                                                                 Bucket: "culture-bucket",
                                                                 Delete: {
@@ -990,14 +983,23 @@ module.exports = (router) => {
                                                                         }
                                                                     });
                                                                     res.json({ success: false, message: eval(language + '.fileUpload.deleteError') });
-                                                                } else {
-                                                                    if (bucket === "poster") {
-                                                                        deleteImages(event.images.description, "description");
-                                                                    }
-                                                                }
+                                                                } else {}
                                                             });
                                                         }
-                                                        deleteImages(event.images.poster, "poster");
+                                                        if (event.images.poster.length>0) {
+                                                            deleteImages(event.images.poster, "poster");
+                                                        }
+                                                        if (event.images.description.length>0) {
+                                                            deleteImages(event.images.description, "description");
+                                                        }
+                                                        for (var i = 0; i < event.translation.length; i++) {
+                                                            if (event.translation[i].images.poster.length>0) {
+                                                                deleteImages(event.translation[i].images.poster, "poster");
+                                                            }
+                                                            if (event.translation[i].images.description.length>0) {
+                                                                deleteImages(event.translation[i].images.description, "description");
+                                                            }
+                                                        }
                                                     }
                                                 });
                                             }

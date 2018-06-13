@@ -25,10 +25,9 @@ export class CreateServiceComponent implements OnInit {
   private subscriptionObservableDelete: Subscription;
   private subscriptionLanguage: Subscription;
   private submitted:boolean = false;
-  private parentCategories;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
-  private categories;
+  private services;
   private dtOptions: any = {};
   private dtTrigger: Subject<any> = new Subject();
   constructor(
@@ -43,7 +42,6 @@ export class CreateServiceComponent implements OnInit {
   private serviceStaticModalShow(service) {
     const activeModal = this.modalService.open(ServiceModalComponent, {backdrop: 'static'});
     activeModal.componentInstance.inputService = service;
-    activeModal.componentInstance.inputParentCategories = this.parentCategories;
 
   }
   private staticModalShow() {
@@ -84,7 +82,6 @@ export class CreateServiceComponent implements OnInit {
         if (res.hasOwnProperty('option') && res.option === 'modal-delete-service') {
           this.serviceService.deleteService(service._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){  
-              this.parentCategories.splice(index,1);
               this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
               this.message = data.message; // Set success messag
             }else{
@@ -100,29 +97,27 @@ export class CreateServiceComponent implements OnInit {
     this.subscriptionObservableSuccess=this.observableService.notifyObservable.subscribe(res => {
       console.log(res);
       if (res.hasOwnProperty('option') && res.option === 'modal-edit-service-success') {
-       this.getCategories();
+       this.getServices();
       } 
     });   
   }
- private getCategoriesInit(){
+ private getServicesInit(){
     //Get thematic
-      this.serviceService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
-        if(data.success){        
-          this.parentCategories=data.categories;   
-          this.categories=this.groupByPipe.transform(data.categories,'firstParentId');
+      this.serviceService.getServices(this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success){           
+          this.services=this.groupByPipe.transform(data.services,'firstParentId');
           this.dtTrigger.next();
         }    
       });                 
   }
-  private getCategories(){
+  private getServices(){
     //Get thematic
-      this.serviceService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
+      this.serviceService.getServices(this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success){    
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
-            this.parentCategories=data.categories; 
-            this.categories=this.groupByPipe.transform(data.categories,'firstParentId');
+            this.services=this.groupByPipe.transform(data.services,'firstParentId');
             this.dtTrigger.next();
           });
         }    
@@ -135,11 +130,11 @@ export class CreateServiceComponent implements OnInit {
       this.style.height = (this.scrollHeight) + 'px';
     });
     this.createSettings(); 
-    this.getCategoriesInit();
+    this.getServicesInit();
     this.observableServiceSuccess();
     this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.localizeService.parser.currentLang=event.lang;
-      this.getCategories(); 
+      this.getServices(); 
     });
   	/*this.authService.getAllServices(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){

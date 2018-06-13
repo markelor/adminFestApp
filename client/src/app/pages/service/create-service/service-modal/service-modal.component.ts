@@ -13,7 +13,6 @@ import { TranslateService } from '@ngx-translate/core';
 export class ServiceModalComponent implements OnInit {
   private tabLanguage:string;
   @Input() inputService;
-  @Input() inputParentCategories;
   constructor(
   	private localizeService:LocalizeRouterService,
     private activeModal: NgbActiveModal,

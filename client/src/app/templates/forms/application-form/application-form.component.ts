@@ -115,7 +115,12 @@ export class ApplicationFormComponent implements OnInit {
         Validators.minLength(5),
         AlphanumericValidator.validate
       ])],
-      entityName: [''],
+      entityName: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(35),
+        Validators.minLength(5),
+        AlphanumericValidator.validate
+      ])],
       user: [''],
       license: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/

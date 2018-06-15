@@ -68,50 +68,12 @@ const descriptionValidators = [
         message: '.validation.eventDescriptionLength'
     }
 ];
-// Validate Function to check if valid latidude format
-let latitudeChecker = (lat) => {
-    // Check if lat exists
-    if (!lat) {
-        return false; // Return error
-    } else {
-        // Regular expression to test for a valid latitude
-        const regExp = new RegExp(/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/);
-        return regExp.test(lat); // Return regular expression test results (true or false)
-    }
-};
 
-// Array of Latitude validators
-const latitudeValidators = [
-    // First latitude validator
-    {
-        validator: latitudeChecker,
-        message: '.validation.latitudeValid'
-    }
-];
-// Validate Function to check if valid longitude format
-let longitudeChecker = (lng) => {
-    // Check if lng exists
-    if (!lng) {
-        return false; // Return error
-    } else {
-        // Regular expression to test for a valid longitude
-        const regExp = new RegExp(/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/);
-        return regExp.test(lng); // Return regular expression test results (true or false)
-    }
-};
-
-// Array of Longitude validators
-const longitudeValidators = [
-    // First longitude validator
-    {
-        validator: longitudeChecker,
-        message: '.validation.longitudeValid'
-    }
-];
 
 // Service Model Definition
 const serviceSchema = new Schema({
     serviceTypeId: { type: Schema.Types.ObjectId, required: true },
+    placeId: { type: Schema.Types.ObjectId, required: true },
     language: { type: String, required: true },
     title: { type: String, required: true, validate: titleValidators },
     description: { type: String, required: true, validate: descriptionValidators },
@@ -123,10 +85,6 @@ const serviceSchema = new Schema({
         images: { type: Array, required: true },
         _id: false
     }],
-    coordinates: {
-        lat: { type: Number, requireed: true, validate: latitudeValidators },
-        lng: { type: Number, requireed: true, validate: longitudeValidators }
-    },
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });

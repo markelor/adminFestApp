@@ -23,4 +23,7 @@ export class PlaceService {
     this.language=language;
     return this.http.get<any>(this.domain + 'place/getPlacesCoordinates/'+this.route+language);
   }
+  public getGeonamesJson(geonameType,language,name){
+    return this.http.get<any>('assets/json/'+geonameType+'/'+language+'/'+name+'.json');     
+  }
 }

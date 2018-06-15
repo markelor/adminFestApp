@@ -35,61 +35,73 @@ module.exports = (router) => {
     /* ===============================================================
         GET S3 options
     =============================================================== */
-    router.get('/getSignatureFroala', (req, res) => {
-        var configs = {
-            // The name of your bucket.
-            bucket: 'culture-bucket',
+    router.get('/getSignatureFroala/:bucket/:language', (req, res) => {
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            if (!req.params.bucket) {
+                res.json({ success: false, message: eval(language + '.fileUpload.bucketError') });
+            } else {
+                var configs = {
+                    // The name of your bucket.
+                    bucket: 'culture-bucket',
 
-            // S3 region. If you are using the default us-east-1, it this can be ignored.
-            region: config.region,
+                    // S3 region. If you are using the default us-east-1, it this can be ignored.
+                    region: config.region,
 
-            // The folder where to upload the images.
-            keyStart: 'description/',
+                    // The folder where to upload the images.
+                    keyStart: req.params.bucket + '/',
 
-            // File access.
-            acl: 'public-read',
-            // AWS keys.
-            accessKey: config.accessKeyId,
-            secretKey: config.secretAccessKey
-        };
+                    // File access.
+                    acl: 'public-read',
+                    // AWS keys.
+                    accessKey: config.accessKeyId,
+                    secretKey: config.secretAccessKey
+                };
 
-        var s3Hash = FroalaEditor.S3.getHash(configs);
-        //res.send(s3Hash);
-        res.json({ success: true, options: s3Hash }); // Return connection error
+                var s3Hash = FroalaEditor.S3.getHash(configs);
+                //res.send(s3Hash);
+                res.json({ success: true, options: s3Hash }); // Return connection error
+            }
+        }
     });
 
     /* ===============================================================
        POST file uploader
     =============================================================== */
     router.post('/uploadImages/:bucket', function(req, res, next) {
-        var bucket = req.params.bucket;
-        var upload = multer({
-            storage: multerS3({
-                s3: s3,
-                bucket: 'culture-bucket/' + bucket,
-                acl: 'public-read',
-                contentType: multerS3.AUTO_CONTENT_TYPE,
-                metadata: function(req, file, cb) {
-                    cb(null, { fieldName: file.fieldname });
-                },
-                key: function(req, file, cb) {
-                    cb(null, Date.now().toString() + "_" + file.originalname);
+        var language = req.params.language;
+        if (!language) {
+            language = "eu";
+        }
+        if (!req.params.bucket) {
+            res.json({ success: false, message: eval(language + '.fileUpload.bucketError') });
+        } else {
+            var upload = multer({
+                storage: multerS3({
+                    s3: s3,
+                    bucket: 'culture-bucket/' + req.params.bucket,
+                    acl: 'public-read',
+                    contentType: multerS3.AUTO_CONTENT_TYPE,
+                    metadata: function(req, file, cb) {
+                        cb(null, { fieldName: file.fieldname });
+                    },
+                    key: function(req, file, cb) {
+                        cb(null, Date.now().toString() + "_" + file.originalname);
+                    }
+                })
+            }).array(req.params.bucket, 10);
+
+            upload(req, res, function(err) {
+                if (err) {
+                    res.json({ success: false, message: eval(language + '.fileUpload.uploadError') });
+                } else {
+                    res.json({ success: true, file: req.files, message: eval(language + '.fileUpload.uploadSuccess') });
                 }
-            })
-        }).array(bucket, 10);
+            });
 
-        upload(req, res, function(err) {
-            var language = req.body.language;
-            if (!language) {
-                language = "eu";
-            }
-            if (err) {
-                res.json({ success: false, message: eval(language + '.fileUpload.uploadError') });
-            } else {
-                res.json({ success: true, file: req.files, message: eval(language + '.fileUpload.uploadSuccess') });
-            }
-        });
-
+        }
     });
     /* ===============================================================
        POST file uploader
@@ -178,7 +190,7 @@ module.exports = (router) => {
                                                         if (!user) {
                                                             res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
                                                         } else {
-                                                            var saveErrorPermission=false;
+                                                            var saveErrorPermission = false;
                                                             var url = 'https://s3-' + config.region + '.amazonaws.com/' + bucket + '/' + key;
                                                             // Check if is owner
                                                             if (mainUser._id.toString() === user._id.toString()) {
@@ -284,7 +296,7 @@ module.exports = (router) => {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else { // Check if username was provided
             if (!req.params.username) {
-                res.json({ success: false, message: eval(language + '.fileUpload.usernameProvidedError')}); // Return error
+                res.json({ success: false, message: eval(language + '.fileUpload.usernameProvidedError') }); // Return error
             } else {
                 if (!imageId) {
                     res.json({ success: false, message: eval(language + '.fileUpload.keyError') });
@@ -369,12 +381,12 @@ module.exports = (router) => {
                                                         res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
                                                     } else {
                                                         var index = user.avatars.indexOf(imageId);
-                                                        var saveErrorPermission=false;
+                                                        var saveErrorPermission = false;
                                                         // Check if is owner
                                                         if (mainUser._id.toString() === user._id.toString()) {
                                                             user.avatars.splice(index, 1); // Assign avats to user
-                                                            user.currentAvatar="assets/img/avatars/default-avatar.jpg";
-                                                                                                  
+                                                            user.currentAvatar = "assets/img/avatars/default-avatar.jpg";
+
                                                         } else {
                                                             // Check if the current permission is 'admin'
                                                             if (mainUser.permission === 'admin') {
@@ -383,7 +395,7 @@ module.exports = (router) => {
                                                                     saveErrorPermission = language + '.general.adminOneError';
                                                                 } else {
                                                                     user.avatars.splice(index, 1); // Assign avats to user 
-                                                                    user.currentAvatar="assets/img/avatars/default-avatar.jpg";
+                                                                    user.currentAvatar = "assets/img/avatars/default-avatar.jpg";
                                                                 }
                                                             } else {
                                                                 // Check if the current permission is moderator
@@ -391,7 +403,7 @@ module.exports = (router) => {
                                                                     // Check if contributor making changes has access
                                                                     if (user.permission === 'contributor') {
                                                                         user.avatars.splice(index, 1); // Assign avats to user
-                                                                        user.currentAvatar="assets/img/avatars/default-avatar.jpg";
+                                                                        user.currentAvatar = "assets/img/avatars/default-avatar.jpg";
                                                                     } else {
                                                                         saveErrorPermission = language + '.general.adminOneError';
                                                                     }
@@ -510,12 +522,9 @@ module.exports = (router) => {
                     } else {
                         res.json({ success: true, message: eval(language + '.fileUpload.deleteSuccess') });
                     }
-
                 });
             }
-
         }
-
     });
     return router;
 };

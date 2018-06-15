@@ -18,7 +18,7 @@ import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { AuthGuard} from '../../../pages/guards/auth.guard';
 import * as moment from 'moment';
 declare let $: any;
-const URL = 'http://localhost:8080/fileUploader/uploadImages/poster';
+const URL = 'http://localhost:8080/fileUploader/uploadImages/event-poster';
 const I18N_VALUES = {
   'eu': {
     weekdays: ['As', 'As', 'As', 'Os', 'Os', 'La', 'Ig'],
@@ -98,17 +98,15 @@ export class EventFormComponent implements OnInit {
   private levelCategories=[];
   private participants=[];
   private provincesEvent;
-  private countrysArcheology;
-  private regionsArcheology;
   private municipalitiesEvent;
   private locationsExistsEvent=[];
   private uploadAllSuccess:Boolean=true;
   private froalaSignature;
   private froalaEvent;
   private uploader:FileUploader = new FileUploader({
-    url: URL,itemAlias: 'poster',
+    url: URL,itemAlias: 'event-poster',
     isHTML5: true,
-    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
+    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','image/svg+xml'],
     maxFileSize: 10*1024*1024 // 10 MB
   });
   private uploadOptions;
@@ -258,7 +256,7 @@ export class EventFormComponent implements OnInit {
         } 
       } 
       //Get provinces on page load
-      this.eventService.getEventGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesEvent => {
+      this.placeService.getGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesEvent => {
         this.provincesEvent=provincesEvent.geonames;
         if(this.inputEvent.place.language===this.inputLanguage){
           this.province.setValue(this.inputEvent.place.province.name);
@@ -281,7 +279,7 @@ export class EventFormComponent implements OnInit {
       });  
       //Get municipality on page load      
       if(this.inputEvent.place.municipality){
-        this.eventService.getEventGeonamesJson('municipality',this.inputLanguage,this.inputEvent.place.province.name.toLowerCase()).subscribe(municipalitiesEvent => {
+        this.placeService.getGeonamesJson('municipality',this.inputLanguage,this.inputEvent.place.province.name.toLowerCase()).subscribe(municipalitiesEvent => {
           this.municipalitiesEvent=municipalitiesEvent.geonames;
           this.form.get('municipality').enable(); // Enable municipality field
           if(this.inputEvent.place.language===this.inputLanguage){
@@ -330,14 +328,14 @@ export class EventFormComponent implements OnInit {
       this.lat.setValue(this.inputEvent.place.coordinates.lat);
       //Get lng on page load
       this.lng.setValue(this.inputEvent.place.coordinates.lng);    
-      //Get poster on page load   
+      //Get event-poster on page load   
       var hasTranslation=false;
       for (var i = 0; i < this.inputEvent.translation.length; ++i) {
         if(this.inputEvent.translation[i].language===this.inputLanguage){
           hasTranslation=true;
           this.imagesPoster=this.inputEvent.translation[i].images.poster;
           for (var z = 0; z < this.imagesPoster.length; ++z) {
-            let file = new File([],decodeURIComponent(this.inputEvent.translation[i].images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+            let file = new File([],decodeURIComponent(this.inputEvent.translation[i].images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/event-poster/')[1]);
             let fileItem = new FileItem(this.uploader, file, {});
             fileItem.file.size=this.inputEvent.translation[i].images.poster[z].size;
             fileItem.progress = 100;
@@ -350,7 +348,7 @@ export class EventFormComponent implements OnInit {
       if(!hasTranslation){
         this.imagesPoster=this.inputEvent.images.poster;
         for (var z = 0; z < this.imagesPoster.length; ++z) {
-          let file = new File([],decodeURIComponent(this.inputEvent.images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+          let file = new File([],decodeURIComponent(this.inputEvent.images.poster[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/event-poster/')[1]);
           let fileItem = new FileItem(this.uploader, file, {});
           fileItem.file.size=this.inputEvent.images.poster[z].size;
           fileItem.progress = 100;
@@ -463,7 +461,7 @@ export class EventFormComponent implements OnInit {
      //see delete images
     var deleteImages=[];
     for (var i = 0; i < this.imagesPoster.length; ++i) {
-      let file = new File([],decodeURIComponent(this.imagesPoster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+      let file = new File([],decodeURIComponent(this.imagesPoster[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/event-poster/')[1]);
       let fileItem = new FileItem(this.uploader, file, {});
       if(this.uploader.queue.some(e => e.file.name !== fileItem.file.name)){
         deleteImages.push(this.imagesPoster[i]);
@@ -603,7 +601,7 @@ export class EventFormComponent implements OnInit {
         var currentUrlSplit = images[i].url.split("/");
         let imageName = currentUrlSplit[currentUrlSplit.length - 1];
         var urlSplit = imageName.split("%2F");
-        this.fileUploaderService.deleteImages(urlSplit[0],"poster",this.localizeService.parser.currentLang).subscribe(data=>{
+        this.fileUploaderService.deleteImages(urlSplit[0],"event-poster",this.localizeService.parser.currentLang).subscribe(data=>{
         });
       }
     }else if(type==='descriptionOne'){
@@ -665,7 +663,7 @@ export class EventFormComponent implements OnInit {
       this.form.get('municipality').disable(); // Disable municipality field
     }else{
       this.form.get('municipality').enable(); // Enable municipality field
-      this.eventService.getEventGeonamesJson('municipality',this.localizeService.parser.currentLang,this.provincesEvent[index].toponymName.toLowerCase()).subscribe(municipalitiesEvent => {
+      this.placeService.getGeonamesJson('municipality',this.localizeService.parser.currentLang,this.provincesEvent[index].toponymName.toLowerCase()).subscribe(municipalitiesEvent => {
         this.place.setGeonameIdProvince=this.provincesEvent[index].geonameId;
         this.municipalitiesEvent=municipalitiesEvent.geonames;
       });
@@ -715,7 +713,7 @@ export class EventFormComponent implements OnInit {
     });
     //Get provinces on page load
     if(this.inputOperation==='create'){
-      this.eventService.getEventGeonamesJson('province',this.localizeService.parser.currentLang,'euskal-herria').subscribe(provincesEvent => {
+      this.placeService.getGeonamesJson('province',this.localizeService.parser.currentLang,'euskal-herria').subscribe(provincesEvent => {
         this.provincesEvent=provincesEvent.geonames;
       });
     }
@@ -787,7 +785,7 @@ export class EventFormComponent implements OnInit {
           this.event.setImagesPoster=this.imagesPoster;
           //Image preview update
           for (var j = 0; j < this.imagesPoster.length; ++j) {
-            let file = new File([],decodeURIComponent(this.imagesPoster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/poster/')[1]);
+            let file = new File([],decodeURIComponent(this.imagesPoster[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/event-poster/')[1]);
             let fileItem = new FileItem(this.uploader, file, {});
             fileItem.file.size=this.imagesPoster[j].size;
             fileItem.progress = 100;
@@ -807,7 +805,7 @@ export class EventFormComponent implements OnInit {
     this.uploader.onWhenAddingFileFailed = (fileItem) => {
       if(fileItem.size>10*1024*1024){
         console.log("fitzategi haundiegia");
-      }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif")){
+      }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif" || fileItem.type === "image/svg+xml")){
         console.log("formatu okerra");
       }
       console.log("fail", fileItem);
@@ -825,7 +823,7 @@ export class EventFormComponent implements OnInit {
   private initializeFroala(initControls) {
     this.froalaEvent=initControls;
     var context=this;
-    this.fileUploaderService.getSignatureFroala().subscribe(data=>{
+    this.fileUploaderService.getSignatureFroala("event-description",this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         this.froalaOptions.imageUploadToS3=data.options
         initControls.initialize();

@@ -45,6 +45,7 @@ module.exports = (router) => {
                         language: language,
                         title: req.body.title,
                         description: req.body.description,
+                        icons:req.body.icons,
                         createdAt: Date.now(),
                         updatedAt: Date.now()
                     });
@@ -182,9 +183,10 @@ module.exports = (router) => {
         var language = req.body.language;
         if (req.body.firstParentId) var newFirstParentId = req.body.firstParentId; // Check if a change to firstParentId was requested
         if (req.body.parentId){} var newParentId = req.body.parentId; // Check if a change to parentId was requested
-        if (req.body.level) var newLevel = req.body.level; // Check if a change to level was requested
+        if (req.body.level || req.body.level===0) var newLevel = req.body.level; // Check if a change to level was requested
         if (req.body.title) var newTitle = req.body.title; // Check if a change to title was requested
         if (req.body.description) var newDescription = req.body.description; // Check if a change to description was requested
+        if (req.body.icons) var newIcons = req.body.icons; // Check if a change to icons was requested
         if (req.body.translation) var newTranslation = req.body.translation; //Check if a change to translation was requested
         // Check if id was provided
         if (!language) {
@@ -258,9 +260,10 @@ module.exports = (router) => {
                                                 category.parentId = null;
                                             }  
                                             // Assign new parentId to category in database
-                                            if (newLevel) category.level = newLevel; // Assign new level to category in database
+                                            if (newLevel || newLevel===0) category.level = newLevel; // Assign new level to category in database
                                             if (newTitle) category.title = newTitle; // Assign new title to category in database
                                             if (newDescription) category.description = newDescription; // Assign new description to category in database
+                                            if (newIcons) category.icons = newIcons; // Assign new icons to category in database
                                             if (newTranslation) category.translation = newTranslation; // Assign new translation to category in database
                                             category.save((err) => {
                                                 if (err) {

@@ -5,13 +5,13 @@ import { AuthService } from '../../../../services/auth.service';
 import { LocalizeRouterService } from 'localize-router';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
-  selector: 'app-category-modal',
-  templateUrl: './category-modal.component.html',
-  styleUrls: ['./category-modal.component.css']
+  selector: 'app-service-type-modal',
+  templateUrl: './service-type-modal.component.html',
+  styleUrls: ['./service-type-modal.component.css']
 })
-export class CategoryModalComponent implements OnInit {
+export class ServiceTypeModalComponent implements OnInit {
   private tabLanguage:string;
-  @Input() inputCategory;
+  @Input() inputServiceType;
   @Input() inputParentCategories;
   constructor(
   	private localizeService:LocalizeRouterService,
@@ -30,7 +30,7 @@ export class CategoryModalComponent implements OnInit {
 
   }
   public confirmModal() {
-  	this.observableService.modalType="modal-edit-category";
+  	this.observableService.modalType="modal-edit-service-type";
     this.observableService.notifyOther({option: this.observableService.modalType,language:this.tabLanguage});
     this.closeModal();
   }

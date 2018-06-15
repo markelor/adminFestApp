@@ -77,6 +77,7 @@ const categorySchema = new Schema({
     language: { type: String, required: true },
     title: { type: String, required: true, validate: titleValidators },
     description: { type: String, required: true, validate: descriptionValidators },
+    icons: { type: Array, required: false },
     translation: [{
         language: { type: String, required: true },
         title: { type: String, required: true, validate: titleValidators },

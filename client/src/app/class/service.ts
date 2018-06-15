@@ -1,10 +1,10 @@
 export class Service{
 	serviceTypeId: string;
+    placeId: string;
 	language: string;
     title: string;
     description: string;
-    lat:number;
-    lng:number;
+    imagesDescription: Array<string>;
     createdAt: Date;
     updatedAt: Date; 
 
@@ -13,6 +13,12 @@ export class Service{
     }
     set setServiceTypeId(serviceTypeId:string) {
         this.serviceTypeId = serviceTypeId;
+    }
+    get getPlaceId():string {
+        return this.placeId;
+    }
+    set setPlaceId(placeId:string) {
+        this.placeId = placeId;
     }
     get getLanguage():string {
         return this.language;
@@ -32,18 +38,12 @@ export class Service{
     set setDescription(description:string) {
         this.description = description;
     }
-    get getLat():number {
-        return this.lat;
+    get getImagesDescription():Array<string> {
+        return this.imagesDescription;
     }
-    set setLat(lat:number) {
-        this.lat = lat;
-    }
-    get getLng():number {
-        return this.lng;
-    }
-    set setLng(lng:number) {
-        this.lng = lng;
-    }
+    set setImagesDescription(imagesDescription:Array<string>) {
+        this.imagesDescription = imagesDescription;
+    } 
     get getCreatedAt():Date {
         return this.createdAt;
     }

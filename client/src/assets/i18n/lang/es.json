@@ -16,6 +16,7 @@
   "application-route": "aplicacion",
   "applications-route": "aplicaciones",
   "service-route": "servicio",
+  "service-type-route": "tipo-servicio",
   "details-route": "detalles",
   "region-route": "region",
   "user-route": "usuario",
@@ -32,6 +33,7 @@
     "application": "Aplicación",
     "applications": "Aplicaciones",
     "service":"Servicios",
+    "service-type":"Tipo Servicio",
     "administrator": "Administrador",
     "users": "Usuarios",
     "events": "Eventos"
@@ -212,6 +214,11 @@
     "description": "Descripción",
     "lat": "Coordenadas N-S (Lat)",
     "lng": "Coordenada E-O (Lng)",
+    "send": "Enviar"
+  },
+  "service-type-form":
+  {
+    "title": "Título",
     "send": "Enviar"
   },
   "crud":

@@ -15,21 +15,22 @@ export class FileUploaderService {
   // Function to create a new theme post
   public deleteImages(imageId,bucket,language) {
     this.route=encodeURIComponent(imageId)+'/'+encodeURIComponent(bucket)+'/';
-     return this.http.delete<any>(this.domain + 'fileUploader/deleteImages/'+this.route+language);
+    return this.http.delete<any>(this.domain + 'fileUploader/deleteImages/'+this.route+language);
   }
   // Function to create a new theme post
-  public getSignatureFroala() {
-     return this.http.get<any>(this.domain + 'fileUploader/getSignatureFroala');
+  public getSignatureFroala(bucket,language) {
+    this.route=encodeURIComponent(bucket)+'/';
+    return this.http.get<any>(this.domain + 'fileUploader/getSignatureFroala/'+this.route+language);
   }
   // Function to create a new theme post
   public uploadImagesBase64(bucket) {
     this.route=encodeURIComponent(bucket);
-     return this.http.post<any>(this.domain + 'fileUploader/uploadImagesBase64',bucket);
+    return this.http.post<any>(this.domain + 'fileUploader/uploadImagesBase64',bucket);
   }
   // Function to create a new theme post
   public deleteProfileImage(username,name,bucket,language) {
     this.route=encodeURIComponent(username)+'/'+encodeURIComponent(name)+'/'+encodeURIComponent(bucket)+'/';
-    console.log(this.route);
-     return this.http.delete<any>(this.domain + 'fileUploader/deleteProfileImage/'+this.route+language);
+    return this.http.delete<any>(this.domain + 'fileUploader/deleteProfileImage/'+this.route+language);
   }
 }
+

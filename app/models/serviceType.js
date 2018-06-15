@@ -45,35 +45,11 @@ const titleValidators = [
     }
 ];
 
-// Validate Function to check description length
-let descriptionLengthChecker = (description) => {
-    // Check if description exists
-    if (!description) {
-        return false; // Return error
-    } else {
-        // Check length of description
-        if (description.length < 5 || description.length > 200) {
-            return false; // Return error if does not meet length requirement
-        } else {
-            return true; // Return as valid description
-        }
-    }
-};
-
-// Array of Description validators
-const descriptionValidators = [
-    // First description validator
-    {
-        validator: descriptionLengthChecker,
-        message: '.validation.categoryDescriptionLength'
-    }
-];
-
 // serviceType Model Definition
 const serviceTypeSchema = new Schema({
     language: { type: String, required: true },
     title: { type: String, required: true, validate: titleValidators },
-    icon:{type: String, required: true},
+    icons: { type: Array, required: false },
     translation: [{
         language: { type: String, required: true },
         title: { type: String, required: true, validate: titleValidators },

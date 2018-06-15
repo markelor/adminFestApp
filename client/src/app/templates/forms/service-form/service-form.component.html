@@ -18,20 +18,70 @@
         <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
       </div>
     </div>
-    <!-- Description -->
-    <div class="col-sm-12">
-      <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
-        <label for="textareaDescription" translate>{{'service-form.description'}}</label>
-        <textarea [formControl]="description" capitalize class="form-control"></textarea>
+    <!-- Province -->
+    <div class="col-sm-6">
+      <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">
+        <label for="selectProvinceService" translate>{{'event-form.province'}}</label>
+        <select [formControl]="province" class="form-control" id="selectProvinceService" (change)="onSelectedProvince($event.target.selectedIndex-1)">
+          <option value="" translate>{{'event-form.select-province'}}</option>
+          <option *ngFor="let provinceService of provincesService " [ngValue]="provinceService.name">
+            {{provinceService.name}}
+          </option>
+        </select>
         <!-- Validation -->
-        <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-        <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.description-length'}}</span>
+        <span *ngIf="!province.value && province.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+      </div>
+    </div>
+    <!-- Municipality -->
+    <div class="col-sm-6">
+      <div class="form-group required" [ngClass]="{'has-error': (!municipality.value && municipality.dirty), 'has-success': (municipality.value)}">
+        <label for="selectMunicipalityService" translate>{{'event-form.municipality'}}</label>
+        <select [formControl]="municipality" class="form-control" id="selectMunicipalityService" (change)="onSelectedMunicipality($event.target.selectedIndex-1)">
+          <option value="" translate>{{'event-form.select-municipality'}}</option>
+          <option *ngFor="let municipalityService of municipalitiesService" [ngValue]="municipalityService.name">
+            {{municipalityService.name}}
+          </option>
+        </select>
+        <!-- Validation -->
+        <span *ngIf="!municipality.value && municipality.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+      </div>
+    </div>
+    <!-- Location exists-->
+    <div *ngIf="!location.value && locationsExistsService.length > 0" class="col-sm-12">
+      <div class="form-group required" [ngClass]="{'has-error': (!locationsExists.value && locationsExists.dirty), 'has-success': (locationsExists.value)}">
+        <label for="selectLocationsExistsService" translate>{{'event-form.locations-exists'}}</label>
+        <select [formControl]="locationsExists" class="form-control" id="selectLocationsExistsService" (change)="onSelectedLocationsExists($event.target.selectedIndex-1)">
+          <option value="" translate>{{'event-form.select-locations-exists'}}</option>
+          <ng-container *ngFor="let locationsExistsService of locationsExistsService">
+            <option *ngIf="inputLanguage===locationsExistsService.language" [ngValue]="locationsExistsService.location">
+            {{locationsExistsService.location}}
+            </option>
+            <ng-container *ngFor="let translation of locationsExistsService.translation">
+              <option *ngIf="inputLanguage===translation.language" [ngValue]="translation.location">
+                {{translation.location}}
+              </option>
+            </ng-container>
+            </ng-container>
+
+        </select>
+        <!-- Validation -->
+        <span *ngIf="!locationsExists.value && locationsExists.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+      </div>
+    </div>
+    <!-- Location -->
+    <div *ngIf="!locationsExists.value" class="col-sm-12">
+      <div class="form-group" [ngClass]="{'has-error': (!location.valid && location.dirty), 'has-success': (location.value)}">
+        <label for="textareaLocation" translate>{{'event-form.location'}}</label>
+        <textarea [formControl]="location" capitalize class="form-control" id="textareaLocation"></textarea>
+        <!-- Validation -->
+        <span *ngIf="!location.value && location.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <span *ngIf="location.errors?.maxlength && location.dirty " class="help-block form-error" translate>{{'validation.location-length'}}</span>
       </div>
     </div>
     <!-- Latitude -->
     <div class="col-sm-6">
       <div class="form-group required" [ngClass]="{'has-error': (!lat.valid && lat.dirty), 'has-success': (lat.valid)}">
-        <label for="inputLat" translate>{{'service-form.lat'}}</label>
+        <label for="inputLat" translate>{{'event-form.lat'}}</label>
         <input [formControl]="lat" type="text" class="form-control" id="inputLat">
         <!-- Validation -->
         <span *ngIf="lat.errors?.required && lat.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -41,7 +91,7 @@
     <!-- Longitude -->
     <div class="col-sm-6 ">
       <div class="form-group required" [ngClass]="{'has-error': (!lng.valid && lng.dirty), 'has-success': (lng.valid)}">
-        <label for="inputLng" translate>{{'service-form.lng'}}</label>
+        <label for="inputLng" translate>{{'event-form.lng'}}</label>
         <input [formControl]="lng" type="text" class="form-control" id="inputLng">
         <!-- Validation -->
         <span *ngIf="lng.errors?.required && lng.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
@@ -51,6 +101,22 @@
     <div class="col-sm-12">
       <div class="form-group text-center">
         <event-form-map></event-form-map>
+      </div>
+    </div>
+    <!-- Maps Button with class -->
+    <div class="col-sm-12">
+      <div class="form-group text-center">
+        <button [disabled]="!lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'event-form.check'}}</button>
+      </div>
+    </div>
+    <!-- Description -->
+    <div class="col-sm-12">
+      <div class="form-group required" [ngClass]="{'has-error': (!description.valid && description.dirty), 'has-success': (description.valid)}">
+        <label for="textareaDescription" translate>{{'event-form.description'}}</label>
+        <textarea [id]="'textareaDescription'+inputLanguage" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="description" capitalize class="form-control"></textarea>
+        <!-- Validation -->
+        <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.description-length'}}</span>
       </div>
     </div>
     <!-- Submit Button -->

@@ -105,24 +105,5 @@ export class EventService {
       comment: comment
     }
     return this.http.post<any>(this.domain + 'event/comment', themeData);
-
-  }
-  public getArcheologyThemesJson(language){
-    return this.http.get<any>('assets/json/archeology/event/'+language+'.json'); 
-  }
-  public getSymbologyThemesJson(language){
-    return this.http.get<any>('assets/json/symbology/event/'+language+'.json'); 
-  }
-  public getArcheologyCulturalSecuenceJson(language){
-    return this.http.get<any>('assets/json/archeology/culturalSecuence/'+language+'.json');
-     
-  }
-  public getArcheologyContinentsJson(language){
-    return this.http.get<any>('assets/json/archeology/continents/'+language+'.json');
-     
-  }
-  public getEventGeonamesJson(geonameType,language,name){
-    return this.http.get<any>('assets/json/'+geonameType+'/'+language+'/'+name+'.json');
-     
   }
 }

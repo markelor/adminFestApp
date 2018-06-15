@@ -2,43 +2,40 @@ import { Component, OnInit, ViewChild, Input} from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../../services/auth.service';
-import { CategoryService } from '../../../services/category.service';
+import { ServiceTypeService } from '../../../services/service-type.service';
 import { ObservableService } from '../../../services/observable.service';
 import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { FileUploaderService} from '../../../services/file-uploader.service';
 import { FileUploader,FileUploaderOptions,FileItem } from 'ng2-file-upload';
 import { AlphanumericValidator } from '../../../validators';
-import { Category } from '../../../class/category';
+import { ServiceType } from '../../../class/service-type';
 import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthGuard} from '../../../pages/guards/auth.guard';
-const URL = 'http://localhost:8080/fileUploader/uploadImages/category-icon';
+const URL = 'http://localhost:8080/fileUploader/uploadImages/service-type-icon';
 @Component({
-  selector: 'app-category-form',
-  templateUrl: './category-form.component.html',
-  styleUrls: ['./category-form.component.css']
+  selector: 'app-service-type-form',
+  templateUrl: './service-type-form.component.html',
+  styleUrls: ['./service-type-form.component.css']
 })
-export class CategoryFormComponent implements OnInit {
+export class ServiceTypeFormComponent implements OnInit {
   private message;
   private messageClass;
   private submitted:boolean = false;
   private form:FormGroup;
   @Input() inputOperation:string;
-  @Input() inputCategory;
-  @Input() inputParentCategories;
+  @Input() inputServiceType;
   @Input() inputLanguage;
   private title:AbstractControl;
   private description:AbstractControl;
-  private parentCategory:AbstractControl;
-  private categories;
-  private category:Category=new Category();
-  private iconsCategory=[];
+  private serviceType:ServiceType=new ServiceType();
+  private iconsServiceType=[];
   private subscriptionObservable: Subscription;
   private uploader:FileUploader = new FileUploader({
-    url: URL,itemAlias: 'category-icon',
+    url: URL,itemAlias: 'service-type-icon',
     isHTML5: true,
-    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
+    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','image/svg+xml'],
     maxFileSize: 10*1024*1024 // 10 MB
   });
   private uploadAllSuccess:Boolean=true;
@@ -48,7 +45,7 @@ export class CategoryFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private localizeService:LocalizeRouterService,
-    private categoryService:CategoryService,
+    private serviceTypeService:ServiceTypeService,
     private observableService:ObservableService,
     private authService:AuthService,
     private groupByPipe:GroupByPipe,
@@ -67,17 +64,9 @@ export class CategoryFormComponent implements OnInit {
         Validators.maxLength(35),
         Validators.minLength(3),
         AlphanumericValidator.validate
-      ])],
-      description: ['', Validators.compose([
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.minLength(5)
-      ])],
-      parentCategory: [''],
+      ])]
     })
     this.title = this.form.controls['title'];
-    this.description= this.form.controls['description'];
-    this.parentCategory=this.form.controls['parentCategory']
   }
    // Function to disable the registration form
   private disableForm(){
@@ -88,32 +77,27 @@ export class CategoryFormComponent implements OnInit {
     this.form.enable(); // Enable form
   }
   private initializeForm(){  
-    if(this.inputCategory){
-      if(this.inputCategory.parentId){
-        this.form.controls['parentCategory'].setValue(this.inputCategory.parentId);
-      }else{
-        this.form.controls['parentCategory'].setValue('');
-      }
+    if(this.inputServiceType){
       var hasTranslation=false;
 
-      for (var i = 0; i < this.inputCategory.translation.length; ++i) {
-        if(this.inputCategory.translation[i].language===this.inputLanguage){
+      for (var i = 0; i < this.inputServiceType.translation.length; ++i) {
+        if(this.inputServiceType.translation[i].language===this.inputLanguage){
           hasTranslation=true;
-          this.form.controls['title'].setValue(this.inputCategory.translation[i].title);
-          this.form.controls['description'].setValue(this.inputCategory.translation[i].description);  
+          this.form.controls['title'].setValue(this.inputServiceType.translation[i].title);
+          this.form.controls['description'].setValue(this.inputServiceType.translation[i].description);  
         }
       }
       if(!hasTranslation){
-        if(this.inputCategory.language===this.inputLanguage){ 
-          this.form.controls['title'].setValue(this.inputCategory.title);
-          this.form.controls['description'].setValue(this.inputCategory.description);      
+        if(this.inputServiceType.language===this.inputLanguage){ 
+          this.form.controls['title'].setValue(this.inputServiceType.title);
+          this.form.controls['description'].setValue(this.inputServiceType.description);      
         }
       }  
-      this.iconsCategory=this.inputCategory.icons;
-      for (var z = 0; z < this.iconsCategory.length; ++z) {
-        let file = new File([],decodeURIComponent(this.inputCategory.icons[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/category-icon/')[1]);
+      this.iconsServiceType=this.inputServiceType.icons;
+      for (var z = 0; z < this.iconsServiceType.length; ++z) {
+        let file = new File([],decodeURIComponent(this.inputServiceType.icons[z].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/service-type-icon/')[1]);
         let fileItem = new FileItem(this.uploader, file, {});
-        fileItem.file.size=this.inputCategory.icons[z].size;
+        fileItem.file.size=this.inputServiceType.icons[z].size;
         fileItem.progress = 100;
         fileItem.isUploaded = true;
         fileItem.isSuccess = true;
@@ -121,36 +105,35 @@ export class CategoryFormComponent implements OnInit {
       } 
     }     
   }
-  private editCategory(){
+  private editServiceType(){
     var hasTranslation=false;
-    this.inputCategory.parentId=this.form.get('parentCategory').value;
-    for (var i = 0; i < this.inputCategory.translation.length; ++i) {
-      if(this.inputCategory.translation[i].language===this.inputLanguage){
+    for (var i = 0; i < this.inputServiceType.translation.length; ++i) {
+      if(this.inputServiceType.translation[i].language===this.inputLanguage){
         hasTranslation=true;
-        this.inputCategory.translation[i].language=this.inputLanguage;
-        this.inputCategory.translation[i].title=this.form.get('title').value;
-        this.inputCategory.translation[i].description=this.form.get('description').value;
+        this.inputServiceType.translation[i].language=this.inputLanguage;
+        this.inputServiceType.translation[i].title=this.form.get('title').value;
+        this.inputServiceType.translation[i].description=this.form.get('description').value;
       }
     }
     if(!hasTranslation){
-      if(this.inputCategory.language===this.inputLanguage){
-        this.inputCategory.language=this.inputLanguage,        
-        this.inputCategory.title=this.form.get('title').value;
-        this.inputCategory.description=this.form.get('description').value;
+      if(this.inputServiceType.language===this.inputLanguage){
+        this.inputServiceType.language=this.inputLanguage,        
+        this.inputServiceType.title=this.form.get('title').value;
+        this.inputServiceType.description=this.form.get('description').value;
       }else{
         var translationObj={
           language:this.inputLanguage,
           title:this.form.get('title').value,
           description:this.form.get('description').value
         }
-        this.inputCategory.translation.push(translationObj);             
+        this.inputServiceType.translation.push(translationObj);             
       }
     }
-    console.log(this.inputCategory);
-    this.categoryService.editCategory(this.inputCategory).subscribe(data=>{
+    console.log(this.inputServiceType);
+    this.serviceTypeService.editServiceType(this.inputServiceType).subscribe(data=>{
       if(data.success){
-        this.observableService.modalType="modal-edit-category-success";
-        this.observableService.notifyOther({option: this.observableService.modalType,category:this.inputCategory});
+        this.observableService.modalType="modal-edit-serviceType-success";
+        this.observableService.notifyOther({option: this.observableService.modalType,serviceType:this.inputServiceType});
         this.messageClass = 'alert alert-success ks-solid '; // Set bootstrap success class
         this.message =data.message; // Set success message            
       }else{
@@ -162,71 +145,45 @@ export class CategoryFormComponent implements OnInit {
   private observableEdit(){
     this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
       this.subscriptionObservable.unsubscribe();
-      if (res.hasOwnProperty('option') && res.option === 'modal-edit-category') {
-        if(this.inputCategory && res.language===this.inputLanguage){
+      if (res.hasOwnProperty('option') && res.option === 'modal-edit-serviceType') {
+        if(this.inputServiceType && res.language===this.inputLanguage){
           if(this.uploader.queue.length>0){
             this.uploader.uploadAll();
             if(this.uploader.queue[0].isUploaded){
-              this.editCategory();
+              this.editServiceType();
             }
           }else{
             if(this.inputOperation==='edit'){
-              this.deleteUploadImages('icon',this.iconsCategory);
-              this.iconsCategory=[];
-              this.inputCategory.icons=[];
-              this.editCategory();
+              this.deleteUploadImages('icon',this.iconsServiceType);
+              this.iconsServiceType=[];
+              this.inputServiceType.icons=[];
+              this.editServiceType();
             }      
           }
         }     
       }
     });
   }
-  private onSelectedParentCategory(index){
-    if(index===-1){
-      this.form.controls['parentCategory'].setValue("");
-      if(this.inputCategory){
-        this.inputCategory.level=0;      
-      }else{
-        this.category.setLevel=0;
-      }
-    }else{
-      if(this.inputCategory){
-        this.inputCategory.level=this.inputParentCategories[index].level+1;
-        if(this.inputParentCategories[index].parentId){
-          this.inputCategory.setFirstParentId=this.inputParentCategories[index].firstParentId;
-        }else{
-          this.inputCategory.setFirstParentId=this.inputParentCategories[index]._id;
-        }
-      }else{
-        this.category.setLevel=this.inputParentCategories[index].level+1;
-        if(this.inputParentCategories[index].parentId){
-          this.category.setFirstParentId=this.inputParentCategories[index].firstParentId;
-        }else{
-          this.category.setFirstParentId=this.inputParentCategories[index]._id;
-        }
-      }    
-    }
-  }
-   private fileOverBase(e:any):void {
+  private fileOverBase(e:any):void {
     this.hasBaseDropZoneOver = e;
   }
    // File upload controll
   private fileOverAnother(e:any):void {
     this.hasAnotherDropZoneOver = e;
   }
-  private createCategory(){
-    this.categoryService.newCategory(this.category).subscribe(data=>{
+  private createServiceType(){
+    this.serviceTypeService.newServiceType(this.serviceType).subscribe(data=>{
       if(!data.success){
-        this.deleteUploadImages('icon',this.iconsCategory);
+        this.deleteUploadImages('icon',this.iconsServiceType);
         this.messageClass='alert alert-danger ks-solid';
         this.message=data.message
         this.enableForm();
       }else{
         this.uploader.clearQueue();
-        this.observableService.modalType="modal-edit-category-success";
+        this.observableService.modalType="modal-edit-serviceType-success";
         this.observableService.notifyOther({option: this.observableService.modalType});
         this.submitted = false;
-        this.category=new Category();
+        this.serviceType=new ServiceType();
         this.createForm(); // Reset all form fields
         this.messageClass='alert alert-success ks-solid'
         this.message=data.message
@@ -239,7 +196,7 @@ export class CategoryFormComponent implements OnInit {
         var currentUrlSplit = images[i].url.split("/");
         let imageName = currentUrlSplit[currentUrlSplit.length - 1];
         var urlSplit = imageName.split("%2F");
-        this.fileUploaderService.deleteImages(urlSplit[0],"category-icon",this.localizeService.parser.currentLang).subscribe(data=>{
+        this.fileUploaderService.deleteImages(urlSplit[0],"service-type-icon",this.localizeService.parser.currentLang).subscribe(data=>{
         });
       }
     }
@@ -248,14 +205,12 @@ export class CategoryFormComponent implements OnInit {
     if (this.form.valid) {
       this.submitted = true;
       //this.disableForm();
-      this.category.setLanguage=this.localizeService.parser.currentLang,
-      this.category.setParentId=this.form.get('parentCategory').value;
-      this.category.setTitle=this.form.get('title').value;
-      this.category.setDescription=this.form.get('description').value;
+      this.serviceType.setLanguage=this.localizeService.parser.currentLang,
+      this.serviceType.setTitle=this.form.get('title').value;
       if(this.uploader.queue.length>0){
         this.uploader.uploadAll();
       }else{
-        this.createCategory();     
+        this.createServiceType();     
       }
     }                
   }
@@ -300,14 +255,14 @@ export class CategoryFormComponent implements OnInit {
           size:responseJson.file[0].size,
           url:responseJson.file[0].location
         }
-        this.iconsCategory.push(file);
+        this.iconsServiceType.push(file);
         if(this.uploader.progress===100 && this.uploadAllSuccess){
-          this.category.setIcons=this.iconsCategory; 
+          this.serviceType.setIcons=this.iconsServiceType; 
           //Image preview update
-          for (var j = 0; j < this.iconsCategory.length; ++j) {
-            let file = new File([],decodeURIComponent(this.iconsCategory[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/category-icon/')[1]);
+          for (var j = 0; j < this.iconsServiceType.length; ++j) {
+            let file = new File([],decodeURIComponent(this.iconsServiceType[j].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/service-type-icon/')[1]);
             let fileItem = new FileItem(this.uploader, file, {});
-            fileItem.file.size=this.iconsCategory[j].size;
+            fileItem.file.size=this.iconsServiceType[j].size;
             fileItem.progress = 100;
             fileItem.isUploaded = true;
             fileItem.isSuccess = true;
@@ -315,9 +270,9 @@ export class CategoryFormComponent implements OnInit {
             this.uploader.queue.push(fileItem);
           }       
             if(this.inputOperation==='create'){
-              this.createCategory();
+              this.createServiceType();
             }else if(this.inputOperation==='edit'){
-              this.editCategory();
+              this.editServiceType();
           }
         }
       } 
@@ -325,7 +280,7 @@ export class CategoryFormComponent implements OnInit {
     this.uploader.onWhenAddingFileFailed = (fileItem) => {
       if(fileItem.size>10*1024*1024){
         console.log("fitzategi haundiegia");
-      }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif")){
+      }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif" || fileItem.type === "image/svg+xml")){
         console.log("formatu okerra");
       }
       console.log("fail", fileItem);

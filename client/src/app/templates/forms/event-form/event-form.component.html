@@ -99,7 +99,7 @@
             <tr *ngFor="let item of uploader.queue">
               <td>
                 <div class="media-left">
-                  <img *ngIf="item.isUploaded" class="img-rounded" width="80" height="80" src="https://s3.eu-west-1.amazonaws.com/culture-bucket%2Fposter/{{item.file.name}}" class="media-object" />
+                  <img *ngIf="item.isUploaded" class="img-rounded" width="80" height="80" src="https://s3.eu-west-1.amazonaws.com/culture-bucket%2Fevent-poster/{{item.file.name}}" class="media-object" />
                   <img *ngIf="!item.isUploaded" class="img-rounded" width="80" height="80" src="" appImagePreview [image]="item?._file" class="media-object" />
                 </div>
               </td>

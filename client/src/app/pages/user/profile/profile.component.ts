@@ -7,7 +7,7 @@ import { ObservableService } from '../../../services/observable.service';
 import { AuthGuard} from '../../guards/auth.guard';
 import { LocalizeRouterService } from 'localize-router';
 import { Router } from '@angular/router';
-const URL = 'http://localhost:8080/fileUploader/uploadImages/profile';
+const URL = 'http://localhost:8080/fileUploader/uploadImages/user-profile';
 @Component({
    selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -26,9 +26,9 @@ export class ProfileComponent implements OnInit {
     private avatars=[];
     private selectedAvatar=false;
     private uploader:FileUploader = new FileUploader({
-    url: URL,itemAlias: 'profile',
+    url: URL,itemAlias: 'user-profile',
     isHTML5: true,
-    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
+    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','image/svg+xml'],
     maxFileSize: 10*1024*1024 // 10 MB
   	});
     @ViewChild('profileCropper', undefined)
@@ -72,7 +72,7 @@ export class ProfileComponent implements OnInit {
        language:this.localizeService.parser.currentLang,
        image: this.data.image,
        name:this.uploader.queue[0].file.name,
-       bucket:'profile'
+       bucket:'user-profile'
       };
       this.fileUploaderService.uploadImagesBase64(uploadData).subscribe(data=>{
       	if(data.success){
@@ -134,7 +134,7 @@ export class ProfileComponent implements OnInit {
 	this.uploader.onWhenAddingFileFailed = (fileItem) => {
 	  if(fileItem.size>10*1024*1024){
 	    console.log("fitzategi haundiegia");
-	  }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif")){
+	  }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif" || fileItem.type === "image/svg+xml")){
 	    console.log("formatu okerra");
 	  }
 	  console.log("fail", fileItem);
@@ -147,7 +147,7 @@ export class ProfileComponent implements OnInit {
 
 	}
 	private deleteAvatar(index){
-		this.fileUploaderService.deleteProfileImage(this.authService.user.username,this.avatars[index].split("https://s3-eu-west-1.amazonaws.com/culture-bucket/profile/")[1],'profile',this.localizeService.parser.currentLang).subscribe(data=>{		
+		this.fileUploaderService.deleteProfileImage(this.authService.user.username,this.avatars[index].split("https://s3-eu-west-1.amazonaws.com/culture-bucket/user-profile/")[1],'user-profile',this.localizeService.parser.currentLang).subscribe(data=>{		
 			if(data.success){
 				this.avatars.splice(index,1);
 				this.observableService.notifyOther({option: this.observableService.avatarType,data:"assets/img/avatars/default-avatar.jpg"})

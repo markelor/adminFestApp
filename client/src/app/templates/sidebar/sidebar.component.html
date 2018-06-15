@@ -52,6 +52,17 @@
         <a class="dropdown-item" [routerLink]="['/service-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
       </div>
     </li>
+    <!--Service type item-->
+    <li class="nav-item dropdown">
+      <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="ks-icon la la-mobile-phone"></span>
+        <span translate>{{'menu.service-type'}}</span>
+      </div>
+      <!--Create application-->
+      <div class="dropdown-menu">
+        <a class="dropdown-item" [routerLink]="['/service-type-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
+      </div>
+    </li>
     <!--Administrator item-->
     <li [hidden]="!permission" class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">

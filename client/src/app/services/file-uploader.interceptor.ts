@@ -19,7 +19,7 @@ export class FileUploaderInterceptor implements HttpInterceptor {
      this.fileUploaderService=this.injector.get(FileUploaderService)
      this.localizeService=this.injector.get(LocalizeRouterService);
      this.domain = this.authService.domain;
-     if(request.url===this.domain+"fileUploader/getSignatureFroala"){
+     if(request.url===this.domain+"fileUploader/getSignatureFroala/"+this.fileUploaderService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

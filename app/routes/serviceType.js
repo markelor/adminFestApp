@@ -1,5 +1,5 @@
 const User = require('../models/user'); // Import User Model Schema
-const Category = require('../models/category'); // Import Category Model Schema
+const ServiceType = require('../models/serviceType'); // Import ServiceType Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
@@ -19,84 +19,68 @@ module.exports = (router) => {
     });
 
     /* ===============================================================
-       CREATE NEW category
+       CREATE NEW serviceType
     =============================================================== */
-    router.post('/newCategory', (req, res) => {
+    router.post('/newServiceType', (req, res) => {
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            // Check if category title was provided
+            // Check if serviceType title was provided
             if (!req.body.title) {
-                res.json({ success: false, message: eval(language + '.newCategory.titleProvidedError') }); // Return error
+                res.json({ success: false, message: eval(language + '.newServiceType.titleProvidedError') }); // Return error
             } else {
-                // Check if category description was provided
-                if (!req.body.description) {
-                    res.json({ success: false, message: eval(language + '.newCategory.descriptionProvidedError') }); // Return error message
-                } else {
-                    if (!req.body.parentId) {
-                        req.body.parentId = null;
-                    }
-                    const category = new Category({
-                        firstParentId: req.body.firstParentId,
-                        parentId: req.body.parentId,
-                        level: req.body.level,
-                        language: language,
-                        title: req.body.title,
-                        description: req.body.description,
-                        createdAt: Date.now(),
-                        updatedAt: Date.now()
-                    });
-                    // Save category into database
-                    category.save((err) => {
-                        // Check if error
-                        if (err) {
-                            console.log(err);
-                            // Check if error is a validation error
-                            if (err.errors) {
-                                // Check if validation error is in the category field
-                                if (err.errors['title']) {
-                                    res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
-                                } else {
-                                    if (err.errors['description']) {
-                                        res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
-                                    } else {
-                                        res.json({ success: false, message: err }); // Return general error message
-                                    }
-
-                                }
+                const serviceType = new ServiceType({
+                    language: language,
+                    title: req.body.title,
+                    createdAt: Date.now(),
+                    updatedAt: Date.now()
+                });
+                // Save serviceType into database
+                serviceType.save((err) => {
+                    // Check if error
+                    if (err) {
+                        console.log(err);
+                        // Check if error is a validation error
+                        if (err.errors) {
+                            // Check if validation error is in the serviceType field
+                            if (err.errors['title']) {
+                                res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
                             } else {
-                                res.json({ success: false, message: eval(language + '.newCategory.saveError'), err }); // Return general error message
+                               res.json({ success: false, message: err }); // Return general error message
                             }
                         } else {
-                            res.json({ success: true, message: eval(language + '.newCategory.success') }); // Return success message
+                            res.json({ success: false, message: eval(language + '.newServiceType.saveError'), err }); // Return general error message
                         }
-                    });
+                    } else {
+                        res.json({ success: true, message: eval(language + '.newServiceType.success') }); // Return success message
+                    }
+                });
 
-                }
             }
         }
+
     });
 
     /* ===============================================================
-       GET Categories
+       GET ServiceTypes
     =============================================================== */
-    router.get('/categories/:language', (req, res) => {
+    router.get('/getServiceTypes/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            Category.find({
+            ServiceType.find({
                 $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }]
-            }).sort({ '_id': 1 }).exec((err, categories) => {
+            }).sort({ '_id': 1 }).exec((err, serviceTypes) => {
                 // Check if error was found or not
                 if (err) {
                     // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                     var mailOptions = {
                         from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                         to: [emailConfig.email], // list of receivers
-                        subject: ' Find 1 categories category error ',
+                        subject: ' Find 1 serviceTypes serviceType error ',
                         text: 'The following error has been reported in Kultura: ' + err,
                         html: 'The following error has been reported in Kultura:<br><br>' + err
                     };
@@ -111,77 +95,26 @@ module.exports = (router) => {
                     });
                     res.json({ success: false, message: eval(language + '.general.generalError') });
                 } else {
-                    // Check if categories were found in database
-                    if (!categories) {
-                        res.json({ success: false, message: eval(language + '.categories.categoriesError') }); // Return error of no categories found
+                    // Check if serviceTypes were found in database
+                    if (!serviceTypes) {
+                        res.json({ success: false, message: eval(language + '.serviceTypes.serviceTypesError') }); // Return error of no serviceTypes found
                     } else {
-                        res.json({ success: true, categories: categories }); // Return success and categories array
+                        res.json({ success: true, serviceTypes: serviceTypes }); // Return success and serviceTypes array
                     }
                 }
-            }); // Sort categories from newest to oldest
+            }); // Sort serviceTypes from newest to oldest
 
         }
 
     });
     /* ===============================================================
-       GET child categories
+        Route to update/edit a serviceType
     =============================================================== */
-    router.get('/childCategories/:id/:language', (req, res) => {
-        var language = req.params.language;
-        if (!language) {
-            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
-        } else {
-            if (!req.params.id) {
-                res.json({ success: false, message: eval(language + '.categories.idProvidedError') }); // Return error
-            } else {
-                if (req.params.id === "null") {
-                    req.params.id = null;
-                }
-                Category.find({
-                    language: language,
-                    parentId: req.params.id
-                }).sort({ '_id': 1 }).exec((err, categories) => {
-                    // Check if error was found or not
-                    if (err) {
-                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                        var mailOptions = {
-                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                            to: [emailConfig.email], // list of receivers
-                            subject: ' Find 1 categories category error ',
-                            text: 'The following error has been reported in Kultura: ' + err,
-                            html: 'The following error has been reported in Kultura:<br><br>' + err
-                        };
-                        // Function to send e-mail to myself
-                        transporter.sendMail(mailOptions, function(err, info) {
-                            if (err) {
-                                console.log(err); // If error with sending e-mail, log to console/terminal
-                            } else {
-                                console.log(info); // Log success message to console if sent
-                                console.log(user.email); // Display e-mail that it was sent to
-                            }
-                        });
-                        res.json({ success: false, message: eval(language + '.general.generalError') });
-                    } else {
-                        // Check if categories were found in database
-                        if (!categories) {
-                            res.json({ success: false, message: eval(language + '.categories.categoriesError') }); // Return error of no categories found
-                        } else {
-                            res.json({ success: true, categories: categories }); // Return success and categories array
-                        }
-                    }
-                }); // Sort categories from newest to oldest
-
-            }
-        }
-
-    });
-    /* ===============================================================
-        Route to update/edit a category
-    =============================================================== */
-    router.put('/editCategory', (req, res) => {
+    router.put('/editServiceType', (req, res) => {
         var language = req.body.language;
         if (req.body.firstParentId) var newFirstParentId = req.body.firstParentId; // Check if a change to firstParentId was requested
-        if (req.body.parentId){} var newParentId = req.body.parentId; // Check if a change to parentId was requested
+        if (req.body.parentId) {}
+        var newParentId = req.body.parentId; // Check if a change to parentId was requested
         if (req.body.level) var newLevel = req.body.level; // Check if a change to level was requested
         if (req.body.title) var newTitle = req.body.title; // Check if a change to title was requested
         if (req.body.description) var newDescription = req.body.description; // Check if a change to description was requested
@@ -191,19 +124,19 @@ module.exports = (router) => {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.body._id) {
-                res.json({ success: false, message: eval(language + '.updateCategory.idProvidedError') }); // Return error message
+                res.json({ success: false, message: eval(language + '.updateServiceType.idProvidedError') }); // Return error message
             } else {
                 // Check if id exists in database
-                Category.findOne({
+                ServiceType.findOne({
                     _id: req.body._id
-                }, (err, category) => {
+                }, (err, serviceType) => {
                     // Check if id is a valid ID
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                         var mailOptions = {
                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                             to: [emailConfig.email], // list of receivers
-                            subject: ' Find one 1 edit category error ',
+                            subject: ' Find one 1 edit serviceType error ',
                             text: 'The following error has been reported in Kultura: ' + err,
                             html: 'The following error has been reported in Kultura:<br><br>' + err
                         };
@@ -219,8 +152,8 @@ module.exports = (router) => {
                         res.json({ success: false, message: eval(language + '.general.generalError') });
                     } else {
                         // Check if id was found in the database
-                        if (!category) {
-                            res.json({ success: false, message: eval(language + '.updateCategory.categoryError') }); // Return error message
+                        if (!serviceType) {
+                            res.json({ success: false, message: eval(language + '.updateServiceType.serviceTypeError') }); // Return error message
                         } else {
                             // Check who user is that is requesting caregory update
                             User.findOne({ _id: req.decoded.userId }, (err, user) => {
@@ -230,7 +163,7 @@ module.exports = (router) => {
                                     var mailOptions = {
                                         from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                         to: [emailConfig.email], // list of receivers
-                                        subject: ' Find one 2 edit category error ',
+                                        subject: ' Find one 2 edit serviceType error ',
                                         text: 'The following error has been reported in Kultura: ' + err,
                                         html: 'The following error has been reported in Kultura:<br><br>' + err
                                     }; // Function to send e-mail to myself
@@ -246,26 +179,26 @@ module.exports = (router) => {
                                 } else {
                                     // Check if user was found in the database
                                     if (!user) {
-                                        res.json({ success: false, message: eval(language + '.updateCategory.userError') }); // Return error message
+                                        res.json({ success: false, message: eval(language + '.updateServiceType.userError') }); // Return error message
                                     } else {
                                         if (user.permission !== 'admin') {
-                                            res.json({ success: false, message: eval(language + '.updateCategory.permissionError') }); // Return error message
+                                            res.json({ success: false, message: eval(language + '.updateServiceType.permissionError') }); // Return error message
                                         } else {
-                                            if (newFirstParentId) category.firstParentId = newFirstParentId; // Assign new firstParentId to category in database
-                                            if (newParentId){
-                                                category.parentId = newParentId;
-                                            }else{
-                                                category.parentId = null;
-                                            }  
-                                            // Assign new parentId to category in database
-                                            if (newLevel) category.level = newLevel; // Assign new level to category in database
-                                            if (newTitle) category.title = newTitle; // Assign new title to category in database
-                                            if (newDescription) category.description = newDescription; // Assign new description to category in database
-                                            if (newTranslation) category.translation = newTranslation; // Assign new translation to category in database
-                                            category.save((err) => {
+                                            if (newFirstParentId) serviceType.firstParentId = newFirstParentId; // Assign new firstParentId to serviceType in database
+                                            if (newParentId) {
+                                                serviceType.parentId = newParentId;
+                                            } else {
+                                                serviceType.parentId = null;
+                                            }
+                                            // Assign new parentId to serviceType in database
+                                            if (newLevel) serviceType.level = newLevel; // Assign new level to serviceType in database
+                                            if (newTitle) serviceType.title = newTitle; // Assign new title to serviceType in database
+                                            if (newDescription) serviceType.description = newDescription; // Assign new description to serviceType in database
+                                            if (newTranslation) serviceType.translation = newTranslation; // Assign new translation to serviceType in database
+                                            serviceType.save((err) => {
                                                 if (err) {
                                                     if (err.errors) {
-                                                        // Check if validation error is in the category field
+                                                        // Check if validation error is in the serviceType field
                                                         if (err.errors['title']) {
                                                             res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
                                                         } else {
@@ -276,10 +209,10 @@ module.exports = (router) => {
                                                             }
                                                         }
                                                     } else {
-                                                        res.json({ success: false, message: eval(language + '.updateCategory.saveError'), err }); // Return general error message
+                                                        res.json({ success: false, message: eval(language + '.updateServiceType.saveError'), err }); // Return general error message
                                                     }
                                                 } else {
-                                                    res.json({ success: true, message: eval(language + '.updateCategory.success') }); // Return success message
+                                                    res.json({ success: true, message: eval(language + '.updateServiceType.success') }); // Return success message
                                                 }
                                             });
                                         }

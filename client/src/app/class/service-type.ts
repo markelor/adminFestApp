@@ -1,7 +1,7 @@
 export class ServiceType{
 	language: string;
     title: string;
-    icon: string;
+    icons: Array<string>;
     createdAt: Date;
     updatedAt: Date; 
 
@@ -17,12 +17,12 @@ export class ServiceType{
     set setTitle(title:string) {
         this.title = title;
     }
-    get getIcon():string {
-        return this.icon;
+    get getIcons():Array<string> {
+        return this.icons;
     }
-    set setIcon(icon:string) {
-        this.icon = icon;
-    }
+    set setIcons(icons:Array<string>) {
+        this.icons = icons;
+    } 
     get getCreatedAt():Date {
         return this.createdAt;
     }

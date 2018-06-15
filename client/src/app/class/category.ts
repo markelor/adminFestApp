@@ -5,6 +5,7 @@ export class Category{
 	language: string;
     title: string;
     description: string;
+    icons: Array<string>;
     createdAt: Date;
     updatedAt: Date; 
     get getFirstParentId():string {
@@ -43,6 +44,12 @@ export class Category{
     set setDescription(description:string) {
         this.description = description;
     }
+    get getIcons():Array<string> {
+        return this.icons;
+    }
+    set setIcons(icons:Array<string>) {
+        this.icons = icons;
+    } 
     get getCreatedAt():Date {
         return this.createdAt;
     }

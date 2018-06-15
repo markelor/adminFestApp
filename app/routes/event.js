@@ -956,7 +956,6 @@ module.exports = (router) => {
                                                                     });
                                                                 }
                                                             }
-                                                            console.log(imagesKey);
                                                             s3.deleteObjects({
                                                                 Bucket: "culture-bucket",
                                                                 Delete: {

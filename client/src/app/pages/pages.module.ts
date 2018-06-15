@@ -14,6 +14,7 @@ import { CategoryService } from '../services/category.service';
 import { EventService } from '../services/event.service';
 import { PlaceService } from '../services/place.service';
 import { ServiceService } from '../services/service.service';
+import { ServiceTypeService } from '../services/service-type.service';
 import { FileUploaderService } from '../services/file-uploader.service';
 import { ApplicationService } from '../services/application.service';
 import { ObservableService } from '../services/observable.service';
@@ -25,6 +26,7 @@ import { CategoryInterceptor } from '../services/category.interceptor';
 import { EventInterceptor } from '../services/event.interceptor';
 import { PlaceInterceptor } from '../services/place.interceptor';
 import { ServiceInterceptor } from '../services/service.interceptor';
+import { ServiceTypeInterceptor } from '../services/service-type.interceptor';
 import { FileUploaderInterceptor } from '../services/file-uploader.interceptor';
 import { ApplicationInterceptor } from '../services/application.interceptor';
 @NgModule({
@@ -73,6 +75,11 @@ import { ApplicationInterceptor } from '../services/application.interceptor';
       useClass: ServiceInterceptor,
       multi: true
     },
-   AuthService,CategoryService,EventService,PlaceService,ServiceService,FileUploaderService,ObservableService,ApplicationService,AuthGuard,NotAuthGuard,UserGuard,ModeratorGuard,AdminGuard]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServiceTypeInterceptor,
+      multi: true
+    },
+   AuthService,CategoryService,EventService,PlaceService,ServiceService,ServiceTypeService,FileUploaderService,ObservableService,ApplicationService,AuthGuard,NotAuthGuard,UserGuard,ModeratorGuard,AdminGuard]
 })
 export class PagesModule { }

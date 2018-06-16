@@ -30,11 +30,12 @@ import { FroalaEditorModule, FroalaViewModule,FroalaEditorDirective, FroalaViewD
 import { ApplicationFormComponent } from './forms/application-form/application-form.component';
 import { FormsComponent } from './forms/forms.component';
 import { EventsApplicationFormComponent } from './forms/events-application-form/events-application-form.component';
+import { InlineSVGModule } from 'ng-inline-svg';
 @NgModule({
   imports: [
     CommonModule,FormsModule,ReactiveFormsModule,AgmCoreModule,MomentModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),FileUploadModule,MapModule,
-    SharedModule,TranslateModule,TemplatesRoutingModule,DataTablesModule,NgbModule
+    SharedModule,TranslateModule,TemplatesRoutingModule,DataTablesModule,NgbModule,InlineSVGModule
   ],
   declarations: [
   	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent,CategoryFormComponent, FormsComponent, EventsApplicationFormComponent,ServiceFormComponent,ServiceTypeFormComponent

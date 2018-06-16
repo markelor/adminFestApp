@@ -217,6 +217,14 @@ module.exports = {
         saveError: "Could not save service. Error:",
         success: "Service saved!"
     },
+    //newServiceType
+    newServiceType: {
+        idProvidedError: 'Service type ID was not provided.',
+        titleProvidedError: "Service type title is required.",
+        serviceTypesError: "Service types not found.",
+        saveError: "Could not save service type. Error:",
+        success: "Service type saved!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "Events username is not provided.",
@@ -276,7 +284,7 @@ module.exports = {
         paramProvidedError: "Theme ID was not provided.",
         themeError: "Theme not found."
     },
-    updateCategory: {
+    editCategory: {
         idProvidedError: 'Category ID was not provided',
         categoryError: "No category was found.",
         userError: "No user was found.",
@@ -295,6 +303,14 @@ module.exports = {
         usersProvidedError: "Application users were not provided.",
         saveError: "Could not edit application. Error: ",
         success: "Application edited!"
+    },
+    editServiceType: {
+        idProvidedError: 'Service type ID was not provided',
+        serviceTypeError: "No service type was found.",
+        userError: "No user was found.",
+        permissionError: "You are not authorized to edit this service type.",
+        saveError: "Could not edit service type. Error: ",
+        success: "Service type updated!"
     },
     deleteEvent: {
         usernameProvidedError: 'Username was not provided.',

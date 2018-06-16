@@ -1,13 +1,14 @@
-import { Component, OnInit,Injectable,Input,ViewChild } from '@angular/core';
+import { Component, OnInit,Injectable,Input,ViewChildren,QueryList } from '@angular/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { EventService } from '../../../services/event.service';
 import { ApplicationService } from '../../../services/application.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { Application } from '../../../class/application';
 import { Subject } from 'rxjs/Subject';
 import {DataTableDirective} from 'angular-datatables';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-events-application-form',
@@ -19,13 +20,15 @@ export class EventsApplicationFormComponent implements OnInit {
   private messageClass;
   @Input() applicationId;
   private application;
-  private eventsApplication;
+  private eventsApplication=[];
   private events;
-  @ViewChild(DataTableDirective)
+  @ViewChildren(DataTableDirective)
+  dtElements: QueryList<DataTableDirective>;
   private dtElement: DataTableDirective;
   private dtOptions: any = {};
   private addTrigger: Subject<any> = new Subject();
   private deleteTrigger: Subject<any> = new Subject();
+  private subscriptionLanguage: Subscription;
   constructor(
     private localizeService:LocalizeRouterService,
     private applicationService:ApplicationService,
@@ -67,12 +70,16 @@ export class EventsApplicationFormComponent implements OnInit {
       // Edit application
       this.applicationService.editApplication(this.application).subscribe(data => {
         if(data.success){ 
-          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            // Destroy the table first
-            dtInstance.destroy();
-            this.eventsApplication.push(this.events[indexEvent]);
-            // Call the addTrigger to rerender again
-            this.deleteTrigger.next();
+          this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
+            if(index===0){
+              dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+                // Destroy the table first
+                dtInstance.destroy();
+                this.eventsApplication.push(this.events[indexEvent]);
+                // Call the addTrigger to rerender again
+                this.deleteTrigger.next();
+              });
+            }        
           });
         }
       });
@@ -84,32 +91,74 @@ export class EventsApplicationFormComponent implements OnInit {
       // Edit application
       this.applicationService.editApplication(this.application).subscribe(data => {
         if(data.success){ 
-          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            // Destroy the table first
-            dtInstance.destroy();
-            this.eventsApplication.splice(indexEvent,1);
-            // Call the addTrigger to rerender again
-            this.deleteTrigger.next();
+          this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
+            if(index===0){
+              dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              // Destroy the table first
+              dtInstance.destroy();
+              this.eventsApplication.splice(indexEvent,1);
+              // Call the addTrigger to rerender again
+              this.deleteTrigger.next();
+              });
+            }        
           });
         }
       });
   }
-  private getApplicationEvents(){
+  private getApplicationEventsInit(){
     // Get application
     this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
         this.eventsApplication=data.events;
-        this.deleteTrigger.next();
       }
+      this.deleteTrigger.next();
+    });
+  }
+  // Function to get events from the database
+  private getEventsInit() {
+    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
+      if(data.success){
+        this.events=data.events;
+      }
+      this.addTrigger.next();
+    });
+  }
+   private getApplicationEvents(){
+    // Get application
+    this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+      this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
+        if(index===0){
+          dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            if(data.success){
+              this.application=data.application;
+              this.eventsApplication=data.events;
+            }else{
+              this.application=undefined;
+              this.eventsApplication=[];
+            }        
+            this.deleteTrigger.next();
+          });
+        }        
+      });   
     });
   }
   // Function to get events from the database
   private getEvents() {
     this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
-        this.events=data.events;
-        this.addTrigger.next();
+        this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
+          if(index===1){
+            dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              // Destroy the table first
+              dtInstance.destroy();
+              this.events=data.events;
+              this.addTrigger.next();
+            });
+          }       
+        });      
       }
     });
   }
@@ -120,8 +169,15 @@ export class EventsApplicationFormComponent implements OnInit {
       this.style.height = (this.scrollHeight) + 'px';
     }); 
     this.createSettings(); 
-    this.getApplicationEvents();
-    this.getEvents();	  
-        
+    this.getApplicationEventsInit();
+    this.getEventsInit();	
+    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.localizeService.parser.currentLang=event.lang;
+      this.getApplicationEvents();
+      this.getEvents(); 
+    });       
+  }
+   ngOnDestroy(){
+    this.subscriptionLanguage.unsubscribe();
   }
 }

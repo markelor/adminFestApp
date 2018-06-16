@@ -9,11 +9,12 @@ import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule} from "../../shared/shared.module";
 import { TemplatesModule } from '../../templates/templates.module';
+import { InlineSVGModule } from 'ng-inline-svg';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 @NgModule({
   imports: [
   	CommonModule,FormsModule,ReactiveFormsModule,TranslateModule,SharedModule,TemplatesModule,
-    ServiceTypeRoutingModule,DataTablesModule,NgbModule
+    ServiceTypeRoutingModule,DataTablesModule,NgbModule,InlineSVGModule
   ],
   declarations: [ServiceTypeModalComponent,CreateServiceTypeComponent],
   providers: [

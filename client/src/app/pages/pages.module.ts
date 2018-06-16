@@ -29,12 +29,14 @@ import { ServiceInterceptor } from '../services/service.interceptor';
 import { ServiceTypeInterceptor } from '../services/service-type.interceptor';
 import { FileUploaderInterceptor } from '../services/file-uploader.interceptor';
 import { ApplicationInterceptor } from '../services/application.interceptor';
+import { InlineSVGModule } from 'ng-inline-svg';
+
 @NgModule({
   imports: [
     CommonModule,TranslateModule,PagesRoutingModule,TemplatesModule,NgbModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyA21VpWm94ik9EItX4mkB1RBxrsdXCH1Mw'
-    })
+    }),InlineSVGModule.forRoot()
   ],
   declarations: [
     PagesComponent

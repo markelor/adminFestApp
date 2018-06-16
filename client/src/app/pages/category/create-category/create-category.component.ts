@@ -67,7 +67,16 @@ export class CreateCategoryComponent implements OnInit {
         'csv',
 
       ],
-      responsive: true
+      responsive: true,
+      columnDefs: [
+        { responsivePriority: 4, targets: 0 },
+        { responsivePriority: 5, targets: 1 },
+        { responsivePriority: 6, targets: 2 },
+        { responsivePriority: 1, targets: 3 },
+        { responsivePriority: 7, targets: 4 },
+        { responsivePriority: 3, targets: 5 },
+        { responsivePriority: 2, targets: 6 }
+      ]
     };
   }
     private categoryEditClick(category): void {
@@ -105,17 +114,17 @@ export class CreateCategoryComponent implements OnInit {
     });   
   }
  private getCategoriesInit(){
-    //Get thematic
+    //Get categories
       this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success){        
           this.parentCategories=data.categories;   
           this.categories=this.groupByPipe.transform(data.categories,'firstParentId');
-          this.dtTrigger.next();
-        }    
+        }  
+        this.dtTrigger.next();  
       });                 
   }
   private getCategories(){
-    //Get thematic
+    //Get categories
       this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success){    
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -127,6 +136,11 @@ export class CreateCategoryComponent implements OnInit {
           });
         }    
       });                 
+  }
+  private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
+    svg.setAttribute('width', '50');
+    svg.setAttribute('height', '50');
+    return svg;
   }
   ngOnInit() {
     $('textarea').each(function () {
@@ -141,13 +155,7 @@ export class CreateCategoryComponent implements OnInit {
       this.localizeService.parser.currentLang=event.lang;
       this.getCategories(); 
     });
-  	/*this.authService.getAllCategorys(this.localizeService.parser.currentLang).subscribe(data=>{
-      if(data.success){
-        if(data.permission==="admin" || data.permission==="moderator"){
-          this.getAllThemes(); 	     
-        }       
-      }     
-    });*/     	  
+     	  
   }
   ngOnDestroy(){
       this.subscriptionLanguage.unsubscribe();

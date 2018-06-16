@@ -206,7 +206,7 @@ module.exports = {
     },
     //newService
     newService: {
-        idProvidedError: 'Ez da categoriaren IDa eman.',
+        idProvidedError: 'Ez da zerbitzuaren IDa eman.',
         serviceTypeIdProvidedError: "Zerbitzu motaren IDa beharrezkoa da.",
         titleProvidedError: "Zerbitzuaren izenburua beharrezkoa da.",
         descriptionProvidedError: "Zerbitzuaren deskribapena beharrezkoa da.",
@@ -215,6 +215,14 @@ module.exports = {
         servicesError: "Zerbitzua ez da aurkitu.",
         saveError: "Zerbitzua ezin da gorde. Errorea:",
         success: "Zerbitzua gorde da!"
+    },
+    //newServiceType
+    newServiceType: {
+        idProvidedError: 'Ez da zerbitzu motaren IDa eman.',
+        titleProvidedError: "Zerbitzu motaren izenburua beharrezkoa da.",
+        serviceTypesError: "Zerbitzu mota  ez da aurkitu.",
+        saveError: "Zerbitzu mota ezin da gorde. Errorea:",
+        success: "Zerbitzu mota gorde da!"
     },
     //userEvents
     userEvents: {
@@ -275,8 +283,8 @@ module.exports = {
         paramProvidedError: "Ez da gaiaren IDa eman.",
         themeError: "Ez da gaia aurkitu."
     },
-    updateCategory: {
-        idProvidedError: 'Ez da gaiaren IDa eman.',
+    editCategory: {
+        idProvidedError: 'Ez da kategoriaren IDa eman.',
         categoryError: "Kategoria ez da aurkitu.",
         userError: "Erabiltzailea ez da aurkitu.",
         permissionError: "Ez duzu kategoria hau aldatzeko baimenik.",
@@ -294,6 +302,14 @@ module.exports = {
         usersProvidedError: "Aplikazioaren erabiltzaileak ez dira eman.",
         saveError: "Ezin izan da aplikazioa aldatu. Akatsa: ",
         success: "Aplikazioa aldatu da!"
+    },
+     editServiceType: {
+        idProvidedError: 'Ez da zerbitzu motaren IDa eman.',
+        serviceTypeError: "Zerbitzu mota ez da aurkitu.",
+        userError: "Erabiltzailea ez da aurkitu.",
+        permissionError: "Ez duzu zerbitzu mota hau aldatzeko baimenik.",
+        saveError: "Ezin izan da zerbitzu mota eguneratu. Akatsa: ",
+        success: "Zerbitzu mota eguneratu da!"
     },
     deleteEvent: {
         usernameProvidedError: 'Erabiltzaile izena ez da eman.',

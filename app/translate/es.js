@@ -216,6 +216,14 @@ module.exports = {
         saveError: "No se pudo guardar el servicio. Error:",
         success:"!Servicio guardado!"
     },
+    //newService
+    newServiceType: {
+        idProvidedError: 'El ID del tipo de servicio, no fue proporcionado.',
+        titleProvidedError: "El título del tipo de servicio es requerido.",
+        serviceTypesError: "No se encontró el tipo de servicio.",
+        saveError: "No se pudo guardar el tipo de servicio. Error:",
+        success:"!Tipo de Servicio guardado!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "El usurio de los eventos no fue proporcionado.",
@@ -275,7 +283,7 @@ module.exports = {
         paramProvidedError: "El ID del tema, no fue proporcionado.",
         themeError: "No se encontró ningun tema."
     },
-    updateCategory: {
+    editCategory: {
         idProvidedError: 'El ID de la categoría, no fue proporcionada.',
         categoryError: "No se encontró la categoría.",
         userError: "No se encontró el usuario.",
@@ -294,6 +302,14 @@ module.exports = {
         usersProvidedError: "Los usuarios de la aplicación no fueron proporcionados.",
         saveError: "No se pudo editar la aplicación. Error: ",
         success: "¡Aplicación editada!"
+    },
+     editServiceType: {
+        idProvidedError: 'El ID del tipo de servicio, no fue proporcionado.',
+        serviceTypeError: "No se encontró el tipo de servicio.",
+        userError: "No se encontró el usuario.",
+        permissionError: "No estás autorizado para editar el tipo de servicio.",
+        saveError: "No se pudo editar el tipo de servicio. Error: ",
+        success: "¡Tipo de servicio actualizado!"
     },
     deleteEvent: {
         usernameProvidedError: 'El nombre de usuario no fue proporcionado.',

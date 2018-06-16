@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { EventService } from '../../../services/event.service';
-import { TranslateService} from '@ngx-translate/core';
+import { TranslateService,LangChangeEvent} from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../../guards/auth.guard';
 import { Router,ActivatedRoute } from '@angular/router';
@@ -25,6 +25,7 @@ export class EventsAdministratorComponent implements OnInit {
   private subscriptionObservable: Subscription;
   private dtOptions: any = {};
   private dtTrigger: Subject<any> = new Subject();
+  private subscriptionLanguage: Subscription;
   constructor(
   	private eventService:EventService,
   	private authService:AuthService,
@@ -97,13 +98,25 @@ export class EventsAdministratorComponent implements OnInit {
       });
     }
   }
+    // Function to get events from the database
+  private getEventsInit() {
+    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
+      if(data.success){
+        this.events=data.events;
+      }
+      this.dtTrigger.next();
+    });
+  }
    // Function to get events from the database
   private getEvents() {
     this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
-        this.events=data.events;
-        console.log(this.events);
-        this.dtTrigger.next();
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance.destroy();
+          this.events=data.events;
+          this.dtTrigger.next();
+        });
       }
     });
   }
@@ -117,6 +130,13 @@ export class EventsAdministratorComponent implements OnInit {
       }
     });
     this.createSettings(); 
-    this.getEvents();
+    this.getEventsInit();
+    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.localizeService.parser.currentLang=event.lang;
+      this.getEvents(); 
+    });
+  }
+  ngOnDestroy(){
+      this.subscriptionLanguage.unsubscribe();
   }
 }

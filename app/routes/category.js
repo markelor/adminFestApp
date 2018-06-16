@@ -193,7 +193,7 @@ module.exports = (router) => {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.body._id) {
-                res.json({ success: false, message: eval(language + '.updateCategory.idProvidedError') }); // Return error message
+                res.json({ success: false, message: eval(language + '.editCategory.idProvidedError') }); // Return error message
             } else {
                 // Check if id exists in database
                 Category.findOne({
@@ -222,7 +222,7 @@ module.exports = (router) => {
                     } else {
                         // Check if id was found in the database
                         if (!category) {
-                            res.json({ success: false, message: eval(language + '.updateCategory.categoryError') }); // Return error message
+                            res.json({ success: false, message: eval(language + '.editCategory.categoryError') }); // Return error message
                         } else {
                             // Check who user is that is requesting caregory update
                             User.findOne({ _id: req.decoded.userId }, (err, user) => {
@@ -248,10 +248,10 @@ module.exports = (router) => {
                                 } else {
                                     // Check if user was found in the database
                                     if (!user) {
-                                        res.json({ success: false, message: eval(language + '.updateCategory.userError') }); // Return error message
+                                        res.json({ success: false, message: eval(language + '.editCategory.userError') }); // Return error message
                                     } else {
                                         if (user.permission !== 'admin') {
-                                            res.json({ success: false, message: eval(language + '.updateCategory.permissionError') }); // Return error message
+                                            res.json({ success: false, message: eval(language + '.editCategory.permissionError') }); // Return error message
                                         } else {
                                             if (newFirstParentId) category.firstParentId = newFirstParentId; // Assign new firstParentId to category in database
                                             if (newParentId){
@@ -279,10 +279,10 @@ module.exports = (router) => {
                                                             }
                                                         }
                                                     } else {
-                                                        res.json({ success: false, message: eval(language + '.updateCategory.saveError'), err }); // Return general error message
+                                                        res.json({ success: false, message: eval(language + '.editCategory.saveError'), err }); // Return general error message
                                                     }
                                                 } else {
-                                                    res.json({ success: true, message: eval(language + '.updateCategory.success') }); // Return success message
+                                                    res.json({ success: true, message: eval(language + '.editCategory.success') }); // Return success message
                                                 }
                                             });
                                         }

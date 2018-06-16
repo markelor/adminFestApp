@@ -9,7 +9,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ObservableService } from '../../../services/observable.service';
 import { AlphanumericValidator } from '../../../validators';
 import { ServiceType } from '../../../class/service-type';
-import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import {DataTableDirective} from 'angular-datatables';
@@ -21,6 +20,7 @@ import {DataTableDirective} from 'angular-datatables';
 export class CreateServiceTypeComponent implements OnInit {
   private message;
   private messageClass;
+  private serviceTypes;
   private subscriptionObservableSuccess: Subscription;
   private subscriptionObservableDelete: Subscription;
   private subscriptionLanguage: Subscription;
@@ -36,7 +36,6 @@ export class CreateServiceTypeComponent implements OnInit {
     private authService:AuthService,
     private observableService:ObservableService,
     private modalService: NgbModal,
-    private groupByPipe:GroupByPipe,
     private translate: TranslateService){
     }
   private serviceTypeStaticModalShow(serviceType) {
@@ -65,7 +64,13 @@ export class CreateServiceTypeComponent implements OnInit {
         'csv',
 
       ],
-      responsive: true
+      responsive: true,
+       columnDefs: [
+        { responsivePriority: 4, targets: 0 },
+        { responsivePriority: 1, targets: 1 },
+        { responsivePriority: 3, targets: 2 },
+        { responsivePriority: 2, targets: 3 }
+      ]
     };
   }
     private serviceTypeEditClick(serviceType): void {
@@ -74,12 +79,12 @@ export class CreateServiceTypeComponent implements OnInit {
     }
   }
   private serviceTypeDeleteClick(index,serviceType): void {
-    this.observableService.modalType="modal-delete-serviceType";
+    this.observableService.modalType="modal-delete-service-type";
     if(this.observableService.modalCount<1){
       this.staticModalShow();
       this.subscriptionObservableDelete=this.observableService.notifyObservable.subscribe(res => {
         this.subscriptionObservableDelete.unsubscribe();
-        if (res.hasOwnProperty('option') && res.option === 'modal-delete-serviceType') {
+        if (res.hasOwnProperty('option') && res.option === 'modal-delete-service-type') {
           this.serviceTypeService.deleteServiceType(serviceType._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){  
               this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
@@ -101,25 +106,35 @@ export class CreateServiceTypeComponent implements OnInit {
       } 
     });   
   }
- private getServiceTypesInit(){
-    //Get thematic
+   private getServiceTypesInit(){
+    //Get serviceType
       this.serviceTypeService.getServiceTypes(this.localizeService.parser.currentLang).subscribe(data=>{
-        if(data.success){           
+        if(data.success){ 
+          this.serviceTypes=data.serviceTypes;     
+           console.log(this.serviceTypes);    
           this.dtTrigger.next();
         }    
       });                 
   }
-  private getServiceTypes(){
-    //Get thematic
+ private getServiceTypes(){
+    //Get serviceType
       this.serviceTypeService.getServiceTypes(this.localizeService.parser.currentLang).subscribe(data=>{
-        if(data.success){    
+        if(data.success){ 
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
+            this.serviceTypes=data.serviceTypes;     
+            console.log(this.serviceTypes); 
             this.dtTrigger.next();
-          });
-        }    
+          });          
+        }  
       });                 
+  }
+  private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
+    console.log('Loaded SVG: ', svg, parent);
+    svg.setAttribute('width', '50');
+    svg.setAttribute('height', '50');
+    return svg;
   }
   ngOnInit() {
     $('textarea').each(function () {
@@ -129,18 +144,11 @@ export class CreateServiceTypeComponent implements OnInit {
     });
     this.createSettings(); 
     this.getServiceTypesInit();
-    this.observableServiceTypeSuccess();
+    this.observableServiceTypeSuccess(); 	
     this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.localizeService.parser.currentLang=event.lang;
       this.getServiceTypes(); 
-    });
-  	/*this.authService.getAllServiceTypes(this.localizeService.parser.currentLang).subscribe(data=>{
-      if(data.success){
-        if(data.permission==="admin" || data.permission==="moderator"){
-          this.getAllThemes(); 	     
-        }       
-      }     
-    });*/     	  
+    });  
   }
   ngOnDestroy(){
       this.subscriptionLanguage.unsubscribe();

@@ -106,7 +106,7 @@ export class EventFormComponent implements OnInit {
   private uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'event-poster',
     isHTML5: true,
-    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','image/svg+xml'],
+    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
     maxFileSize: 10*1024*1024 // 10 MB
   });
   private uploadOptions;
@@ -805,7 +805,7 @@ export class EventFormComponent implements OnInit {
     this.uploader.onWhenAddingFileFailed = (fileItem) => {
       if(fileItem.size>10*1024*1024){
         console.log("fitzategi haundiegia");
-      }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif" || fileItem.type === "image/svg+xml")){
+      }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif")){
         console.log("formatu okerra");
       }
       console.log("fail", fileItem);

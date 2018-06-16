@@ -38,7 +38,7 @@ export class CategoryFormComponent implements OnInit {
   private uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'category-icon',
     isHTML5: true,
-    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
+    allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','image/svg+xml'],
     maxFileSize: 10*1024*1024 // 10 MB
   });
   private uploadAllSuccess:Boolean=true;
@@ -325,12 +325,17 @@ export class CategoryFormComponent implements OnInit {
     this.uploader.onWhenAddingFileFailed = (fileItem) => {
       if(fileItem.size>10*1024*1024){
         console.log("fitzategi haundiegia");
-      }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif")){
+      }else if(!(fileItem.type === "image/png" ||fileItem.type === "image/jpg" ||fileItem.type === "image/jpeg" || fileItem.type === "image/gif"|| fileItem.type === "image/svg+xml")){
         console.log("formatu okerra");
       }
       console.log("fail", fileItem);
     }
 
+  }
+  private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
+    svg.setAttribute('width', '80');
+    svg.setAttribute('height', '80');
+    return svg;
   }
   ngOnInit() {
     /*$('textarea').each(function () {

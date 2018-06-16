@@ -28,7 +28,6 @@ export class ServiceTypeFormComponent implements OnInit {
   @Input() inputServiceType;
   @Input() inputLanguage;
   private title:AbstractControl;
-  private description:AbstractControl;
   private serviceType:ServiceType=new ServiceType();
   private iconsServiceType=[];
   private subscriptionObservable: Subscription;
@@ -83,14 +82,12 @@ export class ServiceTypeFormComponent implements OnInit {
       for (var i = 0; i < this.inputServiceType.translation.length; ++i) {
         if(this.inputServiceType.translation[i].language===this.inputLanguage){
           hasTranslation=true;
-          this.form.controls['title'].setValue(this.inputServiceType.translation[i].title);
-          this.form.controls['description'].setValue(this.inputServiceType.translation[i].description);  
+          this.form.controls['title'].setValue(this.inputServiceType.translation[i].title); 
         }
       }
       if(!hasTranslation){
         if(this.inputServiceType.language===this.inputLanguage){ 
-          this.form.controls['title'].setValue(this.inputServiceType.title);
-          this.form.controls['description'].setValue(this.inputServiceType.description);      
+          this.form.controls['title'].setValue(this.inputServiceType.title);    
         }
       }  
       this.iconsServiceType=this.inputServiceType.icons;
@@ -112,19 +109,16 @@ export class ServiceTypeFormComponent implements OnInit {
         hasTranslation=true;
         this.inputServiceType.translation[i].language=this.inputLanguage;
         this.inputServiceType.translation[i].title=this.form.get('title').value;
-        this.inputServiceType.translation[i].description=this.form.get('description').value;
       }
     }
     if(!hasTranslation){
       if(this.inputServiceType.language===this.inputLanguage){
         this.inputServiceType.language=this.inputLanguage,        
         this.inputServiceType.title=this.form.get('title').value;
-        this.inputServiceType.description=this.form.get('description').value;
       }else{
         var translationObj={
           language:this.inputLanguage,
-          title:this.form.get('title').value,
-          description:this.form.get('description').value
+          title:this.form.get('title').value
         }
         this.inputServiceType.translation.push(translationObj);             
       }
@@ -132,7 +126,7 @@ export class ServiceTypeFormComponent implements OnInit {
     console.log(this.inputServiceType);
     this.serviceTypeService.editServiceType(this.inputServiceType).subscribe(data=>{
       if(data.success){
-        this.observableService.modalType="modal-edit-serviceType-success";
+        this.observableService.modalType="modal-edit-service-type-success";
         this.observableService.notifyOther({option: this.observableService.modalType,serviceType:this.inputServiceType});
         this.messageClass = 'alert alert-success ks-solid '; // Set bootstrap success class
         this.message =data.message; // Set success message            
@@ -145,7 +139,7 @@ export class ServiceTypeFormComponent implements OnInit {
   private observableEdit(){
     this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
       this.subscriptionObservable.unsubscribe();
-      if (res.hasOwnProperty('option') && res.option === 'modal-edit-serviceType') {
+      if (res.hasOwnProperty('option') && res.option === 'modal-edit-service-type') {
         if(this.inputServiceType && res.language===this.inputLanguage){
           if(this.uploader.queue.length>0){
             this.uploader.uploadAll();
@@ -180,7 +174,7 @@ export class ServiceTypeFormComponent implements OnInit {
         this.enableForm();
       }else{
         this.uploader.clearQueue();
-        this.observableService.modalType="modal-edit-serviceType-success";
+        this.observableService.modalType="modal-edit-service-type-success";
         this.observableService.notifyOther({option: this.observableService.modalType});
         this.submitted = false;
         this.serviceType=new ServiceType();
@@ -286,6 +280,11 @@ export class ServiceTypeFormComponent implements OnInit {
       console.log("fail", fileItem);
     }
 
+  }
+  private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
+    svg.setAttribute('width', '80');
+    svg.setAttribute('height', '80');
+    return svg;
   }
   ngOnInit() {
     /*$('textarea').each(function () {

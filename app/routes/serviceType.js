@@ -34,6 +34,7 @@ module.exports = (router) => {
                 const serviceType = new ServiceType({
                     language: language,
                     title: req.body.title,
+                    icons:req.body.icons,
                     createdAt: Date.now(),
                     updatedAt: Date.now()
                 });
@@ -112,19 +113,15 @@ module.exports = (router) => {
     =============================================================== */
     router.put('/editServiceType', (req, res) => {
         var language = req.body.language;
-        if (req.body.firstParentId) var newFirstParentId = req.body.firstParentId; // Check if a change to firstParentId was requested
-        if (req.body.parentId) {}
-        var newParentId = req.body.parentId; // Check if a change to parentId was requested
-        if (req.body.level) var newLevel = req.body.level; // Check if a change to level was requested
         if (req.body.title) var newTitle = req.body.title; // Check if a change to title was requested
-        if (req.body.description) var newDescription = req.body.description; // Check if a change to description was requested
         if (req.body.translation) var newTranslation = req.body.translation; //Check if a change to translation was requested
+        if (req.body.icons) var newIcons = req.body.icons; // Check if a change to icons was requested
         // Check if id was provided
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             if (!req.body._id) {
-                res.json({ success: false, message: eval(language + '.updateServiceType.idProvidedError') }); // Return error message
+                res.json({ success: false, message: eval(language + '.editServiceType.idProvidedError') }); // Return error message
             } else {
                 // Check if id exists in database
                 ServiceType.findOne({
@@ -153,7 +150,7 @@ module.exports = (router) => {
                     } else {
                         // Check if id was found in the database
                         if (!serviceType) {
-                            res.json({ success: false, message: eval(language + '.updateServiceType.serviceTypeError') }); // Return error message
+                            res.json({ success: false, message: eval(language + '.editServiceType.serviceTypeError') }); // Return error message
                         } else {
                             // Check who user is that is requesting caregory update
                             User.findOne({ _id: req.decoded.userId }, (err, user) => {
@@ -179,21 +176,14 @@ module.exports = (router) => {
                                 } else {
                                     // Check if user was found in the database
                                     if (!user) {
-                                        res.json({ success: false, message: eval(language + '.updateServiceType.userError') }); // Return error message
+                                        res.json({ success: false, message: eval(language + '.editServiceType.userError') }); // Return error message
                                     } else {
                                         if (user.permission !== 'admin') {
-                                            res.json({ success: false, message: eval(language + '.updateServiceType.permissionError') }); // Return error message
+                                            res.json({ success: false, message: eval(language + '.editServiceType.permissionError') }); // Return error message
                                         } else {
-                                            if (newFirstParentId) serviceType.firstParentId = newFirstParentId; // Assign new firstParentId to serviceType in database
-                                            if (newParentId) {
-                                                serviceType.parentId = newParentId;
-                                            } else {
-                                                serviceType.parentId = null;
-                                            }
-                                            // Assign new parentId to serviceType in database
-                                            if (newLevel) serviceType.level = newLevel; // Assign new level to serviceType in database
+                                           
                                             if (newTitle) serviceType.title = newTitle; // Assign new title to serviceType in database
-                                            if (newDescription) serviceType.description = newDescription; // Assign new description to serviceType in database
+                                            if (newIcons) serviceType.icons = newIcons; // Assign new icons to serviceType in database
                                             if (newTranslation) serviceType.translation = newTranslation; // Assign new translation to serviceType in database
                                             serviceType.save((err) => {
                                                 if (err) {
@@ -202,17 +192,13 @@ module.exports = (router) => {
                                                         if (err.errors['title']) {
                                                             res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
                                                         } else {
-                                                            if (err.errors['description']) {
-                                                                res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
-                                                            } else {
-                                                                res.json({ success: false, message: err }); // Return general error message
-                                                            }
+                                                            res.json({ success: false, message: err }); // Return general error message
                                                         }
                                                     } else {
-                                                        res.json({ success: false, message: eval(language + '.updateServiceType.saveError'), err }); // Return general error message
+                                                        res.json({ success: false, message: eval(language + '.editServiceType.saveError'), err }); // Return general error message
                                                     }
                                                 } else {
-                                                    res.json({ success: true, message: eval(language + '.updateServiceType.success') }); // Return success message
+                                                    res.json({ success: true, message: eval(language + '.editServiceType.success') }); // Return success message
                                                 }
                                             });
                                         }

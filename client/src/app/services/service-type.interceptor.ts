@@ -12,15 +12,11 @@ export class ServiceTypeInterceptor implements HttpInterceptor {
   private localizeService;
   private domain;
   constructor(private injector: Injector) {}
-
-
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 	this.authService = this.injector.get(AuthService);
 	this.serviceTypeService = this.injector.get(ServiceTypeService);
 	this.localizeService=this.injector.get(LocalizeRouterService);
 	this.domain = this.authService.domain;
-	console.log(request.url);
-	console.log(this.domain+"serviceType/getServiceTypes/"+this.localizeService.parser.currentLang);
 	if(request.url===this.domain+"serviceType/newServiceType"){
 	request = request.clone({
 	  setHeaders: {

@@ -121,9 +121,25 @@ export class CategoryFormComponent implements OnInit {
       } 
     }     
   }
+  private deleteEditImages(deleteImage){
+     //see delete images
+    var deleteImages=[];
+    for (var i = 0; i < this.iconsCategory.length; ++i) {
+      let file = new File([],decodeURIComponent(this.iconsCategory[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/category-icon/')[1]);
+      let fileItem = new FileItem(this.uploader, file, {});
+      if(this.uploader.queue.some(e => e.file.name !== fileItem.file.name)){
+        deleteImages.push(this.iconsCategory[i]);
+        this.iconsCategory.splice(i,1);            
+      }
+    }
+    if(deleteImages.length>0 && deleteImage){
+      this.deleteUploadImages('icon',deleteImages);
+    }
+  }
   private editCategory(){
     var hasTranslation=false;
     this.inputCategory.parentId=this.form.get('parentCategory').value;
+     this.deleteEditImages(true);
     for (var i = 0; i < this.inputCategory.translation.length; ++i) {
       if(this.inputCategory.translation[i].language===this.inputLanguage){
         hasTranslation=true;
@@ -133,7 +149,7 @@ export class CategoryFormComponent implements OnInit {
       }
     }
     if(!hasTranslation){
-      if(this.inputCategory.language===this.inputLanguage){
+      if(this.inputCategory.language===this.inputLanguage){   
         this.inputCategory.language=this.inputLanguage,        
         this.inputCategory.title=this.form.get('title').value;
         this.inputCategory.description=this.form.get('description').value;
@@ -146,7 +162,6 @@ export class CategoryFormComponent implements OnInit {
         this.inputCategory.translation.push(translationObj);             
       }
     }
-    console.log(this.inputCategory);
     this.categoryService.editCategory(this.inputCategory).subscribe(data=>{
       if(data.success){
         this.observableService.modalType="modal-edit-category-success";
@@ -169,13 +184,6 @@ export class CategoryFormComponent implements OnInit {
             if(this.uploader.queue[0].isUploaded){
               this.editCategory();
             }
-          }else{
-            if(this.inputOperation==='edit'){
-              this.deleteUploadImages('icon',this.iconsCategory);
-              this.iconsCategory=[];
-              this.inputCategory.icons=[];
-              this.editCategory();
-            }      
           }
         }     
       }

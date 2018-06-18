@@ -71,7 +71,6 @@ export class EventFormComponent implements OnInit {
   private loadingEvents = false;
   private form:FormGroup;
   private submitted:boolean = false;
-  private username;
   private imagesPoster=[];
   @Input() inputLanguage;
   @Input() inputOperation:string;
@@ -97,6 +96,7 @@ export class EventFormComponent implements OnInit {
   private categoryId=[];
   private levelCategories=[];
   private participants=[];
+  private categoryIcon;
   private provincesEvent;
   private municipalitiesEvent;
   private locationsExistsEvent=[];
@@ -395,7 +395,7 @@ export class EventFormComponent implements OnInit {
     this.submitted = true;
     // Create event object from form fields
     this.event.setLanguage=this.localizeService.parser.currentLang;// Language field
-    this.event.setCreatedBy=this.username; // CreatedBy field
+    this.event.setCreatedBy=this.authService.user.username; // CreatedBy field
     this.event.setTitle=this.form.get('title').value; // Title field
     this.event.setParticipants=this.participants;
     this.event.setStart=new Date(this.form.get('start').value.year,this.form.get('start').value.month,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
@@ -477,7 +477,7 @@ export class EventFormComponent implements OnInit {
     if(this.inputEvent){
       var hasTranslationEvent=false;
       var hasTranslationPlace=false;
-      this.inputEvent.createdBy=this.username; // CreatedBy field   
+      this.inputEvent.createdBy=this.authService.user.username; // CreatedBy field   
       this.inputEvent.participants=this.participants;
       this.inputEvent.start=new Date(this.form.get('start').value.year,this.form.get('start').value.month,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
       this.inputEvent.end=new Date(this.form.get('end').value.year,this.form.get('end').value.month,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
@@ -639,6 +639,8 @@ export class EventFormComponent implements OnInit {
       var newFormArray=false;
       if(this.levelCategories[level+1]){
          for (var i = 0; i < this.levelCategories[level+1].value.length; ++i) {
+          //set icon map
+          this.categoryIcon=this.levelCategories[level].value[index].icons[0].url;
           if(this.levelCategories[level+1].value[i].parentId===this.levelCategories[level].value[index]._id){
             newFormArray=true;
           }
@@ -722,7 +724,7 @@ export class EventFormComponent implements OnInit {
     if (defaultCoordinates){
       var market_info={
         title:this.form.get('title').value,
-        category:this.form.get('categories').value[this.form.get('categories').value.length-1].category, // Event field
+        icon:this.categoryIcon, // Event field
         lat:defaultCoordinates.lat, // Lat field
         lng:defaultCoordinates.lng, // Lng field
       }
@@ -731,7 +733,7 @@ export class EventFormComponent implements OnInit {
     }else{
       var market_info={
         title:this.form.get('title').value,
-        category:this.form.get('categories').value[this.form.get('categories').value.length-1].category, // Event field
+        icon:this.categoryIcon, // Event field
         lat:this.form.get('lat').value, // Lat field
         lng:this.form.get('lng').value, // Lng field
       }
@@ -852,17 +854,7 @@ export class EventFormComponent implements OnInit {
       }
     }
   ngOnInit() {
-  	this.initializeForm();
-    // Get profile username on page load
-    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
-      if(!authentication.success){
-        this.authService.logout();
-        this.authGuard.redirectUrl=this.router.url;
-        this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
-      }else{
-        this.username = authentication.user.username; // Used when creating new categories posts and comments
-      } 
-    });
+    this.initializeForm();
     this.location.valueChanges.subscribe(data=>{
       if(data===''){
         this.locationsExists.setValidators([Validators.compose([Validators.required,Validators.maxLength(1000)])]);

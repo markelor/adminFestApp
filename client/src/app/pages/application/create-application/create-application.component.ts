@@ -13,6 +13,8 @@ import { Category } from '../../../class/category';
 import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
+import { AuthGuard} from '../../guards/auth.guard';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-application',
   templateUrl: './create-application.component.html',
@@ -43,16 +45,27 @@ export class CreateApplicationComponent implements OnInit {
     private observableService:ObservableService,
     private modalService: NgbModal,
     private groupByPipe:GroupByPipe,
-    private translate: TranslateService){
+    private translate: TranslateService,
+    private router:Router,
+    private authGuard:AuthGuard){
     }
    
   ngOnInit() {
+     // Get authentication on page load
+    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
+      if(!authentication.success){
+        this.authService.logout();
+        this.authGuard.redirectUrl=this.router.url;
+        this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
+      }
+    });
     this.language=this.localizeService.parser.currentLang;
     $('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
     }).on('input', function () {
       this.style.height = (this.scrollHeight) + 'px';
     });
+
     //this.createSettings(); 
     //this.getAllCategories();
   	/*this.authService.getAllCategorys(this.localizeService.parser.currentLang).subscribe(data=>{

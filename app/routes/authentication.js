@@ -1,11 +1,13 @@
 const User = require('../models/user'); // Import User Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
+const configAws = require('../config/aws'); // Import database configuration
 const config = require('../config/database'); // Import database configuration
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
 const en = require('../translate/en'); // Import translate en
 const nodemailer = require('nodemailer');
 const emailConfig = require('../config/email'); // Mongoose Email
+var aws = require('aws-sdk');
 module.exports = (router) => {
     // create reusable transporter object using the default SMTP transport
     var transporter = nodemailer.createTransport({
@@ -17,7 +19,7 @@ module.exports = (router) => {
             pass: emailConfig.password
         }
     });
-
+    var s3 = new aws.S3(configAws);
     /* ==============
        Register Route
     ============== */
@@ -50,7 +52,7 @@ module.exports = (router) => {
                             user.email = req.body.email; // Save email from request to User object
                             user.name = req.body.name; // Save name from request to User object
                             user.language = req.body.language;
-                            user.aboutYourself=req.body.aboutYourself;
+                            user.aboutYourself = req.body.aboutYourself;
                             user.temporaryToken = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' }); // Create a token for activating account through e-mail
                             // Save user to database
                             user.save((err) => {
@@ -960,7 +962,7 @@ module.exports = (router) => {
                                         res.json({ success: true, users: users, permission: mainUser.permission }); // Return users, along with current user's permission
                                     }
                                 } else {
-                                    res.json({ success: false, message: eval(language + '.management.permissionError') }); // Return access error
+                                    res.json({ success: false, message: eval(language + '.general.permissionError') }); // Return access error
                                 }
                             }
                         }
@@ -983,7 +985,7 @@ module.exports = (router) => {
             if (!req.params.username) {
                 res.json({ success: false, message: eval(language + '.management.usernameProvidedError') }); // Return error
             } else {
-                var deletedUser = req.params.username; // Assign the username from request parameters to a variable
+                var deleteUser = req.params.username; // Assign the username from request parameters to a variable
                 User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
                     if (err) {
                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
@@ -1009,36 +1011,117 @@ module.exports = (router) => {
                         if (!mainUser) {
                             res.json({ success: false, message: eval(language + '.management.userError') }); // Return error
                         } else {
-                            // Check if curent user has admin access
-                            if (mainUser.permission !== 'admin') {
-                                res.json({ success: false, message: eval(language + '.management.permissionError') }); // Return error
-                            } else {
-                                // Fine the user that needs to be deleted
-                                User.findOneAndRemove({ username: deletedUser }, function(err, user) {
-                                    if (err) {
-                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                        var mailOptions = {
-                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                            to: [emailConfig.email],
-                                            subject: ' Find one and remove for delete user ',
-                                            text: 'The following error has been reported in Kultura: ' + err,
-                                            html: 'The following error has been reported in Kultura:<br><br>' + err
-                                        };
-                                        // Function to send e-mail to myself
-                                        transporter.sendMail(mailOptions, function(err, info) {
-                                            if (err) {
-                                                console.log(err); // If error with sending e-mail, log to console/terminal
-                                            } else {
-                                                console.log(info); // Log success message to console if sent
-                                                console.log(user.email); // Display e-mail that it was sent to
-                                            }
-                                        });
-                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                            // Look for user in database
+                            User.findOne({ username: deleteUser }, function(err, user) {
+                                if (err) {
+                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                    var mailOptions = {
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                        to: [emailConfig.email],
+                                        subject: ' Find one 2 delete event error ',
+                                        text: 'The following error has been reported in Kultura: ' + err,
+                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                    }; // Function to send e-mail to myself
+                                    transporter.sendMail(mailOptions, function(err, info) {
+                                        if (err) {
+                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                        } else {
+                                            console.log(info); // Log success message to console if sent
+                                            console.log(user.email); // Display e-mail that it was sent to
+                                        }
+                                    });
+                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                } else {
+                                    // Check if user is in database
+                                    if (!user) {
+                                        res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
                                     } else {
-                                        res.json({ success: true }); // Return success status
+                                        var saveErrorPermission = false;
+                                        // Check if the current permission is 'admin'
+                                        if (mainUser.permission === 'admin') {
+                                            // Check if user making changes has access
+                                            if (user.permission === 'admin') {
+                                                saveErrorPermission = language + '.general.adminOneError';
+                                            }
+                                        }
+                                        //check saveError permision to save changes or not
+                                        if (saveErrorPermission) {
+                                            res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                        } else {
+                                            // Fine the user that needs to be deleted
+                                            User.findOneAndRemove({ username: deleteUser }, function(err, user) {
+                                                if (err) {
+                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                    var mailOptions = {
+                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                        to: [emailConfig.email],
+                                                        subject: ' Find one and remove for delete user ',
+                                                        text: 'The following error has been reported in Kultura: ' + err,
+                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                    };
+                                                    // Function to send e-mail to myself
+                                                    transporter.sendMail(mailOptions, function(err, info) {
+                                                        if (err) {
+                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                        } else {
+                                                            console.log(info); // Log success message to console if sent
+                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                        }
+                                                    });
+                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                } else {
+                                                    function deleteImages(images, bucket) {
+                                                        var imagesKey = [];
+                                                        for (var i = 0; i < images.length; i++) {
+                                                            if (bucket === "user-profile") {
+                                                                var currentUrlSplit = images[i].split("/");
+                                                                let imageName = currentUrlSplit[currentUrlSplit.length - 1];
+                                                                var urlSplit = imageName.split("%2F");
+                                                                imagesKey.push({
+                                                                    Key: bucket + "/" + urlSplit[0]
+                                                                });
+                                                            }
+                                                        }
+                                                        s3.deleteObjects({
+                                                            Bucket: "culture-bucket",
+                                                            Delete: {
+                                                                Objects: imagesKey,
+                                                                Quiet: false
+                                                            }
+                                                        }, function(err, data) {
+                                                            if (err) {
+                                                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                var mailOptions = {
+                                                                    from: emailConfig.email,
+                                                                    to: emailConfig.email,
+                                                                    subject: 'Error delete images user',
+                                                                    text: 'The following error has been reported in File Upload part: ' + 'Date:' + Date.now().toString() + err,
+                                                                    html: 'The following error has been reported in the File Upload part:<br><br>' + 'Date:' + Date.now().toString() + err
+                                                                };
+                                                                // Function to send e-mail to myself
+                                                                transporter.sendMail(mailOptions, function(err, info) {
+                                                                    if (err) {
+                                                                        console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                    } else {
+                                                                        console.log(info); // Log success message to console if sent
+                                                                        console.log(user.email); // Display e-mail that it was sent to
+                                                                    }
+                                                                });
+                                                                res.json({ success: false, message: eval(language + '.fileUpload.deleteError') });
+                                                            } else {}
+                                                        });
+                                                    }
+                                                    if (user.avatars.length > 0) {
+                                                        deleteImages(user.avatars, "user-profile");
+                                                    }
+                                                    res.json({ success: true }); // Return success status
+                                                }
+                                            });
+
+                                        }
                                     }
-                                });
-                            }
+                                }
+                            });
                         }
                     }
                 });

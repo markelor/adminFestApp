@@ -4,7 +4,7 @@ var aws = require('aws-sdk');
 var multer = require('multer'); //require multer for the file uploads
 var multerS3 = require('multer-s3');
 var FroalaEditor = require('wysiwyg-editor-node-sdk');
-const config = require('../config/aws'); // Import database configuration
+const configAws = require('../config/aws'); // Import database configuration
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
 const en = require('../translate/en'); // Import translate en
@@ -29,7 +29,7 @@ module.exports = (router) => {
         res.header("Access-Control-Allow-Credentials", true);
         next();
     });
-    var s3 = new aws.S3(config);
+    var s3 = new aws.S3(configAws);
 
 
     /* ===============================================================
@@ -48,7 +48,7 @@ module.exports = (router) => {
                     bucket: 'culture-bucket',
 
                     // S3 region. If you are using the default us-east-1, it this can be ignored.
-                    region: config.region,
+                    region: configAws.region,
 
                     // The folder where to upload the images.
                     keyStart: req.params.bucket + '/',
@@ -56,8 +56,8 @@ module.exports = (router) => {
                     // File access.
                     acl: 'public-read',
                     // AWS keys.
-                    accessKey: config.accessKeyId,
-                    secretKey: config.secretAccessKey
+                    accessKey: configAws.accessKeyId,
+                    secretKey: configAws.secretAccessKey
                 };
 
                 var s3Hash = FroalaEditor.S3.getHash(configs);
@@ -191,7 +191,7 @@ module.exports = (router) => {
                                                             res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
                                                         } else {
                                                             var saveErrorPermission = false;
-                                                            var url = 'https://s3-' + config.region + '.amazonaws.com/' + bucket + '/' + key;
+                                                            var url = 'https://s3-' + configAws.region + '.amazonaws.com/' + bucket + '/' + key;
                                                             // Check if is owner
                                                             if (mainUser._id.toString() === user._id.toString()) {
                                                                 user.avatars.push(url); // Assign avats to user                                      

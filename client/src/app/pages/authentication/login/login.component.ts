@@ -3,7 +3,7 @@ import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/fo
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { AuthGuard} from '../../guards/auth.guard';
-import { UserGuard} from '../../guards/user.guard';
+import { ContributorGuard} from '../../guards/contributor.guard';
 import { ModeratorGuard} from '../../guards/moderator.guard';
 import { AdminGuard} from '../../guards/admin.guard';
 import { TranslateService } from '@ngx-translate/core';
@@ -32,9 +32,9 @@ export class LoginComponent implements OnInit {
     private router:Router,
     private translate: TranslateService,
     private authGuard:AuthGuard,
-    private userGuard:UserGuard,
+    private contributorGuard:ContributorGuard,
     private moderatorGuard:ModeratorGuard,
-     private adminGuard:AdminGuard) {
+    private adminGuard:AdminGuard) {
     this.createForm();  // Create Login Form when component is constructed
   	}
 
@@ -111,15 +111,15 @@ export class LoginComponent implements OnInit {
       });
       this.previousUrl = this.authGuard.redirectUrl; // Set the previous URL user was redirected from
       this.authGuard.redirectUrl = undefined; // Erase previous URL
-    }else if(this.userGuard.redirectUrl){
+    }else if(this.contributorGuard.redirectUrl){
       this.translate.get('auth-form.guard-error').subscribe(data => {
           if(data){
             this.messageClass = 'alert alert-danger ks-solid'; // Set error message: need to login
             this.message = data; // Set error message
           } 
       });
-      this.previousUrl = this.userGuard.redirectUrl; // Set the previous URL user was redirected from
-      this.userGuard.redirectUrl = undefined; // Erase previous URL
+      this.previousUrl = this.contributorGuard.redirectUrl; // Set the previous URL user was redirected from
+      this.contributorGuard.redirectUrl = undefined; // Erase previous URL
     }else if(this.moderatorGuard.redirectUrl){
       this.translate.get('auth-form.guard-error').subscribe(data => {
           if(data){

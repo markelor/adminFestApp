@@ -3,7 +3,7 @@ const Application = require('../models/application'); // Import Application Mode
 const Event = require('../models/event'); // Import Event Model Schema
 const Place = require('../models/place'); // Import Event Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
-const config = require('../config/aws'); // Import database configuration
+const configAws = require('../config/aws'); // Import database configuration
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
 const en = require('../translate/en'); // Import translate en
@@ -22,7 +22,7 @@ module.exports = (router) => {
             pass: emailConfig.password
         }
     });
-    var s3 = new aws.S3(config);
+    var s3 = new aws.S3(configAws);
     /* ===============================================================
        CREATE NEW application
     =============================================================== */

@@ -48,13 +48,13 @@ export class EventComponent  {
         fontFamily: '',
         fontSize: '14px',
         fontWeight: 'bold',*/
-        text: this.bindPipe.transform(this.events[i],this.language,'title',undefined),
+        //text: this.bindPipe.transform(this.events[i],this.language,'title',undefined),
        },
       draggable: true
     });
 
   }
-  private organizedEvents(events){
+  /*private organizedEvents(events){
     this.events = events; // Assign array to use in HTML
     for (var i = 0; i < this.events.length; i++) {  
       //Get class
@@ -72,6 +72,7 @@ export class EventComponent  {
       }
     } 
   }
+  */
 
  /* private getAllEventsThematic(thematic) {
     // Function to GET all events from database

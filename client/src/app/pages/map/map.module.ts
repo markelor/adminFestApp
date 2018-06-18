@@ -8,9 +8,10 @@ import { SharedModule } from "../../shared/shared.module";
 import { BindContentPipe } from '../../shared/pipes/bind-content.pipe';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { EventFormComponent } from './event-form/event-form.component';
+import { InlineSVGModule } from 'ng-inline-svg';
 @NgModule({
   imports: [
-    CommonModule,AgmCoreModule,MapRoutingModule,TranslateModule,SharedModule,AgmSnazzyInfoWindowModule
+    CommonModule,AgmCoreModule,MapRoutingModule,TranslateModule,SharedModule,AgmSnazzyInfoWindowModule,InlineSVGModule
   ],
   declarations: [EventComponent,EventFormComponent],
   exports: [EventComponent,EventFormComponent],

@@ -22,13 +22,13 @@ export class ServiceTypeService {
   public getServiceTypes(language) {
     return this.http.get<any>(this.domain + 'serviceType/getServiceTypes/'+language);
   }
-  // Function to delete a serviceType
-  public deleteServiceType(id,language) {
-    this.route=  encodeURIComponent(id)+'/';
-    return this.http.delete<any>(this.domain + 'serviceType/delete/' + this.route+language);
-  }
   // Function to edit a serviceType
   public editServiceType(serviceType) {
     return this.http.put<any>(this.domain + 'serviceType/editServiceType',serviceType);
+  }
+  // Function to delete a serviceType
+  public deleteServiceType(username,id,language) {
+    this.route= username+'/'+id +'/'
+    return this.http.delete<any>(this.domain + 'serviceType/deleteServiceType/' + this.route+language);
   }
 }

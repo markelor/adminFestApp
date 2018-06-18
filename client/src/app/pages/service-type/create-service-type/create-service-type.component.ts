@@ -12,6 +12,8 @@ import { ServiceType } from '../../../class/service-type';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import {DataTableDirective} from 'angular-datatables';
+import { AuthGuard} from '../../guards/auth.guard';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-service-type',
   templateUrl: './create-service-type.component.html',
@@ -36,7 +38,9 @@ export class CreateServiceTypeComponent implements OnInit {
     private authService:AuthService,
     private observableService:ObservableService,
     private modalService: NgbModal,
-    private translate: TranslateService){
+    private translate: TranslateService,
+    private router:Router,
+    private authGuard:AuthGuard){
     }
   private serviceTypeStaticModalShow(serviceType) {
     const activeModal = this.modalService.open(ServiceTypeModalComponent, {backdrop: 'static'});
@@ -85,8 +89,15 @@ export class CreateServiceTypeComponent implements OnInit {
       this.subscriptionObservableDelete=this.observableService.notifyObservable.subscribe(res => {
         this.subscriptionObservableDelete.unsubscribe();
         if (res.hasOwnProperty('option') && res.option === 'modal-delete-service-type') {
-          this.serviceTypeService.deleteServiceType(serviceType._id,this.localizeService.parser.currentLang).subscribe(data=>{
+          this.serviceTypeService.deleteServiceType(this.authService.user.username,serviceType._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){  
+              this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              // Destroy the table first
+              dtInstance.destroy();
+              this.serviceTypes.splice(index,1);
+              // Call the addTrigger to rerender again
+              this.dtTrigger.next();
+            }); 
               this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
               this.message = data.message; // Set success messag
             }else{
@@ -100,7 +111,6 @@ export class CreateServiceTypeComponent implements OnInit {
   }
   private observableServiceTypeSuccess(){
     this.subscriptionObservableSuccess=this.observableService.notifyObservable.subscribe(res => {
-      console.log(res);
       if (res.hasOwnProperty('option') && res.option === 'modal-edit-service-type-success') {
        this.getServiceTypes();
       } 
@@ -110,8 +120,7 @@ export class CreateServiceTypeComponent implements OnInit {
     //Get serviceType
       this.serviceTypeService.getServiceTypes(this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success){ 
-          this.serviceTypes=data.serviceTypes;     
-           console.log(this.serviceTypes);    
+          this.serviceTypes=data.serviceTypes;        
           this.dtTrigger.next();
         }    
       });                 
@@ -124,19 +133,25 @@ export class CreateServiceTypeComponent implements OnInit {
             // Destroy the table first
             dtInstance.destroy();
             this.serviceTypes=data.serviceTypes;     
-            console.log(this.serviceTypes); 
             this.dtTrigger.next();
           });          
         }  
       });                 
   }
   private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
-    console.log('Loaded SVG: ', svg, parent);
     svg.setAttribute('width', '50');
     svg.setAttribute('height', '50');
     return svg;
   }
   ngOnInit() {
+     // Get authentication on page load
+    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
+      if(!authentication.success){
+        this.authService.logout();
+        this.authGuard.redirectUrl=this.router.url;
+        this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
+      }
+    });
     $('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
     }).on('input', function () {

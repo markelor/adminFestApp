@@ -139,8 +139,7 @@ module.exports = {
     management: {
         usernameProvidedError: "Erabiltzaile izena ez da eman.",
         userError: "Erabiltzailea ez da aurkitu.",
-        usersError: "Erabiltzaileak ez dira aurkitu.",
-        permissionError: "Ez duzu nahikoa baimen"
+        usersError: "Erabiltzaileak ez dira aurkitu."
     },
     authentication: {
         userError: "Erabiltzailea ez da aurkitu."
@@ -322,6 +321,12 @@ module.exports = {
         idProvidedError: 'Ez da ekintzaren IDa eman.',
         saveError: "Ezin izan da ekintza ezabatu. Akatsa: ",
         success: "Ekintza ezabatu da!"
+    },
+    deleteServiceType: {
+        usernameProvidedError: 'Erabiltzaile izena ez da eman.',
+        idProvidedError: 'Ez da zerbitzu motaren IDa eman.',
+        saveError: "Ezin izan da zerbitzu mota ezabatu. Akatsa: ",
+        success: "Zerbitzu mota ezabatu da!"
     },
     addThemeReaction: {
         idProvidedError: 'Ez da gaiaren IDa eman.',

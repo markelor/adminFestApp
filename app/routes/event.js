@@ -4,7 +4,7 @@ const Category = require('../models/category'); // Import Category Model Schema
 const Place = require('../models/place'); // Import Place Model Schema
 const Application = require('../models/application'); // Import Application Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.const Place = require('../models/place'); // Import Place Model Schema
-const config = require('../config/aws'); // Import database configuration
+const configAws = require('../config/aws'); // Import database configuration
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
 const en = require('../translate/en'); // Import translate en
@@ -23,7 +23,7 @@ module.exports = (router) => {
             pass: emailConfig.password
         }
     });
-    var s3 = new aws.S3(config);
+    var s3 = new aws.S3(configAws);
     /* ===============================================================
        CREATE NEW category
     =============================================================== */
@@ -940,14 +940,14 @@ module.exports = (router) => {
                                                         function deleteImages(images, bucket) {
                                                             var imagesKey = [];
                                                             for (var i = 0; i < images.length; i++) {
-                                                                if (bucket === "poster") {
+                                                                if (bucket === "event-poster") {
                                                                     var currentUrlSplit = images[i].url.split("/");
                                                                     let imageName = currentUrlSplit[currentUrlSplit.length - 1];
                                                                     var urlSplit = imageName.split("%2F");
                                                                     imagesKey.push({
                                                                         Key: bucket + "/" + urlSplit[0]
                                                                     });
-                                                                } else if (bucket === "description") {
+                                                                } else if (bucket === "event-description") {
                                                                     var currentUrlSplit = images[i].split("/");
                                                                     let imageName = currentUrlSplit[currentUrlSplit.length - 1];
                                                                     var urlSplit = imageName.split("%2F");
@@ -986,17 +986,17 @@ module.exports = (router) => {
                                                             });
                                                         }
                                                         if (event.images.poster.length>0) {
-                                                            deleteImages(event.images.poster, "poster");
+                                                            deleteImages(event.images.poster, "event-poster");
                                                         }
                                                         if (event.images.description.length>0) {
-                                                            deleteImages(event.images.description, "description");
+                                                            deleteImages(event.images.description, "event-description");
                                                         }
                                                         for (var i = 0; i < event.translation.length; i++) {
                                                             if (event.translation[i].images.poster.length>0) {
-                                                                deleteImages(event.translation[i].images.poster, "poster");
+                                                                deleteImages(event.translation[i].images.poster, "event-poster");
                                                             }
                                                             if (event.translation[i].images.description.length>0) {
-                                                                deleteImages(event.translation[i].images.description, "description");
+                                                                deleteImages(event.translation[i].images.description, "event-description");
                                                             }
                                                         }
                                                     }

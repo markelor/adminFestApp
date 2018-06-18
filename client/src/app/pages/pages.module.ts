@@ -7,7 +7,7 @@ import { PagesComponent } from './pages.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { AdminGuard } from './guards/admin.guard';
-import { UserGuard } from './guards/user.guard';
+import { ContributorGuard } from './guards/contributor.guard';
 import { ModeratorGuard } from './guards/moderator.guard';
 import { AuthService } from '../services/auth.service';
 import { CategoryService } from '../services/category.service';
@@ -82,6 +82,6 @@ import { InlineSVGModule } from 'ng-inline-svg';
       useClass: ServiceTypeInterceptor,
       multi: true
     },
-   AuthService,CategoryService,EventService,PlaceService,ServiceService,ServiceTypeService,FileUploaderService,ObservableService,ApplicationService,AuthGuard,NotAuthGuard,UserGuard,ModeratorGuard,AdminGuard]
+   AuthService,CategoryService,EventService,PlaceService,ServiceService,ServiceTypeService,FileUploaderService,ObservableService,ApplicationService,AuthGuard,NotAuthGuard,ContributorGuard,ModeratorGuard,AdminGuard]
 })
 export class PagesModule { }

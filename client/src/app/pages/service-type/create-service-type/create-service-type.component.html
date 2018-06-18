@@ -15,14 +15,14 @@
           <tbody>
             <tr *ngFor="let serviceType of serviceTypes; let i=index">
               <!--Id-->
-              <td *ngIf="serviceType.language===localizeService.parser.currentLang">{{serviceType._id}}</td>
+              <td>{{serviceType._id}}</td>
               <!--Title-->
               <td *ngIf="serviceType.language===localizeService.parser.currentLang">{{serviceType.title}}</td>
               <ng-container *ngFor="let translation of serviceType.translation">
                 <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.title}}</td> 
               </ng-container> 
               <!--Icon-->
-              <td *ngIf="serviceType.language===localizeService.parser.currentLang" [inlineSVG]="serviceType.icons[0].url" [onSVGLoaded]="handleSVG" >
+              <td [inlineSVG]="serviceType.icons[0].url" [onSVGLoaded]="handleSVG" >
               </td>
               <td class="ks-status">
                 <a href="javascript:void(0)" (click)="serviceTypeEditClick(serviceType)"><span class="fa fa-edit ks-color-info" translate>{{'crud.edit'}}</span></a>

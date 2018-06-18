@@ -139,8 +139,7 @@ module.exports = {
     management: {
         usernameProvidedError: "Username was not provided.",
         userError: "No user was found.",
-        usersError: "Users not found.",
-        permissionError: "Insufficient permissions."
+        usersError: "Users not found."
     },
     authentication: {
         userError: "No user was found."
@@ -317,6 +316,12 @@ module.exports = {
         idProvidedError: 'Event ID was not provided.',
         saveError: "Could not delete event. Error: ",
         success: "Event deleted!"
+    },
+    deleteServiceType: {
+        usernameProvidedError: 'Username was not provided.',
+        idProvidedError: 'Service type ID was not provided.',
+        saveError: "Could not delete service type. Error: ",
+        success: "Service type deleted!"
     },
     deleteApplication: {
         usernameProvidedError: 'Username was not provided.',

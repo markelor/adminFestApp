@@ -1,6 +1,6 @@
 <!-- this creates a google map on the page with the given lat/lng from -->
 <!-- the component as the initial center of the map: -->
 <agm-map [latitude]="lat" [longitude]="lng" [usePanning]='true' [zoom]="zoom" [fullscreenControl]="true" [mapTypeControl]="true">
-  <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.labelOptions" [iconUrl]="m.icon">
+  <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.labelOptions" [inlineSVG]="m.icon.url" [onSVGLoaded]="handleSVG" [iconUrl]="m.icon">
   </agm-marker>
 </agm-map>

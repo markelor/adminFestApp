@@ -68,7 +68,7 @@ let validName = (name) => {
         return false; // Return error
     } else {
         // Regular expression to test if name format is valid
-        const regExp = new RegExp(/^[A-Za-z\d\s]+$/);
+        const regExp = new RegExp(/^[A-zÀ-ÖØ-öø-ÿ\s]+$/);
         return regExp.test(name); // Return regular expression test result (true or false)
     }
 };

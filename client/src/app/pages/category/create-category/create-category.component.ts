@@ -13,6 +13,8 @@ import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import {DataTableDirective} from 'angular-datatables';
+import { AuthGuard} from '../../guards/auth.guard';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-category',
   templateUrl: './create-category.component.html',
@@ -38,7 +40,9 @@ export class CreateCategoryComponent implements OnInit {
     private observableService:ObservableService,
     private modalService: NgbModal,
     private groupByPipe:GroupByPipe,
-    private translate: TranslateService){
+    private translate: TranslateService,
+    private router:Router,
+    private authGuard:AuthGuard){
     }
   private categoryStaticModalShow(category) {
     const activeModal = this.modalService.open(CategoryModalComponent, {backdrop: 'static'});
@@ -143,6 +147,14 @@ export class CreateCategoryComponent implements OnInit {
     return svg;
   }
   ngOnInit() {
+     // Get authentication on page load
+    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
+      if(!authentication.success){
+        this.authService.logout();
+        this.authGuard.redirectUrl=this.router.url;
+        this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
+      }
+    });
     $('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
     }).on('input', function () {

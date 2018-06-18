@@ -78,7 +78,6 @@ export class ServiceTypeFormComponent implements OnInit {
   private initializeForm(){  
     if(this.inputServiceType){
       var hasTranslation=false;
-
       for (var i = 0; i < this.inputServiceType.translation.length; ++i) {
         if(this.inputServiceType.translation[i].language===this.inputLanguage){
           hasTranslation=true;
@@ -102,8 +101,24 @@ export class ServiceTypeFormComponent implements OnInit {
       } 
     }     
   }
+  private deleteEditImages(deleteImage){
+     //see delete images
+    var deleteImages=[];
+    for (var i = 0; i < this.iconsServiceType.length; ++i) {
+      let file = new File([],decodeURIComponent(this.iconsServiceType[i].url).split('https://s3.eu-west-1.amazonaws.com/culture-bucket/service-type-icon/')[1]);
+      let fileItem = new FileItem(this.uploader, file, {});
+      if(this.uploader.queue.some(e => e.file.name !== fileItem.file.name)){
+        deleteImages.push(this.iconsServiceType[i]);
+        this.iconsServiceType.splice(i,1);            
+      }
+    }
+    if(deleteImages.length>0 && deleteImage){
+      this.deleteUploadImages('icon',deleteImages);
+    }
+  }
   private editServiceType(){
     var hasTranslation=false;
+    this.deleteEditImages(true);
     for (var i = 0; i < this.inputServiceType.translation.length; ++i) {
       if(this.inputServiceType.translation[i].language===this.inputLanguage){
         hasTranslation=true;
@@ -123,7 +138,6 @@ export class ServiceTypeFormComponent implements OnInit {
         this.inputServiceType.translation.push(translationObj);             
       }
     }
-    console.log(this.inputServiceType);
     this.serviceTypeService.editServiceType(this.inputServiceType).subscribe(data=>{
       if(data.success){
         this.observableService.modalType="modal-edit-service-type-success";
@@ -146,13 +160,6 @@ export class ServiceTypeFormComponent implements OnInit {
             if(this.uploader.queue[0].isUploaded){
               this.editServiceType();
             }
-          }else{
-            if(this.inputOperation==='edit'){
-              this.deleteUploadImages('icon',this.iconsServiceType);
-              this.iconsServiceType=[];
-              this.inputServiceType.icons=[];
-              this.editServiceType();
-            }      
           }
         }     
       }

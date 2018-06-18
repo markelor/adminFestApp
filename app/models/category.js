@@ -26,7 +26,7 @@ let alphaNumericTitleChecker = (title) => {
         return false; // Return error
     } else {
         // Regular expression to test for a valid title
-        const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
+        const regExp = new RegExp(/^[A-zÀ-ÖØ-öø-ÿ]+$/);
         return regExp.test(title); // Return regular expression test results (true or false)
     }
 };
@@ -77,7 +77,7 @@ const categorySchema = new Schema({
     language: { type: String, required: true },
     title: { type: String, required: true, validate: titleValidators },
     description: { type: String, required: true, validate: descriptionValidators },
-    icons: { type: Array, required: false },
+    icons: { type: Array, required: true },
     translation: [{
         language: { type: String, required: true },
         title: { type: String, required: true, validate: titleValidators },

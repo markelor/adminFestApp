@@ -18,29 +18,38 @@ export class ServiceTypeInterceptor implements HttpInterceptor {
 	this.localizeService=this.injector.get(LocalizeRouterService);
 	this.domain = this.authService.domain;
 	if(request.url===this.domain+"serviceType/newServiceType"){
-	request = request.clone({
-	  setHeaders: {
-	    'Content-Type': 'application/json',
-	    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
-	    'language':this.localizeService.parser.currentLang
-	  }
-	});
+		request = request.clone({
+		  setHeaders: {
+		    'Content-Type': 'application/json',
+		    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+		    'language':this.localizeService.parser.currentLang
+		  }
+		});
 	}else if(request.url===this.domain+"serviceType/getServiceTypes/"+this.localizeService.parser.currentLang){
-	request = request.clone({
-	  setHeaders: {
-	    'Content-Type': 'application/json',
-	    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
-	    'language':this.localizeService.parser.currentLang
-	  }
-	});              
+		request = request.clone({
+		  setHeaders: {
+		    'Content-Type': 'application/json',
+		    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+		    'language':this.localizeService.parser.currentLang
+		  }
+		});              
     }else if(request.url===this.domain+"serviceType/editServiceType"){
-	request = request.clone({
-	  setHeaders: {
-	    'Content-Type': 'application/json',
-	    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
-	    'language':this.localizeService.parser.currentLang
-	  }
-	});       
+		request = request.clone({
+		  setHeaders: {
+		    'Content-Type': 'application/json',
+		    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+		    'language':this.localizeService.parser.currentLang
+		  }
+		});       
+    }
+    else if(request.url===this.domain+"serviceType/deleteServiceType/"+this.serviceTypeService.route+this.localizeService.parser.currentLang){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        }); 
     }else{
 	/*request = request.clone({
 	  setHeaders: {

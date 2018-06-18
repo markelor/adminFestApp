@@ -140,7 +140,6 @@ module.exports = {
         usernameProvidedError: "El nombre de usuario no fue proporcionado.",
         userError: "No se encontró el usuario.",
         usersError: "Usuarios no encontrados.",
-        permissionError: "Permisos insuficientes."
     },
     authentication: {
         userError: "No se encontró el usuario."
@@ -322,6 +321,12 @@ module.exports = {
         idProvidedError: 'El ID del evento, no fue proporcionado.',
         saveError: "No se pudo eliminar la aplicación. Error: ",
         success: "¡Aplikación eliminada!"
+    },
+    deleteServiceType: {
+        usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
+        idProvidedError: 'El ID del tipo de servicio, no fue proporcionado.',
+        saveError: "No se pudo eliminar el tipo de servicio. Error: ",
+        success: "¡Tipo de servicio eliminado!"
     },
     addThemeReaction: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',

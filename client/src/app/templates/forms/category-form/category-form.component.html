@@ -1,5 +1,5 @@
 <!-- Custom Success/Error Message -->
-<div class="row">
+<div *ngIf="message" class="row show-hide-message">
   <div [ngClass]="messageClass">
     {{ message }}
   </div>
@@ -119,7 +119,7 @@
     <!-- Submit Button -->
     <div class="col-sm-12" *ngIf="inputOperation==='create'">
       <div class="form-group text-center">
-        <button [disabled]="!title.valid || !description.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'category-form.send'}}</button>
+        <button [disabled]="!title.valid || !description.valid ||uploader.queue.length<=0 || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'category-form.send'}}</button>
       </div>
     </div>
   </div>

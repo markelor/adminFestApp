@@ -12,11 +12,10 @@ export class ServiceService {
     private localizeService:LocalizeRouterService,
     private http: HttpClient
   ) { }
-
-
   // Function to create a new comment post
-  public newService(service) {
-    return this.http.post<any>(this.domain + 'service/newService', service);
+  public newService(service,place) {
+    var data = {'service': service, 'place': place };
+    return this.http.post<any>(this.domain + 'service/newService', data);
   }
    // Function to get ccategories from the database
   public getServices(language) {

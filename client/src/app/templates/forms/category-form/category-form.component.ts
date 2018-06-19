@@ -8,7 +8,7 @@ import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { FileUploaderService} from '../../../services/file-uploader.service';
 import { FileUploader,FileUploaderOptions,FileItem } from 'ng2-file-upload';
-import { AlphanumericValidator } from '../../../validators';
+import { TitleValidator } from '../../../validators';
 import { Category } from '../../../class/category';
 import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
@@ -31,7 +31,6 @@ export class CategoryFormComponent implements OnInit {
   private title:AbstractControl;
   private description:AbstractControl;
   private parentCategory:AbstractControl;
-  private categories;
   private category:Category=new Category();
   private iconsCategory=[];
   private subscriptionObservable: Subscription;
@@ -66,7 +65,7 @@ export class CategoryFormComponent implements OnInit {
         Validators.required,
         Validators.maxLength(35),
         Validators.minLength(3),
-        AlphanumericValidator.validate
+        TitleValidator.validate
       ])],
       description: ['', Validators.compose([
         Validators.required,

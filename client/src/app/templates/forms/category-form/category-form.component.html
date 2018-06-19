@@ -15,7 +15,7 @@
         <!-- Validation -->
         <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
         <span *ngIf="title.errors?.minlength && title.dirty || title.errors?.maxlength && title.dirty " class="help-block form-error" translate>{{'validation.title-length'}}</span>
-        <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
+        <span *ngIf="title.errors?.validateTitle && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
       </div>
     </div>
     <!-- File upload start-->
@@ -103,11 +103,11 @@
           </ng-container>
           <ng-container *ngIf="inputOperation==='edit'" >
             <ng-container *ngFor="let parentCategory of inputParentCategories">
-              <option *ngIf="inputLanguage===parentCategory.language" [ngValue]="parentCategory._id">
+              <option *ngIf="inputLanguage===parentCategory.language && parentCategory.title != title.value" [ngValue]="parentCategory._id">
                 {{parentCategory.title}}
               </option>        
               <ng-container *ngFor="let translation of parentCategory.translation; let i=index;">
-                <option *ngIf="inputLanguage===translation.language" [ngValue]="parentCategory._id">
+                <option *ngIf="inputLanguage===translation.language && translation.title != title.value" [ngValue]="parentCategory._id">
                   {{translation.title}}
                 </option>
               </ng-container>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { NameValidator,UsernameValidator, EmailValidator,PasswordValidator, EqualPasswordsValidator } from '../../../validators';
+import { TitleValidator,UsernameValidator, EmailValidator,PasswordValidator, EqualPasswordsValidator } from '../../../validators';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../../class/user';
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit {
   private createForm() {
     this.form = this.formBuilder.group({
       // Name Input
-      'name': ['', Validators.compose([Validators.required,NameValidator.validate, Validators.minLength(5),Validators.maxLength(35)])],
+      'name': ['', Validators.compose([Validators.required,TitleValidator.validate, Validators.minLength(5),Validators.maxLength(35)])],
       // Email Input
       'email': ['', Validators.compose([Validators.required, EmailValidator.validate, Validators.minLength(5),Validators.maxLength(30)])],
       // Username Input

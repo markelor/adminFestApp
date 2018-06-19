@@ -20,7 +20,7 @@
                         <!-- Validation -->
 						<span *ngIf="name.errors?.required && name.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
 						<span *ngIf="name.errors?.minlength && name.dirty || name.errors?.maxlength && name.dirty " class="help-block form-error" translate>{{'validation.name-length'}}</span>
-						<span *ngIf="name.errors?.validateName && name.dirty" class="help-block form-error" translate>{{'validation.name-validation'}}</span>
+						<span *ngIf="name.errors?.validateTitle && name.dirty" class="help-block form-error" translate>{{'validation.name-validation'}}</span>
                     </div>
                     <!-- Username Input -->
                     <div class="form-group" [ngClass]="{'has-error': (!username.valid && username.dirty) || (!usernameValid), 'has-success': username.valid && usernameValid}">

@@ -1,4 +1,4 @@
-export * from './name.validator';
+export * from './title.validator';
 export * from './alphanumeric.validator';
 export * from './date.validator';
 export * from './username.validator';

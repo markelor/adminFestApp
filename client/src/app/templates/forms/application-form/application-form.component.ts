@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 //import { ApplicationModalComponent } from './application-modal/application-modal.component';
 import { ModalComponent } from '../../../templates/modal/modal.component';
 import { ObservableService } from '../../../services/observable.service';
-import { AlphanumericValidator } from '../../../validators';
+import { TitleValidator } from '../../../validators';
 import { Application } from '../../../class/application';
 import { Subject } from 'rxjs/Subject';
 import { FileUploaderService} from '../../../services/file-uploader.service';
@@ -113,13 +113,13 @@ export class ApplicationFormComponent implements OnInit {
         Validators.required,
         Validators.maxLength(30),
         Validators.minLength(5),
-        AlphanumericValidator.validate
+        TitleValidator.validate
       ])],
       entityName: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(35),
         Validators.minLength(5),
-        AlphanumericValidator.validate
+        TitleValidator.validate
       ])],
       user: [''],
       license: ['', Validators.compose([

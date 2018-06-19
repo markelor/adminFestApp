@@ -15,7 +15,40 @@
         <!-- Validation -->
         <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
         <span *ngIf="title.errors?.minlength && title.dirty || title.errors?.maxlength && title.dirty " class="help-block form-error" translate>{{'validation.title-length'}}</span>
-        <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
+        <span *ngIf="title.errors?.validateTitle && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
+      </div>
+    </div>
+    <!-- Service type-->
+    <div class="col-sm-12">
+      <div class="form-group" [ngClass]="{'has-success': (serviceType.value)}">
+        <label for="selectServiceType" translate>{{'service-form.service-type'}}</label>
+        <select [formControl]="serviceType" class="form-control" id="selectServiceType" (change)="onSelectedServiceType($event.target.selectedIndex-1)">
+          <option value="" translate>{{'service-form.select-service-type'}}</option>
+          <ng-container *ngIf="inputOperation==='create'" >
+            <ng-container *ngFor="let serviceType of serviceTypes">
+              <option *ngIf="localizeService.parser.currentLang===serviceType.language" [ngValue]="serviceType._id">
+                {{serviceType.title}}
+              </option>        
+              <ng-container *ngFor="let translation of serviceType.translation">
+                <option *ngIf="localizeService.parser.currentLang===translation.language" [ngValue]="serviceType._id">
+                  {{translation.title}}
+                </option>
+              </ng-container>
+            </ng-container>          
+          </ng-container>
+          <!--<ng-container *ngIf="inputOperation==='edit'" >
+            <ng-container *ngFor="let serviceType of serviceTypes">
+              <option *ngIf="inputLanguage===serviceType.language && serviceType.title != title.value" [ngValue]="serviceType._id">
+                {{serviceType.title}}
+              </option>        
+              <ng-container *ngFor="let translation of serviceType.translation; let i=index;">
+                <option *ngIf="inputLanguage===translation.language && translation.title != title.value" [ngValue]="serviceType._id">
+                  {{translation.title}}
+                </option>
+              </ng-container>
+            </ng-container>          
+          </ng-container>   -->     
+        </select>
       </div>
     </div>
     <!-- Province -->

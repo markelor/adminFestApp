@@ -1,13 +1,13 @@
 import { Component, OnInit,ElementRef,Injectable,Input } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder,FormArray, Validators } from '@angular/forms';
 import { NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
-import { AlphanumericValidator,LatitudeValidator,LongitudeValidator,DateValidator } from '../../../validators';
+import { TitleValidator,LatitudeValidator,LongitudeValidator,DateValidator } from '../../../validators';
 import { AuthService } from '../../../services/auth.service';
 import { CategoryService } from '../../../services/category.service';
 import { EventService } from '../../../services/event.service';
 import { PlaceService } from '../../../services/place.service';
 import { FileUploaderService} from '../../../services/file-uploader.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { FileUploader,FileUploaderOptions,FileItem } from 'ng2-file-upload';
 import { Router } from '@angular/router';
 import { Event } from '../../../class/event';
@@ -16,6 +16,7 @@ import { LocalizeRouterService } from 'localize-router';
 import { ObservableService } from '../../../services/observable.service';
 import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { AuthGuard} from '../../../pages/guards/auth.guard';
+import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 declare let $: any;
 const URL = 'http://localhost:8080/fileUploader/uploadImages/event-poster';
@@ -112,7 +113,7 @@ export class EventFormComponent implements OnInit {
   private uploadOptions;
   private hasBaseDropZoneOver:boolean = false;
   private hasAnotherDropZoneOver:boolean = false;
-  //private subscriptionLanguage: Subscription;
+  private subscriptionLanguage: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -146,13 +147,13 @@ export class EventFormComponent implements OnInit {
         Validators.required,
         Validators.maxLength(30),
         Validators.minLength(5),
-        AlphanumericValidator.validate
+        TitleValidator.validate
       ])],
       categories: this.fb.array([ this.createItem('') ]),
       participant: ['', Validators.compose([
         /*Validators.maxLength(30),
         Validators.minLength(5),
-        AlphanumericValidator.validate*/
+        TitleValidator.validate*/
       ])],
       province: ['', Validators.compose([
         Validators.required
@@ -536,8 +537,7 @@ export class EventFormComponent implements OnInit {
               description:JSON.parse(JSON.stringify(this.imagesDescription))
             }
           }
-          this.inputEvent.translation.push(eventTranslationObj);   
-          console.log(this.inputEvent);     
+          this.inputEvent.translation.push(eventTranslationObj);       
         }
       }
       if(!hasTranslationPlace){
@@ -572,7 +572,6 @@ export class EventFormComponent implements OnInit {
         }
       }
     }
-    console.log(this.inputEvent);
     // Function to save event into database
     this.eventService.editEvent(this.inputEvent).subscribe(data => {
       // Check if event was saved to database or not
@@ -868,5 +867,9 @@ export class EventFormComponent implements OnInit {
     this.setUploaderOptions();
     this.form.get('municipality').disable(); // Disable municipality field
     this.chargeAll();
+    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.localizeService.parser.currentLang=event.lang;
+        this.chargeAll();; 
+    }); 
   }
 }

@@ -213,6 +213,8 @@
   "service-form":
   {
     "title": "Izenburua",
+    "service-type": "Zerbitzu mota",
+    "select-service-type": "-- AUKERATU ZERBITZU MOTA --",
     "description": "Deskribapena",
     "lat": "Koordenatuak I-H (Lat)",
     "lng": "Koordenatuak E-M (Lng)",

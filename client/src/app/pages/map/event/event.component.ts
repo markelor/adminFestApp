@@ -21,7 +21,12 @@ export class EventComponent  {
   private eventRoute:string;
   private classRoute:string;
   private subscription:Subscription;
-  constructor(private localizeService:LocalizeRouterService,private activatedRoute: ActivatedRoute,private router: Router,private eventService:EventService,private translate:TranslateService,private bindPipe: BindContentPipe) { 
+  constructor(private localizeService:LocalizeRouterService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private eventService:EventService,
+    private translate:TranslateService,
+    private bindPipe: BindContentPipe) { 
     this.subscription=router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
         //Get thematic

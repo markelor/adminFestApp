@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild, Input} from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../../services/auth.service';
+import { ServiceTypeService } from '../../../services/service-type.service';
 import { ServiceService } from '../../../services/service.service';
 import { PlaceService } from '../../../services/place.service';
 import { ObservableService } from '../../../services/observable.service';
 import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { FileUploaderService} from '../../../services/file-uploader.service';
-import { AlphanumericValidator,LatitudeValidator,LongitudeValidator } from '../../../validators';
+import { TitleValidator,LatitudeValidator,LongitudeValidator } from '../../../validators';
 import { Service } from '../../../class/service';
 import { Place } from '../../../class/place';
 import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
@@ -30,25 +31,29 @@ export class ServiceFormComponent implements OnInit {
   private imagesDescription=[];
   private title:AbstractControl;
   private description:AbstractControl;
+  private serviceType:AbstractControl;
   private province:AbstractControl;
   private municipality:AbstractControl;
   private locationsExists:AbstractControl;
   private location:AbstractControl;
   private lat:AbstractControl;
   private lng:AbstractControl;
-  private services;
+  private serviceTypes;
   private service:Service=new Service();
   private place:Place=new Place();
   private locationsExistsService=[];
   private provincesService;
   private municipalitiesService;
+  private serviceTypeIcon;
   private subscriptionObservable: Subscription;
   private froalaSignature;
   private froalaEvent;
+  private subscriptionLanguage: Subscription;
   constructor(
     private fb: FormBuilder,
     private localizeService:LocalizeRouterService,
     private serviceService:ServiceService,
+    private serviceTypeService: ServiceTypeService,
     private placeService: PlaceService,
     private observableService:ObservableService,
     private fileUploaderService:FileUploaderService,
@@ -66,12 +71,15 @@ export class ServiceFormComponent implements OnInit {
         Validators.required,
         Validators.maxLength(35),
         Validators.minLength(3),
-        AlphanumericValidator.validate
+        TitleValidator.validate
       ])],
       description: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(20000),
         Validators.minLength(50)
+      ])],
+      serviceType: ['', Validators.compose([
+        Validators.required
       ])],
       province: ['', Validators.compose([
         Validators.required
@@ -95,6 +103,7 @@ export class ServiceFormComponent implements OnInit {
     })
     this.title = this.form.controls['title'];
     this.description= this.form.controls['description'];
+    this.serviceType = this.form.controls['serviceType'];
     this.province = this.form.controls['province'];
     this.municipality = this.form.controls['municipality'];
     this.locationsExists = this.form.controls['locationsExists'];
@@ -316,7 +325,15 @@ export class ServiceFormComponent implements OnInit {
       }
     });
   }
-  // Function on seleccted event Continent
+    private onSelectedServiceType(index){
+    if(index===-1){
+      this.form.controls['serviceType'].setValue("");
+    }else{
+      //set icon map
+      this.serviceTypeIcon=this.serviceTypes[index].icons[0].url;
+    }
+  }
+  // Function on seleccted service province
   private onSelectedProvince(index){
     if (index===-1){
       this.form.get('municipality').disable(); // Disable municipality field
@@ -329,7 +346,7 @@ export class ServiceFormComponent implements OnInit {
     }
     this.form.controls['municipality'].setValue("");
   }
-  // Function on seleccted event municipality
+  // Function on seleccted service municipality
   private onSelectedMunicipality(index){
     if(index!==-1){
       var coordinates={
@@ -361,14 +378,12 @@ export class ServiceFormComponent implements OnInit {
     }
   }
   private chargeAll(){
-    //First category parentId null on initialize
-    /*this.categoryId.splice(0, 0, null);
-    //Get categories
-    this.categoryService.getCategories(this.localizeService.parser.currentLang).subscribe(data=>{
+    //Get service types
+    this.serviceTypeService.getServiceTypes(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
-        this.levelCategories=this.groupByPipe.transform(data.categories,'level');
+        this.serviceTypes=data.serviceTypes;
       }   
-    });*/
+    });
     //Get provinces on page load
     if(this.inputOperation==='create'){
       this.placeService.getGeonamesJson('province',this.localizeService.parser.currentLang,'euskal-herria').subscribe(provincesService => {
@@ -380,7 +395,7 @@ export class ServiceFormComponent implements OnInit {
     if (defaultCoordinates){
       var market_info={
         title:this.form.get('title').value,
-        category:"aaa", // Icon field
+        icon:this.serviceTypeIcon, // Icon field
         lat:defaultCoordinates.lat, // Lat field
         lng:defaultCoordinates.lng, // Lng field
       }
@@ -389,7 +404,7 @@ export class ServiceFormComponent implements OnInit {
     }else{
       var market_info={
         title:this.form.get('title').value,
-        category:"aaaa", // Icon field
+        icon:this.serviceTypeIcon, // Icon field
         lat:this.form.get('lat').value, // Lat field
         lng:this.form.get('lng').value, // Lng field
       }
@@ -397,17 +412,26 @@ export class ServiceFormComponent implements OnInit {
     this.observableService.mapType="create-categories-coordinates";
     this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
   }
-
- /* 
+ 
   private onSubmit(){
     if (this.form.valid) {
       this.submitted = true;
       //this.disableForm();
       this.service.setLanguage=this.localizeService.parser.currentLang,
-      this.service.setParentId=this.form.get('parentService').value;
+      this.service.setServiceTypeId=this.form.get('serviceType').value;
       this.service.setTitle=this.form.get('title').value;
       this.service.setDescription=this.form.get('description').value;
-      this.serviceService.newService(this.service).subscribe(data=>{
+      this.place.setProvince=this.form.get('province').value; // Province field
+      this.place.setMunicipality=this.form.get('municipality').value; // Municipality field
+      if(this.form.get('location').value){
+        this.place.setLocation=this.form.get('location').value; //Location field,
+      }else if(this.form.get('locationsExists').value){
+        this.place.setLocation=this.form.get('locationsExists').value; //Location exists field,
+      }
+      this.place.setLat=Number(this.form.get('lat').value); // Lat field
+      this.place.setLng=Number(this.form.get('lng').value); // Lng field
+      console.log(this.service);
+      /*this.serviceService.newService(this.event,this.place).subscribe(data=>{
         if(!data.success){
           this.messageClass='alert alert-danger ks-solid';
           this.message=data.message
@@ -421,9 +445,9 @@ export class ServiceFormComponent implements OnInit {
           this.messageClass='alert alert-success ks-solid'
           this.message=data.message
         }
-      });
+      });*/
     }                
-  }*/
+  }
   ngOnInit() {
     /*$('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
@@ -450,6 +474,10 @@ export class ServiceFormComponent implements OnInit {
       }
     });
     this.form.get('municipality').disable(); // Disable municipality field
-    this.chargeAll();	  
+    this.chargeAll();
+    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.localizeService.parser.currentLang=event.lang;
+        this.chargeAll();
+    }); 	  
   }
 }

@@ -15,7 +15,7 @@
         <!-- Validation -->
         <span *ngIf="title.errors?.required && title.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
         <span *ngIf="title.errors?.minlength && title.dirty || title.errors?.maxlength && title.dirty " class="help-block form-error" translate>{{'validation.title-length'}}</span>
-        <span *ngIf="title.errors?.validateAlphanumeric && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
+        <span *ngIf="title.errors?.validateTitle && title.dirty" class="help-block form-error" translate>{{'validation.title-validation'}}</span>
       </div>
     </div>
     <!-- Category -->
@@ -59,7 +59,7 @@
         </div>
         <!-- Validation -->
         <!--<span *ngIf="participant.errors?.minlength && participant.dirty || participant.errors?.maxlength && participant.dirty " class="help-block form-error" translate>{{'validation.participant-length'}}</span>
-        <span *ngIf="participant.errors?.validateAlphanumeric && participant.dirty" class="help-block form-error" translate>
+        <span *ngIf="participant.errors?.validateTitle && participant.dirty" class="help-block form-error" translate>
                     {{'validation.participant-validation'}}</span>-->
       </div>
     </div>

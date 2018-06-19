@@ -211,6 +211,8 @@
   "service-form":
   {
     "title": "Title",
+    "service-type": "Service type",
+    "select-service-type": "-- SELECT A SERVICE TYPE --",
     "description": "Description",
     "lat": "Coordinates N-S (Lat)",
     "lng": "Coordinates E-W (Lng)",

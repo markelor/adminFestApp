@@ -5,8 +5,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { UserRoutingModule } from './user.routing';
 import { ImageCropperComponent } from "ngx-img-cropper";
 import { FileUploadModule } from 'ng2-file-upload';
+import { DataTablesModule } from 'angular-datatables';
 import { UserComponent } from './user.component';
 import { SeeEventsComponent } from './events/see-events/see-events.component';
+import { SeeServicesComponent } from './services/see-services/see-services.component';
 import { EditEventComponent } from './events/see-events/edit-event/edit-event.component';
 import { TemplatesModule } from '../../templates/templates.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -18,9 +20,9 @@ import { ApplicationsComponent } from './applications/applications.component';
 
 @NgModule({
   imports: [
-    CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule
+    CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule,DataTablesModule
   ],
-  declarations: [ProfileComponent,ImageCropperComponent, UserComponent,SeeEventsComponent, EditEventComponent, EventsComponent, SeeApplicationsComponent, EditEventsApplicationComponent, ApplicationsComponent],
+  declarations: [ProfileComponent,ImageCropperComponent, UserComponent,SeeEventsComponent,SeeServicesComponent, EditEventComponent, EventsComponent, SeeApplicationsComponent, EditEventsApplicationComponent, ApplicationsComponent],
   providers:[DecodePipe]
 })
 

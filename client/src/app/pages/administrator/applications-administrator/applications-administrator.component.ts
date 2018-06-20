@@ -140,6 +140,7 @@ export class ApplicationsAdministratorComponent implements OnInit {
   }
   ngOnDestroy(){
       this.subscriptionLanguage.unsubscribe();
+      this.dtTrigger.unsubscribe();
   }
 
 }

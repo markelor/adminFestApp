@@ -25,7 +25,7 @@ module.exports = (router) => {
     });
     var s3 = new aws.S3(configAws);
     /* ===============================================================
-       CREATE NEW category
+       CREATE NEW event
     =============================================================== */
     router.post('/newEvent', (req, res) => {
         var language = req.body.event.language;

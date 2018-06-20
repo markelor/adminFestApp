@@ -111,7 +111,6 @@ export class CreateCategoryComponent implements OnInit {
   }
   private observableCategorySuccess(){
     this.subscriptionObservableSuccess=this.observableService.notifyObservable.subscribe(res => {
-      console.log(res);
       if (res.hasOwnProperty('option') && res.option === 'modal-edit-category-success') {
        this.getCategories();
       } 
@@ -171,6 +170,7 @@ export class CreateCategoryComponent implements OnInit {
   }
   ngOnDestroy(){
       this.subscriptionLanguage.unsubscribe();
+      this.dtTrigger.unsubscribe();
   }
 }
 

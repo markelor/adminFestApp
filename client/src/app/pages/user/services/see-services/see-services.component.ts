@@ -1,25 +1,25 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
-import { AuthService } from '../../../services/auth.service';
-import { EventService } from '../../../services/event.service';
+import { AuthService } from '../../../../services/auth.service';
+import { ServiceService } from '../../../../services/service.service';
 import { TranslateService,LangChangeEvent} from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
-import { AuthGuard} from '../../guards/auth.guard';
+import { AuthGuard} from '../../../guards/auth.guard';
 import { Router,ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { DataTableDirective } from 'angular-datatables';
-import { ModalComponent } from '../../../templates/modal/modal.component';
+import { ModalComponent } from '../../../../templates/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ObservableService } from '../../../services/observable.service';
+import { ObservableService } from '../../../../services/observable.service';
 import { Subscription } from 'rxjs/Subscription';
 @Component({
-  selector: 'app-events-administrator',
-  templateUrl: './events-administrator.component.html',
-  styleUrls: ['./events-administrator.component.css']
+  selector: 'app-see-services',
+  templateUrl: './see-services.component.html',
+  styleUrls: ['./see-services.component.css']
 })
-export class EventsAdministratorComponent implements OnInit {
+export class SeeServicesComponent implements OnInit {
   private messageClass;
   private message;
-  private events;
+  private services;
   @ViewChild(DataTableDirective)
   private dtElement: DataTableDirective;
   private subscriptionObservable: Subscription;
@@ -27,8 +27,8 @@ export class EventsAdministratorComponent implements OnInit {
   private dtTrigger: Subject<any> = new Subject();
   private subscriptionLanguage: Subscription;
   constructor(
-  	private eventService:EventService,
-  	private authService:AuthService,
+    private serviceService:ServiceService,
+    private authService:AuthService,
     private observableService:ObservableService,
     private localizeService:LocalizeRouterService,
     private translate:TranslateService,
@@ -71,19 +71,19 @@ export class EventsAdministratorComponent implements OnInit {
       ]
     };
   }
-  private eventDeleteClick(index,event): void {
-    this.observableService.modalType="modal-delete-event";
+  private serviceDeleteClick(index,service): void {
+    this.observableService.modalType="modal-delete-service";
     if(this.observableService.modalCount<1){
       this.staticModalShow();
       this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
         this.subscriptionObservable.unsubscribe();
-        if (res.hasOwnProperty('option') && res.option === 'modal-delete-event') {
-          this.eventService.deleteEvent(this.authService.user.username,event._id,this.localizeService.parser.currentLang).subscribe(data=>{
+        if (res.hasOwnProperty('option') && res.option === 'modal-delete-service') {
+          this.serviceService.deleteService(this.authService.user.username,service._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){ 
             this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
               // Destroy the table first
               dtInstance.destroy();
-              this.events.splice(index,1);
+              this.services.splice(index,1);
               // Call the addTrigger to rerender again
               this.dtTrigger.next();
             }); 
@@ -98,23 +98,23 @@ export class EventsAdministratorComponent implements OnInit {
       });
     }
   }
-    // Function to get events from the database
-  private getEventsInit() {
-    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
+    // Function to get services from the database
+  private getServicesInit() {
+    this.serviceService.getServices(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
-        this.events=data.events;
+        this.services=data.services;
       }
       this.dtTrigger.next();
     });
   }
-   // Function to get events from the database
-  private getEvents() {
-    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
+   // Function to get services from the database
+  private getServices() {
+    this.serviceService.getServices(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           // Destroy the table first
           dtInstance.destroy();
-          this.events=data.events;
+          this.services=data.services;
           this.dtTrigger.next();
         });
       }
@@ -130,10 +130,10 @@ export class EventsAdministratorComponent implements OnInit {
       }
     });
     this.createSettings(); 
-    this.getEventsInit();
-    this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.localizeService.parser.currentLang=event.lang;
-      this.getEvents(); 
+    this.getServicesInit();
+    this.subscriptionLanguage =this.translate.onLangChange.subscribe((service: LangChangeEvent) => {
+      this.localizeService.parser.currentLang=service.lang;
+      this.getServices(); 
     });
   }
   ngOnDestroy(){

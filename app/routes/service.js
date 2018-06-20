@@ -1,5 +1,6 @@
 const User = require('../models/user'); // Import User Model Schema
 const Service = require('../models/service'); // Import Service Model Schema
+const Place = require('../models/place'); // Import Place Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const es = require('../translate/es'); // Import translate es
 const eu = require('../translate/eu'); // Import translate eu
@@ -22,76 +23,186 @@ module.exports = (router) => {
        CREATE NEW service
     =============================================================== */
     router.post('/newService', (req, res) => {
-        var language = req.body.language;
+        var language = req.body.service.language;
         // Check if language was provided
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             // Check if service serviceTypeId was provided
-            if (!req.body.serviceTypeId) {
+            if (!req.body.service.serviceTypeId) {
                 res.json({ success: false, message: eval(language + '.newService.serviceTypeIdProvidedError') }); // Return error
             } else {
                 // Check if service title was provided
-                if (!req.body.title) {
+                if (!req.body.service.title) {
                     res.json({ success: false, message: eval(language + '.newService.titleProvidedError') }); // Return error
                 } else {
                     // Check if service description was provided
-                    if (!req.body.description) {
+                    if (!req.body.service.description) {
                         res.json({ success: false, message: eval(language + '.newService.descriptionProvidedError') }); // Return error message
                     } else {
-                        // Check if place lat was provided
-                        if (!req.body.place.lat) {
-                            res.json({ success: false, message: eval(language + '.newService.latProvidedError') }); // Return error message
+                        // Check if place province was provided
+                        if (!req.body.place.province) {
+                            res.json({ success: false, message: eval(language + '.newPlace.provinceProvidedError') }); // Return error message
                         } else {
-                            // Check if place lng was provided
-                            if (!req.body.place.lng) {
-                                res.json({ success: false, message: eval(language + '.newService.lngProvidedError') }); // Return error message
+                            // Check if place geonameIdProvince was provided
+                            if (!req.body.place.geonameIdProvince) {
+                                res.json({ success: false, message: eval(language + '.newPlace.geonameIdProvinceProvidedError') }); // Return error message
                             } else {
-                                const service = new Service({
-                                    serviceTypeId:req.body.serviceTypeId,
-                                    language: language,
-                                    title: req.body.title,
-                                    description: req.body.description,
-                                    coordinates: {
-                                        lat: req.body.place.lat,
-                                        lng: req.body.place.lng
-                                    },
-                                    createdAt: Date.now(),
-                                    updatedAt: Date.now()
-                                });
-                                // Save service into database
-                                service.save((err) => {
-                                    // Check if error
-                                    if (err) {
-                                        console.log(err);
-                                        // Check if error is a validation error
-                                        if (err.errors) {
-                                            // Check if validation error is in the service field
-                                            if (err.errors['title']) {
-                                                res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
+                                // Check if place municipality was provided
+                                if (!req.body.place.municipality) {
+                                    res.json({ success: false, message: eval(language + '.newPlace.municipalityProvidedError') }); // Return error message
+                                } else {
+                                    // Check if place geonameIdMunicipality was provided
+                                    if (!req.body.place.geonameIdMunicipality) {
+                                        res.json({ success: false, message: eval(language + '.newPlace.geonameIdMunicipalityProvidedError') }); // Return error message
+                                    } else {
+                                        // Check if place lat was provided
+                                        if (!req.body.place.lat) {
+                                            res.json({ success: false, message: eval(language + '.newPlace.latProvidedError') }); // Return error message
+                                        } else {
+                                            // Check if place lng was provided
+                                            if (!req.body.place.lng) {
+                                                res.json({ success: false, message: eval(language + '.newPlace.lngProvidedError') }); // Return error message
                                             } else {
-                                                if (err.errors['description']) {
-                                                    res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
+                                                // Check if location was provided
+                                                if (!req.body.place.location) {
+                                                    res.json({ success: false, message: eval(language + '.newPlace.locationProvidedError') }); // Return error message
                                                 } else {
-                                                    if (err.errors['coordinates.lat']) {
-                                                        res.json({ success: false, message: eval(language + err.errors['coordinates.lat'].message) }); // Return error message
-                                                    } else {
-                                                        if (err.errors['coordinates.lng']) {
-                                                            res.json({ success: false, message: eval(language + err.errors['coordinates.lng'].message) }); // Return error message
-                                                        } else {
-                                                            res.json({ success: false, message: err }); // Return general error message
-                                                        }
+                                                    function serviceSave(place) {
+                                                        const service = new Service({
+                                                            serviceTypeId: req.body.service.serviceTypeId,
+                                                            placeId: place._id,
+                                                            language: language,
+                                                            title: req.body.service.title,
+                                                            description: req.body.service.description,
+                                                            createdAt: Date.now(),
+                                                            updatedAt: Date.now()
+                                                        });
+                                                        // Save service into database
+                                                        service.save((err, service) => {
+                                                            // Check if error
+                                                            if (err) {
+                                                                // Check if error is a validation error
+                                                                if (err.errors) {
+                                                                    // Check if validation error is in the category field
+                                                                    place.remove((err) => {
+                                                                        if (err) {
+                                                                            res.json({ success: false, message: eval(language + '.deletePlace.saveError'), err }); // Return general error message
+                                                                        }
+                                                                    });
+                                                                    if (err.errors['title']) {
+                                                                        res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
+                                                                    } else {
+                                                                        if (err.errors['description']) {
+                                                                            res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
+                                                                        } else {
+                                                                            res.json({ success: false, message: err }); // Return general error message                                                           
+                                                                        }
+
+                                                                    }
+                                                                } else {
+                                                                    res.json({ success: false, message: eval(language + '.newService.saveError'), err }); // Return general error message
+                                                                }
+                                                            } else {
+                                                                res.json({ success: true, message: eval(language + '.newService.success') }); // Return success message
+                                                            }
+                                                        });
                                                     }
+                                                    const place = new Place({
+                                                        language: language,
+                                                        province: {
+                                                            name: req.body.place.province,
+                                                            geonameId: req.body.place.geonameIdProvince
+                                                        },
+                                                        municipality: {
+                                                            name: req.body.place.municipality,
+                                                            geonameId: req.body.place.geonameIdMunicipality,
+                                                        },
+                                                        location: req.body.place.location,
+                                                        coordinates: {
+                                                            lat: req.body.place.lat,
+                                                            lng: req.body.place.lng
+                                                        },
+                                                        createdAt: Date.now(),
+                                                        updatedAt: Date.now()
+                                                    });
+                                                    Place.findOne({
+                                                        $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
+                                                        province: {
+                                                            name: req.body.place.province,
+                                                            geonameId: req.body.place.geonameIdProvince
+                                                        },
+                                                        municipality: {
+                                                            name: req.body.place.municipality,
+                                                            geonameId: req.body.place.geonameIdMunicipality,
+                                                        },
+                                                        location: req.body.place.location,
+                                                        coordinates: {
+                                                            lat: req.body.place.lat,
+                                                            lng: req.body.place.lng
+                                                        }
+                                                    }, (err, findPlace) => {
+                                                        // Check if error was found or not
+                                                        if (err) {
+                                                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                            var mailOptions = {
+                                                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                                to: [emailConfig.email], // list of receivers
+                                                                subject: ' Find 1 newService error ',
+                                                                text: 'The following error has been reported in Kultura: ' + err,
+                                                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                            };
+                                                            // Function to send e-mail to myself
+                                                            transporter.sendMail(mailOptions, function(err, info) {
+                                                                if (err) {
+                                                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                } else {
+                                                                    console.log(info); // Log success message to console if sent
+                                                                    console.log(user.email); // Display e-mail that it was sent to
+                                                                }
+                                                            });
+                                                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                        } else {
+                                                            // Check if place were found in database
+                                                            if (!findPlace) {
+                                                                // Save place into database
+                                                                place.save((err, place) => {
+                                                                    // Check if error
+                                                                    if (err) {
+                                                                        // Check if error is a validation error         
+                                                                        if (err.errors) {
+                                                                            console.log(err.errors);
+                                                                            // Check if validation error is in the category field
+                                                                            if (err.errors['location']) {
+                                                                                res.json({ success: false, message: eval(language + err.errors['location'].message) }); // Return error message
+                                                                            } else {
+                                                                                if (err.errors['coordinates.lat']) {
+                                                                                    res.json({ success: false, message: eval(language + err.errors['coordinates.lat'].message) }); // Return error message
+                                                                                } else {
+                                                                                    if (err.errors['coordinates.lng']) {
+                                                                                        res.json({ success: false, message: eval(language + err.errors['coordinates.lng'].message) }); // Return error message
+                                                                                    } else {
+                                                                                        res.json({ success: false, message: err }); // Return general error message
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        } else {
+                                                                            res.json({ success: false, message: eval(language + '.newPlace.saveError'), err }); // Return general error message
+                                                                        }
+                                                                    } else {
+                                                                        serviceSave(place);
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                serviceSave(findPlace);
+                                                            }
+                                                        }
+                                                    });
                                                 }
                                             }
-                                        } else {
-                                            res.json({ success: false, message: eval(language + '.newService.saveError'), err }); // Return general error message
                                         }
-                                    } else {
-                                        res.json({ success: true, message: eval(language + '.newService.success') }); // Return success message
                                     }
-                                });
-
+                                }
                             }
                         }
                     }

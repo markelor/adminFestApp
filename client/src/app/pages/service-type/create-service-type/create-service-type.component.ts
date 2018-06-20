@@ -167,6 +167,7 @@ export class CreateServiceTypeComponent implements OnInit {
   }
   ngOnDestroy(){
       this.subscriptionLanguage.unsubscribe();
+      this.dtTrigger.unsubscribe();
   }
 }
 

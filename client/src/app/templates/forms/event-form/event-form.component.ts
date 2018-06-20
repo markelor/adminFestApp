@@ -231,27 +231,17 @@ export class EventFormComponent implements OnInit {
           }
         }    
       } 
-      //Location validation
-      this.placeService.getPlacesCoordinates(this.inputEvent.place.coordinates.lat,this.inputEvent.place.coordinates.lng,this.inputLanguage).subscribe(data=>{
-        if(data.success && data.places.length>0){
-          this.locationsExistsEvent=data.places;
-          this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
-          this.location.updateValueAndValidity(); //Need to call this to trigger a update
-        }else{
-          this.locationsExistsEvent=[];
-          this.locationsExists.setValue("");
-        }
-      }); 
       //Get categories on page load    
       (this.form.controls['categories'] as FormArray).removeAt(0);
       for (var j in this.inputCategories) {
         this.categoryId.push(this.inputCategories[j]._id);
+        //set icon map
+        this.categoryIcon=this.inputCategories[this.inputCategories.length-1].icons[0].url;
         if(this.inputCategories[j].language===this.inputLanguage){
           (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].title));
         }
         for (var k = 0; k < this.inputCategories[j].translation.length; ++k) {
           if(this.inputCategories[j].translation[k].language===this.inputLanguage){
-            //console.log(this.inputLanguage);
             (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].translation[k].title));
           }
         } 
@@ -259,48 +249,54 @@ export class EventFormComponent implements OnInit {
       //Get provinces on page load
       this.placeService.getGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesEvent => {
         this.provincesEvent=provincesEvent.geonames;
-        if(this.inputEvent.place.language===this.inputLanguage){
-          this.province.setValue(this.inputEvent.place.province.name);
-        }else{
-          var traductionProvince=false;
-          for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
-            if(this.inputEvent.place.translation[i].language===this.inputLanguage){
-              traductionProvince=true
-              this.province.setValue(this.inputEvent.place.translation[i].province.name);
-            }
-          } 
-          if(!traductionProvince){
-            for (var i = 0; i < this.provincesEvent.length; ++i) {
-              if(this.provincesEvent[i].geonameId===this.inputEvent.place.province.geonameId){
-                this.province.setValue(this.provincesEvent[i].name);         
-              }
-            }      
-          }    
-        }          
+        var traductionProvince=false;
+        for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
+          if(this.inputEvent.place.translation[i].language===this.inputLanguage){
+            traductionProvince=true
+            this.province.setValue(this.inputEvent.place.translation[i].province.name);
+          }
+        } 
+        if(!traductionProvince){         
+          this.province.setValue(this.inputEvent.place.province.name);    
+        }                
       });  
       //Get municipality on page load      
       if(this.inputEvent.place.municipality){
         this.placeService.getGeonamesJson('municipality',this.inputLanguage,this.inputEvent.place.province.name.toLowerCase()).subscribe(municipalitiesEvent => {
           this.municipalitiesEvent=municipalitiesEvent.geonames;
           this.form.get('municipality').enable(); // Enable municipality field
-          if(this.inputEvent.place.language===this.inputLanguage){
-            this.municipality.setValue(this.inputEvent.place.municipality.name);
-          }else{
-            var traductionProvince=false;
-            for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
-              if(this.inputEvent.place.translation[i].language===this.inputLanguage){
-                traductionProvince=true
-                this.municipality.setValue(this.inputEvent.place.translation[i].municipality.name);
-              }
-            } 
-            if(!traductionProvince){
-              for (var i = 0; i < this.municipalitiesEvent.length; ++i) {
-                if(this.municipalitiesEvent[i].geonameId===this.inputEvent.place.municipality.geonameId){
-                  this.municipality.setValue(this.municipalitiesEvent[i].name);         
+          var traductionProvince=false;
+          for (var i = 0; i < this.inputEvent.place.translation.length; ++i) {
+            if(this.inputEvent.place.translation[i].language===this.inputLanguage){
+              traductionProvince=true
+              this.municipality.setValue(this.inputEvent.place.translation[i].municipality.name);
+              //Location validation
+              this.placeService.getPlacesCoordinates(this.inputEvent.place.translation[i].province.name,this.inputEvent.place.translation[i].municipality.name,this.inputLanguage).subscribe(data=>{
+                if(data.success && data.places.length>0){
+                  this.locationsExistsEvent=data.places;
+                  this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+                  this.location.updateValueAndValidity(); //Need to call this to trigger a update
+                }else{
+                  this.locationsExistsEvent=[];
+                  this.locationsExists.setValue("");
                 }
-              }      
-            }    
+              }); 
+            }
           } 
+          if(!traductionProvince){
+            //Location validation
+            this.placeService.getPlacesCoordinates(this.inputEvent.place.province.name,this.inputEvent.place.municipality.name,this.inputLanguage).subscribe(data=>{
+              if(data.success && data.places.length>0){
+                this.locationsExistsEvent=data.places;
+                this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+                this.location.updateValueAndValidity(); //Need to call this to trigger a update
+              }else{
+                this.locationsExistsEvent=[];
+                this.locationsExists.setValue("");
+              }
+            }); 
+            this.municipality.setValue(this.inputEvent.place.municipality.name);                  
+          }            
         });        
       } 
       //Get start on page load
@@ -639,7 +635,7 @@ export class EventFormComponent implements OnInit {
       if(this.levelCategories[level+1]){
          for (var i = 0; i < this.levelCategories[level+1].value.length; ++i) {
           //set icon map
-          this.categoryIcon=this.levelCategories[level].value[index].icons[0].url;
+          this.categoryIcon=this.levelCategories[level+1].value[i].icons[0].url;
           if(this.levelCategories[level+1].value[i].parentId===this.levelCategories[level].value[index]._id){
             newFormArray=true;
           }
@@ -678,7 +674,7 @@ export class EventFormComponent implements OnInit {
         lat:this.municipalitiesEvent[index].lat,
         lng:this.municipalitiesEvent[index].lng
       }
-      this.placeService.getPlacesCoordinates(this.municipalitiesEvent[index].lat,this.municipalitiesEvent[index].lng,this.localizeService.parser.currentLang).subscribe(data=>{
+      this.placeService.getPlacesCoordinates(this.form.get('province').value,this.form.get('municipality').value,this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success && data.places.length>0){
           this.locationsExistsEvent=data.places;
         }else{
@@ -696,6 +692,11 @@ export class EventFormComponent implements OnInit {
       this.locationsExists.setValidators([Validators.compose([Validators.maxLength(1000)])]);
       this.locationsExists.updateValueAndValidity(); //Need to call this to trigger a update
     }else{
+      var coordinates={
+        lat:this.locationsExistsEvent[index].coordinates.lat,
+        lng:this.locationsExistsEvent[index].coordinates.lng
+      }
+      this.passCoordinates(coordinates);
       this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
       this.location.updateValueAndValidity(); //Need to call this to trigger a update
     }
@@ -834,7 +835,6 @@ export class EventFormComponent implements OnInit {
       $('#textareaDescription'+this.inputLanguage).on('froalaEditor.image.inserted', function (e, editor, $img, response) {
         // Do something here.
         context.imagesDescription.push($img[0].currentSrc);
-        console.log(context.imagesDescription);
         context.event.setImagesDescription=context.imagesDescription;
       });
       $('#textareaDescription'+this.inputLanguage)

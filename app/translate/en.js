@@ -262,8 +262,8 @@ module.exports = {
     },
     //getPlacesCoordinates
     getPlacesCoordinates: {
-        latProvidedError: 'Latitude was not provided.',
-        lngProvidedError: 'Longitude was not provided.',
+        provinceProvidedError: 'Province was not provided.',
+        municipalityProvidedError: 'Municipality was not provided.',
         placesError: "No places found."
     },
     //newPlace

@@ -36,13 +36,13 @@ export class EventFormComponent implements OnInit{
       lat: Number(data.lat),
       lng: Number(data.lng),
       customInfo: data.icon,
-      labelOptions: {
+      /*labelOptions: {
         color: '#CC0000',
         fontFamily: '',
         fontSize: '14px',
         fontWeight: 'bold',
         text: data.title
-       },
+       },*/
       draggable: true
     });
   }
@@ -53,11 +53,11 @@ export class EventFormComponent implements OnInit{
   }
   private onSvgInserted(event,m){
     var icon={
-        url:"data:image/svg+xml;utf-8,"+this.bindPipe.transform(event).changingThisBreaksApplicationSecurity.outerHTML,
-        scaledSize: {
-          height: 40,
-          width: 40
-        }
+      url:"data:image/svg+xml;utf-8,"+this.bindPipe.transform(event).changingThisBreaksApplicationSecurity.outerHTML,
+      scaledSize: {
+        height: 40,
+        width: 40
+      }
     }
     m.icon=icon;
   }

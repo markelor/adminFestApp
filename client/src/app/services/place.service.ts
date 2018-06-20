@@ -18,8 +18,8 @@ export class PlaceService {
   ) { }
 
   // Function to get all user places from the database
-  public getPlacesCoordinates(lat,lng,language) {
-    this.route= lat+'/'+lng+'/';
+  public getPlacesCoordinates(province,municipality,language) {
+    this.route= province+'/'+municipality+'/';
     this.language=language;
     return this.http.get<any>(this.domain + 'place/getPlacesCoordinates/'+this.route+language);
   }

@@ -179,5 +179,7 @@ export class EventsApplicationFormComponent implements OnInit {
   }
    ngOnDestroy(){
     this.subscriptionLanguage.unsubscribe();
+    this.addTrigger.unsubscribe();
+    this.deleteTrigger.unsubscribe();
   }
 }

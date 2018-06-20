@@ -261,8 +261,8 @@ module.exports = {
     },
     //getPlacesCoordinates
     getPlacesCoordinates: {
-        latProvidedError: 'Latitudea ez da eman.',
-        lngProvidedError: 'Luzeera ez da eman.',
+        provinceProvidedError: 'Probintzia ez da eman.',
+        municipalityProvidedError: 'Udalerria ez da eman.',
         placesError: "Lekuak ez dira aurkitu."
     },
     //newPlace

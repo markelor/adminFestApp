@@ -175,17 +175,6 @@ export class ServiceFormComponent implements OnInit {
           }
         }    
       } 
-      //Location validation
-      this.placeService.getPlacesCoordinates(this.inputService.place.coordinates.lat,this.inputService.place.coordinates.lng,this.inputLanguage).subscribe(data=>{
-        if(data.success && data.places.length>0){
-          this.locationsExistsService=data.places;
-          this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
-          this.location.updateValueAndValidity(); //Need to call this to trigger a update
-        }else{
-          this.locationsExistsService=[];
-          this.locationsExists.setValue("");
-        }
-      }); 
       //Get categories on page load    
      /* (this.form.controls['categories'] as FormArray).removeAt(0);
       for (var j in this.inputCategories) {
@@ -203,51 +192,57 @@ export class ServiceFormComponent implements OnInit {
       //Get provinces on page load
       this.placeService.getGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesService => {
         this.provincesService=provincesService.geonames;
-        if(this.inputService.place.language===this.inputLanguage){
-          this.province.setValue(this.inputService.place.province.name);
-        }else{
-          var traductionProvince=false;
-          for (var i = 0; i < this.inputService.place.translation.length; ++i) {
-            if(this.inputService.place.translation[i].language===this.inputLanguage){
-              traductionProvince=true
-              this.province.setValue(this.inputService.place.translation[i].province.name);
-            }
-          } 
-          if(!traductionProvince){
-            for (var i = 0; i < this.provincesService.length; ++i) {
-              if(this.provincesService[i].geonameId===this.inputService.place.province.geonameId){
-                this.province.setValue(this.provincesService[i].name);         
-              }
-            }      
-          }    
-        }          
+        var traductionProvince=false;
+        for (var i = 0; i < this.inputService.place.translation.length; ++i) {
+          if(this.inputService.place.translation[i].language===this.inputLanguage){
+            traductionProvince=true
+            this.province.setValue(this.inputService.place.translation[i].province.name);
+          }
+        } 
+        if(!traductionProvince){         
+          this.province.setValue(this.inputService.place.province.name);    
+        }               
       });  
       //Get municipality on page load      
       if(this.inputService.place.municipality){
         this.placeService.getGeonamesJson('municipality',this.inputLanguage,this.inputService.place.province.name.toLowerCase()).subscribe(municipalitiesService => {
           this.municipalitiesService=municipalitiesService.geonames;
           this.form.get('municipality').enable(); // Enable municipality field
-          if(this.inputService.place.language===this.inputLanguage){
-            this.municipality.setValue(this.inputService.place.municipality.name);
-          }else{
-            var traductionProvince=false;
-            for (var i = 0; i < this.inputService.place.translation.length; ++i) {
-              if(this.inputService.place.translation[i].language===this.inputLanguage){
-                traductionProvince=true
-                this.municipality.setValue(this.inputService.place.translation[i].municipality.name);
-              }
-            } 
-            if(!traductionProvince){
-              for (var i = 0; i < this.municipalitiesService.length; ++i) {
-                if(this.municipalitiesService[i].geonameId===this.inputService.place.municipality.geonameId){
-                  this.municipality.setValue(this.municipalitiesService[i].name);         
+          var traductionProvince=false;
+          for (var i = 0; i < this.inputService.place.translation.length; ++i) {
+            if(this.inputService.place.translation[i].language===this.inputLanguage){
+              traductionProvince=true
+              this.municipality.setValue(this.inputService.place.translation[i].municipality.name);
+              //Location validation
+              this.placeService.getPlacesCoordinates(this.inputService.place.translation[i].province.name,this.inputService.place.translation[i].municipality.name,this.inputLanguage).subscribe(data=>{
+                if(data.success && data.places.length>0){
+                  this.locationsExistsService=data.places;
+                  this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+                  this.location.updateValueAndValidity(); //Need to call this to trigger a update
+                }else{
+                  this.locationsExistsService=[];
+                  this.locationsExists.setValue("");
                 }
-              }      
-            }    
+              }); 
+            }
           } 
+          if(!traductionProvince){
+            //Location validation
+            this.placeService.getPlacesCoordinates(this.inputService.place.province.name,this.inputService.place.municipality.name,this.inputLanguage).subscribe(data=>{
+              if(data.success && data.places.length>0){
+                this.locationsExistsService=data.places;
+                this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+                this.location.updateValueAndValidity(); //Need to call this to trigger a update
+              }else{
+                this.locationsExistsService=[];
+                this.locationsExists.setValue("");
+              }
+            }); 
+            this.municipality.setValue(this.inputService.place.municipality.name);                  
+          }            
         });        
       } 
-    }     
+    }      
   }
    private froalaOptions= {
      // Set max image size to 5MB.
@@ -353,7 +348,7 @@ export class ServiceFormComponent implements OnInit {
         lat:this.municipalitiesService[index].lat,
         lng:this.municipalitiesService[index].lng
       }
-      this.placeService.getPlacesCoordinates(this.municipalitiesService[index].lat,this.municipalitiesService[index].lng,this.localizeService.parser.currentLang).subscribe(data=>{
+      this.placeService.getPlacesCoordinates(this.form.get('province').value,this.form.get('municipality').value,this.localizeService.parser.currentLang).subscribe(data=>{
         console.log(data);
         if(data.success && data.places.length>0){
           console.log(data);
@@ -373,6 +368,11 @@ export class ServiceFormComponent implements OnInit {
       this.locationsExists.setValidators([Validators.compose([Validators.maxLength(1000)])]);
       this.locationsExists.updateValueAndValidity(); //Need to call this to trigger a update
     }else{
+      var coordinates={
+        lat:this.locationsExistsService[index].coordinates.lat,
+        lng:this.locationsExistsService[index].coordinates.lng
+      }
+      this.passCoordinates(coordinates);
       this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
       this.location.updateValueAndValidity(); //Need to call this to trigger a update
     }
@@ -430,8 +430,8 @@ export class ServiceFormComponent implements OnInit {
       }
       this.place.setLat=Number(this.form.get('lat').value); // Lat field
       this.place.setLng=Number(this.form.get('lng').value); // Lng field
-      console.log(this.service);
-      /*this.serviceService.newService(this.event,this.place).subscribe(data=>{
+      this.serviceService.newService(this.service,this.place).subscribe(data=>{
+        console.log(data);
         if(!data.success){
           this.messageClass='alert alert-danger ks-solid';
           this.message=data.message
@@ -445,7 +445,7 @@ export class ServiceFormComponent implements OnInit {
           this.messageClass='alert alert-success ks-solid'
           this.message=data.message
         }
-      });*/
+      });
     }                
   }
   ngOnInit() {

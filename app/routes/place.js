@@ -94,23 +94,32 @@ module.exports = (router) => {
     /* ===============================================================
            GET Place
         =============================================================== */
-    router.get('/getPlacesCoordinates/:lat/:lng/:language', (req, res) => {
+    router.get('/getPlacesCoordinates/:province/:municipality/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            if (!req.params.lat) {
-                res.json({ success: false, message: eval(language + '.getPlacesCoordinates.latProvidedError') }); // Return error
+            if (!req.params.province) {
+                res.json({ success: false, message: eval(language + '.getPlacesCoordinates.provinceProvidedError') }); // Return error
             } else {
-                if (!req.params.lng) {
-                    res.json({ success: false, message: eval(language + '.getPlacesCoordinates.lngProvidedError') }); // Return error
+                if (!req.params.municipality) {
+                    res.json({ success: false, message: eval(language + '.getPlacesCoordinates.municipalityProvidedError') }); // Return error
                 } else {
                     Place.find({
-                        $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
-                        coordinates: {
-                            lat: Number(req.params.lat),
-                            lng: Number(req.params.lng)
-                        }
+                        $or: [{
+                            language: language,
+                            "province.name": req.params.province,
+                            "municipality.name": req.params.municipality
+
+                        }, {
+                            translation: {
+                                $elemMatch: {
+                                    language: language,
+                                    "province.name": req.params.province,
+                                    "municipality.name": req.params.municipality
+                                }
+                            }
+                        }]
                     }, (err, places) => {
                         // Check if error was found or not
                         if (err) {

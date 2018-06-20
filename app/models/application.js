@@ -26,7 +26,7 @@ let alphaNumericTitleChecker = (title) => {
         return false; // Return error
     } else {
         // Regular expression to test for a valid title
-        const regExp = new RegExp(/^[A-zÀ-ÖØ-öø-ÿ]+$/);
+        const regExp = new RegExp(/^[A-zÀ-ÖØ-öø-ÿ\s]+$/);
         return regExp.test(title); // Return regular expression test results (true or false)
     }
 };

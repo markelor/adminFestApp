@@ -235,6 +235,11 @@ module.exports = {
         userError: "No se encontró el usuario.",
         applicationsError: "No se encontraron aplicaciones."
     },
+    //userServices
+    userServices: {
+        usernameProvidedError: "El usurio de los servicios no fue proporcionado.",
+        eventsError: "No se encontraron servicios.",
+    },
     //usersSearch
     usersSearch: {
         searchTermProvidedError: "El término de búsqueda no fue proporcionado.",

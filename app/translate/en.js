@@ -236,6 +236,11 @@ module.exports = {
         userError: "No user found.",
         applicationsError: "No applications found."
     },
+    //userServices
+    userServices: {
+        usernameProvidedError: "Services username is not provided.",
+        eventsError: "No services found."
+    },
     //usersSearch
     usersSearch: {
         searchTermProvidedError: "Search term is not provided.",

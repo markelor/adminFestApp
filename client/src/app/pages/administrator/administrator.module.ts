@@ -15,13 +15,14 @@ import { TemplatesModule } from '../../templates/templates.module';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { BindContentPipe } from '../../shared/pipes/bind-content.pipe';
 import { GroupByPipe } from '../../shared/pipes/group-by.pipe';
+import { InlineSVGModule } from 'ng-inline-svg';
 
 
 @NgModule({
   imports: [
     CommonModule,FormsModule,
     ReactiveFormsModule,SharedModule,TranslateModule,AdministratorRoutingModule,DataTablesModule,
-    NgbModule,TemplatesModule
+    NgbModule,TemplatesModule,InlineSVGModule
   ],
   declarations: [UsersAdministratorComponent,UserModalComponent, EventsAdministratorComponent,ApplicationsAdministratorComponent, EditApplicationComponent],
   providers: [

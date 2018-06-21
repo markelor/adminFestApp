@@ -235,6 +235,11 @@ module.exports = {
         userError: "Erabiltzailea ez da aurkitu.",
         applicationsError: "Ez dira aplikazioak aurkitu."
     },
+     //userServices
+    userServices: {
+        usernameProvidedError: "Zerbitzuen erabiltzailea ez da eman.",
+        eventsError: "Ez dira zerbitzuak aurkitu.",
+    },
     //usersSearch
     usersSearch: {
         searchTermProvidedError: "Bilaketa hitza ez da eman.",

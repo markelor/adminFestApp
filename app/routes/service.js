@@ -270,7 +270,6 @@ module.exports = (router) => {
             if (!req.params.username) {
                 res.json({ success: false, message: eval(language + '.userServices.usernameProvidedError') }); // Return error
             } else {
-                console.log("ia ba");
                 Service.aggregate([{
                     $match: {
                         $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
@@ -293,7 +292,6 @@ module.exports = (router) => {
                         as: "serviceType" // alias for userinfo table
                     }
                 }, { $unwind: "$serviceType" }]).exec(function(err, services) {
-                    console.log(services);
                     // Check if places were found in database
                     if (!services) {
                         res.json({ success: false, message: eval(language + '.servicesSearch.servicesError') }); // Return error of no places found

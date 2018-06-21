@@ -53,14 +53,15 @@ export class EventsApplicationFormComponent implements OnInit {
       ],
       responsive: true,
       columnDefs: [
-        { responsivePriority: 3, targets: 0 },
-        { responsivePriority: 4, targets: 1 },
+        { responsivePriority: 4, targets: 0 },
+        { responsivePriority: 5, targets: 1 },
         { responsivePriority: 1, targets: 2 },
         { responsivePriority: 9, targets: 3 },
-        { responsivePriority: 5, targets: 4 },
-        { responsivePriority: 6, targets: 5 },
-        { responsivePriority: 7, targets: 6 },
-        { responsivePriority: 2, targets: 7 }
+        { responsivePriority: 6, targets: 4 },
+        { responsivePriority: 7, targets: 5 },
+        { responsivePriority: 8, targets: 6 },
+        { responsivePriority: 3, targets: 7 },
+        { responsivePriority: 2, targets: 8}
       ]
     };
   }
@@ -111,6 +112,7 @@ export class EventsApplicationFormComponent implements OnInit {
       if(data.success){
         this.application=data.application;
         this.eventsApplication=data.events;
+                      console.log(this.eventsApplication);
       }
       this.deleteTrigger.next();
     });
@@ -161,6 +163,12 @@ export class EventsApplicationFormComponent implements OnInit {
         });      
       }
     });
+  }
+  private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
+    console.log("aer");
+    svg.setAttribute('width', '50');
+    svg.setAttribute('height', '50');
+    return svg;
   }
   ngOnInit() {
     $('textarea').each(function () {

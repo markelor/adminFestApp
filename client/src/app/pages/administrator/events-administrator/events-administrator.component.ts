@@ -121,6 +121,12 @@ export class EventsAdministratorComponent implements OnInit {
       }
     });
   }
+  private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
+    console.log("aer");
+    svg.setAttribute('width', '50');
+    svg.setAttribute('height', '50');
+    return svg;
+  }
   ngOnInit() {
     // Get authentication on page load
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {

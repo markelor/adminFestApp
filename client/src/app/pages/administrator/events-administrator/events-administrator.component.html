@@ -12,6 +12,7 @@
               <th translate>{{'event-form.province'}}</th>
               <th translate>{{'event-form.municipality'}}</th>
               <th translate>{{'event-form.location'}}</th>
+              <th translate>{{'service-type-form.icon'}}</th>
               <th translate>{{'crud.edit-delete'}}</th>
             </tr>
           </thead>
@@ -47,6 +48,8 @@
                 <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td>  
                 <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.location }}</td>        
               </ng-container> 
+              <!--Category icon-->
+              <td *ngIf="event.category.icons.length>0" [inlineSVG]="event.category.icons[0].url" [onSVGLoaded]="handleSVG"></td>
               <td class="ks-status">
                 <a href="javascript:void(0)" [routerLink]="['/user-route','events-route','edit-route',event._id] | localize"><span class="fa fa-edit ks-color-info" translate>{{'crud.edit'}}</span></a>
                 <a href="javascript:void(0)" (click)="eventDeleteClick(i,event)"><span class="fa fa-trash ks-color-danger" translate>{{'crud.delete'}}</span></a>

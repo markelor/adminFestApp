@@ -205,6 +205,7 @@ module.exports = {
     },
     //newService
     newService: {
+        createdByProvidedError: "El creador del servicio es requerido.",
         idProvidedError: 'El ID del servicio, no fue proporcionado.',
         serviceTypeIdProvidedError: "El ID del tipo de servicio es requerido.",
         titleProvidedError: "El título del servicio es requerido.",

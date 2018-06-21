@@ -11,6 +11,7 @@
               <th translate>{{'event-form.description'}}</th>
               <th translate>{{'event-form.province'}}</th>
               <th translate>{{'event-form.municipality'}}</th>
+              <th translate>{{'event-form.location'}}</th>
               <th translate>{{'crud.edit-delete'}}</th>
             </tr>
           </thead>
@@ -37,12 +38,14 @@
                 <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.title}}</td>
                 <td *ngIf="translation.language===localizeService.parser.currentLang" [innerHTML]="translation.description"></td>        
               </ng-container> 
-              <!--Province and Municipality-->         
+              <!--Province and Municipality and location-->         
               <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.province.name}}</td>
               <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.municipality.name }}</td>
+              <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.location }}</td>
               <ng-container *ngFor="let translation of event.place.translation">
                 <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.province.name}}</td>
-                <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td>        
+                <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td>  
+                <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.location }}</td>        
               </ng-container> 
               <td class="ks-status">
                 <a href="javascript:void(0)" [routerLink]="['/user-route','events-route','edit-route',event._id] | localize"><span class="fa fa-edit ks-color-info" translate>{{'crud.edit'}}</span></a>

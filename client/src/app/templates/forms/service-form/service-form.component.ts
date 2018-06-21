@@ -418,6 +418,7 @@ export class ServiceFormComponent implements OnInit {
       this.submitted = true;
       //this.disableForm();
       this.service.setLanguage=this.localizeService.parser.currentLang,
+      this.service.createdBy=this.authService.user.username; // CreatedBy field 
       this.service.setServiceTypeId=this.form.get('serviceType').value;
       this.service.setTitle=this.form.get('title').value;
       this.service.setDescription=this.form.get('description').value;

@@ -106,7 +106,8 @@
     "eu-short": "Eu",
     "user": "Erabiltzailea",
     "events": "Ekintzak",
-    "applications": "Aplikazioak"
+    "applications": "Aplikazioak",
+    "services": "Zerbitzuak"
   },
   "events":
   {
@@ -223,6 +224,7 @@
   "service-type-form":
   {
     "title": "Izenburua",
+    "icon": "Ikonoa",
     "send": "Bidali"
   },
     "crud":

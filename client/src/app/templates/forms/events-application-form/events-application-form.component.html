@@ -13,6 +13,7 @@
       <th translate>{{'event-form.description'}}</th>
       <th translate>{{'event-form.province'}}</th>
       <th translate>{{'event-form.municipality'}}</th>
+      <th translate>{{'event-form.location'}}</th>
       <th translate>{{'crud.delete'}}</th>
     </tr>
   </thead>
@@ -42,9 +43,11 @@
       <!--Province and Municipality-->         
       <td *ngIf="eventApplication.place.language===localizeService.parser.currentLang">{{eventApplication.place.province.name}}</td>
       <td *ngIf="eventApplication.place.language===localizeService.parser.currentLang">{{eventApplication.place.municipality.name }}</td>
+      <td *ngIf="eventApplication.place.language===localizeService.parser.currentLang">{{eventApplication.place.location }}</td>
       <ng-container *ngFor="let translation of eventApplication.place.translation">
         <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.province.name}}</td>
-        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td>        
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td>    
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.location }}</td>       
       </ng-container> 
       <td class="ks-status">
         <a href="javascript:void(0)" (click)="deleteEventApplicationTable(i)"><span class="fa fa-trash ks-color-danger" translate>{{'crud.delete'}}</span></a>
@@ -61,6 +64,7 @@
       <th translate>{{'event-form.description'}}</th>
       <th translate>{{'event-form.province'}}</th>
       <th translate>{{'event-form.municipality'}}</th>
+      <th translate>{{'event-form.location'}}</th>
       <th translate>{{'crud.add'}}</th>
     </tr>
   </thead>
@@ -90,9 +94,11 @@
       <!--Province and Municipality-->         
       <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.province.name}}</td>
       <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.municipality.name }}</td>
+      <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.location}}</td>
       <ng-container *ngFor="let translation of event.place.translation">
         <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.province.name}}</td>
-        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td>        
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name }}</td> 
+        <td *ngIf="translation.language===localizeService.parser.currentLang">{{translation.location}}</td>        
       </ng-container> 
       <td class="ks-status">
         <a href="javascript:void(0)" (click)="addEventApplicationTable(i)"><span class="fa fa-plus ks-color-success" translate>{{'crud.add'}}</span></a>

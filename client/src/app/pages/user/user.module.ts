@@ -17,10 +17,10 @@ import { EventsComponent } from './events/events.component';
 import { SeeApplicationsComponent } from './applications/see-applications/see-applications.component';
 import { EditEventsApplicationComponent } from './applications/see-applications/edit-events-application/edit-events-application.component';
 import { ApplicationsComponent } from './applications/applications.component';
-
+import { InlineSVGModule } from 'ng-inline-svg';
 @NgModule({
   imports: [
-    CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule,DataTablesModule
+    CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule,DataTablesModule,InlineSVGModule
   ],
   declarations: [ProfileComponent,ImageCropperComponent, UserComponent,SeeEventsComponent,SeeServicesComponent, EditEventComponent, EventsComponent, SeeApplicationsComponent, EditEventsApplicationComponent, ApplicationsComponent],
   providers:[DecodePipe]

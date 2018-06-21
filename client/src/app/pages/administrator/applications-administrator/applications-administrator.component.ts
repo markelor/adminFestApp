@@ -59,7 +59,6 @@ export class ApplicationsAdministratorComponent implements OnInit {
         'csv',
 
       ],
-      scrollX: true,
       responsive: true,
       columnDefs: [
         { responsivePriority: 1, targets: 0 },

@@ -105,7 +105,8 @@
     "eu-short": "Eu",
     "user": "Usuario",
     "events": "Eventos",
-    "applications": "Aplicaciones"
+    "applications": "Aplicaciones",
+    "services": "Servicios"
   },
   "events":
   {
@@ -221,6 +222,7 @@
   "service-type-form":
   {
     "title": "Título",
+    "icon": "Icono",
     "send": "Enviar"
   },
   "crud":

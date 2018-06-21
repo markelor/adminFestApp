@@ -205,6 +205,7 @@ module.exports = {
     },
     //newService
     newService: {
+        createdByProvidedError: "Zerbitzuaren sortzailea beharrezkoa da.",
         idProvidedError: 'Ez da zerbitzuaren IDa eman.',
         serviceTypeIdProvidedError: "Zerbitzu motaren IDa beharrezkoa da.",
         titleProvidedError: "Zerbitzuaren izenburua beharrezkoa da.",

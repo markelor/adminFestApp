@@ -1,4 +1,5 @@
 export class Service{
+    createdBy: string;
 	serviceTypeId: string;
     placeId: string;
 	language: string;
@@ -7,7 +8,12 @@ export class Service{
     imagesDescription: Array<string>;
     createdAt: Date;
     updatedAt: Date; 
-
+    get getCreatedBy():string {
+        return this.createdBy;
+    }
+    set setCreatedBy(createdBy:string) {
+        this.createdBy = createdBy;
+    }
     get getServiceTypeId():string {
         return this.serviceTypeId;
     }

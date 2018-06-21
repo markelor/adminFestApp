@@ -21,10 +21,15 @@ export class ServiceService {
   public getServices(language) {
     return this.http.get<any>(this.domain + 'service/getServices/'+language);
   }
-   // Function to delete a event
+    // Function to get all user services from the database
+  public getUserServices(username,language) {
+    this.route= encodeURIComponent(username) +'/';
+    return this.http.get<any>(this.domain + 'service/userServices/'+this.route+language);
+  }
+   // Function to delete a service
   public deleteService(username,id,language) {
     this.route= username+'/'+id +'/'
-    return this.http.delete<any>(this.domain + 'event/deleteService/'+this.route+language);
+    return this.http.delete<any>(this.domain + 'service/deleteService/'+this.route+language);
   }
   // Function to edit a service
   public editService(service) {

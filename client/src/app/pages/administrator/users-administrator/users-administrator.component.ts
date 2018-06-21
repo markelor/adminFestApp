@@ -53,7 +53,6 @@ export class UsersAdministratorComponent implements OnInit {
         'csv',
 
       ],
-      scrollX: true,
       responsive: true
     };
   }

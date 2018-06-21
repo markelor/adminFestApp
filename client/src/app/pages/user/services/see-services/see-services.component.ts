@@ -58,16 +58,16 @@ export class SeeServicesComponent implements OnInit {
         'csv',
 
       ],
-      scrollX: true,
       responsive: true,
       columnDefs: [
-        { responsivePriority: 3, targets: 0 },
-        { responsivePriority: 4, targets: 1 },
-        { responsivePriority: 1, targets: 2 },
+        { responsivePriority: 4, targets: 0 },
+        { responsivePriority: 1, targets: 1 },
+        { responsivePriority: 8, targets: 2 },
         { responsivePriority: 7, targets: 3 },
-        { responsivePriority: 5, targets: 4 },
-        { responsivePriority: 6, targets: 5 },
-        { responsivePriority: 2, targets: 6 }
+        { responsivePriority: 6, targets: 4 },
+        { responsivePriority: 5, targets: 5 },
+        { responsivePriority: 3, targets: 6 },
+        { responsivePriority: 2, targets: 7 }
       ]
     };
   }
@@ -100,7 +100,8 @@ export class SeeServicesComponent implements OnInit {
   }
     // Function to get services from the database
   private getServicesInit() {
-    this.serviceService.getServices(this.localizeService.parser.currentLang).subscribe(data => {
+    this.serviceService.getUserServices(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+      console.log(data.services);
       if(data.success){
         this.services=data.services;
       }
@@ -109,7 +110,7 @@ export class SeeServicesComponent implements OnInit {
   }
    // Function to get services from the database
   private getServices() {
-    this.serviceService.getServices(this.localizeService.parser.currentLang).subscribe(data => {
+    this.serviceService.getUserServices(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           // Destroy the table first

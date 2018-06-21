@@ -25,7 +25,6 @@
                 <td>{{category.title }}</td>
                 <td>{{category.description}}</td>
                 <td *ngIf="category.icons.length>0" [inlineSVG]="category.icons[0].url" [onSVGLoaded]="handleSVG"></td>
-                <td *ngIf="category.icons.length===0"></td>
                 <td class="ks-status">
                   <a href="javascript:void(0)" (click)="categoryEditClick(category)"><span class="fa fa-edit ks-color-info">Edit</span></a>
                   <a href="javascript:void(0)" (click)="categoryDeleteClick(i,category)"><span class="fa fa-trash ks-color-danger">Delete</span></a>

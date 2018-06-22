@@ -60,14 +60,15 @@ export class EventsAdministratorComponent implements OnInit {
       ],
       responsive: true,
       columnDefs: [
-        { responsivePriority: 3, targets: 0 },
-        { responsivePriority: 4, targets: 1 },
-        { responsivePriority: 1, targets: 2 },
-        { responsivePriority: 8, targets: 3 },
+        { responsivePriority: 1, targets: 0 },
+        { responsivePriority: 9, targets: 1 },
+        { responsivePriority: 3, targets: 2 },
+        { responsivePriority: 7, targets: 3 },
         { responsivePriority: 5, targets: 4 },
-        { responsivePriority: 6, targets: 5 },
-        { responsivePriority: 7, targets: 6 },
-        { responsivePriority: 2, targets: 7 }
+        { responsivePriority: 4, targets: 5 },
+        { responsivePriority: 8, targets: 6 },
+        { responsivePriority: 6, targets: 7 },
+        { responsivePriority: 2, targets: 8 }
       ]
     };
   }

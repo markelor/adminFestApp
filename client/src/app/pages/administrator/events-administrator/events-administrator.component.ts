@@ -58,7 +58,6 @@ export class EventsAdministratorComponent implements OnInit {
         'csv',
 
       ],
-      scrollX: true,
       responsive: true,
       columnDefs: [
         { responsivePriority: 3, targets: 0 },

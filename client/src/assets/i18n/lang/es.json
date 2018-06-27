@@ -1,5 +1,6 @@
 {
   "authentication": "autentificacion",
+  "sign-up-route": "registrar",
   "activate-route": "activar",
   "sign-in-route": "iniciar-sesion",
   "resend-route": "reenviar",
@@ -8,6 +9,7 @@
   "new-password-route": "nueva-contraseña",
   "search-route": "buscar",
   "create-route": "crear",
+  "manage-route": "gestionar",
   "edit-route": "editar",
   "edit-events-route": "editar-eventos",
   "category-route": "categoria",
@@ -28,12 +30,13 @@
   {
     "home": "Inicio",
     "create": "Crear",
+    "manage": "Gestionar",
     "category": "Categoría",
     "event": "Evento",
     "application": "Aplicación",
     "applications": "Aplicaciones",
     "service":"Servicios",
-    "service-type":"Tipo Servicio",
+    "service-type":"Añadir tipo",
     "administrator": "Administrador",
     "users": "Usuarios",
     "events": "Eventos"

@@ -28,6 +28,7 @@
       <!--Create event-->
       <div class="dropdown-menu">
         <a class="dropdown-item" [routerLink]="['/event-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-calendar-plus-o"></span>{{'menu.create'}}</a>
+        <a class="dropdown-item" [routerLink]="['/event-route','manage-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-cog"></span>{{'menu.manage'}}</a>
       </div>
     </li>
     <!--Application item-->
@@ -39,30 +40,22 @@
       <!--Create application-->
       <div class="dropdown-menu">
         <a class="dropdown-item" [routerLink]="['/application-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
+        <a class="dropdown-item" [routerLink]="['/application-route','manage-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-cog"></span>{{'menu.manage'}}</a>
       </div>
     </li>
      <!--Service item-->
     <li class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-        <span class="ks-icon la la-mobile-phone"></span>
+        <span class="ks-icon la la-map-marker"></span>
         <span translate>{{'menu.service'}}</span>
       </div>
-      <!--Create application-->
+      <!--Create service & type-->
       <div class="dropdown-menu">
         <a class="dropdown-item" [routerLink]="['/service-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
+        <a class="dropdown-item" [routerLink]="['/service-route','manage-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-cog"></span>{{'menu.manage'}}</a>
+        <a class="dropdown-item" [routerLink]="['/service-type-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.service-type'}}</a>
       </div>
-    </li>
-    <!--Service type item-->
-    <li class="nav-item dropdown">
-      <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-        <span class="ks-icon la la-mobile-phone"></span>
-        <span translate>{{'menu.service-type'}}</span>
-      </div>
-      <!--Create application-->
-      <div class="dropdown-menu">
-        <a class="dropdown-item" [routerLink]="['/service-type-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
-      </div>
-    </li>
+    </li>   
     <!--Administrator item-->
     <li [hidden]="!permission" class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">

@@ -18,7 +18,7 @@ import { AuthGuard} from '../../../pages/guards/auth.guard';
 const URL = 'http://localhost:8080/fileUploader/uploadImages/application';
 const I18N_VALUES = {
   'eu': {
-    weekdays: ['As', 'As', 'As', 'Os', 'Os', 'La', 'Ig'],
+    weekdays: ['Al', 'As', 'Az', 'Og', 'Or', 'Lr', 'Ig'],
     months: ['Urt','Ots','Mar','Api','Mai','Eka','Uzt','Abu','Ira','Urr','Aza','Abe'],
   },
   'es': {

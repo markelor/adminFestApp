@@ -9,7 +9,6 @@ const routes: Routes = [
 	{ path: '', component: CreateServiceTypeComponent,canActivate:[AuthGuard], pathMatch: 'full' },
 	{ path: 'create-route', component: CreateServiceTypeComponent,canActivate:[ModeratorGuard] },
 
-	
 ];
 @NgModule({
   imports: [

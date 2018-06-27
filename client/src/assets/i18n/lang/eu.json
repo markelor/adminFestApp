@@ -9,6 +9,7 @@
   "new-password-route": "pasahitz-berria",
   "search-route": "bilatu",
   "create-route": "sortu",
+  "manage-route": "kudeatu",
   "edit-route": "aldatu",
   "edit-events-route": "ekintzak-aldatu",
   "category-route": "kategoria",
@@ -29,12 +30,13 @@
   {
     "home": "Hasiera",
     "create": "Sortu",
+    "manage": "Kudeatu",
     "category": "Kategoria",
     "event": "Ekintza",
     "application": "Aplikazioa",
     "applications": "Aplikazioak",
     "service":"Zerbitzuak",
-    "service-type":"Zerbitzu Mota",
+    "service-type":"Gehitu Mota",
     "administrator": "Administratzailea",
     "users": "Erabiltzaileak",
     "events": "Ekintzak"

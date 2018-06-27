@@ -9,6 +9,7 @@
   "new-password-route": "new-password",
   "search-route": "search",
   "create-route": "create",
+  "manage-route": "manage",
   "edit-route": "edit",
   "edit-events-route": "edit-events",
   "category-route": "category",
@@ -29,6 +30,7 @@
   {
     "home": "Home",
     "create": "Create",
+    "manage": "Manage",
     "category": "Category",
     "event": "Event",
     "application": "Application",

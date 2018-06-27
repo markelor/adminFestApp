@@ -2,12 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LocalizeRouterModule } from 'localize-router';
 import { CreateEventComponent } from './create-event/create-event.component';
+import { ManageEventsComponent } from './manage-events/manage-events.component';
+import { EditEventComponent } from './manage-events/edit-event/edit-event.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { ModeratorGuard } from '../guards/moderator.guard';
 
 const routes: Routes = [
 	{ path: '', component: CreateEventComponent,canActivate:[AuthGuard], pathMatch: 'full' },
-	{ path: 'create-route', component: CreateEventComponent,canActivate:[AuthGuard] }	
+	{ path: 'create-route', component: CreateEventComponent,canActivate:[AuthGuard] },	
+	{ path: 'manage-route', component: ManageEventsComponent,canActivate:[AuthGuard] }	
 ];
 @NgModule({
   imports: [

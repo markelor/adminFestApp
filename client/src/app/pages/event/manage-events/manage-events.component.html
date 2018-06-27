@@ -7,6 +7,10 @@
             <article [hidden]="event.showAll" *ngFor="let event of events" class="card panel ks-widget ks-widget-post">
               <h5 class="card-header">
                 <span class="ks-text"> {{event.title}}</span>
+                <span class="ks-text">
+                  <i [routerLink]="['/user-route','events-route','edit-route',event._id] | localize" class="la la-edit ks-text" style="color:#ffffff"></i>
+                {{'event.edit-event' | translate}}
+                </span>
                 <div class="ks-controls">
                   <!-- showCollapse-->
                   <a *ngIf="!event.showCollapse" (click)="event.showCollapse = !event.showCollapse" class="ks-control">
@@ -25,19 +29,19 @@
                 <p class="time"><span class="la la-clock-o ks-icon"></span> {{event.start}} </p>
                 <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-img ks-thumbnail img-responsive">
                 <div class="ks-text description" [innerHTML]="event.description"></div>
-                <button [routerLink]="['/user-route','events-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.edit-event'}}</button>
                 <div class="ks-actions">
                   <p class="time">
                     <span class="la la-user ks-icon"></span>
                     <span translate>{{'event.created-by'}}</span> {{event.createdBy}}
-                    </p>
+                  </p>
+                  <button [routerLink]="['/user-route','events-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.edit-event'}}</button>
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
                     <span class="la la-comment-o ks-icon"></span>
                   <span class="ks-amount">1</span>
                   </span>
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
                     <span class="la la-heart-o ks-icon"></span>
-                  <span class="ks-amount">3</span>
+                    <span class="ks-amount">3</span>
                   </span>
                 </div>
                 <div class="ks-likes-block">

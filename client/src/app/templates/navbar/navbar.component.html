@@ -6,6 +6,7 @@
     <a class="ks-sidebar-toggle"><i class="ks-icon la la-bars" aria-hidden="true"></i></a>
     <a class="ks-sidebar-mobile-toggle"><i class="ks-icon la la-bars" aria-hidden="true"></i></a>
     <!-- END RESPONSIVE SIDEBAR TOGGLER -->
+    <div class="ks-navbar-logo"><a href="index.html" class="ks-logo"><img src="assets/img/logos/kultura.png" alt="Kultura.eus"></a></div>
   </div>
   <!-- END LOGO -->
   <!-- BEGIN MENUS -->
@@ -13,7 +14,7 @@
     <nav class="nav navbar-nav">
       <!-- BEGIN NAVBAR MENU -->
       <div class="ks-navbar-menu">
-        <div class="ks-search-form nav-item dropdown" click-outside (clickOutside)="onClickOutside()">
+        <form class="ks-search-form nav-item dropdown" click-outside (clickOutside)="onClickOutside()">
           <a class="ks-search-open" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true" (click)="search = 'true'">
             <span class="la la-search"></span>
           </a>
@@ -32,7 +33,7 @@
           </div>-->
           <div class="ks-wrapper">
             <div class="input-icon icon-right icon icon-lg icon-color-primary">
-              <input (keyup)="searchTerm.next($event.target.value)" id="input-group-icon-text" type="text" class="form-control" autocomplete="off" placeholder="Search...">
+              <input (keyup)="searchTerm.next($event.target.value)" id="input-group-icon-text" type="text" class="form-control" autocomplete="off" placeholder="{{'navbar.search'|translate}}">
               <span class="icon-addon">
                 <span class="la la-search ks-icon"></span>
               </span>
@@ -41,7 +42,7 @@
               <span class="la la-close" (click)="search = 'false'"></span>
             </a>
           </div>
-        </div>
+        </form>
         <a *ngIf="screen" class="nav-item nav-link"><span class="search-backround">Search label length is equal to charcter</span></a>
       </div>
       <!-- END NAVBAR MENU -->

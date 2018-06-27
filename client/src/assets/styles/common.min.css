@@ -5936,7 +5936,7 @@ pre[class*=language-]+h6 {
 
 .card-header:first-child {
   -webkit-border-radius: 0;
-  border-radius: 0
+  border-radius: 10px 10px 0 0;
 }
 
 .card-header-pills {
@@ -6283,8 +6283,8 @@ pre[class*=language-]+h6 {
 }
 
 .badge-info {
-  border: solid 1px var(--main-grey-light-color);
-  background-color: var(--main-grey-light-color);
+  border: solid 1px var(--main-dark-color);
+  background-color: var(--main-dark-color);
   color: #fff
 }
 

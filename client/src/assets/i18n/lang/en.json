@@ -110,7 +110,8 @@
     "user": "User",
     "events": "Events",
     "applications": "Applications",
-    "services": "Services"
+    "services": "Services",
+    "search": "Search..."
   },
   "events":
   {

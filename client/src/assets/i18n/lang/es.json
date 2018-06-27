@@ -109,7 +109,8 @@
     "user": "Usuario",
     "events": "Eventos",
     "applications": "Aplicaciones",
-    "services": "Servicios"
+    "services": "Servicios",
+    "search": "Buscar..."
   },
   "events":
   {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../../../services/auth.service';
-import {ApplicationService } from '../../../../../services/application.service';
+import { AuthService } from '../../../../services/auth.service';
+import {ApplicationService } from '../../../../services/application.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
-import { AuthGuard} from '../../../../guards/auth.guard';
+import { AuthGuard} from '../../../guards/auth.guard';
 import { Router,ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-edit-events-application',

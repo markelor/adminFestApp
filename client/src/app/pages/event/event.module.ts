@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common"
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { EventRoutingModule }  from './event.routing';
 import { CreateEventComponent } from './create-event/create-event.component';
+import { EditEventComponent } from './manage-events/edit-event/edit-event.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,7 +15,7 @@ import { ManageEventsComponent } from './manage-events/manage-events.component';
   imports: [
   	CommonModule,FormsModule,EventRoutingModule,ReactiveFormsModule,TranslateModule,SharedModule,TemplatesModule,DataTablesModule,NgbModule
   ],
-  declarations: [CreateEventComponent, ManageEventsComponent],
+  declarations: [CreateEventComponent, ManageEventsComponent,EditEventComponent],
   providers: [
    {provide: COMPOSITION_BUFFER_MODE, useValue: false}
   ],

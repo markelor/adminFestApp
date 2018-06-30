@@ -10,7 +10,9 @@ import { ModeratorGuard } from '../guards/moderator.guard';
 const routes: Routes = [
 	{ path: '', component: CreateEventComponent,canActivate:[AuthGuard], pathMatch: 'full' },
 	{ path: 'create-route', component: CreateEventComponent,canActivate:[AuthGuard] },	
-	{ path: 'manage-route', component: ManageEventsComponent,canActivate:[AuthGuard] }	
+	{ path: 'manage-route', component: ManageEventsComponent,canActivate:[AuthGuard] },	
+	{ path: 'manage-route/edit-route/:id', component: EditEventComponent,canActivate:[AuthGuard] }	
+
 ];
 @NgModule({
   imports: [

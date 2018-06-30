@@ -8,7 +8,7 @@
               <h5 class="card-header">
                 <span class="ks-text"> {{event.title}}</span>
                 <span class="ks-text">
-                  <i [routerLink]="['/user-route','events-route','edit-route',event._id] | localize" class="la la-edit ks-text" style="color:#ffffff"></i>
+                  <i [routerLink]="['/event-route','manage-route','edit-route',event._id] | localize" class="la la-edit ks-text" style="color:#ffffff"></i>
                 {{'event.edit-event' | translate}}
                 </span>
                 <div class="ks-controls">
@@ -34,7 +34,7 @@
                     <span class="la la-user ks-icon"></span>
                     <span translate>{{'event.created-by'}}</span> {{event.createdBy}}
                   </p>
-                  <button [routerLink]="['/user-route','events-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.edit-event'}}</button>
+                  <button [routerLink]="['/event-route','manage-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.edit-event'}}</button>
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
                     <span class="la la-comment-o ks-icon"></span>
                   <span class="ks-amount">1</span>

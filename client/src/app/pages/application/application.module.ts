@@ -9,15 +9,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule} from "../../shared/shared.module";
 import { TemplatesModule } from '../../templates/templates.module';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
-import { SeeApplicationsComponent } from './manage-applications/see-applications/see-applications.component';
-import { EditEventsApplicationComponent } from './manage-applications/see-applications/edit-events-application/edit-events-application.component';
+import { EditEventsApplicationComponent } from './manage-applications/edit-events-application/edit-events-application.component';
 import { ManageApplicationsComponent } from './manage-applications/manage-applications.component';
 @NgModule({
   imports: [
   	CommonModule,FormsModule,ReactiveFormsModule,TranslateModule,SharedModule,TemplatesModule,
     ApplicationRoutingModule,DataTablesModule,NgbModule
   ],
-  declarations: [CreateApplicationComponent, ManageApplicationsComponent,SeeApplicationsComponent,EditEventsApplicationComponent],
+  declarations: [CreateApplicationComponent, ManageApplicationsComponent,EditEventsApplicationComponent],
   providers: [
    {provide: COMPOSITION_BUFFER_MODE, useValue: false}
   ],

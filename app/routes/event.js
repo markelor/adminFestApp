@@ -95,12 +95,14 @@ module.exports = (router) => {
                                                                         participants: req.body.event.participants,
                                                                         start: req.body.event.start,
                                                                         end: req.body.event.end,
+                                                                        price: req.body.event.price,
                                                                         description: req.body.event.description,
                                                                         observations: req.body.event.observations,
                                                                         images: {
                                                                             poster: req.body.event.imagesPoster,
                                                                             description: req.body.event.imagesDescription
                                                                         },
+
                                                                         createdAt: Date.now(),
                                                                         updatedAt: Date.now()
                                                                     });
@@ -420,7 +422,6 @@ module.exports = (router) => {
     /* ===============================================================
         Route to update/edit a event
     =============================================================== */
-
     router.put('/editEvent', function(req, res) {
         var language = req.body.language;
         // Check if language was provided
@@ -443,6 +444,7 @@ module.exports = (router) => {
                     if (req.body.participants) var newEventParticipants = req.body.participants; // Check if a change to participants was requested
                     if (req.body.start) var newEventStart = req.body.start; // Check if a change to start was requested
                     if (req.body.end) var newEventEnd = req.body.end; // Check if a change to end was requested
+                    if (req.body.price) var newEventPrice = req.body.price; // Check if a change to price was requested
                     if (req.body.description) var newEventDescription = req.body.description; // Check if a change to description was requested
                     if (req.body.observations) var newEventObservations = req.body.observations; // Check if a change to observations was requested
                     if (req.body.participants) var newEventParticipants = req.body.participants; // Check if a change to participants was requested
@@ -631,6 +633,8 @@ module.exports = (router) => {
                                                                                     event.start = newEventStart; // Assign new start to event in database
                                                                                 if (newEventEnd)
                                                                                     event.end = newEventEnd; // Assign new end to event in database
+                                                                                if (newEventPrice)
+                                                                                    event.price = newEventPrice; // Assign new price to event in database
                                                                                 if (newEventDescription)
                                                                                     event.description = newEventDescription; // Assign new description to event in database
                                                                                 if (newEventObservations)
@@ -985,17 +989,17 @@ module.exports = (router) => {
                                                                 } else {}
                                                             });
                                                         }
-                                                        if (event.images.poster.length>0) {
+                                                        if (event.images.poster.length > 0) {
                                                             deleteImages(event.images.poster, "event-poster");
                                                         }
-                                                        if (event.images.description.length>0) {
+                                                        if (event.images.description.length > 0) {
                                                             deleteImages(event.images.description, "event-description");
                                                         }
                                                         for (var i = 0; i < event.translation.length; i++) {
-                                                            if (event.translation[i].images.poster.length>0) {
+                                                            if (event.translation[i].images.poster.length > 0) {
                                                                 deleteImages(event.translation[i].images.poster, "event-poster");
                                                             }
-                                                            if (event.translation[i].images.description.length>0) {
+                                                            if (event.translation[i].images.description.length > 0) {
                                                                 deleteImages(event.translation[i].images.description, "event-description");
                                                             }
                                                         }

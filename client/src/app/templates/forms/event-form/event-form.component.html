@@ -188,6 +188,13 @@
         <ngb-timepicker [(ngModel)]="timeEnd" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
     </div>
+    <!-- Price -->
+    <div class="col-sm-12">
+      <div class="form-group required" [ngClass]="{'has-error': (!price.valid && price.dirty), 'has-success': (price.valid)}">
+        <label for="inputPrice" translate>{{'application-form.price'}}</label>
+        <input [formControl]="price" type="number" class="form-control" id="inputPrice">
+      </div>
+    </div>
     <!-- Province -->
     <div class="col-sm-6">
       <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">

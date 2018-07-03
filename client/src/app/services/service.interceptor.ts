@@ -18,7 +18,7 @@ export class ServiceInterceptor implements HttpInterceptor {
 	this.authService = this.injector.get(AuthService);
 	this.serviceService = this.injector.get(ServiceService);
 	this.localizeService=this.injector.get(LocalizeRouterService);
-	this.domain = this.authService.domain
+	this.domain = this.authService.domain;
 	if(request.url===this.domain+"service/newService"){
 	request = request.clone({
 	  setHeaders: {

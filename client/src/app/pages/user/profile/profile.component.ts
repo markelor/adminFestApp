@@ -61,8 +61,7 @@ export class ProfileComponent implements OnInit {
 	    this.profileCropperSettings.rounded = true;
 	    this.profileCropperSettings.keepAspect = false;
 
-	    this.profileCropperSettings.cropperDrawSettings.strokeColor =
-	      "rgba(255,255,255,1)";
+	    this.profileCropperSettings.cropperDrawSettings.strokeColor ="rgba(255,255,255,1)";
 	    this.profileCropperSettings.cropperDrawSettings.strokeWidth = 2;
 	    this.data = {};
     }
@@ -77,9 +76,9 @@ export class ProfileComponent implements OnInit {
       this.fileUploaderService.uploadImagesBase64(uploadData).subscribe(data=>{
       	if(data.success){
       		this.avatars.push(data.url);
+      		this.chooseImage(this.avatars.length-1);
       	}
-      });
-  
+      }); 
     }
     private fileChangeListener($event){
 	  this.image = new Image();
@@ -124,7 +123,6 @@ export class ProfileComponent implements OnInit {
 	    this.uploadAllSuccess=false;
 	  }    
 	  if(this.uploader.progress===100 && this.uploadAllSuccess){
-	    console.log(this.images);
 	    //this.saveImageUrl(this.image);
 	    
 
@@ -171,7 +169,7 @@ export class ProfileComponent implements OnInit {
 
 
     ngOnInit() {
-    	// Get authentication on page load
+    // Get authentication on page load
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){
         this.authService.logout();

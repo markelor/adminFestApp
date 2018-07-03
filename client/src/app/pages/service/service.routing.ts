@@ -5,13 +5,13 @@ import { CreateServiceComponent } from './create-service/create-service.componen
 import { AuthGuard } from '../guards/auth.guard';
 import { ModeratorGuard } from '../guards/moderator.guard';
 import { ManageServicesComponent } from './manage-services/manage-services.component';
-import { EditEventComponent } from '../event/manage-events/edit-event/edit-event.component';
+import { EditServiceComponent } from './manage-services/edit-service/edit-service.component';
 
 const routes: Routes = [
 	{ path: '', component: CreateServiceComponent,canActivate:[AuthGuard], pathMatch: 'full' },
 	{ path: 'create-route', component: CreateServiceComponent,canActivate:[ModeratorGuard] },
 	{ path: 'manage-route', component: ManageServicesComponent,canActivate:[AuthGuard] },	
-	{ path: 'services-route/edit-route/:id', component: EditEventComponent,canActivate:[AuthGuard] },
+	{ path: 'services-route/edit-route/:id', component: EditServiceComponent,canActivate:[AuthGuard] },
 	
 ];
 @NgModule({

@@ -9,6 +9,7 @@ export class Event{
     title: string;
     start: Date;
     end: Date;
+    price:number;
     description: string;
     observations:string;
     reactions: object;
@@ -69,6 +70,12 @@ export class Event{
     }
     set setEnd(end:Date) {
         this.end = end;
+    }
+    get getPrice():number {
+        return this.price;
+    }
+    set setPrice(price:number) {
+        this.price = price;
     }
     get getDescription():string {
         return this.description;

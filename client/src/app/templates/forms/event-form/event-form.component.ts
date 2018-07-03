@@ -17,7 +17,7 @@ import { ObservableService } from '../../../services/observable.service';
 import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { AuthGuard} from '../../../pages/guards/auth.guard';
 import { Subscription } from 'rxjs/Subscription';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 declare let $: any;
 const URL = 'http://localhost:8080/fileUploader/uploadImages/event-poster';
 const I18N_VALUES = {
@@ -88,6 +88,7 @@ export class EventFormComponent implements OnInit {
   private location:AbstractControl;
   private start:AbstractControl;
   private end:AbstractControl;
+  private price:AbstractControl;
   private lat:AbstractControl;
   private lng:AbstractControl;
   private description:AbstractControl;
@@ -114,6 +115,7 @@ export class EventFormComponent implements OnInit {
   private hasBaseDropZoneOver:boolean = false;
   private hasAnotherDropZoneOver:boolean = false;
   private subscriptionLanguage: Subscription;
+  private subscriptionObservableMapClick: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -173,6 +175,7 @@ export class EventFormComponent implements OnInit {
       end: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/
       ])],
+      price: [''],
        lat: ['', Validators.compose([
         Validators.required,LatitudeValidator.validate
       ])],
@@ -195,6 +198,7 @@ export class EventFormComponent implements OnInit {
     this.municipality = this.form.controls['municipality'];
     this.start = this.form.controls['start'];
     this.end = this.form.controls['end'];
+    this.price = this.form.controls['price'];
     this.locationsExists = this.form.controls['locationsExists'];
     this.location = this.form.controls['location'];
     this.lat = this.form.controls['lat'];
@@ -317,10 +321,11 @@ export class EventFormComponent implements OnInit {
       } 
       //Get start on page load
       this.participants=this.inputEvent.participants;
+      this.inputEvent.start=moment(this.inputEvent.start).tz("Europe/Madrid").format('YYYY-MM-DD HH:mm');
       var year=Number(this.inputEvent.start.split("-")[0]);
       var month=Number(this.inputEvent.start.split("-")[1]);
-      var day=Number(this.inputEvent.start.split('-').pop().split('T').shift());
-      var hour=Number(this.inputEvent.start.split('T').pop().split(':').shift());
+      var day=Number(this.inputEvent.start.split('-').pop().split(' ').shift());
+      var hour=Number(this.inputEvent.start.split(' ').pop().split(':').shift());
       var minute=Number(this.inputEvent.start.split(':')[1]);
       var calendar= {year:year , month: month,day: day};
       this.start.setValue(calendar);
@@ -328,15 +333,18 @@ export class EventFormComponent implements OnInit {
       this.timeStart.minute=minute; 
         
       //Get end on page load
+      this.inputEvent.end=moment(this.inputEvent.end).tz("Europe/Madrid").format('YYYY-MM-DD HH:mm');
       var year=Number(this.inputEvent.end.split("-")[0]);
       var month=Number(this.inputEvent.end.split("-")[1]);
-      var day=Number(this.inputEvent.end.split('-').pop().split('T').shift());
-      var hour=Number(this.inputEvent.end.split('T').pop().split(':').shift());
+      var day=Number(this.inputEvent.end.split('-').pop().split(' ').shift());
+      var hour=Number(this.inputEvent.end.split(' ').pop().split(':').shift());
       var minute=Number(this.inputEvent.end.split(':')[1]);
       var calendar= {year:year , month: month,day: day};
       this.end.setValue(calendar); 
       this.timeEnd.hour=hour;
       this.timeEnd.minute=minute; 
+      //Get price on page load
+      this.price.setValue(this.inputEvent.price);
       //Get lat on page load
       this.lat.setValue(this.inputEvent.place.coordinates.lat);
       //Get lng on page load
@@ -378,7 +386,17 @@ export class EventFormComponent implements OnInit {
       } 
     }   
   }
-
+  private mapClickPlace(){
+    this.subscriptionObservableMapClick=this.observableService.notifyObservable.subscribe(res => {
+      if (res.hasOwnProperty('option') && res.option === this.observableService.mapClickType) {
+        var coordinates={
+          lat:res.lat,
+          lng:res.lng
+        }
+      this.passCoordinates(coordinates);
+      }
+    }); 
+  }
   // Enable new categories form
   private enableFormNewEventForm() {
     this.form.enable(); // Enable form
@@ -411,8 +429,9 @@ export class EventFormComponent implements OnInit {
     this.event.setCreatedBy=this.authService.user.username; // CreatedBy field
     this.event.setTitle=this.form.get('title').value; // Title field
     this.event.setParticipants=this.participants;
-    this.event.setStart=new Date(this.form.get('start').value.year,this.form.get('start').value.month,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
-    this.event.setEnd=new Date(this.form.get('end').value.year,this.form.get('end').value.month,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
+    this.event.setStart=new Date(this.form.get('start').value.year,this.form.get('start').value.month-1,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
+    this.event.setEnd=new Date(this.form.get('end').value.year,this.form.get('end').value.month-1,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
+    this.event.setPrice=this.form.get('price').value;
     this.event.setCategoryId=this.categoryId[this.categoryId.length-1];
     this.event.setDescription= this.form.get('description').value; // Description field
     this.event.setObservations=this.form.get('observations').value; // Observations field
@@ -492,8 +511,9 @@ export class EventFormComponent implements OnInit {
       var hasTranslationPlace=false;
       this.inputEvent.createdBy=this.authService.user.username; // CreatedBy field   
       this.inputEvent.participants=this.participants;
-      this.inputEvent.start=new Date(this.form.get('start').value.year,this.form.get('start').value.month,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
-      this.inputEvent.end=new Date(this.form.get('end').value.year,this.form.get('end').value.month,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
+      this.inputEvent.start=new Date(this.form.get('start').value.year,this.form.get('start').value.month-1,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
+      this.inputEvent.end=new Date(this.form.get('end').value.year,this.form.get('end').value.month-1,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
+      this.inputEvent.price=this.form.get('price').value;
       this.inputEvent.categoryId=this.categoryId[this.categoryId.length-1]; 
       this.inputEvent.place.coordinates.lat=Number(this.form.get('lat').value); // Lat field
       this.inputEvent.place.coordinates.lng=Number(this.form.get('lng').value); // Lng field
@@ -753,8 +773,8 @@ export class EventFormComponent implements OnInit {
         lat:this.form.get('lat').value, // Lat field
         lng:this.form.get('lng').value, // Lng field
       }
-    }  
-    this.observableService.mapType="create-categories-coordinates";
+    }
+    this.observableService.mapType="event-form-coordinates";
     this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
   }
   private setUploaderOptions(){
@@ -870,6 +890,7 @@ export class EventFormComponent implements OnInit {
     }
   ngOnInit() {
     this.initializeForm();
+    this.mapClickPlace();
     this.location.valueChanges.subscribe(data=>{
       if(data===''){
         this.locationsExists.setValidators([Validators.compose([Validators.required,Validators.maxLength(1000)])]);

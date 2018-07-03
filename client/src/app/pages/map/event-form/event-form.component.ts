@@ -28,6 +28,10 @@ export class EventFormComponent implements OnInit{
   private clickedMarker(label: string, index: number) {
     console.log(`clicked the marker: ${label || index}`)
   }
+  private placeClick($event){
+    this.observableService.mapClickType="map-click-place";
+    this.observableService.notifyOther({option: this.observableService.mapClickType,lat:$event.coords.lat,lng:$event.coords.lng});
+  }
   private addMarker(data){
     this.lat=Number(data.lat);
     this.lng=Number(data.lng);

@@ -4,6 +4,7 @@ import { Subject }    from 'rxjs/Subject';
 @Injectable()
 export class ObservableService {
   public mapType;
+  public mapClickType;
   public modalType;
   public avatarType;
   public modalCount=0;

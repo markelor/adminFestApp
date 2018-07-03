@@ -88,7 +88,8 @@ const serviceSchema = new Schema({
         _id: false
     }],
     createdAt: { type: Date, required: true },
-    updatedAt: { type: Date, required: true }
+    updatedAt: { type: Date, required: true },
+    expiredAt: { type: Date, required: false }
 });
 
 // Export Module/Schema

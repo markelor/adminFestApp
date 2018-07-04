@@ -6,7 +6,7 @@ import { LocalizeRouterService } from 'localize-router';
 export class ServiceTypeService {
   private domain = this.authService.domain;
   private route;
-
+  private language;
   constructor(
     private authService: AuthService,
     private localizeService:LocalizeRouterService,
@@ -20,6 +20,7 @@ export class ServiceTypeService {
   }
    // Function to get ccategories from the database
   public getServiceTypes(language) {
+    this.language=language;
     return this.http.get<any>(this.domain + 'serviceType/getServiceTypes/'+language);
   }
   // Function to edit a serviceType
@@ -28,7 +29,7 @@ export class ServiceTypeService {
   }
   // Function to delete a serviceType
   public deleteServiceType(username,id,language) {
-    this.route= username+'/'+id +'/'
+    this.route= username+'/'+id +'/';
     return this.http.delete<any>(this.domain + 'serviceType/deleteServiceType/' + this.route+language);
   }
 }

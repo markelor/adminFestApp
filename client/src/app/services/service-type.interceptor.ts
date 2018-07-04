@@ -25,12 +25,12 @@ export class ServiceTypeInterceptor implements HttpInterceptor {
 		    'language':this.localizeService.parser.currentLang
 		  }
 		});
-	}else if(request.url===this.domain+"serviceType/getServiceTypes/"+this.localizeService.parser.currentLang){
+	}else if(request.url===this.domain+"serviceType/getServiceTypes/"+this.serviceTypeService.language){
 		request = request.clone({
 		  setHeaders: {
 		    'Content-Type': 'application/json',
 		    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
-		    'language':this.localizeService.parser.currentLang
+		    'language':this.serviceTypeService.language
 		  }
 		});              
     }else if(request.url===this.domain+"serviceType/editServiceType"){

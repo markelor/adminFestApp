@@ -169,7 +169,6 @@ export class ServiceFormComponent implements OnInit {
       }else{
         this.expiredAt.setValue(undefined);
       }
-
       //Get lat on page load
       this.lat.setValue(this.inputService.place.coordinates.lat);
       //Get lng on page load
@@ -203,18 +202,7 @@ export class ServiceFormComponent implements OnInit {
         }    
       } 
       //Get serviceType
-      var traductionServiceType=false;
-      for (var i = 0; i < this.inputService.serviceType.translation.length; ++i) {
-        if(this.inputService.serviceType.translation[i].language===this.inputLanguage){
-          traductionServiceType=true;
-          this.form.controls['serviceType'].setValue(this.inputService.serviceType.translation[i].title);  
-        }
-      }
-      if(!traductionServiceType){
-        if(this.inputService.serviceType.language===this.inputLanguage){ 
-          this.form.controls['serviceType'].setValue(this.inputService.serviceType._id);     
-        }
-      }     
+      this.form.controls['serviceType'].setValue(this.inputService.serviceType._id);   
       //Get provinces on page load
       this.placeService.getGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesService => {
         this.provincesService=provincesService.geonames;
@@ -478,16 +466,25 @@ export class ServiceFormComponent implements OnInit {
     }
   }
   private chargeAll(){
-    //Get service types
-    this.serviceTypeService.getServiceTypes(this.localizeService.parser.currentLang).subscribe(data=>{
-      if(data.success){
-        this.serviceTypes=data.serviceTypes;
-      }   
-    });
+   
     //Get provinces on page load
     if(this.inputOperation==='create'){
+      //Get service types
+      this.serviceTypeService.getServiceTypes(this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success){
+          this.serviceTypes=data.serviceTypes;
+        }   
+      });
       this.placeService.getGeonamesJson('province',this.localizeService.parser.currentLang,'euskal-herria').subscribe(provincesService => {
         this.provincesService=provincesService.geonames;
+      });
+    }else if(this.inputOperation==="edit"){
+       //Get service types
+      this.serviceTypeService.getServiceTypes(this.inputLanguage).subscribe(data=>{
+        console.log(data);
+        if(data.success){
+          this.serviceTypes=data.serviceTypes;
+        }   
       });
     }
   }

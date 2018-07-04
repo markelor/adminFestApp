@@ -26,11 +26,11 @@
           <option value="" translate>{{'service-form.select-service-type'}}</option>
           <ng-container>
             <ng-container *ngFor="let serviceType of serviceTypes">
-              <option *ngIf="localizeService.parser.currentLang===serviceType.language" [ngValue]="serviceType._id">
+              <option *ngIf="inputLanguage===serviceType.language" [ngValue]="serviceType._id">
                 {{serviceType.title}}
               </option>        
               <ng-container *ngFor="let translation of serviceType.translation">
-                <option *ngIf="localizeService.parser.currentLang===translation.language" [ngValue]="serviceType._id">
+                <option *ngIf="inputLanguage===translation.language" [ngValue]="serviceType._id">
                   {{translation.title}}
                 </option>
               </ng-container>

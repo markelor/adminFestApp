@@ -42,7 +42,7 @@
                 <ul class="ks-list ks-success">
                   <li *ngFor="let condition of application.conditions">{{condition}}</li>
                 </ul>
-                <a [routerLink]="['/application-route','manage-route',application._id,'edit-events-route'] | localize" href="javascript:void(0);" class="btn btn-info btn-block" translate>{{'application.edit-application'}}</a>
+                <a [routerLink]="['/application-route','manage-route',application._id] | localize" href="javascript:void(0);" class="btn btn-info btn-block" translate>{{'application.edit-application'}}</a>
               </div>
             </div>
           </div>

@@ -17,16 +17,21 @@ export class ServiceService {
     var data = {'service': service, 'place': place };
     return this.http.post<any>(this.domain + 'service/newService', data);
   }
-   // Function to get ccategories from the database
+   // Function to get services from the database
   public getServices(language) {
     return this.http.get<any>(this.domain + 'service/getServices/'+language);
   }
-    // Function to get all user services from the database
+  // Function to get service from the database
+  public getService(id,username,language) {
+    this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
+    return this.http.get<any>(this.domain + 'service/getService/'+this.route+language);
+  }
+  // Function to get all user services from the database
   public getUserServices(username,language) {
     this.route= encodeURIComponent(username) +'/';
     return this.http.get<any>(this.domain + 'service/userServices/'+this.route+language);
   }
-   // Function to delete a service
+  // Function to delete a service
   public deleteService(username,id,language) {
     this.route= username+'/'+id +'/'
     return this.http.delete<any>(this.domain + 'service/deleteService/'+this.route+language);

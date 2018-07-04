@@ -8,6 +8,7 @@ export class Service{
     imagesDescription: Array<string>;
     createdAt: Date;
     updatedAt: Date; 
+    expiredAt: Date;
     get getCreatedBy():string {
         return this.createdBy;
     }
@@ -61,5 +62,11 @@ export class Service{
     }
     set setUpdatedAt(updatedAt:Date) {
         this.updatedAt = updatedAt;
+    }
+    get getExpiredAt():Date {
+        return this.expiredAt;
+    }
+    set setExpiredAt(expiredAt:Date) {
+        this.expiredAt = expiredAt;
     }
 }

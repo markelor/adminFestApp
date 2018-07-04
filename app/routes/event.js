@@ -432,7 +432,7 @@ module.exports = (router) => {
             if (!req.body._id) {
                 res.json({ success: false, message: eval(language + '.editEvent.idProvidedError') }); // Return error
             } else {
-                // Check if id was provided
+                // Check if createdBy was provided
                 if (!req.body.createdBy) {
                     res.json({ success: false, message: eval(language + '.editEvent.createdByProvidedError') }); // Return error
                 } else {
@@ -447,7 +447,6 @@ module.exports = (router) => {
                     if (req.body.price) var newEventPrice = req.body.price; // Check if a change to price was requested
                     if (req.body.description) var newEventDescription = req.body.description; // Check if a change to description was requested
                     if (req.body.observations) var newEventObservations = req.body.observations; // Check if a change to observations was requested
-                    if (req.body.participants) var newEventParticipants = req.body.participants; // Check if a change to participants was requested
                     if (req.body.images.poster) var newEventImagesPoster = req.body.images.poster; // Check if a change to imagesPoster was requested
                     if (req.body.images.description) var newEventImagesDescription = req.body.images.description; // Check if a change to imagesDescription was requeste
                     if (req.body.translation) var newEventTranslation = req.body.translation; //Check if a change to translation was requested
@@ -639,8 +638,6 @@ module.exports = (router) => {
                                                                                     event.description = newEventDescription; // Assign new description to event in database
                                                                                 if (newEventObservations)
                                                                                     event.observations = newEventObservations; // Assign new observations to event in database
-                                                                                if (newEventParticipants)
-                                                                                    event.participants = newEventParticipants; // Assign new participants to event in database
                                                                                 if (newEventImagesPoster)
                                                                                     event.images.poster = newEventImagesPoster; // Assign new imagesPoster to event in database
                                                                                 if (newEventImagesDescription)

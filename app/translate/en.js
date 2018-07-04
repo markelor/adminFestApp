@@ -255,7 +255,6 @@ module.exports = {
     //getEvent
     getEvent: {
         idProvidedError: "Event ID is not provided.",
-        usernameProvidedError: "Application username is not provided.",
         eventError: "No event found.",
         placeError: "No place found.",
         categoryError: "No category found."
@@ -263,8 +262,15 @@ module.exports = {
     //getApplication
     getApplication: {
         idProvidedError: 'Application ID was not provided.',
+         usernameProvidedError: "Application username is not provided.",
         userError: "No user found.",
         applicationError: "No application found."
+    },
+     //getService
+    getService: {
+        idProvidedError: "Event ID is not provided.",
+        serviceError: "No service found.",
+        placeError: "No place found."
     },
     //getPlacesCoordinates
     getPlacesCoordinates: {
@@ -308,6 +314,12 @@ module.exports = {
         usersProvidedError: "Application users were not provided.",
         saveError: "Could not edit application. Error: ",
         success: "Application edited!"
+    },
+    editService: {
+        idProvidedError: 'Service ID was not provided.',
+        createdByProvidedError: 'Username was not provided.',
+        saveError: "Could not edit service. Error: ",
+        success: "Service edited!"
     },
     editServiceType: {
         idProvidedError: 'Service type ID was not provided',

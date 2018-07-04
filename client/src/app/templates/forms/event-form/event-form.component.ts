@@ -66,6 +66,7 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
 export class EventFormComponent implements OnInit {
   private event:Event=new Event();
   private place:Place=new Place();
+  private selectedPlace;
   private messageClass;
   private message;
   //private newPost = false;
@@ -468,7 +469,6 @@ export class EventFormComponent implements OnInit {
         this.messageClass = 'alert alert-danger ks-solid'; // Return error class
         this.message = data.message; // Return error message
         this.submitted = false; // Enable submit button
-        this.enableFormNewEventForm(); // Enable form
       } else {
         this.createNewEventForm(); // Reset all form fields
         this.uploader.clearQueue();
@@ -508,13 +508,17 @@ export class EventFormComponent implements OnInit {
   private editEvent() {
     if(this.inputEvent){
       var hasTranslationEvent=false;
-      var hasTranslationPlace=false;
-      this.inputEvent.createdBy=this.authService.user.username; // CreatedBy field   
+      var hasTranslationPlace=false; 
       this.inputEvent.participants=this.participants;
       this.inputEvent.start=new Date(this.form.get('start').value.year,this.form.get('start').value.month-1,this.form.get('start').value.day,this.timeStart.hour,this.timeStart.minute);
       this.inputEvent.end=new Date(this.form.get('end').value.year,this.form.get('end').value.month-1,this.form.get('end').value.day,this.timeEnd.hour,this.timeEnd.minute);
       this.inputEvent.price=this.form.get('price').value;
-      this.inputEvent.categoryId=this.categoryId[this.categoryId.length-1]; 
+      this.inputEvent.categoryId=this.categoryId[this.categoryId.length-1];
+      if(this.selectedPlace){
+        this.inputEvent.place=this.selectedPlace;
+      }else if(this.inputEvent.place.province.name!==this.province || this.inputEvent.place.municipality.name!==this.municipality|| this.inputEvent.place.location!==this.location){
+        this.inputEvent.place.translation=[];
+      } 
       this.inputEvent.place.coordinates.lat=Number(this.form.get('lat').value); // Lat field
       this.inputEvent.place.coordinates.lng=Number(this.form.get('lng').value); // Lng field
       //event translation
@@ -577,6 +581,12 @@ export class EventFormComponent implements OnInit {
         if(this.inputEvent.place.language===this.inputLanguage){
           this.inputEvent.place.province.name=this.form.get('province').value; // Province field
           this.inputEvent.place.municipality.name=this.form.get('municipality').value; // Municipality field
+           if(this.place.geonameIdProvince){
+            this.inputEvent.place.province.geonameId=this.place.geonameIdProvince;
+          }
+          if(this.place.geonameIdMunicipality){
+            this.inputEvent.place.municipality.geonameId=this.place.geonameIdMunicipality;
+          }
           if(this.form.get('location').value){
             this.inputEvent.place.location=this.form.get('location').value; //Location field,
           }else if(this.form.get('locationsExists').value){
@@ -715,9 +725,9 @@ export class EventFormComponent implements OnInit {
           this.locationsExistsEvent=data.places;
         }else{
           this.locationsExistsEvent=[];
-          this.locationsExists.setValue("");
         }
       });
+      this.form.controls['locationsExists'].setValue("");
       this.passCoordinates(coordinates);
       this.place.setGeonameIdMunicipality=this.municipalitiesEvent[index].geonameId;
     }
@@ -735,6 +745,7 @@ export class EventFormComponent implements OnInit {
       this.passCoordinates(coordinates);
       this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
       this.location.updateValueAndValidity(); //Need to call this to trigger a update
+      this.selectedPlace=this.locationsExistsEvent[index];
     }
   }
   private deleteParticipant(index){

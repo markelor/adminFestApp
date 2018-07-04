@@ -24,7 +24,7 @@
         <label for="selectServiceType" translate>{{'service-form.service-type'}}</label>
         <select [formControl]="serviceType" class="form-control" id="selectServiceType" (change)="onSelectedServiceType($event.target.selectedIndex-1)">
           <option value="" translate>{{'service-form.select-service-type'}}</option>
-          <ng-container *ngIf="inputOperation==='create'" >
+          <ng-container>
             <ng-container *ngFor="let serviceType of serviceTypes">
               <option *ngIf="localizeService.parser.currentLang===serviceType.language" [ngValue]="serviceType._id">
                 {{serviceType.title}}
@@ -35,20 +35,32 @@
                 </option>
               </ng-container>
             </ng-container>          
-          </ng-container>
-          <!--<ng-container *ngIf="inputOperation==='edit'" >
-            <ng-container *ngFor="let serviceType of serviceTypes">
-              <option *ngIf="inputLanguage===serviceType.language && serviceType.title != title.value" [ngValue]="serviceType._id">
-                {{serviceType.title}}
-              </option>        
-              <ng-container *ngFor="let translation of serviceType.translation; let i=index;">
-                <option *ngIf="inputLanguage===translation.language && translation.title != title.value" [ngValue]="serviceType._id">
-                  {{translation.title}}
-                </option>
-              </ng-container>
-            </ng-container>          
-          </ng-container>   -->     
+          </ng-container>    
         </select>
+      </div>
+    </div>
+    <!-- ExpiredAt -->
+    <div class="col-sm-6">
+      <div class="form-group required" [ngClass]="{'has-error': (!expiredAt.valid && expiredAt.dirty), 'has-success': (expiredAt.valid)}">
+        <label for="inputExpiredAt" translate>{{'application-form.expired-at'}}</label>
+        <div class="input-group icon">
+          <input [formControl]="expiredAt" ngbDatepicker #calendarExpiredAt="ngbDatepicker" type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputExpiredAt">
+          <div class="input-group-append ">
+            <button (click)="calendarExpiredAt.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
+              <span class="la la-calendar ks-icon"></span>
+            </button>
+          </div>
+        </div>
+        <!-- Validation -->
+        <span *ngIf="expiredAt.errors?.required && expiredAt.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <!--<span *ngIf="expiredAt.errors?.validateDate && expiredAt.dirty" class="help-block form-error" translate>
+                            {{'validation.expiredAt-validation'}}</span>-->
+      </div>
+    </div>
+    <!-- ExpiredAt time-->
+    <div class="col-sm-6 margin-top">
+      <div class="form-group required">
+        <ngb-timepicker [(ngModel)]="timeExpiredAt" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
     </div>
     <!-- Province -->
@@ -153,7 +165,7 @@
       </div>
     </div>
     <!-- Submit Button -->
-    <div class="col-sm-12" *ngIf="inputOperation==='create'">
+    <div class="col-sm-12">
       <div class="form-group text-center">
         <button [disabled]="!form.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'service-form.send'}}</button>
       </div>

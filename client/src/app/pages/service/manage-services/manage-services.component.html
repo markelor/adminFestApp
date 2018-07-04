@@ -44,7 +44,8 @@
               <!--ServiceType-->
               <td *ngIf="service.serviceType.language===localizeService.parser.currentLang" [inlineSVG]="service.serviceType.icons[0].url" [onSVGLoaded]="handleSVG">
               <td class="ks-status">
-                <a href="javascript:void(0)" [routerLink]="['/user-route','services-route','edit-route',service._id] | localize"><span class="fa fa-edit ks-color-info" translate>{{'crud.edit'}}</span></a>
+                <a href="javascript:void(0)" 
+                [routerLink]="['/service-route','manage-route','edit-route',service._id] | localize"><span class="fa fa-edit ks-color-info" translate>{{'crud.edit'}}</span></a>
                 <a href="javascript:void(0)" (click)="serviceDeleteClick(i,service)"><span class="fa fa-trash ks-color-danger" translate>{{'crud.delete'}}</span></a>
               </td>
             </tr>

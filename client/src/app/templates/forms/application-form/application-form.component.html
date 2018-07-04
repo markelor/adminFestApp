@@ -167,28 +167,28 @@
         <span *ngIf="price.errors?.required && price.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
       </div>
     </div>
-    <!-- ExpiryDate -->
+    <!-- ExpiredAt -->
     <div class="col-sm-6">
-      <div class="form-group required" [ngClass]="{'has-error': (!expiryDate.valid && expiryDate.dirty), 'has-success': (expiryDate.valid)}">
-        <label for="inputExpiryDate" translate>{{'application-form.expiry-date'}}</label>
+      <div class="form-group required" [ngClass]="{'has-error': (!expiredAt.valid && expiredAt.dirty), 'has-success': (expiredAt.valid)}">
+        <label for="inputExpiredAt" translate>{{'application-form.expired-date'}}</label>
         <div class="input-group icon">
-          <input [formControl]="expiryDate" ngbDatepicker #calendarExpiryDate="ngbDatepicker" type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputExpiryDate">
+          <input [formControl]="expiredAt" ngbDatepicker #calendarExpiredAt="ngbDatepicker" type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputExpiredAt">
           <div class="input-group-append ">
-            <button (click)="calendarExpiryDate.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
+            <button (click)="calendarExpiredAt.toggle()" type="button" class="btn btn-success ks-light ks-no-text">
               <span class="la la-calendar ks-icon"></span>
             </button>
           </div>
         </div>
         <!-- Validation -->
-        <span *ngIf="expiryDate.errors?.required && expiryDate.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-        <!--<span *ngIf="expiryDate.errors?.validateDate && expiryDate.dirty" class="help-block form-error" translate>
-                            {{'validation.expiryDate-validation'}}</span>-->
+        <span *ngIf="expiredAt.errors?.required && expiredAt.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+        <!--<span *ngIf="expiredAt.errors?.validateDate && expiredAt.dirty" class="help-block form-error" translate>
+                            {{'validation.expiredAt-validation'}}</span>-->
       </div>
     </div>
-    <!-- ExpiryDate time-->
+    <!-- ExpiredAt time-->
     <div class="col-sm-6 margin-top">
       <div class="form-group required">
-        <ngb-timepicker [(ngModel)]="timeExpiryDate" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker [(ngModel)]="timeExpiredAt" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
     </div>
     <!-- Submit Button -->

@@ -15,6 +15,8 @@ import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 import { AuthGuard} from '../../../pages/guards/auth.guard';
+import * as moment from 'moment-timezone';
+declare let $: any;
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
@@ -38,14 +40,16 @@ export class ServiceFormComponent implements OnInit {
   private location:AbstractControl;
   private lat:AbstractControl;
   private lng:AbstractControl;
+  private expiredAt:AbstractControl;
+  private timeExpiredAt = {hour: 13, minute: 30};
   private serviceTypes;
   private service:Service=new Service();
   private place:Place=new Place();
+  private selectedPlace;
   private locationsExistsService=[];
   private provincesService;
   private municipalitiesService;
   private serviceTypeIcon;
-  private subscriptionObservable: Subscription;
   private froalaSignature;
   private froalaEvent;
   private subscriptionLanguage: Subscription;
@@ -98,7 +102,8 @@ export class ServiceFormComponent implements OnInit {
       ])],
       lng: ['', Validators.compose([
         Validators.required,LongitudeValidator.validate
-      ])]
+      ])],
+        expiredAt: [''],
 
     })
     this.title = this.form.controls['title'];
@@ -110,14 +115,19 @@ export class ServiceFormComponent implements OnInit {
     this.location = this.form.controls['location'];
     this.lat = this.form.controls['lat'];
     this.lng = this.form.controls['lng'];
+    this.expiredAt=this.form.controls['expiredAt'];
   }
-    // Function to disable the registration form
-  private disableForm(){
-    this.form.disable(); // Disable form
-  }
-  // Function to enable the registration form
-  private enableForm(){
+    // Enable new categories form
+  private enableFormNewServiceForm() {
     this.form.enable(); // Enable form
+    $('#textareaDescription').froalaEditor('edit.on');
+    this.froalaEvent.getEditor()('html.set', '');
+  }
+
+  // Disable new categories form
+  private disableFormNewServiceForm() {
+    this.form.disable(); // Disable form
+    $('#textareaDescription').froalaEditor('edit.off');
   }
   private deleteUploadImages(type,images){
     if(type==='descriptionOne'){
@@ -144,25 +154,42 @@ export class ServiceFormComponent implements OnInit {
   }
   private initializeForm(){  
     if(this.inputService){
+      if(this.inputService.expiredAt){
+        //Get expiredAt on page load
+      this.inputService.expiredAt=moment(this.inputService.expiredAt).tz("Europe/Madrid").format('YYYY-MM-DD HH:mm');
+      var year=Number(this.inputService.expiredAt.split("-")[0]);
+      var month=Number(this.inputService.expiredAt.split("-")[1]);
+      var day=Number(this.inputService.expiredAt.split('-').pop().split(' ').shift());
+      var hour=Number(this.inputService.expiredAt.split(' ').pop().split(':').shift());
+      var minute=Number(this.inputService.expiredAt.split(':')[1]);
+      var calendar= {year:year , month: month,day: day};
+      this.expiredAt.setValue(calendar); 
+      this.timeExpiredAt.hour=hour;
+      this.timeExpiredAt.minute=minute;
+      }else{
+        this.expiredAt.setValue(undefined);
+      }
+
       //Get lat on page load
-      this.lat.setValue(this.inputService.coordinates.lat);
+      this.lat.setValue(this.inputService.place.coordinates.lat);
       //Get lng on page load
-      this.lng.setValue(this.inputService.coordinates.lng);    
-      //Get images description on page load
-      this.imagesDescription=this.inputService.images;
+      this.lng.setValue(this.inputService.place.coordinates.lng);    
+     
+      //Get title and description
       var hasTranslation=false;
-      //Get images title and description
       for (var i = 0; i < this.inputService.translation.length; ++i) {
         if(this.inputService.translation[i].language===this.inputLanguage){
           hasTranslation=true;
           this.form.controls['title'].setValue(this.inputService.translation[i].title);
           this.form.controls['description'].setValue(this.inputService.translation[i].description);  
+          this.imagesDescription=this.inputService.translation[i].images;
         }
       }
       if(!hasTranslation){
         if(this.inputService.language===this.inputLanguage){ 
           this.form.controls['title'].setValue(this.inputService.title);
           this.form.controls['description'].setValue(this.inputService.description);      
+          this.imagesDescription=this.inputService.images;
         }
       }  
       //general place translation
@@ -175,58 +202,47 @@ export class ServiceFormComponent implements OnInit {
           }
         }    
       } 
-      //Get categories on page load    
-     /* (this.form.controls['categories'] as FormArray).removeAt(0);
-      for (var j in this.inputCategories) {
-        this.categoryId.push(this.inputCategories[j]._id);
-        if(this.inputCategories[j].language===this.inputLanguage){
-          (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].title));
+      //Get serviceType
+      var traductionServiceType=false;
+      for (var i = 0; i < this.inputService.serviceType.translation.length; ++i) {
+        if(this.inputService.serviceType.translation[i].language===this.inputLanguage){
+          traductionServiceType=true;
+          this.form.controls['serviceType'].setValue(this.inputService.serviceType.translation[i].title);  
         }
-        for (var k = 0; k < this.inputCategories[j].translation.length; ++k) {
-          if(this.inputCategories[j].translation[k].language===this.inputLanguage){
-            //console.log(this.inputLanguage);
-            (this.form.controls['categories'] as FormArray).push(this.createItem(this.inputCategories[j].translation[k].title));
-          }
-        } 
-      } */
+      }
+      if(!traductionServiceType){
+        if(this.inputService.serviceType.language===this.inputLanguage){ 
+          this.form.controls['serviceType'].setValue(this.inputService.serviceType._id);     
+        }
+      }     
       //Get provinces on page load
       this.placeService.getGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesService => {
         this.provincesService=provincesService.geonames;
-        var traductionProvince=false;
-        for (var i = 0; i < this.inputService.place.translation.length; ++i) {
-          if(this.inputService.place.translation[i].language===this.inputLanguage){
-            traductionProvince=true
-            this.province.setValue(this.inputService.place.translation[i].province.name);
-          }
-        } 
-        if(!traductionProvince){         
+        if(this.inputService.place.language===this.inputLanguage){
           this.province.setValue(this.inputService.place.province.name);    
-        }               
+        }else{
+          var traductionProvince=false;
+          for (var i = 0; i < this.inputService.place.translation.length; ++i) {
+            if(this.inputService.place.translation[i].language===this.inputLanguage){
+              traductionProvince=true
+              this.province.setValue(this.inputService.place.translation[i].province.name);
+            }
+          } 
+          if(!traductionProvince){         
+            for (var i = 0; i < this.provincesService.length; ++i) { 
+              if(this.provincesService[i].geonameId===this.inputService.place.province.geonameId){ 
+                this.province.setValue(this.provincesService[i].name);          
+              } 
+            }   
+          }
+        }                        
       });  
       //Get municipality on page load      
       if(this.inputService.place.municipality){
         this.placeService.getGeonamesJson('municipality',this.inputLanguage,this.inputService.place.province.name.toLowerCase()).subscribe(municipalitiesService => {
           this.municipalitiesService=municipalitiesService.geonames;
           this.form.get('municipality').enable(); // Enable municipality field
-          var traductionProvince=false;
-          for (var i = 0; i < this.inputService.place.translation.length; ++i) {
-            if(this.inputService.place.translation[i].language===this.inputLanguage){
-              traductionProvince=true
-              this.municipality.setValue(this.inputService.place.translation[i].municipality.name);
-              //Location validation
-              this.placeService.getPlacesCoordinates(this.inputService.place.translation[i].province.name,this.inputService.place.translation[i].municipality.name,this.inputLanguage).subscribe(data=>{
-                if(data.success && data.places.length>0){
-                  this.locationsExistsService=data.places;
-                  this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
-                  this.location.updateValueAndValidity(); //Need to call this to trigger a update
-                }else{
-                  this.locationsExistsService=[];
-                  this.locationsExists.setValue("");
-                }
-              }); 
-            }
-          } 
-          if(!traductionProvince){
+          if(this.inputService.place.language===this.inputLanguage){
             //Location validation
             this.placeService.getPlacesCoordinates(this.inputService.place.province.name,this.inputService.place.municipality.name,this.inputLanguage).subscribe(data=>{
               if(data.success && data.places.length>0){
@@ -237,9 +253,35 @@ export class ServiceFormComponent implements OnInit {
                 this.locationsExistsService=[];
                 this.locationsExists.setValue("");
               }
-            }); 
-            this.municipality.setValue(this.inputService.place.municipality.name);                  
-          }            
+            });
+            this.municipality.setValue(this.inputService.place.municipality.name);  
+          }else{
+            var traductionProvince=false;
+            for (var i = 0; i < this.inputService.place.translation.length; ++i) {
+              if(this.inputService.place.translation[i].language===this.inputLanguage){
+                traductionProvince=true
+                this.municipality.setValue(this.inputService.place.translation[i].municipality.name);
+                //Location validation
+                this.placeService.getPlacesCoordinates(this.inputService.place.translation[i].province.name,this.inputService.place.translation[i].municipality.name,this.inputLanguage).subscribe(data=>{
+                  if(data.success && data.places.length>0){
+                    this.locationsExistsService=data.places;
+                    this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
+                    this.location.updateValueAndValidity(); //Need to call this to trigger a update
+                  }else{
+                    this.locationsExistsService=[];
+                    this.locationsExists.setValue("");
+                  }
+                }); 
+              }
+            } 
+            if(!traductionProvince){
+              for (var i = 0; i < this.municipalitiesService.length; ++i) { 
+                if(this.municipalitiesService[i].geonameId===this.inputService.place.municipality.geonameId){ 
+                  this.municipality.setValue(this.municipalitiesService[i].name);      
+                }
+              }                  
+            } 
+          }                  
         });        
       } 
     }      
@@ -265,7 +307,6 @@ export class ServiceFormComponent implements OnInit {
       $('#textareaDescription'+this.inputLanguage).on('froalaEditor.image.inserted', function (e, editor, $img, response) {
         // Do something here.
         context.imagesDescription.push($img[0].currentSrc);
-        console.log(context.imagesDescription);
         context.service.setImagesDescription=context.imagesDescription;
       });
       $('#textareaDescription'+this.inputLanguage)
@@ -277,48 +318,108 @@ export class ServiceFormComponent implements OnInit {
         }); 
       });  
   }
-  private observableEdit(){
-    this.subscriptionObservable=this.observableService.notifyObservable.subscribe(res => {
-      this.subscriptionObservable.unsubscribe();
-      if (res.hasOwnProperty('option') && res.option === 'modal-edit-service') {
-        if(this.inputService && res.language===this.inputLanguage){
-          var hasTranslation=false;
-          for (var i = 0; i < this.inputService.translation.length; ++i) {
-            if(this.inputService.translation[i].language===this.inputLanguage){
-              hasTranslation=true;
-              this.inputService.translation[i].language=this.inputLanguage;
-              this.inputService.translation[i].title=this.form.get('title').value;
-              this.inputService.translation[i].description=this.form.get('description').value;
-            }
-          }
-          if(!hasTranslation){
-            if(this.inputService.language===this.inputLanguage){
-              this.inputService.language=this.inputLanguage,        
-              this.inputService.title=this.form.get('title').value;
-              this.inputService.description=this.form.get('description').value;
-            }else{
-              var translationObj={
-                language:this.inputLanguage,
-                title:this.form.get('title').value,
-                description:this.form.get('description').value
-              }
-              this.inputService.translation.push(translationObj);             
-            }
-          }
-          this.serviceService.editService(this.inputService).subscribe(data=>{
-            if(data.success){
-              this.observableService.modalType="modal-edit-service-success";
-              this.observableService.notifyOther({option: this.observableService.modalType,service:this.inputService});
-              this.messageClass = 'alert alert-success ks-solid '; // Set bootstrap success class
-              this.message =data.message; // Set success message            
-            }else{
-              this.messageClass = 'alert alert-danger ks-solid'; // Set bootstrap error class
-              this.message =data.message; // Set error message
-            } 
-          }); 
-        }     
+  private editService(){
+    var hasTranslationService=false;
+    var hasTranslationPlace=false; 
+    this.inputService.serviceTypeId=this.form.get('serviceType').value;
+    this.inputService.expiredAt=new Date(this.form.get('expiredAt').value.year,this.form.get('expiredAt').value.month-1,this.form.get('expiredAt').value.day,this.timeExpiredAt.hour,this.timeExpiredAt.minute);
+    if(this.selectedPlace){
+      this.inputService.place=this.selectedPlace;
+    }else if(this.inputService.place.province.name!==this.province || this.inputService.place.municipality.name!==this.municipality|| this.inputService.place.location!==this.location){
+      this.inputService.place.translation=[];
+    }
+    this.inputService.place.coordinates.lat=Number(this.form.get('lat').value); // Lat field
+    this.inputService.place.coordinates.lng=Number(this.form.get('lng').value); // Lng field
+    //service translation
+    for (var i = 0; i < this.inputService.translation.length; ++i) {
+      if(this.inputService.translation[i].language===this.inputLanguage){
+        hasTranslationService=true;
+        this.inputService.translation[i].language=this.inputLanguage;
+        this.inputService.translation[i].createdBy=this.authService.user.username;// Language field  
+        this.inputService.translation[i].title=this.form.get('title').value;
+        this.inputService.translation[i].description=this.form.get('description').value;
+        this.inputService.translation[i].images.description=this.imagesDescription;
       }
-    });
+    }
+    //place translation
+    for (var i = 0; i < this.inputService.place.translation.length; ++i) {
+      if(this.inputService.place.translation[i].language===this.inputLanguage){
+        hasTranslationPlace=true;
+        this.inputService.place.translation[i].province.name=this.form.get('province').value; // Province field
+        this.inputService.place.translation[i].municipality.name=this.form.get('municipality').value; // Municipality field
+        if(this.form.get('location').value){
+          this.inputService.place.translation[i].location=this.form.get('location').value; //Location field,
+        }else if(this.form.get('locationsExists').value){
+          this.inputService.place.translation[i].location=this.form.get('locationsExists').value; //Location exists field,
+        }
+      }
+    }
+    if(!hasTranslationService){
+      if(this.inputService.language===this.inputLanguage){
+        this.inputService.language=this.inputLanguage, 
+        this.inputService.createdBy=this.authService.user.username;       
+        this.inputService.title=this.form.get('title').value;
+        this.inputService.description=this.form.get('description').value;
+        this.inputService.images.description=this.imagesDescription;
+      }else{
+        var translationObj={
+          language:this.inputLanguage,
+          createdBy:this.authService.user.username,
+          title:this.form.get('title').value,
+          description:this.form.get('description').value,
+          images:this.imagesDescription
+        }
+        this.inputService.translation.push(translationObj);             
+      }
+    }
+    if(!hasTranslationPlace){
+      //if place has original language and not has translation
+      if(this.inputService.place.language===this.inputLanguage){
+        this.inputService.place.province.name=this.form.get('province').value; // Province field
+        this.inputService.place.municipality.name=this.form.get('municipality').value; // Municipality field
+        if(this.place.geonameIdProvince){
+          this.inputService.place.province.geonameId=this.place.geonameIdProvince;
+        }
+        if(this.place.geonameIdMunicipality){
+          this.inputService.place.municipality.geonameId=this.place.geonameIdMunicipality;
+        }
+        if(this.form.get('location').value){
+          this.inputService.place.location=this.form.get('location').value; //Location field,
+        }else if(this.form.get('locationsExists').value){
+          this.inputService.place.location=this.form.get('locationsExists').value; //Location exists field,
+        }
+      }else{
+        //place push new translation
+        var location;
+        if(this.form.get('location').value){
+          location=this.form.get('location').value; //Location field,
+        }else if(this.form.get('locationsExists').value){
+          location=this.form.get('locationsExists').value; //Location exists field,
+        }
+        var placeTranslationObj={
+          language:this.inputLanguage,
+          province:{
+            name:this.form.get('province').value
+          },
+          municipality:{
+            name:this.form.get('municipality').value
+          },
+          location:this.form.get('location').value
+        }
+        this.inputService.place.translation.push(placeTranslationObj);           
+      }
+    }
+    this.serviceService.editService(this.inputService).subscribe(data=>{
+      if(data.success){
+        this.messageClass = 'alert alert-success ks-solid '; // Set bootstrap success class
+        this.message =data.message; // Set success message            
+      }else{
+        this.deleteUploadImages('descriptionAll',this.imagesDescription);
+        this.enableFormNewServiceForm();
+        this.messageClass = 'alert alert-danger ks-solid'; // Set bootstrap error class
+        this.message =data.message; // Set error message
+      } 
+    }); 
   }
     private onSelectedServiceType(index){
     if(index===-1){
@@ -349,15 +450,13 @@ export class ServiceFormComponent implements OnInit {
         lng:this.municipalitiesService[index].lng
       }
       this.placeService.getPlacesCoordinates(this.form.get('province').value,this.form.get('municipality').value,this.localizeService.parser.currentLang).subscribe(data=>{
-        console.log(data);
         if(data.success && data.places.length>0){
-          console.log(data);
           this.locationsExistsService=data.places;
         }else{
           this.locationsExistsService=[];
-          this.locationsExists.setValue("");
         }
       });
+      this.form.controls['locationsExists'].setValue("");
       this.passCoordinates(coordinates);
       this.place.setGeonameIdMunicipality=this.municipalitiesService[index].geonameId;
     }
@@ -375,6 +474,7 @@ export class ServiceFormComponent implements OnInit {
       this.passCoordinates(coordinates);
       this.location.setValidators([Validators.compose([Validators.maxLength(1000)])]);
       this.location.updateValueAndValidity(); //Need to call this to trigger a update
+      this.selectedPlace=this.locationsExistsService[index];
     }
   }
   private chargeAll(){
@@ -415,38 +515,41 @@ export class ServiceFormComponent implements OnInit {
  
   private onSubmit(){
     if (this.form.valid) {
-      this.submitted = true;
-      //this.disableForm();
-      this.service.setLanguage=this.localizeService.parser.currentLang,
-      this.service.createdBy=this.authService.user.username; // CreatedBy field 
-      this.service.setServiceTypeId=this.form.get('serviceType').value;
-      this.service.setTitle=this.form.get('title').value;
-      this.service.setDescription=this.form.get('description').value;
-      this.place.setProvince=this.form.get('province').value; // Province field
-      this.place.setMunicipality=this.form.get('municipality').value; // Municipality field
-      if(this.form.get('location').value){
-        this.place.setLocation=this.form.get('location').value; //Location field,
-      }else if(this.form.get('locationsExists').value){
-        this.place.setLocation=this.form.get('locationsExists').value; //Location exists field,
-      }
-      this.place.setLat=Number(this.form.get('lat').value); // Lat field
-      this.place.setLng=Number(this.form.get('lng').value); // Lng field
-      this.serviceService.newService(this.service,this.place).subscribe(data=>{
-        console.log(data);
-        if(!data.success){
-          this.messageClass='alert alert-danger ks-solid';
-          this.message=data.message
-          this.enableForm();
-        }else{
-          this.observableService.modalType="modal-edit-service-success";
-          this.observableService.notifyOther({option: this.observableService.modalType});
-          this.submitted = false;
-          this.service=new Service();
-          this.createForm(); // Reset all form fields
-          this.messageClass='alert alert-success ks-solid'
-          this.message=data.message
+      if(this.inputOperation==="create"){
+        this.submitted = true;
+        //this.disableForm();
+        this.service.setLanguage=this.localizeService.parser.currentLang,
+        this.service.createdBy=this.authService.user.username; // CreatedBy field 
+        this.service.setServiceTypeId=this.form.get('serviceType').value;
+        this.service.setTitle=this.form.get('title').value;
+        this.service.setDescription=this.form.get('description').value;
+        this.service.setExpiredAt=new Date(this.form.get('expiredAt').value.year,this.form.get('expiredAt').value.month-1,this.form.get('expiredAt').value.day,this.timeExpiredAt.hour,this.timeExpiredAt.minute);
+        this.place.setProvince=this.form.get('province').value; // Province field
+        this.place.setMunicipality=this.form.get('municipality').value; // Municipality field
+        if(this.form.get('location').value){
+          this.place.setLocation=this.form.get('location').value; //Location field,
+        }else if(this.form.get('locationsExists').value){
+          this.place.setLocation=this.form.get('locationsExists').value; //Location exists field,
         }
-      });
+        this.place.setLat=Number(this.form.get('lat').value); // Lat field
+        this.place.setLng=Number(this.form.get('lng').value); // Lng field
+        this.serviceService.newService(this.service,this.place).subscribe(data=>{
+          if(!data.success){
+            this.messageClass='alert alert-danger ks-solid';
+            this.message=data.message
+            this.enableFormNewServiceForm();
+          }else{
+            this.submitted = false;
+            this.service=new Service();
+            this.createForm(); // Reset all form fields
+            this.messageClass='alert alert-success ks-solid'
+            this.message=data.message
+          }
+        });
+      }else{
+        this.editService();
+      }
+      
     }                
   }
   ngOnInit() {
@@ -456,7 +559,6 @@ export class ServiceFormComponent implements OnInit {
       this.style.height = (this.scrollHeight) + 'px';
     });*/
     this.initializeForm();
-    this.observableEdit();  
     // Get profile username on page load
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){

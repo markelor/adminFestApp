@@ -29,7 +29,6 @@ import "froala-editor/js/froala_editor.pkgd.min.js";
 import { FroalaEditorModule, FroalaViewModule,FroalaEditorDirective, FroalaViewDirective } from 'angular-froala-wysiwyg';
 import { ApplicationFormComponent } from './forms/application-form/application-form.component';
 import { FormsComponent } from './forms/forms.component';
-import { EventsApplicationFormComponent } from './forms/events-application-form/events-application-form.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 @NgModule({
   imports: [
@@ -38,10 +37,10 @@ import { InlineSVGModule } from 'ng-inline-svg';
     SharedModule,TranslateModule,TemplatesRoutingModule,DataTablesModule,NgbModule,InlineSVGModule
   ],
   declarations: [
-  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent,CategoryFormComponent, FormsComponent, EventsApplicationFormComponent,ServiceFormComponent,ServiceTypeFormComponent
+  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent,CategoryFormComponent, FormsComponent,ServiceFormComponent,ServiceTypeFormComponent
   ],
   exports: [
-    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent,CategoryFormComponent, FormsComponent, EventsApplicationFormComponent,ServiceFormComponent,ServiceTypeFormComponent
+    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent,CategoryFormComponent, FormsComponent,ServiceFormComponent,ServiceTypeFormComponent
     ],
    providers:[
    	GroupByPipe,SpacePipe,BindContentPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}

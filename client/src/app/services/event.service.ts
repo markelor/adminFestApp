@@ -32,7 +32,7 @@ export class EventService {
   public getEvents(language) {
     return this.http.get<any>(this.domain + 'event/getEvents/'+language);
   }
-  // Function to get all user events from the database
+  // Function to get event from the database
   public getEvent(id,language) {
     this.route= encodeURIComponent(id) +'/';
     return this.http.get<any>(this.domain + 'event/getEvent/'+this.route+language);
@@ -46,7 +46,7 @@ export class EventService {
       .distinctUntilChanged()
       .switchMap(search => this.getEventsSearch(search,language));
   }
-  // Function to get all themes from the database
+  // Function to get all events from the database
   public getEventsSearch(search,language) {
     if(!search){
       this.route='';
@@ -60,41 +60,15 @@ export class EventService {
     this.route= username+'/'+id +'/'
     return this.http.delete<any>(this.domain + 'event/deleteEvent/'+this.route+language);
   }
-  // Function to get all archeology themes from the database
-  public getAllThemesThematic(thematic,visible,language) {
-    this.route= encodeURIComponent(thematic) +'/'+visible +'/';
-    return this.http.get<any>(this.domain + 'event/allThemesThematic/'+this.route+language);
-  }
-  // Function to get all archeology themes find by theme.
-  public getAllThemesTheme(thematic,theme,language) {
-    this.route= encodeURIComponent(thematic) +'/'+theme +'/';
-    return this.http.get<any>(this.domain + 'event/allThemesTheme/'+this.route+language);
-  }
-  // Function to get all archeology themes find by class.
-  public getAllThemesClass(thematic,theme,themeClass,language) {
-    this.route= encodeURIComponent(thematic) +'/'+encodeURIComponent(theme)+'/'+encodeURIComponent(themeClass)+'/';
-    return this.http.get<any>(this.domain + 'event/allThemesClass/'+this.route+language);
-  }
-  // Function to get all archeology themes find by class.
-  public getAllThemesRegion(country,region,language) {
-    this.route= encodeURIComponent(country) +'/'+encodeURIComponent(region) +'/';
-    return this.http.get<any>(this.domain + 'event/allThemesRegion/'+this.route+language);
-  }
-  // Function to get the theme using the id
-  public getSingleTheme(id,language) {
-    this.route= id +'/'
-    return this.http.get<any>(this.domain + 'event/singleTheme/'+this.route+language);
-  }
   // Function to like a theme post
-  public addReactionTheme(id,reaction,language) {
-    const themeData = { id: id,reaction:reaction,language:language };
-    return this.http.put<any>(this.domain + 'event/addReactionTheme', themeData);
+  public addReactionEvent(id,reaction,language) {
+    const eventData = { id: id,reaction:reaction,language:language };
+    return this.http.put<any>(this.domain + 'event/addReactionEvent', eventData);
   }
-
   // Function to dislike a theme post
-  public deleteReactionTheme(id,language) {
-    const themeData = { id: id,language:language };
-    return this.http.put<any>(this.domain + 'event/deleteReactionTheme',themeData);
+  public deleteReactionEvent(id,language) {
+    const eventData = { id: id,language:language };
+    return this.http.put<any>(this.domain + 'event/deleteReactionEvent',eventData);
   }
 
   // Function to post a comment on a theme post

@@ -254,7 +254,6 @@ module.exports = {
     //getEvent
     getEvent: {
         idProvidedError: "El ID del evento no fue proporcionado.",
-        usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
         eventError: "No se encontro el evento.",
         placeError: "No se encontro el lugar.",
         categoryError: "No se encontró la categoría."
@@ -262,8 +261,15 @@ module.exports = {
     //getApplication
     getApplication: {
         idProvidedError: "El ID de la aplicación no fue proporcionado.",
+        usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
         userError: "No se encontró el usuario.",
         applicationError: "No se encontró la aplicación."
+    },
+      //getService
+    getService: {
+        idProvidedError: "El ID del servicio no fue proporcionado.",
+        serviceError: "No se encontro el servicio.",
+        placeError: "No se encontro el lugar."
     },
     //getPlacesCoordinates
     getPlacesCoordinates: {
@@ -297,7 +303,7 @@ module.exports = {
         success: "¡Categoría actualizada!"
     },
     editEvent: {
-        idProvidedError: 'El ID del tema, no fue proporcionado.',
+        idProvidedError: 'El ID del evento, no fue proporcionado.',
         createdByProvidedError: 'El nombre de usuario no fue proporcionado.',
         saveError: "No se pudo editar el evento. Error: ",
         success: "¡Evento editado!"
@@ -307,6 +313,12 @@ module.exports = {
         usersProvidedError: "Los usuarios de la aplicación no fueron proporcionados.",
         saveError: "No se pudo editar la aplicación. Error: ",
         success: "¡Aplicación editada!"
+    },
+    editService: {
+        idProvidedError: 'El ID del servicio, no fue proporcionado.',
+        createdByProvidedError: 'El nombre de usuario no fue proporcionado.',
+        saveError: "No se pudo editar el servicio. Error: ",
+        success: "¡Servicio editado!"
     },
      editServiceType: {
         idProvidedError: 'El ID del tipo de servicio, no fue proporcionado.',

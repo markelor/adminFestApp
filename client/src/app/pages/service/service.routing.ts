@@ -11,7 +11,7 @@ const routes: Routes = [
 	{ path: '', component: CreateServiceComponent,canActivate:[AuthGuard], pathMatch: 'full' },
 	{ path: 'create-route', component: CreateServiceComponent,canActivate:[ModeratorGuard] },
 	{ path: 'manage-route', component: ManageServicesComponent,canActivate:[AuthGuard] },	
-	{ path: 'services-route/edit-route/:id', component: EditServiceComponent,canActivate:[AuthGuard] },
+	{ path: 'manage-route/edit-route/:id', component: EditServiceComponent,canActivate:[AuthGuard] }
 	
 ];
 @NgModule({

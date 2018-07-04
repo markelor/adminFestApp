@@ -11,10 +11,11 @@ import { TemplatesModule } from '../../templates/templates.module';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { EditEventsApplicationComponent } from './manage-applications/edit-events-application/edit-events-application.component';
 import { ManageApplicationsComponent } from './manage-applications/manage-applications.component';
+import { InlineSVGModule } from 'ng-inline-svg';
 @NgModule({
   imports: [
   	CommonModule,FormsModule,ReactiveFormsModule,TranslateModule,SharedModule,TemplatesModule,
-    ApplicationRoutingModule,DataTablesModule,NgbModule
+    ApplicationRoutingModule,DataTablesModule,NgbModule,InlineSVGModule
   ],
   declarations: [CreateApplicationComponent, ManageApplicationsComponent,EditEventsApplicationComponent],
   providers: [

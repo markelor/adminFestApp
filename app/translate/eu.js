@@ -265,6 +265,12 @@ module.exports = {
         userError: "Erabiltzailea ez da aurkitu.",
         applicationError: "Aplikazioa ez da aurkitu."
     },
+    //getService
+    getService: {
+        idProvidedError: "Zerbitzuaren IDa ez da eman.",
+        serviceError: "Ez da zerbitzua aurkitu.",
+        placeError: "Ez da lekua aurkitu."
+    },
     //getPlacesCoordinates
     getPlacesCoordinates: {
         provinceProvidedError: 'Probintzia ez da eman.',
@@ -308,7 +314,13 @@ module.exports = {
         saveError: "Ezin izan da aplikazioa aldatu. Akatsa: ",
         success: "Aplikazioa aldatu da!"
     },
-     editServiceType: {
+    editService: {
+        idProvidedError: 'Ez da zerbitzuaren IDa eman.',
+        createdByProvidedError: 'Zerbitzuaren erabiltzailea ez da eman.',
+        saveError: "Ezin izan da zerbitzua aldatu. Akatsa: ",
+        success: "Zerbitzua aldatu da!"
+    },
+    editServiceType: {
         idProvidedError: 'Ez da zerbitzu motaren IDa eman.',
         serviceTypeError: "Zerbitzu mota ez da aurkitu.",
         userError: "Erabiltzailea ez da aurkitu.",

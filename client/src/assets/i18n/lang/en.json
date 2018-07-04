@@ -11,7 +11,6 @@
   "create-route": "create",
   "manage-route": "manage",
   "edit-route": "edit",
-  "edit-events-route": "edit-events",
   "category-route": "category",
   "event-route": "event",
   "events-route": "events",
@@ -209,7 +208,7 @@
     "license": "License",
     "conditions": "Conditions",
     "price": "Price",
-    "expiry-date": "Expiry date",
+    "expired-at": "Expired at",
     "send": "Send"
   },
   "service-form":

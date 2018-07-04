@@ -15,6 +15,7 @@ import { Subject } from 'rxjs/Subject';
 import { FileUploaderService} from '../../../services/file-uploader.service';
 import { FileUploader,FileUploaderOptions,FileItem } from 'ng2-file-upload';
 import { AuthGuard} from '../../../pages/guards/auth.guard';
+import * as moment from 'moment-timezone';
 const URL = 'http://localhost:8080/fileUploader/uploadImages/application';
 const I18N_VALUES = {
   'eu': {
@@ -74,8 +75,8 @@ export class ApplicationFormComponent implements OnInit {
   private license:AbstractControl;
   private condition:AbstractControl;
   private price:AbstractControl;
-  private expiryDate:AbstractControl;
-  private timeExpiryDate = {hour: 13, minute: 30};
+  private expiredAt:AbstractControl;
+  private timeExpiredAt = {hour: 13, minute: 30};
   private categories;
   private application:Application=new Application();
   private imagesApplication=[];
@@ -129,7 +130,7 @@ export class ApplicationFormComponent implements OnInit {
       price: ['', Validators.compose([
         Validators.required,
       ])],
-      expiryDate: ['', Validators.compose([
+      expiredAt: ['', Validators.compose([
         Validators.required/*,DateValidator.validate*/
       ])],
     })
@@ -139,7 +140,7 @@ export class ApplicationFormComponent implements OnInit {
     this.license= this.form.controls['license'];
     this.condition= this.form.controls['condition'];
     this.price = this.form.controls['price'];
-    this.expiryDate=this.form.controls['expiryDate'];
+    this.expiredAt=this.form.controls['expiredAt'];
   }
 
   private initializeForm(){
@@ -161,16 +162,16 @@ export class ApplicationFormComponent implements OnInit {
       }
       this.selectedUsers=this.inputApplication.users;     
       this.price.setValue(this.inputApplication.price);
-
+      this.inputApplication.expiredAt=moment(this.inputApplication.expiredAt).tz("Europe/Madrid").format('YYYY-MM-DD HH:mm');
       var year=Number(this.inputApplication.expiredAt.split("-")[0]);
       var month=Number(this.inputApplication.expiredAt.split("-")[1]);
-      var day=Number(this.inputApplication.expiredAt.split('-').pop().split('T').shift());
-      var hour=Number(this.inputApplication.expiredAt.split('T').pop().split(':').shift());
+      var day=Number(this.inputApplication.expiredAt.split('-').pop().split(' ').shift());
+      var hour=Number(this.inputApplication.expiredAt.split(' ').pop().split(':').shift());
       var minute=Number(this.inputApplication.expiredAt.split(':')[1]);
       var calendar= {year:year , month: month,day: day};
-      this.expiryDate.setValue(calendar);
-      this.timeExpiryDate.hour=hour;
-      this.timeExpiryDate.minute=minute; 
+      this.expiredAt.setValue(calendar);
+      this.timeExpiredAt.hour=hour;
+      this.timeExpiredAt.minute=minute; 
 
       this.imagesApplication=this.inputApplication.images;
       for (var z = 0; z < this.imagesApplication.length; ++z) {
@@ -214,7 +215,7 @@ export class ApplicationFormComponent implements OnInit {
       this.application.setConditions=this.conditions;
       this.application.setLicenseName=this.form.get('license').value;
       this.application.setPrice=Number(this.form.get('price').value);
-      this.application.setExpiredAt=new Date(this.form.get('expiryDate').value.year,this.form.get('expiryDate').value.month,this.form.get('expiryDate').value.day,this.timeExpiryDate.hour,this.timeExpiryDate.minute);
+      this.application.setExpiredAt=new Date(this.form.get('expiredAt').value.year,this.form.get('expiredAt').value.month-1,this.form.get('expiredAt').value.day,this.timeExpiredAt.hour,this.timeExpiredAt.minute);
       if(this.uploader.queue.length>0){
         this.uploader.uploadAll();
         if(this.uploader.queue[0].isUploaded){
@@ -270,7 +271,7 @@ export class ApplicationFormComponent implements OnInit {
       var hasTranslationApplication=false;
       this.inputApplication.users=this.selectedUsers; // Users field   
       this.inputApplication.price=this.form.get('price').value; // Price field
-      this.inputApplication.expiredAt=new Date(this.form.get('expiryDate').value.year,this.form.get('expiryDate').value.month,this.form.get('expiryDate').value.day,this.timeExpiryDate.hour,this.timeExpiryDate.minute);
+      this.inputApplication.expiredAt=new Date(this.form.get('expiredAt').value.year,this.form.get('expiredAt').value.month-1,this.form.get('expiredAt').value.day,this.timeExpiredAt.hour,this.timeExpiredAt.minute);
       this.deleteEditImages();   
       //application translation
       for (var i = 0; i < this.inputApplication.translation.length; ++i) {

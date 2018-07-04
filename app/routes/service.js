@@ -218,6 +218,17 @@ module.exports = (router) => {
             }
         }
     });
+    /* ===============================================================
+           GET Events
+        =============================================================== */
+    router.get('/getEvents/:language', (req, res) => {
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+
+        }
+    });
 
     /* ===============================================================
        GET Services
@@ -227,38 +238,36 @@ module.exports = (router) => {
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            Service.find({
-                $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }]
-            }).sort({ '_id': 1 }).exec((err, services) => {
-                // Check if error was found or not
-                if (err) {
-                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                    var mailOptions = {
-                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                        to: [emailConfig.email], // list of receivers
-                        subject: ' Find 1 services service error ',
-                        text: 'The following error has been reported in Kultura: ' + err,
-                        html: 'The following error has been reported in Kultura:<br><br>' + err
-                    };
-                    // Function to send e-mail to myself
-                    transporter.sendMail(mailOptions, function(err, info) {
-                        if (err) {
-                            console.log(err); // If error with sending e-mail, log to console/terminal
-                        } else {
-                            console.log(info); // Log success message to console if sent
-                            console.log(user.email); // Display e-mail that it was sent to
-                        }
-                    });
-                    res.json({ success: false, message: eval(language + '.general.generalError') });
-                } else {
-                    // Check if services were found in database
-                    if (!services) {
-                        res.json({ success: false, message: eval(language + '.newService.servicesError') }); // Return error of no services found
-                    } else {
-                        res.json({ success: true, services: services }); // Return success and services array
+            Service.aggregate([{
+                    $match: {
+                        $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }]
                     }
+                }, {
+                    // Join with Place table
+                    $lookup: {
+                        from: "places", // other table name
+                        localField: "placeId", // placeId of Event table field
+                        foreignField: "_id", // _id of Place table field
+                        as: "place" // alias for userinfo table
+                    }
+                }, { $unwind: "$place" },
+                // Join with Service type table
+                {
+                    $lookup: {
+                        from: "servicetypes",
+                        localField: "serviceTypeId",
+                        foreignField: "_id",
+                        as: "serviceType"
+                    }
+                }, { $unwind: "$serviceType" }
+            ]).exec(function(err, services) {
+                // Check if places were found in database
+                if (!services) {
+                    res.json({ success: false, message: eval(language + '.newService.servicesError') }); // Return error of no services found
+                } else {
+                    res.json({ success: true, services: services }); // Return success and place 
                 }
-            }); // Sort services from newest to oldest
+            });
         }
     });
     /* ===============================================================
@@ -366,7 +375,7 @@ module.exports = (router) => {
                                                         }
                                                     },
                                                     { $unwind: "$place" },
-                                                    // Join with Category table
+                                                    // Join with Service type table
                                                     {
                                                         $lookup: {
                                                             from: "servicetypes",
@@ -374,7 +383,7 @@ module.exports = (router) => {
                                                             foreignField: "_id",
                                                             as: "serviceType"
                                                         }
-                                                    }, { $unwind: "$serviceType" },
+                                                    }, { $unwind: "$serviceType" }
 
                                                 ]).exec(function(err, service) {
                                                     // Check if places were found in database
@@ -430,7 +439,7 @@ module.exports = (router) => {
                 }, { $unwind: "$serviceType" }]).exec(function(err, services) {
                     // Check if places were found in database
                     if (!services) {
-                        res.json({ success: false, message: eval(language + '.servicesSearch.servicesError') }); // Return error of no places found
+                        res.json({ success: false, message: eval(language + '.newService.servicesError') }); // Return error of no services found
                     } else {
                         res.json({ success: true, services: services }); // Return success and place 
                     }

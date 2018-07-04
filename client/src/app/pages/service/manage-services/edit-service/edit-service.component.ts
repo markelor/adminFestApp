@@ -35,7 +35,6 @@ export class EditServiceComponent implements OnInit {
     });
     // Get service
     this.serviceService.getService(this.activatedRoute.snapshot.params['id'],this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
-      console.log(data);
       if(data.success){
       	this.service=data.service;
       	this.serviceType=data.serviceType;

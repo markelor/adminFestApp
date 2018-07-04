@@ -10,7 +10,6 @@ import 'rxjs/add/operator/switchMap';
 export class ApplicationService {
   public domain = this.authService.domain;
   public route;
-
   constructor(
     private authService: AuthService,
     private localizeService:LocalizeRouterService,
@@ -24,10 +23,15 @@ export class ApplicationService {
   public getApplications(language) {
     return this.http.get<any>(this.domain + 'application/getApplications/'+language);
   }
-  // Function to get application from the database
-  public getApplication(id,username,language) {
+  // Function to get application events from the database
+  public getApplicationEvents(id,username,language) {
     this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
-    return this.http.get<any>(this.domain + 'application/getApplication/'+this.route+language);
+    return this.http.get<any>(this.domain + 'application/getApplicationEvents/'+this.route+language);
+  }
+  // Function to get application services from the database
+  public getApplicationServices(id,username,language) {
+    this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
+    return this.http.get<any>(this.domain + 'application/getApplicationServices/'+this.route+language);
   }
   // Function to get all user applications from the database
   public getUserApplications(username,language) {

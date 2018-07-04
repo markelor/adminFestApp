@@ -2,6 +2,7 @@ const User = require('../models/user'); // Import User Model Schema
 const Application = require('../models/application'); // Import Application Model Schema
 const Event = require('../models/event'); // Import Event Model Schema
 const Place = require('../models/place'); // Import Event Model Schema
+const Service = require('../models/service'); // Import Service Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const configAws = require('../config/aws'); // Import database configuration
 const es = require('../translate/es'); // Import translate es
@@ -143,7 +144,7 @@ module.exports = (router) => {
     /* ===============================================================
            GET Application
         =============================================================== */
-    router.get('/getApplication/:id/:username/:language', (req, res) => {
+    router.get('/getApplicationEvents/:id/:username/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
@@ -306,9 +307,9 @@ module.exports = (router) => {
         }
     });
     /* ===============================================================
-              GET Application
-           =============================================================== */
-    router.get('/getApplicationEvents/:id/:language', (req, res) => {
+               GET Application
+            =============================================================== */
+    router.get('/getApplicationServices/:id/:username/:language', (req, res) => {
         var language = req.params.language;
         if (!language) {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
@@ -316,72 +317,157 @@ module.exports = (router) => {
             if (!req.params.id) {
                 res.json({ success: false, message: eval(language + '.getApplication.idProvidedError') }); // Return error
             } else {
-                Application.findOne({
-                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
-                    _id: req.params.id
-                }, (err, application) => {
-                    // Check if error was found or not
-                    if (err) {
-                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                        var mailOptions = {
-                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                            to: [emailConfig.email], // list of receivers
-                            subject: ' Find 1 get applicationEvents error ',
-                            text: 'The following error has been reported in Kultura: ' + err,
-                            html: 'The following error has been reported in Kultura:<br><br>' + err
-                        };
-                        // Function to send e-mail to myself
-                        transporter.sendMail(mailOptions, function(err, info) {
-                            if (err) {
-                                console.log(err); // If error with sending e-mail, log to console/terminal
-                            } else {
-                                console.log(info); // Log success message to console if sent
-                                console.log(user.email); // Display e-mail that it was sent to
-                            }
-                        });
-                        res.json({ success: false, message: eval(language + '.general.generalError') });
-                    } else {
-                        // Check if application were found in database
-                        if (!application) {
-                            res.json({ success: false, message: eval(language + '.getApplication.applicationError') }); // Return error of no application found
-                        } else {
-                            // Search database for all application Events
-                            Event.find({
-                                _id: application.events,
-                                language: language
-                            }).sort({ 'start': 1 }).exec((err, events) => {
-                                // Check if error was found or not
+                if (!req.params.username) {
+                    res.json({ success: false, message: eval(language + '.getApplication.usernameProvidedError') }); // Return error
+                } else {
+                    // Look for logged in user in database to check if have appropriate access
+                    User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                        if (err) {
+                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                            var mailOptions = {
+                                from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                to: [emailConfig.email],
+                                subject: ' Find one 1 get application error ',
+                                text: 'The following error has been reported in Kultura: ' + err,
+                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                            };
+                            // Function to send e-mail to myself
+                            transporter.sendMail(mailOptions, function(err, info) {
                                 if (err) {
-                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                    var mailOptions = {
-                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                        to: [emailConfig.email], // list of receivers
-                                        subject: ' Find 2 get applicationEevents error ',
-                                        text: 'The following error has been reported in the Kultura: ' + err,
-                                        html: 'The following error has been reported in the Kultura:<br><br>' + err
-                                    };
-                                    // Function to send e-mail to myself
-                                    transporter.sendMail(mailOptions, function(err, info) {
-                                        if (err) {
-                                            console.log(err); // If error with sending e-mail, log to console/terminal
-                                        } else {
-                                            console.log(info); // Log success message to console if sent
-                                            console.log(user.email); // Display e-mail that it was sent to
-                                        }
-                                    });
-                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                    console.log(err); // If error with sending e-mail, log to console/terminal
                                 } else {
-                                    // Check if events were found in database
-                                    if (!events) {
-                                        res.json({ success: false, message: eval(language + '.eventsSearch.eventsError') }); // Return error of no events found
-                                    } else {
-                                        res.json({ success: true, events: events }); // Return success and event 
-                                    }
+                                    console.log(info); // Log success message to console if sent
+                                    console.log(user.email); // Display e-mail that it was sent to
                                 }
-                            }); // Sort events from newest to oldest
+                            });
+                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                        } else {
+                            // Check if logged in user is found in database
+                            if (!mainUser) {
+                                res.json({ success: false, message: eval(language + '.getApplication.userError') }); // Return error
+                            } else {
+                                // Look for user in database
+                                User.findOne({ username: req.params.username }, function(err, user) {
+                                    if (err) {
+                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                        var mailOptions = {
+                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                            to: [emailConfig.email],
+                                            subject: ' Find one 2 get application error ',
+                                            text: 'The following error has been reported in Kultura: ' + err,
+                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                        }; // Function to send e-mail to myself
+                                        transporter.sendMail(mailOptions, function(err, info) {
+                                            if (err) {
+                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                            } else {
+                                                console.log(info); // Log success message to console if sent
+                                                console.log(user.email); // Display e-mail that it was sent to
+                                            }
+                                        });
+                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                    } else {
+                                        // Check if user is in database
+                                        if (!user) {
+                                            res.json({ success: false, message: eval(language + '.getApplication.userError') }); // Return error
+                                        } else {
+                                            var saveErrorPermission = false;
+                                            // Check if is owner
+                                            if (mainUser._id.toString() === user._id.toString()) {} else {
+                                                // Check if the current permission is 'admin'
+                                                if (mainUser.permission === 'admin') {
+                                                    // Check if user making changes has access
+                                                    if (user.permission === 'admin') {
+                                                        saveErrorPermission = language + '.general.adminOneError';
+                                                    } else {}
+                                                } else {
+                                                    // Check if the current permission is moderator
+                                                    if (mainUser.permission === 'moderator') {
+                                                        // Check if contributor making changes has access
+                                                        if (user.permission === 'contributor') {} else {
+                                                            saveErrorPermission = language + '.general.adminOneError';
+                                                        }
+                                                    } else {
+                                                        saveErrorPermission = language + '.general.permissionError';
+                                                    }
+                                                }
+                                            }
+                                            //check saveError permision to save changes or not
+                                            if (saveErrorPermission) {
+                                                res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                            } else {
+                                                Application.findOne({
+                                                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
+                                                    _id: ObjectId(req.params.id)
+                                                }, (err, application) => {
+                                                    // Check if error was found or not
+                                                    if (err) {
+                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                        var mailOptions = {
+                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                            to: [emailConfig.email], // list of receivers
+                                                            subject: ' Find 3 get application error ',
+                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                        };
+                                                        // Function to send e-mail to myself
+                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                            if (err) {
+                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                            } else {
+                                                                console.log(info); // Log success message to console if sent
+                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                            }
+                                                        });
+                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                    } else {
+                                                        // Check if application were found in database
+                                                        if (!application) {
+                                                            res.json({ success: false, message: eval(language + '.getApplication.applicationError') }); // Return error of no application found
+                                                        } else {
+                                                            //res.json({ success: true, application: application }); // Return success and place 
+                                                            Service.aggregate([{
+                                                                    $match: {
+                                                                        $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
+                                                                        _id: { $in: application.services }
+                                                                    }
+                                                                }, {
+                                                                    // Join with Place table
+                                                                    $lookup: {
+                                                                        from: "places", // other table name
+                                                                        localField: "placeId", // placeId of Event table field
+                                                                        foreignField: "_id", // _id of Place table field
+                                                                        as: "place" // alias for userinfo table
+                                                                    }
+                                                                }, { $unwind: "$place" },
+                                                                // Join with Category table
+                                                                {
+                                                                    $lookup: {
+                                                                        from: "servicetypes",
+                                                                        localField: "serviceTypeId",
+                                                                        foreignField: "_id",
+                                                                        as: "serviceType"
+                                                                    }
+                                                                }, { $unwind: "$serviceType" },
+                                                            ]).exec(function(err, services) {
+                                                                // Check if places were found in database
+                                                                if (!services) {
+                                                                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
+                                                                } else {
+                                                                    res.json({ success: true, application: application, services: services }); // Return success and place 
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
     });

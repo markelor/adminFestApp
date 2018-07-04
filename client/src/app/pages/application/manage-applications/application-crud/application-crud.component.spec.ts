@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SeeServicesComponent } from './see-services.component';
+import { ApplicationCrudComponent } from './application-crud.component';
 
-describe('SeeServicesComponent', () => {
-  let component: SeeServicesComponent;
-  let fixture: ComponentFixture<SeeServicesComponent>;
+describe('ApplicationCrudComponent', () => {
+  let component: ApplicationCrudComponent;
+  let fixture: ComponentFixture<ApplicationCrudComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SeeServicesComponent ]
+      declarations: [ ApplicationCrudComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SeeServicesComponent);
+    fixture = TestBed.createComponent(ApplicationCrudComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

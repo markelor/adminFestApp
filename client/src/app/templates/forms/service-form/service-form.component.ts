@@ -481,7 +481,6 @@ export class ServiceFormComponent implements OnInit {
     }else if(this.inputOperation==="edit"){
        //Get service types
       this.serviceTypeService.getServiceTypes(this.inputLanguage).subscribe(data=>{
-        console.log(data);
         if(data.success){
           this.serviceTypes=data.serviceTypes;
         }   

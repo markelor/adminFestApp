@@ -31,8 +31,8 @@ export class EditApplicationComponent implements OnInit {
         this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
       }
     });
-    // Get event
-    this.applicationService.getApplication(this.activatedRoute.snapshot.params['id'],this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    // Get application events
+    this.applicationService.getApplicationEvents(this.activatedRoute.snapshot.params['id'],this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
       	this.application=data.application;
       	console.log(this.application);

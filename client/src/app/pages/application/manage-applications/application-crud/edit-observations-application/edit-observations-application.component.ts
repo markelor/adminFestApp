@@ -1,23 +1,23 @@
 
 import { Component, OnInit,Injectable,Input,ViewChildren,QueryList } from '@angular/core';
 import { LocalizeRouterService } from 'localize-router';
-import { AuthService } from '../../../../services/auth.service';
-import { EventService } from '../../../../services/event.service';
-import { ApplicationService } from '../../../../services/application.service';
+import { AuthService } from '../../../../../services/auth.service';
+import { EventService } from '../../../../../services/event.service';
+import { ApplicationService } from '../../../../../services/application.service';
 import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
-import { Application } from '../../../../class/application';
+import { Application } from '../../../../../class/application';
 import { Subject } from 'rxjs/Subject';
 import {DataTableDirective} from 'angular-datatables';
 import { Subscription } from 'rxjs/Subscription';
-import { AuthGuard} from '../../../guards/auth.guard';
+import { AuthGuard} from '../../../../guards/auth.guard';
 import { Router,ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-edit-events-application',
-  templateUrl: './edit-events-application.component.html',
-  styleUrls: ['./edit-events-application.component.css']
+  selector: 'app-edit-observations-application',
+  templateUrl: './edit-observations-application.component.html',
+  styleUrls: ['./edit-observations-application.component.css']
 })
-export class EditEventsApplicationComponent implements OnInit {
+export class EditObservationsApplicationComponent implements OnInit {
   private message;
   private messageClass;
   private applicationId;
@@ -26,7 +26,6 @@ export class EditEventsApplicationComponent implements OnInit {
   private events;
   @ViewChildren(DataTableDirective)
   dtElements: QueryList<DataTableDirective>;
-  private dtElement: DataTableDirective;
   private dtOptions: any = {};
   private addTrigger: Subject<any> = new Subject();
   private deleteTrigger: Subject<any> = new Subject();
@@ -112,8 +111,8 @@ export class EditEventsApplicationComponent implements OnInit {
       });
   }
   private getApplicationEventsInit(){
-    // Get application
-    this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    // Get application events
+    this.applicationService.getApplicationEvents(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
         this.eventsApplication=data.events;
@@ -132,8 +131,8 @@ export class EditEventsApplicationComponent implements OnInit {
     });
   }
    private getApplicationEvents(){
-    // Get application
-    this.applicationService.getApplication(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    // Get application events
+    this.applicationService.getApplicationEvents(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
         if(index===0){
           dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -175,7 +174,7 @@ export class EditEventsApplicationComponent implements OnInit {
     return svg;
   }
   ngOnInit() {
-        // Get authentication on page load
+    // Get authentication on page load
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){
         this.authService.logout();

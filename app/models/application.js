@@ -127,7 +127,7 @@ const applicationSchema = new Schema({
     price: { type: Number, required: true },
     expiredAt: { type: Date, required: true },
     images: { type: Array, required: true },
-    info:[{
+    observations:[{
         title: { type: String, required: true, validate: titleValidators },
         description: { type: String, required: true, validate: descriptionValidators },
         expiredAt: { type: Date, required: true }

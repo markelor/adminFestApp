@@ -69,7 +69,6 @@ const descriptionValidators = [
     }
 ];
 
-
 // Service Model Definition
 const serviceSchema = new Schema({
     createdBy: { type: String, required: true },

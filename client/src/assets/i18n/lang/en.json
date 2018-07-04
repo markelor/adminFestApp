@@ -109,6 +109,7 @@
     "user": "User",
     "events": "Events",
     "applications": "Applications",
+    "observations": "Observations",
     "services": "Services",
     "search": "Search..."
   },

@@ -7,22 +7,15 @@ import { ImageCropperComponent } from "ngx-img-cropper";
 import { FileUploadModule } from 'ng2-file-upload';
 import { DataTablesModule } from 'angular-datatables';
 import { UserComponent } from './user.component';
-//import { SeeEventsComponent } from './events/see-events/see-events.component';
-//import { SeeServicesComponent } from './services/see-services/see-services.component';
-//import { EditEventComponent } from './events/see-events/edit-event/edit-event.component';
 import { TemplatesModule } from '../../templates/templates.module';
 import { SharedModule } from '../../shared/shared.module';
 import { DecodePipe } from '../../shared/pipes/decode.pipe';
-//import { EventsComponent } from './events/events.component';
-//import { SeeApplicationsComponent } from './applications/see-applications/see-applications.component';
-//import { EditEventsApplicationComponent } from './applications/see-applications/edit-events-application/edit-events-application.component';
-//import { ApplicationsComponent } from './applications/applications.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 @NgModule({
   imports: [
     CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule,DataTablesModule,InlineSVGModule
   ],
-  declarations: [ProfileComponent,ImageCropperComponent, UserComponent/*,SeeServicesComponent,SeeEventsComponent, EditEventComponent, EventsComponent, SeeApplicationsComponent, EditEventsApplicationComponent, ApplicationsComponent*/],
+  declarations: [ProfileComponent,ImageCropperComponent, UserComponent],
   providers:[DecodePipe]
 })
 

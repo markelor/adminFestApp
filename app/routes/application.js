@@ -3,6 +3,7 @@ const Application = require('../models/application'); // Import Application Mode
 const Event = require('../models/event'); // Import Event Model Schema
 const Place = require('../models/place'); // Import Event Model Schema
 const Service = require('../models/service'); // Import Service Model Schema
+const Observation = require('../models/observation'); // Import observation Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const configAws = require('../config/aws'); // Import database configuration
 const es = require('../translate/es'); // Import translate es
@@ -162,7 +163,7 @@ module.exports = (router) => {
                             var mailOptions = {
                                 from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
                                 to: [emailConfig.email],
-                                subject: ' Find one 1 get application error ',
+                                subject: ' Find one 1 get application events error ',
                                 text: 'The following error has been reported in Kultura: ' + err,
                                 html: 'The following error has been reported in Kultura:<br><br>' + err
                             };
@@ -188,7 +189,7 @@ module.exports = (router) => {
                                         var mailOptions = {
                                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                             to: [emailConfig.email],
-                                            subject: ' Find one 2 get application error ',
+                                            subject: ' Find one 2 get application events error ',
                                             text: 'The following error has been reported in Kultura: ' + err,
                                             html: 'The following error has been reported in Kultura:<br><br>' + err
                                         }; // Function to send e-mail to myself
@@ -241,7 +242,7 @@ module.exports = (router) => {
                                                         var mailOptions = {
                                                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                                             to: [emailConfig.email], // list of receivers
-                                                            subject: ' Find 3 get application error ',
+                                                            subject: ' Find 3 get application events error ',
                                                             text: 'The following error has been reported in Kultura: ' + err,
                                                             html: 'The following error has been reported in Kultura:<br><br>' + err
                                                         };
@@ -327,7 +328,7 @@ module.exports = (router) => {
                             var mailOptions = {
                                 from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
                                 to: [emailConfig.email],
-                                subject: ' Find one 1 get application error ',
+                                subject: ' Find one 1 get application services error ',
                                 text: 'The following error has been reported in Kultura: ' + err,
                                 html: 'The following error has been reported in Kultura:<br><br>' + err
                             };
@@ -353,7 +354,7 @@ module.exports = (router) => {
                                         var mailOptions = {
                                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                             to: [emailConfig.email],
-                                            subject: ' Find one 2 get application error ',
+                                            subject: ' Find one 2 get application services error ',
                                             text: 'The following error has been reported in Kultura: ' + err,
                                             html: 'The following error has been reported in Kultura:<br><br>' + err
                                         }; // Function to send e-mail to myself
@@ -406,7 +407,7 @@ module.exports = (router) => {
                                                         var mailOptions = {
                                                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                                             to: [emailConfig.email], // list of receivers
-                                                            subject: ' Find 3 get application error ',
+                                                            subject: ' Find 3 get application services error ',
                                                             text: 'The following error has been reported in Kultura: ' + err,
                                                             html: 'The following error has been reported in Kultura:<br><br>' + err
                                                         };
@@ -452,9 +453,173 @@ module.exports = (router) => {
                                                             ]).exec(function(err, services) {
                                                                 // Check if places were found in database
                                                                 if (!services) {
-                                                                    res.json({ success: false, message: eval(language + '.eventsSearch.placesError') }); // Return error of no places found
+                                                                    res.json({ success: false, message: eval(language + '.newService.servicesError') }); // Return error of no observations found
                                                                 } else {
                                                                     res.json({ success: true, application: application, services: services }); // Return success and place 
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    });
+    /* ===============================================================
+                   GET Application
+                =============================================================== */
+    router.get('/getApplicationObservations/:id/:username/:language', (req, res) => {
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            if (!req.params.id) {
+                res.json({ success: false, message: eval(language + '.getApplication.idProvidedError') }); // Return error
+            } else {
+                if (!req.params.username) {
+                    res.json({ success: false, message: eval(language + '.getApplication.usernameProvidedError') }); // Return error
+                } else {
+                    // Look for logged in user in database to check if have appropriate access
+                    User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                        if (err) {
+                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                            var mailOptions = {
+                                from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                to: [emailConfig.email],
+                                subject: ' Find one 1 get application observations error ',
+                                text: 'The following error has been reported in Kultura: ' + err,
+                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                            };
+                            // Function to send e-mail to myself
+                            transporter.sendMail(mailOptions, function(err, info) {
+                                if (err) {
+                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                } else {
+                                    console.log(info); // Log success message to console if sent
+                                    console.log(user.email); // Display e-mail that it was sent to
+                                }
+                            });
+                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                        } else {
+                            // Check if logged in user is found in database
+                            if (!mainUser) {
+                                res.json({ success: false, message: eval(language + '.getApplication.userError') }); // Return error
+                            } else {
+                                // Look for user in database
+                                User.findOne({ username: req.params.username }, function(err, user) {
+                                    if (err) {
+                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                        var mailOptions = {
+                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                            to: [emailConfig.email],
+                                            subject: ' Find one 2 get application observations error ',
+                                            text: 'The following error has been reported in Kultura: ' + err,
+                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                        }; // Function to send e-mail to myself
+                                        transporter.sendMail(mailOptions, function(err, info) {
+                                            if (err) {
+                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                            } else {
+                                                console.log(info); // Log success message to console if sent
+                                                console.log(user.email); // Display e-mail that it was sent to
+                                            }
+                                        });
+                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                    } else {
+                                        // Check if user is in database
+                                        if (!user) {
+                                            res.json({ success: false, message: eval(language + '.getApplication.userError') }); // Return error
+                                        } else {
+                                            var saveErrorPermission = false;
+                                            // Check if is owner
+                                            if (mainUser._id.toString() === user._id.toString()) {} else {
+                                                // Check if the current permission is 'admin'
+                                                if (mainUser.permission === 'admin') {
+                                                    // Check if user making changes has access
+                                                    if (user.permission === 'admin') {
+                                                        saveErrorPermission = language + '.general.adminOneError';
+                                                    } else {}
+                                                } else {
+                                                    // Check if the current permission is moderator
+                                                    if (mainUser.permission === 'moderator') {
+                                                        // Check if contributor making changes has access
+                                                        if (user.permission === 'contributor') {} else {
+                                                            saveErrorPermission = language + '.general.adminOneError';
+                                                        }
+                                                    } else {
+                                                        saveErrorPermission = language + '.general.permissionError';
+                                                    }
+                                                }
+                                            }
+                                            //check saveError permision to save changes or not
+                                            if (saveErrorPermission) {
+                                                res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                            } else {
+                                                Application.findOne({
+                                                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
+                                                    _id: ObjectId(req.params.id)
+                                                }, (err, application) => {
+                                                    // Check if error was found or not
+                                                    if (err) {
+                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                        var mailOptions = {
+                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                            to: [emailConfig.email], // list of receivers
+                                                            subject: ' Find 3 get application observations error ',
+                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                        };
+                                                        // Function to send e-mail to myself
+                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                            if (err) {
+                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                            } else {
+                                                                console.log(info); // Log success message to console if sent
+                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                            }
+                                                        });
+                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                    } else {
+                                                        // Check if application were found in database
+                                                        if (!application) {
+                                                            res.json({ success: false, message: eval(language + '.getApplication.applicationError') }); // Return error of no application found
+                                                        } else {
+                                                            Observation.find({
+                                                                $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
+                                                                _id: { $in: application.observations }
+                                                            }, function(err, observations) {
+                                                                if (err) {
+                                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                    var mailOptions = {
+                                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                                        to: [emailConfig.email],
+                                                                        subject: ' Find 4 get application observations error ',
+                                                                        text: 'The following error has been reported in Kultura: ' + err,
+                                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                                    }; // Function to send e-mail to myself
+                                                                    transporter.sendMail(mailOptions, function(err, info) {
+                                                                        if (err) {
+                                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                        } else {
+                                                                            console.log(info); // Log success message to console if sent
+                                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                                        }
+                                                                    });
+                                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                                } else {
+                                                                    // Check if observation is in database
+                                                                    if (!observations) {
+                                                                        res.json({ success: false, message: eval(language + '.newObservation.observationsError') }); // Return error of no observations found
+                                                                    } else {
+                                                                        res.json({ success: true, application: application, observations: observations }); // Return success and place 
+                                                                    }
                                                                 }
                                                             });
                                                         }
@@ -649,7 +814,6 @@ module.exports = (router) => {
             Route to update/edit a application
         =============================================================== */
     router.put('/editApplication', function(req, res) {
-        console.log(req.body);
         var language = req.body.language;
         // Check if language was provided
         if (!language) {
@@ -667,6 +831,8 @@ module.exports = (router) => {
                     if (req.body.users) var newUsers = req.body.users; // Check if a change to users was requested
                     if (req.body.title) var newTitle = req.body.title; // Check if a change to title was requested
                     if (req.body.events) var newEvents = req.body.events; // Check if a change to events was requested
+                    if (req.body.services) var newServices = req.body.services; // Check if a change to services was requested
+                    if (req.body.observations) var newObservations = req.body.observations; // Check if a change to observations was requested
                     if (req.body.entityName) var newEntityName = req.body.entityName; // Check if a change to entityName was requested
                     if (req.body.liceseName) var newLicenseName = req.body.liceseName; // Check if a change to name was requested
                     if (req.body.conditions) var newConditions = req.body.conditions; // Check if a change to conditions was requested
@@ -770,6 +936,10 @@ module.exports = (router) => {
                                                                 application.title = newTitle; // Assign new title to application in database
                                                             if (newEvents)
                                                                 application.events = newEvents; // Assign new events to application in database
+                                                            if (newServices)
+                                                                application.services = newServices; // Assign new services to application in database
+                                                            if (newObservations)
+                                                                application.observations = newObservations; // Assign new observations to application in database
                                                             if (newEntityName)
                                                                 application.entityName = newEntityName; // Assign new entityName to application in database
                                                             if (newLicenseName)

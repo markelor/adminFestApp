@@ -225,6 +225,16 @@ module.exports = {
         saveError: "Could not save service type. Error:",
         success: "Service type saved!"
     },
+      //newObservation
+    newObservation: {
+        createdByProvidedError: "Observation creator is required.",
+        idProvidedError: 'Observation ID was not provided.',
+        titleProvidedError: "Observation title is required.",
+        descriptionProvidedError: "Observation description is required.",
+        observationsError: "Observations not found.",
+        saveError: "Could not save observation. Error:",
+        success: "Observation saved!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "Events username is not provided.",
@@ -262,15 +272,24 @@ module.exports = {
     //getApplication
     getApplication: {
         idProvidedError: 'Application ID was not provided.',
-         usernameProvidedError: "Application username is not provided.",
+        usernameProvidedError: "Application username is not provided.",
         userError: "No user found.",
         applicationError: "No application found."
     },
      //getService
     getService: {
-        idProvidedError: "Event ID is not provided.",
+        idProvidedError: "Service ID is not provided.",
+        usernameProvidedError: "Service username is not provided.",
+        userError: "No user found.",
         serviceError: "No service found.",
         placeError: "No place found."
+    },
+    //getObservation
+    getObservation: {
+        idProvidedError: "Observation ID is not provided.",
+        usernameProvidedError: "Observation username is not provided.",
+        userError: "No user found.",
+        observationError: "No observation found."
     },
     //getPlacesCoordinates
     getPlacesCoordinates: {
@@ -328,6 +347,12 @@ module.exports = {
         permissionError: "You are not authorized to edit this service type.",
         saveError: "Could not edit service type. Error: ",
         success: "Service type updated!"
+    },
+     editObservation: {
+        idProvidedError: 'Observation ID was not provided.',
+        createdByProvidedError: 'Username was not provided.',
+        saveError: "Could not edit observation. Error: ",
+        success: "Observation edited!"
     },
     deleteEvent: {
         usernameProvidedError: 'Username was not provided.',

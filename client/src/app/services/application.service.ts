@@ -33,6 +33,11 @@ export class ApplicationService {
     this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
     return this.http.get<any>(this.domain + 'application/getApplicationServices/'+this.route+language);
   }
+   // Function to get application services from the database
+  public getApplicationObservations(id,username,language) {
+    this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
+    return this.http.get<any>(this.domain + 'application/getApplicationObservations/'+this.route+language);
+  }
   // Function to get all user applications from the database
   public getUserApplications(username,language) {
     this.route= encodeURIComponent(username) +'/';

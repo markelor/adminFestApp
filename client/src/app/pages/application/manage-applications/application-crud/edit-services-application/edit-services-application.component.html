@@ -38,7 +38,7 @@
       <!--Service type icon-->
       <td *ngIf="serviceApplication.serviceType.icons.length>0" [inlineSVG]="serviceApplication.serviceType.icons[0].url" [onSVGLoaded]="handleSVG"></td> 
       <!--Expired at-->
-      <td>{{serviceApplication.expiredAt}}€</td> 
+      <td>{{serviceApplication.expiredAt | timezone}}</td> 
       <!--Province and Municipality-->         
       <td *ngIf="serviceApplication.place.language===localizeService.parser.currentLang">{{serviceApplication.place.province.name}}</td>
       <td *ngIf="serviceApplication.place.language===localizeService.parser.currentLang">{{serviceApplication.place.municipality.name }}</td>
@@ -96,7 +96,7 @@
       <!--Service type icon-->
       <td *ngIf="service.serviceType.icons.length>0" [inlineSVG]="service.serviceType.icons[0].url" [onSVGLoaded]="handleSVG"></td>
       <!--Expired at-->
-      <td>{{service.expiredAt}}</td>
+      <td>{{service.expiredAt | timezone}}</td>
       <!--Province and Municipality-->         
       <td *ngIf="service.place.language===localizeService.parser.currentLang">{{service.place.province.name}}</td>
       <td *ngIf="service.place.language===localizeService.parser.currentLang">{{service.place.municipality.name }}</td>

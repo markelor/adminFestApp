@@ -6,3 +6,4 @@ describe('EventCategoryPipe', () => {
     expect(pipe).toBeTruthy();
   });
 });
+

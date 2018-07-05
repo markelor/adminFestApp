@@ -14,8 +14,7 @@
         <span translate>{{'menu.category'}}</span>
       </div>
       <!--Create category-->
-      <div class="dropdown-menu">
-        
+      <div class="dropdown-menu"> 
         <a class="dropdown-item" [routerLink]="['/category-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
       </div>
     </li>
@@ -54,6 +53,18 @@
         <a class="dropdown-item" [routerLink]="['/service-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
         <a class="dropdown-item" [routerLink]="['/service-route','manage-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-cog"></span>{{'menu.manage'}}</a>
         <a class="dropdown-item" [routerLink]="['/service-type-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.service-type'}}</a>
+      </div>
+    </li>   
+     <!--Observation item-->
+    <li class="nav-item dropdown">
+      <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="ks-icon la la-map-marker"></span>
+        <span translate>{{'menu.observation'}}</span>
+      </div>
+      <!--Create service-->
+      <div class="dropdown-menu">
+        <a class="dropdown-item" [routerLink]="['/observation-route','create-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-plus-circle"></span>{{'menu.create'}}</a>
+        <a class="dropdown-item" [routerLink]="['/observation-route','manage-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-cog"></span>{{'menu.manage'}}</a>
       </div>
     </li>   
     <!--Administrator item-->

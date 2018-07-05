@@ -224,6 +224,16 @@ module.exports = {
         saveError: "Zerbitzu mota ezin da gorde. Errorea:",
         success: "Zerbitzu mota gorde da!"
     },
+    //newObservation
+    newObservation: {
+        createdByProvidedError: "Oharraren sortzailea beharrezkoa da.",
+        idProvidedError: 'Ez da oharraren IDa eman.',
+        titleProvidedError: "Oharraren izenburua beharrezkoa da.",
+        descriptionProvidedError: "Oharraren deskribapena beharrezkoa da.",
+        observationsError: "Oharra ez da aurkitu.",
+        saveError: "Oharra ezin da gorde. Errorea:",
+        success: "Oharra gorde da!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "Ekintzen erabiltzailea ez da eman.",
@@ -261,15 +271,24 @@ module.exports = {
     //getApplication
     getApplication: {
         idProvidedError: 'Aplikazioaren IDa ez da eman.',
-        usernameProvidedError: "Aplikazioen erabiltzailea ez da eman.",
+        usernameProvidedError: "Aplikazioaren erabiltzailea ez da eman.",
         userError: "Erabiltzailea ez da aurkitu.",
         applicationError: "Aplikazioa ez da aurkitu."
     },
     //getService
     getService: {
         idProvidedError: "Zerbitzuaren IDa ez da eman.",
+        usernameProvidedError: "Zerbitzuaren erabiltzailea ez da eman.",
+        userError: "Erabiltzailea ez da aurkitu.",
         serviceError: "Ez da zerbitzua aurkitu.",
         placeError: "Ez da lekua aurkitu."
+    },
+     //getObservation
+    getObservation: {
+        idProvidedError: "Oharraren IDa ez da eman.",
+        usernameProvidedError: "Oharraren erabiltzailea ez da eman.",
+        userError: "Erabiltzailea ez da aurkitu.",
+        observationError: "Ez da oharra aurkitu."
     },
     //getPlacesCoordinates
     getPlacesCoordinates: {
@@ -327,6 +346,12 @@ module.exports = {
         permissionError: "Ez duzu zerbitzu mota hau aldatzeko baimenik.",
         saveError: "Ezin izan da zerbitzu mota eguneratu. Akatsa: ",
         success: "Zerbitzu mota eguneratu da!"
+    },
+     editObservation: {
+        idProvidedError: 'Ez da oharraren IDa eman.',
+        createdByProvidedError: 'Oharraren erabiltzailea ez da eman.',
+        saveError: "Ezin izan da oharra aldatu. Akatsa: ",
+        success: "Oharra aldatu da!"
     },
     deleteEvent: {
         usernameProvidedError: 'Erabiltzaile izena ez da eman.',

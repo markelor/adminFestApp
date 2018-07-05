@@ -15,6 +15,7 @@ import { EventService } from '../services/event.service';
 import { PlaceService } from '../services/place.service';
 import { ServiceService } from '../services/service.service';
 import { ServiceTypeService } from '../services/service-type.service';
+import { ObservationService } from '../services/observation.service';
 import { FileUploaderService } from '../services/file-uploader.service';
 import { ApplicationService } from '../services/application.service';
 import { ObservableService } from '../services/observable.service';
@@ -27,6 +28,7 @@ import { EventInterceptor } from '../services/event.interceptor';
 import { PlaceInterceptor } from '../services/place.interceptor';
 import { ServiceInterceptor } from '../services/service.interceptor';
 import { ServiceTypeInterceptor } from '../services/service-type.interceptor';
+import { ObservationInterceptor } from '../services/observation.interceptor';
 import { FileUploaderInterceptor } from '../services/file-uploader.interceptor';
 import { ApplicationInterceptor } from '../services/application.interceptor';
 import { InlineSVGModule } from 'ng-inline-svg';
@@ -82,6 +84,11 @@ import { InlineSVGModule } from 'ng-inline-svg';
       useClass: ServiceTypeInterceptor,
       multi: true
     },
-   AuthService,CategoryService,EventService,PlaceService,ServiceService,ServiceTypeService,FileUploaderService,ObservableService,ApplicationService,AuthGuard,NotAuthGuard,ContributorGuard,ModeratorGuard,AdminGuard]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ObservationInterceptor,
+      multi: true
+    },
+   AuthService,CategoryService,EventService,PlaceService,ServiceService,ServiceTypeService,ObservationService,FileUploaderService,ObservableService,ApplicationService,AuthGuard,NotAuthGuard,ContributorGuard,ModeratorGuard,AdminGuard]
 })
 export class PagesModule { }

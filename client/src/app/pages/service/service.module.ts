@@ -3,7 +3,6 @@ import { CommonModule } from "@angular/common"
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { ServiceRoutingModule }  from './service.routing';
 import { CreateServiceComponent } from './create-service/create-service.component';
-import { ServiceModalComponent } from './create-service/service-modal/service-modal.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,12 +18,10 @@ import { InlineSVGModule } from 'ng-inline-svg';
   	CommonModule,FormsModule,ReactiveFormsModule,TranslateModule,SharedModule,TemplatesModule,
     ServiceRoutingModule,DataTablesModule,NgbModule,InlineSVGModule
   ],
-  declarations: [ServiceModalComponent,CreateServiceComponent, ManageServicesComponent,EditServiceComponent],
+  declarations: [CreateServiceComponent, ManageServicesComponent,EditServiceComponent],
   providers: [
    {provide: COMPOSITION_BUFFER_MODE, useValue: false},DecodePipe
   ],
-    entryComponents: [
-    ServiceModalComponent
-  ]
+    entryComponents: []
 })
 export  class ServiceModule { }

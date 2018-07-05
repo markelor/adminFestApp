@@ -18,6 +18,7 @@
   "applications-route": "aplicaciones",
   "service-route": "servicio",
   "service-type-route": "tipo-servicio",
+  "observation-route": "observacion",
   "details-route": "detalles",
   "region-route": "region",
   "user-route": "usuario",
@@ -36,6 +37,7 @@
     "applications": "Aplicaciones",
     "service":"Servicios",
     "service-type":"Añadir tipo",
+    "observation":"Observación",
     "administrator": "Administrador",
     "users": "Usuarios",
     "events": "Eventos"

@@ -56,19 +56,20 @@ export class ManageServicesComponent implements OnInit {
         'colvis',
         'copy',
         'print',
-        'csv',
-
+        'csv'
       ],
       responsive: true,
       columnDefs: [
-        { responsivePriority: 4, targets: 0 },
-        { responsivePriority: 1, targets: 1 },
-        { responsivePriority: 8, targets: 2 },
-        { responsivePriority: 7, targets: 3 },
-        { responsivePriority: 6, targets: 4 },
-        { responsivePriority: 5, targets: 5 },
-        { responsivePriority: 3, targets: 6 },
-        { responsivePriority: 2, targets: 7 }
+        { responsivePriority: 1, targets: 0 },
+        { responsivePriority: 10, targets: 1 },
+        { responsivePriority: 3, targets: 2 },
+        { responsivePriority: 8, targets: 3 },
+        { responsivePriority: 4, targets: 4 },
+        { responsivePriority: 6, targets: 5 },
+        { responsivePriority: 5, targets: 6 },
+        { responsivePriority: 9, targets: 7 },
+        { responsivePriority: 7, targets: 8 },
+        { responsivePriority: 2, targets: 9 }
       ]
     };
   }
@@ -121,6 +122,11 @@ export class ManageServicesComponent implements OnInit {
         });
       }
     });
+  }
+  private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
+    svg.setAttribute('width', '50');
+    svg.setAttribute('height', '50');
+    return svg;
   }
   ngOnInit() {
     // Get authentication on page load

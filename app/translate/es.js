@@ -216,13 +216,23 @@ module.exports = {
         saveError: "No se pudo guardar el servicio. Error:",
         success:"!Servicio guardado!"
     },
-    //newService
+    //newServiceType
     newServiceType: {
         idProvidedError: 'El ID del tipo de servicio, no fue proporcionado.',
         titleProvidedError: "El título del tipo de servicio es requerido.",
         serviceTypesError: "No se encontró el tipo de servicio.",
         saveError: "No se pudo guardar el tipo de servicio. Error:",
         success:"!Tipo de Servicio guardado!"
+    },
+      //newObservation
+    newObservation: {
+        createdByProvidedError: "El creador de la observación es requerido.",
+        idProvidedError: 'El ID de la observación, no fue proporcionado.',
+        titleProvidedError: "El título de la observación es requerido.",
+        descriptionProvidedError: "La descripción del observación es requerida.",
+        observationsError: "No se encontró la observación.",
+        saveError: "No se pudo guardar la observación. Error:",
+        success:"!Observación guardado!"
     },
     //userEvents
     userEvents: {
@@ -268,8 +278,17 @@ module.exports = {
       //getService
     getService: {
         idProvidedError: "El ID del servicio no fue proporcionado.",
+        usernameProvidedError: "El usurio de los servicios no fue proporcionado.",
+        userError: "No se encontró el usuario.",
         serviceError: "No se encontro el servicio.",
         placeError: "No se encontro el lugar."
+    },
+     //getObservation
+    getObservation: {
+        idProvidedError: "El ID de la observación no fue proporcionado.",
+        usernameProvidedError: "El usurio de las observaciones no fue proporcionado.",
+        userError: "No se encontró el usuario.",
+        observationError: "No se encontro la observación."
     },
     //getPlacesCoordinates
     getPlacesCoordinates: {
@@ -327,6 +346,12 @@ module.exports = {
         permissionError: "No estás autorizado para editar el tipo de servicio.",
         saveError: "No se pudo editar el tipo de servicio. Error: ",
         success: "¡Tipo de servicio actualizado!"
+    },
+     editObservation: {
+        idProvidedError: 'El ID de la observación, no fue proporcionado.',
+        createdByProvidedError: 'El nombre de usuario no fue proporcionado.',
+        saveError: "No se pudo editar la observación. Error: ",
+        success: "¡Observación editada!"
     },
     deleteEvent: {
         usernameProvidedError: 'El nombre de usuario no fue proporcionado.',

@@ -13,7 +13,6 @@ import { Router,ActivatedRoute } from '@angular/router';
 })
 export class EditServiceComponent implements OnInit {
   private service;
-  private serviceType;
   constructor(
   	private serviceService:ServiceService,
   	private authService:AuthService,
@@ -37,7 +36,6 @@ export class EditServiceComponent implements OnInit {
     this.serviceService.getService(this.activatedRoute.snapshot.params['id'],this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
       	this.service=data.service;
-      	this.serviceType=data.serviceType;
         setTimeout(() => {
           $(".nav-"+this.localizeService.parser.currentLang).addClass('active');
           $( ".nav-"+this.localizeService.parser.currentLang).click ();

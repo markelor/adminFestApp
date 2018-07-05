@@ -320,8 +320,9 @@ export class EventFormComponent implements OnInit {
           }                  
         });        
       } 
-      //Get start on page load
+      //Get participants on page load
       this.participants=this.inputEvent.participants;
+      //Get start on page load
       this.inputEvent.start=moment(this.inputEvent.start).tz("Europe/Madrid").format('YYYY-MM-DD HH:mm');
       var year=Number(this.inputEvent.start.split("-")[0]);
       var month=Number(this.inputEvent.start.split("-")[1]);

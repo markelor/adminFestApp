@@ -13,7 +13,6 @@ export class ApplicationCrudComponent implements OnInit {
 	   $($.fn.dataTable.tables(true)).DataTable()
 	      .columns.adjust()
 	      .responsive.recalc();
-	      console.log("hemen");
 	});
   }
 

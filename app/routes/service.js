@@ -218,17 +218,6 @@ module.exports = (router) => {
             }
         }
     });
-    /* ===============================================================
-           GET Events
-        =============================================================== */
-    router.get('/getEvents/:language', (req, res) => {
-        var language = req.params.language;
-        if (!language) {
-            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
-        } else {
-
-        }
-    });
 
     /* ===============================================================
        GET Services

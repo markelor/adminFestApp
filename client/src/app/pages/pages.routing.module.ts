@@ -16,6 +16,7 @@ export const routes:Routes=[
 	    { path: 'application-route',loadChildren: './application/application.module#ApplicationModule'},
 	    { path: 'service-route',loadChildren: './service/service.module#ServiceModule'},
 	    { path: 'service-type-route',loadChildren: './service-type/service-type.module#ServiceTypeModule'},
+	    { path: 'observation-route',loadChildren: './observation/observation.module#ObservationModule'},
 	    { path: 'user-route',loadChildren: './user/user.module#UserModule'}  	
 	  ]	
 	},

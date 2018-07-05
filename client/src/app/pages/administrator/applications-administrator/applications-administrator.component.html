@@ -11,7 +11,7 @@
               <th translate>{{'application-form.conditions'}}</th>
               <th translate>{{'application-form.license'}}</th>
               <th translate>{{'application-form.price'}}</th>
-              <th translate>{{'application-form.expiry-date'}}</th>
+              <th translate>{{'application-form.expired-at'}}</th>
               <th translate>{{'crud.edit-delete'}}</th>
             </tr>
           </thead>
@@ -22,7 +22,7 @@
               <td>{{application.conditions}}</td>
               <td>{{application.licenseName}}</td>
               <td>{{application.price}}</td>
-              <td>{{application.expiredAt}}</td>
+              <td>{{application.expiredAt | timezone}}</td>
               <td class="ks-status">
                 <a href="javascript:void(0)" [routerLink]="['/admin-route','applications-route','edit-route',application._id] | localize"><span class="fa fa-edit ks-color-info" translate>{{'crud.edit'}}</span></a>
                 <a href="javascript:void(0)" (click)="applicationDeleteClick(i,application)"><span class="fa fa-trash ks-color-danger" translate>{{'crud.delete'}}</span></a>

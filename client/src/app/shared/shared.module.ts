@@ -23,6 +23,7 @@ import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { PipesPipe } from './pipes.pipe';
 import { EventCategoryPipe } from './pipes/event-category.pipe';
+import { TimezonePipe } from './pipes/timezone.pipe';
 import { DecodePipe } from './pipes/decode.pipe';
 
 @NgModule({
@@ -53,6 +54,7 @@ import { DecodePipe } from './pipes/decode.pipe';
     ClickOutsideDirective,
     PipesPipe,
     EventCategoryPipe,
+    TimezonePipe,
     DecodePipe
   ],
   exports: [
@@ -78,6 +80,7 @@ import { DecodePipe } from './pipes/decode.pipe';
     CapitalizePipe,
     ClickOutsideDirective,
     EventCategoryPipe,
+    TimezonePipe,
     DecodePipe
   ]
 })

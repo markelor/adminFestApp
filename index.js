@@ -15,6 +15,7 @@ const place = require('./app/routes/place')(router); // Import Place Routes
 const application = require('./app/routes/application')(router); // Import Application Routes
 const service = require('./app/routes/service')(router); // Import Service Routes
 const serviceType = require('./app/routes/serviceType')(router); // Import ServiceType Routes
+const observation = require('./app/routes/observation')(router); // Import Observation Routes
 const fileUploader = require('./app/routes/fileUploader')(router); // Import File Uploader
 var bodyParser = require('body-parser'); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 const cors = require('cors'); // CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
@@ -40,6 +41,7 @@ app.use('/place', place); // Use Place routes in application
 app.use('/application', application); // Use Application routes in application
 app.use('/service', service); // Use service routes in service
 app.use('/serviceType', serviceType); // Use serviceType routes in serviceType
+app.use('/observation', observation); // Use serviceType routes in observation
 app.use('/fileUploader', fileUploader); // Use FileUploader routes in application
 // Connect server to Angular 2 Index.html
 app.get('*', (req, res) => {

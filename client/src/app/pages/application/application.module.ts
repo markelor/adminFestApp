@@ -22,7 +22,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
   ],
   declarations: [CreateApplicationComponent, ManageApplicationsComponent,ApplicationCrudComponent,EditEventsApplicationComponent,EditServicesApplicationComponent,EditObservationsApplicationComponent],
   providers: [
-   {provide: COMPOSITION_BUFFER_MODE, useValue: false}
+   {provide: COMPOSITION_BUFFER_MODE, useValue: false},
   ],
     entryComponents: [
   ]

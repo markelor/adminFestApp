@@ -111,6 +111,8 @@ const descriptionValidators = [
 const applicationSchema = new Schema({
     users: { type: Array, required: true },
     events: [{ type: Schema.Types.ObjectId, required: true }],
+    services: [{ type: Schema.Types.ObjectId, required: true } ],
+    observations:[{ type: Schema.Types.ObjectId, required: true }],
     language: { type: String, required: true },
     title: { type: String, required: true, validate: titleValidators },
     entityName: { type: String, required: false, validate: nameValidators },
@@ -127,12 +129,6 @@ const applicationSchema = new Schema({
     price: { type: Number, required: true },
     expiredAt: { type: Date, required: true },
     images: { type: Array, required: true },
-    observations:[{
-        title: { type: String, required: true, validate: titleValidators },
-        description: { type: String, required: true, validate: descriptionValidators },
-        expiredAt: { type: Date, required: true }
-    }],
-    services: { type: Array, required: false },
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });

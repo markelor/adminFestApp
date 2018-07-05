@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, Input} from '@angular/core';
+import { Component, OnInit,ElementRef,Injectable,Input } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../../services/auth.service';
 import { ServiceTypeService } from '../../../services/service-type.service';
@@ -11,16 +12,53 @@ import { FileUploaderService} from '../../../services/file-uploader.service';
 import { TitleValidator,LatitudeValidator,LongitudeValidator } from '../../../validators';
 import { Service } from '../../../class/service';
 import { Place } from '../../../class/place';
-import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 import { AuthGuard} from '../../../pages/guards/auth.guard';
 import * as moment from 'moment-timezone';
 declare let $: any;
+const I18N_VALUES = {
+  'eu': {
+    weekdays: ['Al', 'As', 'Az', 'Og', 'Or', 'Lr', 'Ig'],
+    months: ['Urt','Ots','Mar','Api','Mai','Eka','Uzt','Abu','Ira','Urr','Aza','Abe'],
+  },
+  'es': {
+    weekdays: ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Dom'],
+    months: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+  },
+  'en': {
+    weekdays: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+    months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  }
+  // other languages you would support
+};
+
+// Define a service holding the language. You probably already have one if your app is i18ned. Or you could also
+// use the Angular LOCALE_ID value
+// Define custom service providing the months and weekdays translations
+@Injectable()
+export class CustomDatepickerI18n extends NgbDatepickerI18n {
+
+  constructor(
+    private localizeService: LocalizeRouterService) {
+    super();
+  }
+
+  getWeekdayShortName(weekday: number): string {
+    return I18N_VALUES[this.localizeService.parser.currentLang].weekdays[weekday - 1];
+  }
+  getMonthShortName(month: number): string {
+    return I18N_VALUES[this.localizeService.parser.currentLang].months[month - 1];
+  }
+  getMonthFullName(month: number): string {
+    return this.getMonthShortName(month);
+  }
+}
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
-  styleUrls: ['./service-form.component.css']
+  styleUrls: ['./service-form.component.css'],
+  providers: [{provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}] // define custom NgbDatepickerI18n provider
 })
 export class ServiceFormComponent implements OnInit {
   private message;
@@ -62,7 +100,6 @@ export class ServiceFormComponent implements OnInit {
     private observableService:ObservableService,
     private fileUploaderService:FileUploaderService,
     private authService:AuthService,
-    private groupByPipe:GroupByPipe,
     private translate: TranslateService,
     private router:Router,
     private authGuard: AuthGuard,){
@@ -156,16 +193,16 @@ export class ServiceFormComponent implements OnInit {
     if(this.inputService){
       if(this.inputService.expiredAt){
         //Get expiredAt on page load
-      this.inputService.expiredAt=moment(this.inputService.expiredAt).tz("Europe/Madrid").format('YYYY-MM-DD HH:mm');
-      var year=Number(this.inputService.expiredAt.split("-")[0]);
-      var month=Number(this.inputService.expiredAt.split("-")[1]);
-      var day=Number(this.inputService.expiredAt.split('-').pop().split(' ').shift());
-      var hour=Number(this.inputService.expiredAt.split(' ').pop().split(':').shift());
-      var minute=Number(this.inputService.expiredAt.split(':')[1]);
-      var calendar= {year:year , month: month,day: day};
-      this.expiredAt.setValue(calendar); 
-      this.timeExpiredAt.hour=hour;
-      this.timeExpiredAt.minute=minute;
+        this.inputService.expiredAt=moment(this.inputService.expiredAt).tz("Europe/Madrid").format('YYYY-MM-DD HH:mm');
+        var year=Number(this.inputService.expiredAt.split("-")[0]);
+        var month=Number(this.inputService.expiredAt.split("-")[1]);
+        var day=Number(this.inputService.expiredAt.split('-').pop().split(' ').shift());
+        var hour=Number(this.inputService.expiredAt.split(' ').pop().split(':').shift());
+        var minute=Number(this.inputService.expiredAt.split(':')[1]);
+        var calendar= {year:year , month: month,day: day};
+        this.expiredAt.setValue(calendar); 
+        this.timeExpiredAt.hour=hour;
+        this.timeExpiredAt.minute=minute;
       }else{
         this.expiredAt.setValue(undefined);
       }

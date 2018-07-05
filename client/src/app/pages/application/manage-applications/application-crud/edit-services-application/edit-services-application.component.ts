@@ -113,13 +113,9 @@ export class EditServicesApplicationComponent implements OnInit {
   private getApplicationServicesInit(){
     // Get application services
     this.applicationService.getApplicationServices(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
-         console.log(data);
-
       if(data.success){
         this.application=data.application;
         this.servicesApplication=data.services;
-        console.log("------------------------");
-        console.log(this.servicesApplication);
       }
       this.deleteTrigger.next();
     });

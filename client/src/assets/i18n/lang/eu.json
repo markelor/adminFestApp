@@ -18,6 +18,7 @@
   "applications-route": "aplikazioak",
   "service-route": "zerbitzua",
   "service-type-route": "zerbitzu-mota",
+  "observation-route": "oharra",
   "details-route": "xehetasunak",
   "region-route": "eskualdea",
   "user-route": "erabiltzailea",
@@ -36,6 +37,7 @@
     "applications": "Aplikazioak",
     "service":"Zerbitzuak",
     "service-type":"Gehitu Mota",
+    "observation":"Oharra",
     "administrator": "Administratzailea",
     "users": "Erabiltzaileak",
     "events": "Ekintzak"

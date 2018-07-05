@@ -116,7 +116,6 @@ export class EditEventsApplicationComponent implements OnInit {
       if(data.success){
         this.application=data.application;
         this.eventsApplication=data.events;
-                      console.log(this.eventsApplication);
       }
       this.deleteTrigger.next();
     });

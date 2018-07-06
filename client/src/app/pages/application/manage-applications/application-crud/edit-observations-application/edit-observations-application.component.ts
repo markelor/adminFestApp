@@ -30,7 +30,7 @@ export class EditObservationsApplicationComponent implements OnInit {
   private deleteTrigger: Subject<any> = new Subject();
   private subscriptionLanguage: Subscription;
   constructor(
-    private localizeObservation:LocalizeRouterService,
+    private localizeService:LocalizeRouterService,
     private applicationObservation:ApplicationService,
     private authObservation:AuthService,
     private observationObservation:ObservationService,
@@ -59,7 +59,7 @@ export class EditObservationsApplicationComponent implements OnInit {
         { responsivePriority: 5, targets: 1 },
         { responsivePriority: 4, targets: 2 },
         { responsivePriority: 3, targets: 3 },
-        { responsivePriority: 2, targets: 4 },
+        { responsivePriority: 2, targets: 4 }
       ]
     };
   }
@@ -106,7 +106,7 @@ export class EditObservationsApplicationComponent implements OnInit {
   }
   private getApplicationObservationsInit(){
     // Get application observations
-    this.applicationObservation.getApplicationObservations(this.applicationId,this.authObservation.user.username,this.localizeObservation.parser.currentLang).subscribe(data => {
+    this.applicationObservation.getApplicationObservations(this.applicationId,this.authObservation.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
         this.observationsApplication=data.observations;
@@ -116,7 +116,7 @@ export class EditObservationsApplicationComponent implements OnInit {
   }
   // Function to get observations from the database
   private getObservationsInit() {
-    this.observationObservation.getObservations(this.localizeObservation.parser.currentLang).subscribe(data => {
+    this.observationObservation.getObservations(this.localizeService.parser.currentLang).subscribe(data => {
       console.log(data);
       if(data.success){
         this.observations=data.observations;
@@ -126,7 +126,7 @@ export class EditObservationsApplicationComponent implements OnInit {
   }
    private getApplicationObservations(){
     // Get application observations
-    this.applicationObservation.getApplicationObservations(this.applicationId,this.authObservation.user.username,this.localizeObservation.parser.currentLang).subscribe(data => {
+    this.applicationObservation.getApplicationObservations(this.applicationId,this.authObservation.user.username,this.localizeService.parser.currentLang).subscribe(data => {
       this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
         if(index===0){
           dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -147,7 +147,7 @@ export class EditObservationsApplicationComponent implements OnInit {
   }
   // Function to get observations from the database
   private getObservations() {
-    this.observationObservation.getObservations(this.localizeObservation.parser.currentLang).subscribe(data => {
+    this.observationObservation.getObservations(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
           if(index===1){
@@ -169,11 +169,11 @@ export class EditObservationsApplicationComponent implements OnInit {
   }
   ngOnInit() {
     // Get authentication on page load
-    this.authObservation.getAuthentication(this.localizeObservation.parser.currentLang).subscribe(authentication => {
+    this.authObservation.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){
         this.authObservation.logout();
         this.authGuard.redirectUrl=this.router.url;
-        this.router.navigate([this.localizeObservation.translateRoute('/sign-in-route')]); // Return error and route to login page
+        this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
       }
     });
     // Get application id
@@ -187,7 +187,7 @@ export class EditObservationsApplicationComponent implements OnInit {
     this.getApplicationObservationsInit();
     this.getObservationsInit();  
     this.subscriptionLanguage =this.translate.onLangChange.subscribe((observation: LangChangeEvent) => {
-      this.localizeObservation.parser.currentLang=observation.lang;
+      this.localizeService.parser.currentLang=observation.lang;
       this.getApplicationObservations();
       this.getObservations(); 
     });       

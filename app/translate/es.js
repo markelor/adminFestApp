@@ -214,7 +214,7 @@ module.exports = {
         lngProvidedError: 'La longitud no fue proporcionada.',
         servicesError: "No se encontró el servicio.",
         saveError: "No se pudo guardar el servicio. Error:",
-        success:"!Servicio guardado!"
+        success: "!Servicio guardado!"
     },
     //newServiceType
     newServiceType: {
@@ -222,9 +222,9 @@ module.exports = {
         titleProvidedError: "El título del tipo de servicio es requerido.",
         serviceTypesError: "No se encontró el tipo de servicio.",
         saveError: "No se pudo guardar el tipo de servicio. Error:",
-        success:"!Tipo de Servicio guardado!"
+        success: "!Tipo de Servicio guardado!"
     },
-      //newObservation
+    //newObservation
     newObservation: {
         createdByProvidedError: "El creador de la observación es requerido.",
         idProvidedError: 'El ID de la observación, no fue proporcionado.',
@@ -232,7 +232,7 @@ module.exports = {
         descriptionProvidedError: "La descripción del observación es requerida.",
         observationsError: "No se encontró la observación.",
         saveError: "No se pudo guardar la observación. Error:",
-        success:"!Observación guardado!"
+        success: "!Observación guardado!"
     },
     //userEvents
     userEvents: {
@@ -275,7 +275,7 @@ module.exports = {
         userError: "No se encontró el usuario.",
         applicationError: "No se encontró la aplicación."
     },
-      //getService
+    //getService
     getService: {
         idProvidedError: "El ID del servicio no fue proporcionado.",
         usernameProvidedError: "El usurio de los servicios no fue proporcionado.",
@@ -283,7 +283,7 @@ module.exports = {
         serviceError: "No se encontro el servicio.",
         placeError: "No se encontro el lugar."
     },
-     //getObservation
+    //getObservation
     getObservation: {
         idProvidedError: "El ID de la observación no fue proporcionado.",
         usernameProvidedError: "El usurio de las observaciones no fue proporcionado.",
@@ -305,7 +305,7 @@ module.exports = {
         geonameIdMunicipalityProvidedError: "Geoname ID del municipio es requerido.",
         latProvidedError: "La latitud es requerida.",
         lngProvidedError: "La longitud es requerida.",
-          locationProvidedError: "La localización es requerida.",
+        locationProvidedError: "La localización es requerida.",
         saveError: "No se pudo guardar el lugar. Error:",
         success: "¡Lugar guardado!"
     },
@@ -339,7 +339,7 @@ module.exports = {
         saveError: "No se pudo editar el servicio. Error: ",
         success: "¡Servicio editado!"
     },
-     editServiceType: {
+    editServiceType: {
         idProvidedError: 'El ID del tipo de servicio, no fue proporcionado.',
         serviceTypeError: "No se encontró el tipo de servicio.",
         userError: "No se encontró el usuario.",
@@ -347,7 +347,7 @@ module.exports = {
         saveError: "No se pudo editar el tipo de servicio. Error: ",
         success: "¡Tipo de servicio actualizado!"
     },
-     editObservation: {
+    editObservation: {
         idProvidedError: 'El ID de la observación, no fue proporcionado.',
         createdByProvidedError: 'El nombre de usuario no fue proporcionado.',
         saveError: "No se pudo editar la observación. Error: ",
@@ -365,11 +365,25 @@ module.exports = {
         saveError: "No se pudo eliminar la aplicación. Error: ",
         success: "¡Aplikación eliminada!"
     },
+    deleteService: {
+        usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
+        idProvidedError: 'El ID del servicio, no fue proporcionado.',
+        deleteError:"No se pudo eliminar el servicio, está siendo utilizado por otra aplicación.",
+        saveError: "No se pudo eliminar el servicio. Error: ",
+        success: "¡Servicio eliminado!"
+    },
     deleteServiceType: {
         usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
         idProvidedError: 'El ID del tipo de servicio, no fue proporcionado.',
         saveError: "No se pudo eliminar el tipo de servicio. Error: ",
         success: "¡Tipo de servicio eliminado!"
+    },
+    deleteObservation: {
+        usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
+        idProvidedError: 'El ID de la observación, no fue proporcionado.',
+        deleteError:"No se pudo eliminar la observación, está siendo utilizado por otra aplicación.",
+        saveError: "No se pudo eliminar la observación. Error: ",
+        success: "¡Observación eliminada!"
     },
     addThemeReaction: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',

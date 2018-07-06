@@ -245,7 +245,7 @@ module.exports = {
         userError: "Erabiltzailea ez da aurkitu.",
         applicationsError: "Ez dira aplikazioak aurkitu."
     },
-     //userServices
+    //userServices
     userServices: {
         usernameProvidedError: "Zerbitzuen erabiltzailea ez da eman.",
         eventsError: "Ez dira zerbitzuak aurkitu.",
@@ -283,7 +283,7 @@ module.exports = {
         serviceError: "Ez da zerbitzua aurkitu.",
         placeError: "Ez da lekua aurkitu."
     },
-     //getObservation
+    //getObservation
     getObservation: {
         idProvidedError: "Oharraren IDa ez da eman.",
         usernameProvidedError: "Oharraren erabiltzailea ez da eman.",
@@ -347,7 +347,7 @@ module.exports = {
         saveError: "Ezin izan da zerbitzu mota eguneratu. Akatsa: ",
         success: "Zerbitzu mota eguneratu da!"
     },
-     editObservation: {
+    editObservation: {
         idProvidedError: 'Ez da oharraren IDa eman.',
         createdByProvidedError: 'Oharraren erabiltzailea ez da eman.',
         saveError: "Ezin izan da oharra aldatu. Akatsa: ",
@@ -365,11 +365,25 @@ module.exports = {
         saveError: "Ezin izan da ekintza ezabatu. Akatsa: ",
         success: "Ekintza ezabatu da!"
     },
+    deleteService: {
+        usernameProvidedError: 'Erabiltzaile izena ez da eman.',
+        idProvidedError: 'Ez da zerbitzuaren IDa eman.',
+        deleteError:"Ezin izan da zerbitzua ezabatu, beste aplikazio batek erabiltzen du.",
+        saveError: "Ezin izan da zerbitzua ezabatu. Akatsa: ",
+        success: "Zerbitzua ezabatu da!"
+    },
     deleteServiceType: {
         usernameProvidedError: 'Erabiltzaile izena ez da eman.',
         idProvidedError: 'Ez da zerbitzu motaren IDa eman.',
         saveError: "Ezin izan da zerbitzu mota ezabatu. Akatsa: ",
         success: "Zerbitzu mota ezabatu da!"
+    },
+    deleteObservation: {
+        usernameProvidedError: 'Erabiltzaile izena ez da eman.',
+        idProvidedError: 'Ez da oharraren IDa eman.',
+        deleteError:"Ezin izan da oharra ezabatu, beste aplikazio batek erabiltzen du.",
+        saveError: "Ezin izan da oharra ezabatu. Akatsa: ",
+        success: "Oharra ezabatu da!"
     },
     addThemeReaction: {
         idProvidedError: 'Ez da gaiaren IDa eman.',

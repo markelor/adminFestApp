@@ -4,6 +4,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AdministratorRoutingModule }  from './administrator.routing';
 import { UsersAdministratorComponent } from './users-administrator/users-administrator.component';
 import { EventsAdministratorComponent } from './events-administrator/events-administrator.component';
+import { ServicesAdministratorComponent } from './services-administrator/services-administrator.component';
+import { ObservationsAdministratorComponent } from './observations-administrator/observations-administrator.component';
 import { ApplicationsAdministratorComponent } from './applications-administrator/applications-administrator.component';
 import { EditApplicationComponent } from './applications-administrator/edit-application/edit-application.component';
 import { SharedModule } from "../../shared/shared.module";
@@ -24,7 +26,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
     ReactiveFormsModule,SharedModule,TranslateModule,AdministratorRoutingModule,DataTablesModule,
     NgbModule,TemplatesModule,InlineSVGModule
   ],
-  declarations: [UsersAdministratorComponent,UserModalComponent, EventsAdministratorComponent,ApplicationsAdministratorComponent, EditApplicationComponent],
+  declarations: [UsersAdministratorComponent,UserModalComponent, EventsAdministratorComponent,ServicesAdministratorComponent,ObservationsAdministratorComponent,ApplicationsAdministratorComponent, EditApplicationComponent],
   providers: [
    GroupByPipe,BindContentPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}
   ],

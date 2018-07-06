@@ -204,7 +204,7 @@ module.exports = {
         saveError: "Could not save application. Error:",
         success: "Application saved!"
     },
-     //newService
+    //newService
     newService: {
         createdByProvidedError: "Service creator is required.",
         idProvidedError: 'Service ID was not provided.',
@@ -225,7 +225,7 @@ module.exports = {
         saveError: "Could not save service type. Error:",
         success: "Service type saved!"
     },
-      //newObservation
+    //newObservation
     newObservation: {
         createdByProvidedError: "Observation creator is required.",
         idProvidedError: 'Observation ID was not provided.',
@@ -276,7 +276,7 @@ module.exports = {
         userError: "No user found.",
         applicationError: "No application found."
     },
-     //getService
+    //getService
     getService: {
         idProvidedError: "Service ID is not provided.",
         usernameProvidedError: "Service username is not provided.",
@@ -348,7 +348,7 @@ module.exports = {
         saveError: "Could not edit service type. Error: ",
         success: "Service type updated!"
     },
-     editObservation: {
+    editObservation: {
         idProvidedError: 'Observation ID was not provided.',
         createdByProvidedError: 'Username was not provided.',
         saveError: "Could not edit observation. Error: ",
@@ -360,17 +360,31 @@ module.exports = {
         saveError: "Could not delete event. Error: ",
         success: "Event deleted!"
     },
+    deleteApplication: {
+        usernameProvidedError: 'Username was not provided.',
+        idProvidedError: 'Event ID was not provided.',
+        saveError: "Could not delete application. Error: ",
+        success: "Application deleted!"
+    },
+    deleteService: {
+        usernameProvidedError: 'Username was not provided.',
+        idProvidedError: 'Service ID was not provided.',
+        deleteError:"The service could not be deleted, it is being used by another application.",
+        saveError: "Could not delete service. Error: ",
+        success: "Service deleted!"
+    },
     deleteServiceType: {
         usernameProvidedError: 'Username was not provided.',
         idProvidedError: 'Service type ID was not provided.',
         saveError: "Could not delete service type. Error: ",
         success: "Service type deleted!"
     },
-    deleteApplication: {
+    deleteObservation: {
         usernameProvidedError: 'Username was not provided.',
-        idProvidedError: 'Event ID was not provided.',
-        saveError: "Could not delete application. Error: ",
-        success: "Application deleted!"
+        idProvidedError: 'Observation ID was not provided.',
+        deleteError:"The service could not be deleted, it is being used by another application.",
+        saveError: "Could not delete observation. Error: ",
+        success: "Observation deleted!"
     },
     addThemeReaction: {
         idProvidedError: 'Theme ID was not provided',

@@ -352,6 +352,12 @@ module.exports = {
         saveError: "Could not edit observation. Error: ",
         success: "Observation edited!"
     },
+    deleteCategory: {
+        idProvidedError: 'Category ID was not provided.',
+        deleteError: "The category could not be deleted, it is being used by events.",
+        saveError: "Could not delete category. Error: ",
+        success: "Category deleted!"
+    },
     deleteEvent: {
         usernameProvidedError: 'Username was not provided.',
         idProvidedError: 'Event ID was not provided.',
@@ -367,12 +373,11 @@ module.exports = {
     deleteService: {
         usernameProvidedError: 'Username was not provided.',
         idProvidedError: 'Service ID was not provided.',
-        deleteError:"The service could not be deleted, it is being used by another application.",
+        deleteError: "The service could not be deleted, it is being used by another application.",
         saveError: "Could not delete service. Error: ",
         success: "Service deleted!"
     },
     deleteServiceType: {
-        usernameProvidedError: 'Username was not provided.',
         idProvidedError: 'Service type ID was not provided.',
         saveError: "Could not delete service type. Error: ",
         success: "Service type deleted!"
@@ -380,7 +385,7 @@ module.exports = {
     deleteObservation: {
         usernameProvidedError: 'Username was not provided.',
         idProvidedError: 'Observation ID was not provided.',
-        deleteError:"The service could not be deleted, it is being used by another application.",
+        deleteError: "The service could not be deleted, it is being used by another application.",
         saveError: "Could not delete observation. Error: ",
         success: "Observation deleted!"
     },

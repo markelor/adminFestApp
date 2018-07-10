@@ -91,6 +91,7 @@ export class ServiceFormComponent implements OnInit {
   private froalaSignature;
   private froalaEvent;
   private subscriptionLanguage: Subscription;
+  private subscriptionObservableMapClick: Subscription;
   constructor(
     private fb: FormBuilder,
     private localizeService:LocalizeRouterService,
@@ -153,41 +154,6 @@ export class ServiceFormComponent implements OnInit {
     this.lat = this.form.controls['lat'];
     this.lng = this.form.controls['lng'];
     this.expiredAt=this.form.controls['expiredAt'];
-  }
-    // Enable new categories form
-  private enableFormNewServiceForm() {
-    this.form.enable(); // Enable form
-    $('#textareaDescription').froalaEditor('edit.on');
-    this.froalaEvent.getEditor()('html.set', '');
-  }
-
-  // Disable new categories form
-  private disableFormNewServiceForm() {
-    this.form.disable(); // Disable form
-    $('#textareaDescription').froalaEditor('edit.off');
-  }
-  private deleteUploadImages(type,images){
-    if(type==='descriptionOne'){
-      var currentUrlSplit = images[0].currentSrc.split("/");
-      let imageName = currentUrlSplit[currentUrlSplit.length - 1];
-      var urlSplit = imageName.split("%2F");
-      for (var i = 0; i < this.imagesDescription.length; i++) {
-        if(this.imagesDescription[i]===images[0].currentSrc){
-          this.imagesDescription.splice(i,1);
-          this.service.setImagesDescription=this.imagesDescription;
-        }
-      }
-      this.fileUploaderService.deleteImages(urlSplit[1],urlSplit[0],this.localizeService.parser.currentLang).subscribe(data=>{
-      });
-    }else if (type==='descriptionAll'){
-      for (var i = 0; i < this.imagesDescription.length; i++) {
-        var currentUrlSplit = this.imagesDescription[i].split("/");
-        let imageName = currentUrlSplit[currentUrlSplit.length - 1];
-        var urlSplit = imageName.split("%2F");
-        this.fileUploaderService.deleteImages(urlSplit[1],urlSplit[0],this.localizeService.parser.currentLang).subscribe(data=>{
-        });
-      }
-    }
   }
   private initializeForm(){  
     if(this.inputService){
@@ -318,7 +284,53 @@ export class ServiceFormComponent implements OnInit {
       } 
     }      
   }
-   private froalaOptions= {
+  private mapClickPlace(){
+    this.subscriptionObservableMapClick=this.observableService.notifyObservable.subscribe(res => {
+      if (res.hasOwnProperty('option') && res.option === this.observableService.mapClickType) {
+        var coordinates={
+          lat:res.lat,
+          lng:res.lng
+        }
+      this.passCoordinates(coordinates);
+      }
+    }); 
+  }
+  // Enable new categories form
+  private enableFormNewServiceForm() {
+    this.form.enable(); // Enable form
+    $('#textareaDescription').froalaEditor('edit.on');
+    this.froalaEvent.getEditor()('html.set', '');
+  }
+
+  // Disable new categories form
+  private disableFormNewServiceForm() {
+    this.form.disable(); // Disable form
+    $('#textareaDescription').froalaEditor('edit.off');
+  }
+  private deleteUploadImages(type,images){
+    if(type==='descriptionOne'){
+      var currentUrlSplit = images[0].currentSrc.split("/");
+      let imageName = currentUrlSplit[currentUrlSplit.length - 1];
+      var urlSplit = imageName.split("%2F");
+      for (var i = 0; i < this.imagesDescription.length; i++) {
+        if(this.imagesDescription[i]===images[0].currentSrc){
+          this.imagesDescription.splice(i,1);
+          this.service.setImagesDescription=this.imagesDescription;
+        }
+      }
+      this.fileUploaderService.deleteImages(urlSplit[1],urlSplit[0],this.localizeService.parser.currentLang).subscribe(data=>{
+      });
+    }else if (type==='descriptionAll'){
+      for (var i = 0; i < this.imagesDescription.length; i++) {
+        var currentUrlSplit = this.imagesDescription[i].split("/");
+        let imageName = currentUrlSplit[currentUrlSplit.length - 1];
+        var urlSplit = imageName.split("%2F");
+        this.fileUploaderService.deleteImages(urlSplit[1],urlSplit[0],this.localizeService.parser.currentLang).subscribe(data=>{
+        });
+      }
+    }
+  }
+  private froalaOptions= {
      // Set max image size to 5MB.
     imageMaxSize: 5 * 1024 * 1024,
     // Allow to upload PNG and JPG.
@@ -599,6 +611,7 @@ export class ServiceFormComponent implements OnInit {
       this.style.height = (this.scrollHeight) + 'px';
     });*/
     this.initializeForm();
+    this.mapClickPlace();
     // Get profile username on page load
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){

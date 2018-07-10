@@ -24,7 +24,7 @@
       <div *ngFor="let category of form.get('categories').controls; let i = index;">
         <div class="form-group required" [ngClass]="{'has-error': (!category.valid && category.dirty), 'has-success': (category.valid)}">
           <div [formGroupName]="i">
-            <select formControlName="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.selectedIndex-1,i)">
+            <select formControlName="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.value,i)">
               <option value="" translate>{{'event-form.select-category'}}</option>
               <ng-container *ngFor="let levelCategory of levelCategories | eventCategory:i">
                 <option *ngIf="levelCategory.parentId===categoryId[i] && inputLanguage===levelCategory.language" [ngValue]="levelCategory.title">

@@ -351,6 +351,12 @@ module.exports = {
         saveError: "No se pudo editar la observación. Error: ",
         success: "¡Observación editada!"
     },
+    deleteCategory: {
+        idProvidedError: 'El ID de la categoría, no fue proporcionado.',
+        deleteError:"No se pudo eliminar la categoría, está siendo utilizado por eventos.",
+        saveError: "No se pudo eliminar la categoría. Error: ",
+        success: "¡Categoría eliminada!"
+    },
     deleteEvent: {
         usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
         idProvidedError: 'El ID del evento, no fue proporcionado.',
@@ -371,7 +377,6 @@ module.exports = {
         success: "¡Servicio eliminado!"
     },
     deleteServiceType: {
-        usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
         idProvidedError: 'El ID del tipo de servicio, no fue proporcionado.',
         saveError: "No se pudo eliminar el tipo de servicio. Error: ",
         success: "¡Tipo de servicio eliminado!"

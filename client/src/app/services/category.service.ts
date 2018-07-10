@@ -29,8 +29,9 @@ export class CategoryService {
   }
   // Function to delete a category
   public deleteCategory(id,language) {
+    console.log("hementxe");
     this.route=  encodeURIComponent(id)+'/';
-    return this.http.delete<any>(this.domain + 'category/delete/' + this.route+language);
+    return this.http.delete<any>(this.domain + 'category/deleteCategory/' + this.route+language);
   }
   // Function to edit a category
   public editCategory(category) {

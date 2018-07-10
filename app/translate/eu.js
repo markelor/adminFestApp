@@ -351,6 +351,12 @@ module.exports = {
         saveError: "Ezin izan da oharra aldatu. Akatsa: ",
         success: "Oharra aldatu da!"
     },
+    deleteCategory: {
+        idProvidedError: 'Ez da kategoriaren IDa eman.',
+        deleteError:"Ezin izan da kategoria ezabatu, ekintza batek erabiltzen du.",
+        saveError: "Ezin izan da kategoria ezabatu. Akatsa: ",
+        success: "Kategoria ezabatu da!"
+    },
     deleteEvent: {
         usernameProvidedError: 'Erabiltzaile izena ez da eman.',
         idProvidedError: 'Ez da ekintzaren IDa eman.',
@@ -371,7 +377,6 @@ module.exports = {
         success: "Zerbitzua ezabatu da!"
     },
     deleteServiceType: {
-        usernameProvidedError: 'Erabiltzaile izena ez da eman.',
         idProvidedError: 'Ez da zerbitzu motaren IDa eman.',
         saveError: "Ezin izan da zerbitzu mota ezabatu. Akatsa: ",
         success: "Zerbitzu mota ezabatu da!"

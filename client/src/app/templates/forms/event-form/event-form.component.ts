@@ -669,7 +669,8 @@ export class EventFormComponent implements OnInit {
     }
   }
    // Function on seleccted categories
-  private onSelectedCategory(index,level){
+  private onSelectedCategory(value,level){
+    var index=this.levelCategories[level].value.map(c => c.title).indexOf(value.split(' ')[1])
     if (index===-1){
       // remove
         for (var i = this.form.controls['categories'].value.length - 1; i >= level+1; i--) {

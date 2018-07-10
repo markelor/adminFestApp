@@ -32,7 +32,7 @@ let latitudeChecker = (lat) => {
         return false; // Return error
     } else {
         // Regular expression to test for a valid latitude
-        const regExp = new RegExp(/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/);
+        const regExp = new RegExp(/^(\+|-)?(?:90(?:(?:\.0{1,20})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,20})?))$/);
         return regExp.test(lat); // Return regular expression test results (true or false)
     }
 };
@@ -52,7 +52,7 @@ let longitudeChecker = (lng) => {
         return false; // Return error
     } else {
         // Regular expression to test for a valid longitude
-        const regExp = new RegExp(/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/);
+        const regExp = new RegExp(/^(\+|-)?(?:180(?:(?:\.0{1,20})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,20})?))$/);
         return regExp.test(lng); // Return regular expression test results (true or false)
     }
 };

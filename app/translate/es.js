@@ -271,8 +271,6 @@ module.exports = {
     //getApplication
     getApplication: {
         idProvidedError: "El ID de la aplicación no fue proporcionado.",
-        usernameProvidedError: "El usurio de las aplicaciones no fue proporcionado.",
-        userError: "No se encontró el usuario.",
         applicationError: "No se encontró la aplicación."
     },
     //getService

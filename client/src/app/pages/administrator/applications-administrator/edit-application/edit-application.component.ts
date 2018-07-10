@@ -32,7 +32,7 @@ export class EditApplicationComponent implements OnInit {
       }
     });
     // Get application events
-    this.applicationService.getApplicationEvents(this.activatedRoute.snapshot.params['id'],this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationService.getApplicationEvents(this.activatedRoute.snapshot.params['id'],this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
       	this.application=data.application;
       	console.log(this.application);

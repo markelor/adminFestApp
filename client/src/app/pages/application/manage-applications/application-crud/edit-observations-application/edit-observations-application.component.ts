@@ -106,7 +106,7 @@ export class EditObservationsApplicationComponent implements OnInit {
   }
   private getApplicationObservationsInit(){
     // Get application observations
-    this.applicationObservation.getApplicationObservations(this.applicationId,this.authObservation.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationObservation.getApplicationObservations(this.applicationId,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
         this.observationsApplication=data.observations;
@@ -126,7 +126,7 @@ export class EditObservationsApplicationComponent implements OnInit {
   }
    private getApplicationObservations(){
     // Get application observations
-    this.applicationObservation.getApplicationObservations(this.applicationId,this.authObservation.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationObservation.getApplicationObservations(this.applicationId,this.localizeService.parser.currentLang).subscribe(data => {
       this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
         if(index===0){
           dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

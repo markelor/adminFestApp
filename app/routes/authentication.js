@@ -787,6 +787,10 @@ module.exports = (router) => {
             next()
         } else if (req.path === '/getApplicationEvents/' + route + language && req.method === 'GET') {
             next();
+        } else if (req.path === '/getApplicationServices/' + route + language && req.method === 'GET') {
+            next();
+        } else if (req.path === '/getApplicationObservations/' + route + language && req.method === 'GET') {
+            next();
         } else {
             // Check if token was found in headers
             if (!token) {

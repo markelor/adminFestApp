@@ -1,4 +1,3 @@
-
 import { Component, OnInit,Injectable,Input,ViewChildren,QueryList } from '@angular/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../../../../services/auth.service';
@@ -112,7 +111,7 @@ export class EditEventsApplicationComponent implements OnInit {
   }
   private getApplicationEventsInit(){
     // Get application events
-    this.applicationService.getApplicationEvents(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationService.getApplicationEvents(this.applicationId,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
         this.eventsApplication=data.events;
@@ -131,7 +130,7 @@ export class EditEventsApplicationComponent implements OnInit {
   }
    private getApplicationEvents(){
     // Get application events
-    this.applicationService.getApplicationEvents(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationService.getApplicationEvents(this.applicationId,this.localizeService.parser.currentLang).subscribe(data => {
       this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
         if(index===0){
           dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

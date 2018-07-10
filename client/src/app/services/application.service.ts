@@ -24,18 +24,18 @@ export class ApplicationService {
     return this.http.get<any>(this.domain + 'application/getApplications/'+language);
   }
   // Function to get application events from the database
-  public getApplicationEvents(id,username,language) {
-    this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
+  public getApplicationEvents(id,language) {
+    this.route= encodeURIComponent(id) +'/';
     return this.http.get<any>(this.domain + 'application/getApplicationEvents/'+this.route+language);
   }
   // Function to get application services from the database
-  public getApplicationServices(id,username,language) {
-    this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
+  public getApplicationServices(id,language) {
+    this.route= encodeURIComponent(id) +'/';
     return this.http.get<any>(this.domain + 'application/getApplicationServices/'+this.route+language);
   }
    // Function to get application services from the database
-  public getApplicationObservations(id,username,language) {
-    this.route= encodeURIComponent(id) +'/'+encodeURIComponent(username)+'/';
+  public getApplicationObservations(id,language) {
+    this.route= encodeURIComponent(id) +'/';
     return this.http.get<any>(this.domain + 'application/getApplicationObservations/'+this.route+language);
   }
   // Function to get all user applications from the database

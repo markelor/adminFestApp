@@ -112,7 +112,7 @@ export class EditServicesApplicationComponent implements OnInit {
   }
   private getApplicationServicesInit(){
     // Get application services
-    this.applicationService.getApplicationServices(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationService.getApplicationServices(this.applicationId,this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.application=data.application;
         this.servicesApplication=data.services;
@@ -131,7 +131,7 @@ export class EditServicesApplicationComponent implements OnInit {
   }
    private getApplicationServices(){
     // Get application services
-    this.applicationService.getApplicationServices(this.applicationId,this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data => {
+    this.applicationService.getApplicationServices(this.applicationId,this.localizeService.parser.currentLang).subscribe(data => {
       this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
         if(index===0){
           dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

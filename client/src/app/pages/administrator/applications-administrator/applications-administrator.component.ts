@@ -10,7 +10,6 @@ import { DataTableDirective } from 'angular-datatables';
 import { ModalComponent } from '../../../templates/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ObservableService } from '../../../services/observable.service';
-
 import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-applications-administrator',

@@ -11,8 +11,8 @@ import { BindContentPipe } from '../../../shared/pipes/bind-content.pipe';
   styleUrls: ['./event-form.component.css']
 })
 export class EventFormComponent implements OnInit{
-  private lat: number = 51.678418;
-  private lng: number = 7.809007;
+  private lat: number = 42.88305555555556;
+  private lng: number = -1.9355555555555555;
   private zoom: number = 8;
   private coordinates;
   private markers: marker[]=[];
@@ -22,7 +22,7 @@ export class EventFormComponent implements OnInit{
     private eventService:EventService,
     private translate:TranslateService,
     private observableService:ObservableService,
-     private bindPipe: BindContentPipe
+    private bindPipe: BindContentPipe
     ) {    
   }
   private clickedMarker(label: string, index: number) {

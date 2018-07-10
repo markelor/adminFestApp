@@ -271,8 +271,6 @@ module.exports = {
     //getApplication
     getApplication: {
         idProvidedError: 'Aplikazioaren IDa ez da eman.',
-        usernameProvidedError: "Aplikazioaren erabiltzailea ez da eman.",
-        userError: "Erabiltzailea ez da aurkitu.",
         applicationError: "Aplikazioa ez da aurkitu."
     },
     //getService

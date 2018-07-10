@@ -240,6 +240,7 @@ export class ServiceFormComponent implements OnInit {
       } 
       //Get serviceType
       this.form.controls['serviceType'].setValue(this.inputService.serviceType._id);   
+      this.serviceTypeIcon=this.inputService.serviceType.icons[0].url;
       //Get provinces on page load
       this.placeService.getGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesService => {
         this.provincesService=provincesService.geonames;
@@ -308,6 +309,12 @@ export class ServiceFormComponent implements OnInit {
             } 
           }                  
         });        
+      } 
+      if(this.title.value && this.serviceType.value && this.inputService.place.coordinates.lat && this.inputService.place.coordinates.lng){
+        // After 2 seconds, redirect to dashboard page
+        setTimeout(() => {
+          this.passCoordinates(undefined);
+        });   
       } 
     }      
   }

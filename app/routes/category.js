@@ -20,7 +20,7 @@ module.exports = (router) => {
             pass: emailConfig.password
         }
     });
-var s3 = new aws.S3(configAws);
+    var s3 = new aws.S3(configAws);
     /* ===============================================================
        CREATE NEW category
     =============================================================== */
@@ -347,15 +347,15 @@ var s3 = new aws.S3(configAws);
                             if (saveErrorPermission) {
                                 res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
                             } else {
-                                Event.find({
-                                    categoryId: req.params.id
-                                }, function(err, events) {
+                                Category.findOne({
+                                    _id: req.params.id
+                                }, function(err, category) {
                                     if (err) {
                                         // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                                         var mailOptions = {
                                             from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
                                             to: [emailConfig.email],
-                                            subject: ' Find 2 delete event error ',
+                                            subject: ' Find 2 delete category error ',
                                             text: 'The following error has been reported in Kultura: ' + err,
                                             html: 'The following error has been reported in Kultura:<br><br>' + err
                                         }; // Function to send e-mail to myself
@@ -370,92 +370,175 @@ var s3 = new aws.S3(configAws);
                                         res.json({ success: false, message: eval(language + '.general.generalError') });
                                     } else {
                                         // Check if observation is in database
-                                        if (!events) {
+                                        if (!category) {
                                             res.json({ success: false, message: eval(language + '.newObservation.observationsError') }); // Return error of no observations found
                                         } else {
-                                            if (events.length === 0) {
-                                                // Fine the category that needs to be deleted
-                                                /*Category.findOneAndRemove({ _id: req.params.id }, function(err, category) {
-                                                    if (err) {
-                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                                        var mailOptions = {
-                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                                                            to: [emailConfig.email],
-                                                            subject: ' Find one and remove for delete category ',
-                                                            text: 'The following error has been reported in Kultura: ' + err,
-                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
-                                                        };
-                                                        // Function to send e-mail to myself
-                                                        transporter.sendMail(mailOptions, function(err, info) {
-                                                            if (err) {
-                                                                console.log(err); // If error with sending e-mail, log to console/terminal
-                                                            } else {
-                                                                console.log(info); // Log success message to console if sent
-                                                                console.log(user.email); // Display e-mail that it was sent to
-                                                            }
-                                                        });
-                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                            Event.find({
+                                                categoryId: req.params.id
+                                            }, function(err, events) {
+                                                if (err) {
+                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                    var mailOptions = {
+                                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                        to: [emailConfig.email],
+                                                        subject: ' Find 3 delete event error ',
+                                                        text: 'The following error has been reported in Kultura: ' + err,
+                                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                    }; // Function to send e-mail to myself
+                                                    transporter.sendMail(mailOptions, function(err, info) {
+                                                        if (err) {
+                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                        } else {
+                                                            console.log(info); // Log success message to console if sent
+                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                        }
+                                                    });
+                                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                } else {
+                                                    // Check if observation is in database
+                                                    if (!events) {
+                                                        res.json({ success: false, message: eval(language + '.newObservation.observationsError') }); // Return error of no observations found
                                                     } else {
-                                                        function deleteImages(images, bucket) {
-                                                            var imagesKey = [];
-                                                            for (var i = 0; i < images.length; i++) {
-                                                                if (bucket === "category-description") {
-                                                                    var currentUrlSplit = images[i].split("/");
-                                                                    let imageName = currentUrlSplit[currentUrlSplit.length - 1];
-                                                                    var urlSplit = imageName.split("%2F");
-                                                                    imagesKey.push({
-                                                                        Key: bucket + "/" + urlSplit[1]
-                                                                    });
-                                                                }
-                                                            }
-                                                            s3.deleteObjects({
-                                                                Bucket: "culture-bucket",
-                                                                Delete: {
-                                                                    Objects: imagesKey,
-                                                                    Quiet: false
-                                                                }
-                                                            }, function(err, data) {
-                                                                if (err) {
-                                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                                                                    var mailOptions = {
-                                                                        from: emailConfig.email,
-                                                                        to: emailConfig.email,
-                                                                        subject: 'Error delete images category',
-                                                                        text: 'The following error has been reported in File Upload part: ' + 'Date:' + Date.now().toString() + err,
-                                                                        html: 'The following error has been reported in the File Upload part:<br><br>' + 'Date:' + Date.now().toString() + err
-                                                                    };
-                                                                    // Function to send e-mail to myself
-                                                                    transporter.sendMail(mailOptions, function(err, info) {
-                                                                        if (err) {
-                                                                            console.log(err); // If error with sending e-mail, log to console/terminal
-                                                                        } else {
-                                                                            console.log(info); // Log success message to console if sent
-                                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                        if (events.length === 0) {
+                                                            function deleteCategory() {
+                                                                Category.findOneAndRemove({ _id: req.params.id }, function(err, category) {
+                                                                    if (err) {
+                                                                        console.log(err);
+                                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                        var mailOptions = {
+                                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                                            to: [emailConfig.email],
+                                                                            subject: ' Find one and remove for delete category ',
+                                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                                        };
+                                                                        // Function to send e-mail to myself
+                                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                                            if (err) {
+                                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                            } else {
+                                                                                console.log(info); // Log success message to console if sent
+                                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                                            }
+                                                                        });
+                                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                                    } else {
+                                                                        res.json({ success: true, message: eval(language + '.deleteCategory.success') }); // Return success message
+
+                                                                        function deleteImages(images, bucket) {
+                                                                            var imagesKey = [];
+                                                                            for (var i = 0; i < images.length; i++) {
+                                                                                if (bucket === "category-icon") {
+                                                                                    var currentUrlSplit = images[i].url.split("/");
+                                                                                    let imageName = currentUrlSplit[currentUrlSplit.length - 1];
+                                                                                    var urlSplit = imageName.split("%2F");
+                                                                                    imagesKey.push({
+                                                                                        Key: bucket + "/" + urlSplit[0]
+                                                                                    });
+                                                                                }
+                                                                            }
+                                                                            s3.deleteObjects({
+                                                                                Bucket: "culture-bucket",
+                                                                                Delete: {
+                                                                                    Objects: imagesKey,
+                                                                                    Quiet: false
+                                                                                }
+                                                                            }, function(err, data) {
+                                                                                if (err) {
+                                                                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                                    var mailOptions = {
+                                                                                        from: emailConfig.email,
+                                                                                        to: emailConfig.email,
+                                                                                        subject: 'Error delete images category',
+                                                                                        text: 'The following error has been reported in File Upload part: ' + 'Date:' + Date.now().toString() + err,
+                                                                                        html: 'The following error has been reported in the File Upload part:<br><br>' + 'Date:' + Date.now().toString() + err
+                                                                                    };
+                                                                                    // Function to send e-mail to myself
+                                                                                    transporter.sendMail(mailOptions, function(err, info) {
+                                                                                        if (err) {
+                                                                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                                        } else {
+                                                                                            console.log(info); // Log success message to console if sent
+                                                                                            console.log(user.email); // Display e-mail that it was sent to
+                                                                                        }
+                                                                                    });
+                                                                                    res.json({ success: false, message: eval(language + '.fileUpload.deleteError') });
+                                                                                } else {}
+                                                                            });
                                                                         }
-                                                                    });
-                                                                    res.json({ success: false, message: eval(language + '.fileUpload.deleteError') });
-                                                                } else {}
-                                                            });
-                                                        }
-                                                        if (category.images.length > 0) {
-                                                            deleteImages(category.images, "category-description");
-                                                        }
-                                                        for (var i = 0; i < category.translation.length; i++) {
-                                                            if (category.translation[i].images.description.length > 0) {
-                                                                deleteImages(category.translation[i].images, "category-description");
+                                                                        if (category.icons.length > 0) {
+                                                                            deleteImages(category.icons, "category-icon");
+                                                                        }
+                                                                    }
+                                                                });
                                                             }
+                                                            if (category.parentId) {
+                                                                //se if is last child
+                                                                Category.find({
+                                                                    parentId: req.params.id
+                                                                }, function(err, categories) {
+                                                                    if (err) {
+                                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                                        var mailOptions = {
+                                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                                            to: [emailConfig.email],
+                                                                            subject: ' Find 4 delete categories error ',
+                                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                                        }; // Function to send e-mail to myself
+                                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                                            if (err) {
+                                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                            } else {
+                                                                                console.log(info); // Log success message to console if sent
+                                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                                            }
+                                                                        });
+                                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                                    } else {
+                                                                        // Check if observation is in database
+                                                                        if (!categories) {
+                                                                            res.json({ success: false, message: eval(language + '.newObservation.observationsError') }); // Return error of no observations found
+                                                                        } else {
+                                                                            if (categories.length === 0) {
+                                                                                deleteCategory();
+                                                                            } else {
+                                                                                Category.updateMany({ parentId: req.params.id }, { $set: { parentId: category.parentId, level: category.level } }, function(err, res) {
+                                                                                    if (err) {
+                                                                                        if (err.errors) {
+                                                                                            // Check if validation error is in the category field
+                                                                                            if (err.errors['title']) {
+                                                                                                res.json({ success: false, message: eval(language + err.errors['title'].message) }); // Return error message
+                                                                                            } else {
+                                                                                                if (err.errors['description']) {
+                                                                                                    res.json({ success: false, message: eval(language + err.errors['description'].message) }); // Return error message
+                                                                                                } else {
+                                                                                                    res.json({ success: false, message: err }); // Return general error message
+                                                                                                }
+                                                                                            }
+                                                                                        } else {
+                                                                                            res.json({ success: false, message: eval(language + '.deleteCategory.saveError'), err }); // Return general error message
+                                                                                        }
+                                                                                    } else {
+                                                                                        deleteCategory();
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                });
+
+                                                            }
+                                                        } else {
+                                                            res.json({ success: false, message: eval(language + '.deleteCategory.deleteError') }); // Return error
                                                         }
                                                     }
-                                                });*/
-                                                console.log("ezabatu");
-                                            } else {
-                                                console.log("ezin ezabatu");
-                                                //res.json({ success: false, message: eval(language + '.deleteCategory.deleteError') }); // Return error
-                                            }
-                                            res.json({ success: true, events: events }); // Return success and place 
+                                                }
+                                            });
                                         }
                                     }
                                 });
+
                             }
                         }
                     }

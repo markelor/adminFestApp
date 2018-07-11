@@ -52,7 +52,7 @@ let descriptionLengthChecker = (description) => {
         return false; // Return error
     } else {
         // Check length of description
-        if (description.length < 5 || description.length > 20000) {
+        if (description.length < 50 || description.length > 20000) {
             return false; // Return error if does not meet length requirement
         } else {
             return true; // Return as valid description

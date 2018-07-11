@@ -181,6 +181,7 @@ export class ServiceTypeFormComponent implements OnInit {
         this.enableForm();
       }else{
         this.uploader.clearQueue();
+        this.iconsServiceType=[];
         this.observableService.modalType="modal-edit-service-type-success";
         this.observableService.notifyOther({option: this.observableService.modalType});
         this.submitted = false;

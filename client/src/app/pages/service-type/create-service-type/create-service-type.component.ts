@@ -92,12 +92,12 @@ export class CreateServiceTypeComponent implements OnInit {
           this.serviceTypeService.deleteServiceType(this.authService.user.username,serviceType._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){  
               this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-              // Destroy the table first
-              dtInstance.destroy();
-              this.serviceTypes.splice(index,1);
-              // Call the addTrigger to rerender again
-              this.dtTrigger.next();
-            }); 
+                // Destroy the table first
+                dtInstance.destroy();
+                this.serviceTypes.splice(index,1);
+                // Call the addTrigger to rerender again
+                this.dtTrigger.next();
+              }); 
               this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
               this.message = data.message; // Set success messag
             }else{

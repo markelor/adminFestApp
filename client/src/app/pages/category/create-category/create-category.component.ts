@@ -97,7 +97,7 @@ export class CreateCategoryComponent implements OnInit {
         if (res.hasOwnProperty('option') && res.option === 'modal-delete-category') {
           this.categoryService.deleteCategory(category._id,this.localizeService.parser.currentLang).subscribe(data=>{
             if(data.success){  
-              this.parentCategories.splice(index,1);
+              this.getCategories();
               this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
               this.message = data.message; // Set success messag
             }else{

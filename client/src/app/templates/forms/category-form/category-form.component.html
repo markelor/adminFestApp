@@ -80,7 +80,7 @@
         <textarea [formControl]="description" capitalize class="form-control"></textarea>
         <!-- Validation -->
         <span *ngIf="description.errors?.required && description.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-        <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.description-length'}}</span>
+        <span *ngIf="description.errors?.minlength && description.dirty || description.errors?.maxlength && description.dirty " class="help-block form-error" translate>{{'validation.category-description-length'}}</span>
       </div>
     </div>
     <!-- Parent category-->

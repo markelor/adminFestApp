@@ -230,6 +230,7 @@ export class CategoryFormComponent implements OnInit {
         this.enableForm();
       }else{
         this.uploader.clearQueue();
+        this.iconsCategory=[];
         this.observableService.modalType="modal-edit-category-success";
         this.observableService.notifyOther({option: this.observableService.modalType});
         this.submitted = false;

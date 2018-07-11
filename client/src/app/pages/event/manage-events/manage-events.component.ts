@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class ManageEventsComponent implements OnInit {
   private subscriptionLanguage: Subscription;
   private events;
+  private page :number = 1;
   constructor(
   	private eventService:EventService,
   	private authService:AuthService,

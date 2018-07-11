@@ -4,7 +4,7 @@
       <div class="container-fluid ks-rows-section">
         <div class="row">
           <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <article [hidden]="event.showAll" *ngFor="let event of events" class="card panel ks-widget ks-widget-post">
+            <article [hidden]="event.showAll || page===i+1" *ngFor="let event of events let i=index;" class="card panel ks-widget ks-widget-post">
               <h5 class="card-header">
                 <span class="ks-text"> {{event.title}}</span>
                 <span class="ks-text">
@@ -68,7 +68,7 @@
                 </div>
               </div>
             </article>
-            <!--<pagination-controls (pageChange)="p = $event"></pagination-controls>-->
+            <ngb-pagination *ngIf="events" [collectionSize]="events.length" [(page)]="page" [pageSize]="1" [maxSize]="5" [boundaryLinks]="true" size="lg"></ngb-pagination>
           </section>
           <aside class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
             <!--<right-sidebar></right-sidebar>-->

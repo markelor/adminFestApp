@@ -19,6 +19,7 @@ import { ObservationService } from '../services/observation.service';
 import { FileUploaderService } from '../services/file-uploader.service';
 import { ApplicationService } from '../services/application.service';
 import { ObservableService } from '../services/observable.service';
+import { CommentService } from '../services/comment.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TemplatesModule} from "../templates/templates.module";
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -31,6 +32,7 @@ import { ServiceTypeInterceptor } from '../services/service-type.interceptor';
 import { ObservationInterceptor } from '../services/observation.interceptor';
 import { FileUploaderInterceptor } from '../services/file-uploader.interceptor';
 import { ApplicationInterceptor } from '../services/application.interceptor';
+import { CommentInterceptor } from '../services/comment.interceptor';
 import { InlineSVGModule } from 'ng-inline-svg';
 
 @NgModule({
@@ -89,6 +91,11 @@ import { InlineSVGModule } from 'ng-inline-svg';
       useClass: ObservationInterceptor,
       multi: true
     },
-   AuthService,CategoryService,EventService,PlaceService,ServiceService,ServiceTypeService,ObservationService,FileUploaderService,ObservableService,ApplicationService,AuthGuard,NotAuthGuard,ContributorGuard,ModeratorGuard,AdminGuard]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CommentInterceptor,
+      multi: true
+    },
+   AuthService,CategoryService,EventService,PlaceService,ServiceService,ServiceTypeService,ObservationService,FileUploaderService,ObservableService,ApplicationService,AuthGuard,NotAuthGuard,ContributorGuard,ModeratorGuard,AdminGuard,CommentService]
 })
 export class PagesModule { }

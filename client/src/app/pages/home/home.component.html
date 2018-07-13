@@ -4,41 +4,40 @@
       <div class="container-fluid ks-rows-section">
         <div class="row">
           <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <article [hidden]="theme.showAll" *ngFor="let theme of themePosts" class="card panel ks-widget ks-widget-post">
+            <article [hidden]="event.showAll" *ngFor="let event of events let i=index;" class="card panel ks-widget ks-widget-post">
               <h5 class="card-header">
-                <span class="ks-text"> {{theme | safeHtml : language:'title'}}</span>
+                <span class="ks-text"> {{event.title}}</span>
                 <div class="ks-controls">
                   <!-- showCollapse-->
-                  <a *ngIf="!theme.showCollapse" (click)="theme.showCollapse = !theme.showCollapse" class="ks-control">
+                  <a *ngIf="!event.showCollapse" (click)="event.showCollapse = !event.showCollapse" class="ks-control">
                     <span class="ks-icon la la-minus"></span>
                   </a>
-                  <a *ngIf="theme.showCollapse" (click)="theme.showCollapse = !theme.showCollapse" class="ks-control">
+                  <a *ngIf="event.showCollapse" (click)="event.showCollapse = !event.showCollapse" class="ks-control">
                     <span class="ks-icon la la-expand"></span>
                   </a>
-                  <a (click)="theme.showAll = !theme.showAll" class="ks-control">
+                  <a (click)="event.showAll = !event.showAll" class="ks-control">
                     <span class="ks-icon la la-close"></span>
                   </a>
                 </div>
               </h5>
-              <div *ngIf="!theme.showCollapse" class="card-block">
+              <div *ngIf="!event.showCollapse" class="card-block">
                 <!-- Date/Time -->
-                <p class="time"><span class="la la-clock-o ks-icon"></span> {{theme | safeHtml : language:'createdAt'| capitalize }} </p>
-                <img src="{{theme.images.principal[0].location}}" class="post-img ks-thumbnail img-responsive">
-                <div class="ks-text description" [innerHTML]="theme | safeHtml : language:'description'"></div>
-                <button *ngIf="!(theme | safeHtml : language:'class')" (click)="getThematicRoute(theme)" [routerLink]="['/archeology-route',theme | safeHtml : language:'theme' | lowercase,'details-route',theme | safeHtml : language:'_id'] | localize" class="btn btn-success right" translate>{{'theme.read-more'}}</button>
-                <button *ngIf="theme | safeHtml : language:'class'" [routerLink]="['/archeology-route',theme | safeHtml : language:'theme' | lowercase,theme | safeHtml : language:'class' | lowercase,'details-route',theme | safeHtml : language:'_id'] | localize" class="btn btn-success right" translate>{{'theme.read-more'}}</button>
+                <p class="time"><span class="la la-clock-o ks-icon"></span> {{event.start}} </p>
+                <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-img ks-thumbnail img-responsive">
+                <div class="ks-text description" [innerHTML]="event.description"></div>
                 <div class="ks-actions">
                   <p class="time">
                     <span class="la la-user ks-icon"></span>
-                    <span translate>{{'theme.created-by'}}</span> {{theme | safeHtml : language:'createdBy'}}
-                    </p>
+                    <span translate>{{'event.created-by'}}</span> {{event.createdBy}}
+                  </p>
+                  <button [routerLink]="['/event-route','see-route',event._id] | localize" class="btn btn-success right" translate>{{'event.see-event'}}</button>
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
                     <span class="la la-comment-o ks-icon"></span>
                   <span class="ks-amount">1</span>
                   </span>
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
                     <span class="la la-heart-o ks-icon"></span>
-                  <span class="ks-amount">3</span>
+                    <span class="ks-amount">3</span>
                   </span>
                 </div>
                 <div class="ks-likes-block">
@@ -65,9 +64,10 @@
                 </div>
               </div>
             </article>
-          
+            <!--<ngb-pagination *ngIf="events" [collectionSize]="events.length" [(page)]="page" [pageSize]="1" [maxSize]="5" [boundaryLinks]="true" size="lg"></ngb-pagination>-->
           </section>
           <aside class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <!--<right-sidebar></right-sidebar>-->
           </aside>
         </div>
       </div>

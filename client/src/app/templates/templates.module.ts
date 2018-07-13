@@ -20,6 +20,7 @@ import { CategoryFormComponent } from './forms/category-form/category-form.compo
 import { ServiceFormComponent } from './forms/service-form/service-form.component';
 import { ServiceTypeFormComponent } from './forms/service-type-form/service-type-form.component';
 import { ObservationFormComponent } from './forms/observation-form/observation-form.component';
+import { CommentComponent } from './comment/comment.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MapModule } from '../pages/map/map.module';
 import { AgmCoreModule } from '@agm/core';
@@ -38,10 +39,10 @@ import { InlineSVGModule } from 'ng-inline-svg';
     SharedModule,TranslateModule,TemplatesRoutingModule,DataTablesModule,NgbModule,InlineSVGModule
   ],
   declarations: [
-  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent,CategoryFormComponent,FormsComponent,ServiceFormComponent,ServiceTypeFormComponent,ObservationFormComponent
+  	NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent, EventFormComponent, ApplicationFormComponent,CategoryFormComponent,FormsComponent,ServiceFormComponent,ServiceTypeFormComponent,ObservationFormComponent,CommentComponent
   ],
   exports: [
-    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent,CategoryFormComponent,FormsComponent,ServiceFormComponent,ServiceTypeFormComponent,ObservationFormComponent
+    NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent,CategoryFormComponent,FormsComponent,ServiceFormComponent,ServiceTypeFormComponent,ObservationFormComponent,CommentComponent
     ],
    providers:[
    	GroupByPipe,SpacePipe,BindContentPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}

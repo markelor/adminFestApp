@@ -5,13 +5,16 @@ import { HomeComponent } from './home.component';
 import { SharedModule } from "../../shared/shared.module";
 import { TemplatesModule } from "../../templates/templates.module";
 import { TranslateModule } from '@ngx-translate/core';
-import { BindContentPipe } from '../../shared/pipes/bind-content.pipe';
+import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   imports: [
-    CommonModule,HomeRoutingModule,SharedModule,TemplatesModule,TranslateModule
+    CommonModule,HomeRoutingModule,SharedModule,TemplatesModule,TranslateModule,NgbModule
   ],
   declarations: [HomeComponent],
-  providers:[BindContentPipe]
+  providers:[]
 })
 export class HomeModule { }
+
+

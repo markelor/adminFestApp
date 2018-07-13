@@ -8,6 +8,7 @@
   "reset-password-route": "reset-password",
   "new-password-route": "new-password",
   "search-route": "search",
+  "see-route": "see",
   "create-route": "create",
   "manage-route": "manage",
   "edit-route": "edit",
@@ -128,6 +129,7 @@
   {
     "created-by": "Created by:",
     "read-more": "Read More",
+    "see-event": "See Event",
     "edit-event": "Edit Event",
     "general-info": "General Information",
     "like": "Like",

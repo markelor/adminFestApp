@@ -4,10 +4,9 @@ import { Routes,RouterModule } from '@angular/router';
 import { LocalizeRouterModule} from 'localize-router';
 import { PagesComponent } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
-import { AuthGuard } from './guards/auth.guard';
 export const routes:Routes=[
 	{ path:'',
-	  component: PagesComponent,canActivate:[AuthGuard],
+	  component: PagesComponent,
 	  children:[
 	    { path: '', loadChildren: './home/home.module#HomeModule', pathMatch: 'full' },
 	    { path: 'admin-route',loadChildren: './administrator/administrator.module#AdministratorModule'},

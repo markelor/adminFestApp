@@ -26,7 +26,7 @@ module.exports = {
         bibliographyLength: "Bibliography must be no longer than 1000 characters.",
         latitudeValid: "Please, insert latitude in decimal format.",
         longitudeValid: "Please, insert longitude in decimal format.",
-        commentLength: "Comment must be no longer than 1500 characters."
+        commentLength: "Comment must be no longer than 300 characters."
     },
     register: {
         nameProvidedError: "You must provide a name.",
@@ -235,6 +235,14 @@ module.exports = {
         saveError: "Could not save observation. Error:",
         success: "Observation saved!"
     },
+    //newComment
+    newComment: {
+        eventIdProvidedError: "Event ID is required.",
+        commentProvidedError: "Comment is required.",
+        createdByProvidedError: "Comment creator is required.",
+        saveError: "Could not save comment. Error:",
+        success: "Comment saved!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "Events username is not provided.",
@@ -407,13 +415,6 @@ module.exports = {
         quitBeforeError: "You already quit the reaction to this post",
         saveError: "Could not delete reaction. Error: ",
         success: "Reaction deleted!"
-    },
-    newComment: {
-        createdByProvidedError: "Comment creator is required.",
-        themeIdProvidedError: "Theme ID is required.",
-        commentProvidedError: "Comment is required.",
-        saveError: "Could not save comment. Error:",
-        success: "Comment saved!"
     },
     comments: {
         commentsError: "Comments not found."

@@ -8,6 +8,7 @@
   "reset-password-route": "reestablecer-contraseña",
   "new-password-route": "nueva-contraseña",
   "search-route": "buscar",
+  "see-route": "ver",
   "create-route": "crear",
   "manage-route": "gestionar",
   "edit-route": "editar",
@@ -127,6 +128,7 @@
   {
     "created-by": "Creado por:",
     "read-more": "Leer Mas",
+    "see-event": "Ver Evento",
     "edit-event": "Editar Evento",
     "general-info": "Información General",
     "like": "Me gusta",

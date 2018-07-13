@@ -1,9 +1,7 @@
 export class Comment{
 	createdBy: string;
-    userId: string;
-    themeId: string;
+    eventId: string;
     originCommentId: Array<string>;
-    language: string;
     mentionedUsers: Array<string>;   
     comment: string;
     createdAt: number;
@@ -15,23 +13,17 @@ export class Comment{
     set setCreatedBy(createdBy:string) {
         this.createdBy = createdBy;
     }
-    get getThemeId():string {
-        return this.themeId;
+    get getEventId():string {
+        return this.eventId;
     }
-    set setThemeId(themeId:string) {
-        this.themeId = themeId;
+    set setEventId(eventId:string) {
+        this.eventId = eventId;
     }
     get getOriginCommentId():Array<string> {
         return this.originCommentId;
     }
     set setOriginCommentId(originCommentId:Array<string>) {
         this.originCommentId = originCommentId;
-    }
-    get getLanguage():string {
-        return this.language;
-    }
-    set setLanguage(language:string) {
-        this.language = language;
     }
     get getMentionedUsers():Array<string> {
         return this.mentionedUsers;

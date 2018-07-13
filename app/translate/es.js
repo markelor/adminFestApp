@@ -26,7 +26,7 @@ module.exports = {
         bibliographyLength: "La bibliografía no debe tener más de 1000 caracteres.",
         latitudeValid: "Por favor, inserte la latitud en formato decimal.",
         longitudeValid: "Por favor, inserte la longitud en formato decimal.",
-        commentLength: "El comentario no debe tener más de 1500 caracteres."
+        commentLength: "El comentario no debe tener más de 300 caracteres."
     },
     register: {
         nameProvidedError: "Debe proporcionar un nombre.",
@@ -234,6 +234,14 @@ module.exports = {
         saveError: "No se pudo guardar la observación. Error:",
         success: "!Observación guardado!"
     },
+    //newComment
+    newComment: {
+        eventIdProvidedError: "El ID del evento es requerido.",
+        createdByProvidedError: "El creador del comentario es requerido.",
+        commentProvidedError: "El comentario es requerido.",
+        saveError: "No se pudo guardar el comentario. Error:",
+        success: "¡Comentario guardado!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "El usurio de los eventos no fue proporcionado.",
@@ -353,7 +361,7 @@ module.exports = {
     },
     deleteCategory: {
         idProvidedError: 'El ID de la categoría, no fue proporcionado.',
-        deleteError:"No se pudo eliminar la categoría, está siendo utilizado por eventos.",
+        deleteError: "No se pudo eliminar la categoría, está siendo utilizado por eventos.",
         saveError: "No se pudo eliminar la categoría. Error: ",
         success: "¡Categoría eliminada!"
     },
@@ -372,7 +380,7 @@ module.exports = {
     deleteService: {
         usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
         idProvidedError: 'El ID del servicio, no fue proporcionado.',
-        deleteError:"No se pudo eliminar el servicio, está siendo utilizado por otra aplicación.",
+        deleteError: "No se pudo eliminar el servicio, está siendo utilizado por otra aplicación.",
         saveError: "No se pudo eliminar el servicio. Error: ",
         success: "¡Servicio eliminado!"
     },
@@ -384,7 +392,7 @@ module.exports = {
     deleteObservation: {
         usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
         idProvidedError: 'El ID de la observación, no fue proporcionado.',
-        deleteError:"No se pudo eliminar la observación, está siendo utilizado por otra aplicación.",
+        deleteError: "No se pudo eliminar la observación, está siendo utilizado por otra aplicación.",
         saveError: "No se pudo eliminar la observación. Error: ",
         success: "¡Observación eliminada!"
     },
@@ -406,13 +414,6 @@ module.exports = {
         quitBeforeError: "Ya has dejado de reaccionar este post",
         saveError: "No se pudo eliminar la reacción. Error: ",
         success: "¡Reacción eliminada!"
-    },
-    newComment: {
-        createdByProvidedError: "El creador del comentario es requerido.",
-        themeIdProvidedError: "El ID del tema es requerido.",
-        commentProvidedError: "El comentario es requerido.",
-        saveError: "No se pudo guardar el comentario. Error:",
-        success: "¡Comentario guardado!"
     },
     comments: {
         commentsError: "No se encontraron comentarios."

@@ -26,7 +26,7 @@ module.exports = {
         bibliographyLength: "Bibliografiak 1000 karaktere baino gutxiago izan behar ditu.",
         latitudeValid: "Mesedez, sar ezazu latitudea hamartar formatuan.",
         longitudeValid: "Mesedez, sar ezazu luzeera hamartar formatuan.",
-        commentLength: "Iruzkinak 1500 karaktere baino gutxiago izan behar ditu."
+        commentLength: "Iruzkinak 300 karaktere baino gutxiago izan behar ditu."
     },
     register: {
         nameProvidedError: "Izen bat eman behar duzu.",
@@ -234,6 +234,14 @@ module.exports = {
         saveError: "Oharra ezin da gorde. Errorea:",
         success: "Oharra gorde da!"
     },
+    //newComment
+    newComment: {
+        eventIdProvidedError: "Ekintzaren IDa beharrezkoa da.",
+        createdByProvidedError: "Iruzkinaren sortzailea beharrezkoa da.",
+        commentProvidedError: "Iruzkina beharrezkoa da.",
+        saveError: "Iruzkina ezin da gorde. Errorea:",
+        success: "Iruzkina gorde da!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "Ekintzen erabiltzailea ez da eman.",
@@ -353,7 +361,7 @@ module.exports = {
     },
     deleteCategory: {
         idProvidedError: 'Ez da kategoriaren IDa eman.',
-        deleteError:"Ezin izan da kategoria ezabatu, ekintza batek erabiltzen du.",
+        deleteError: "Ezin izan da kategoria ezabatu, ekintza batek erabiltzen du.",
         saveError: "Ezin izan da kategoria ezabatu. Akatsa: ",
         success: "Kategoria ezabatu da!"
     },
@@ -372,7 +380,7 @@ module.exports = {
     deleteService: {
         usernameProvidedError: 'Erabiltzaile izena ez da eman.',
         idProvidedError: 'Ez da zerbitzuaren IDa eman.',
-        deleteError:"Ezin izan da zerbitzua ezabatu, beste aplikazio batek erabiltzen du.",
+        deleteError: "Ezin izan da zerbitzua ezabatu, beste aplikazio batek erabiltzen du.",
         saveError: "Ezin izan da zerbitzua ezabatu. Akatsa: ",
         success: "Zerbitzua ezabatu da!"
     },
@@ -384,7 +392,7 @@ module.exports = {
     deleteObservation: {
         usernameProvidedError: 'Erabiltzaile izena ez da eman.',
         idProvidedError: 'Ez da oharraren IDa eman.',
-        deleteError:"Ezin izan da oharra ezabatu, beste aplikazio batek erabiltzen du.",
+        deleteError: "Ezin izan da oharra ezabatu, beste aplikazio batek erabiltzen du.",
         saveError: "Ezin izan da oharra ezabatu. Akatsa: ",
         success: "Oharra ezabatu da!"
     },
@@ -406,13 +414,6 @@ module.exports = {
         quitBeforeError: "Ya has dejado de reaccionar este post",
         saveError: "Ezin izan da erreakzioa ezabatu. Akatsa: ",
         success: "Erreakzioa ezabatu da!"
-    },
-    newComment: {
-        createdByProvidedError: "Iruzkinaren sortzailea beharrezkoa da.",
-        themeIdProvidedError: "Gaiaren IDa beharrezkoa da.",
-        commentProvidedError: "Iruzkina beharrezkoa da.",
-        saveError: "Iruzkina ezin da gorde. Errorea:",
-        success: "Iruzkina gorde da!"
     },
     comments: {
         commentsError: "Ez da iruzkinik aurkitu."

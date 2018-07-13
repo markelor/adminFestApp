@@ -1,0 +1,85 @@
+<div class="card panel panel-default ks-comments-section" [ngClass]="{'ks-no-arrow' : !isArrow}">
+  <div class="ks-comment">
+    <div class="ks-body">
+      <a href="javascript:void(0);" class="ks-avatar">
+        <img src="assets/img/avatars/avatar-7.jpg" width="36" height="36">
+      </a>
+      <div class="ks-comment-box">
+        <div class="ks-name">
+          <a href="javascript:void(0);">Eric George</a>
+          <span class="ks-time">just now</span>
+        </div>
+        <div class="ks-message">Why didn't he come and talk to me himself?</div>
+        <div class="ks-controls">
+          <a href="javascript:void(0);" (click)="addReply()" class="ks-control">Reply</a>
+          <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
+        </div>
+      </div>
+    </div>
+    <div class="ks-replies">
+      <div class="ks-reply">
+        <a href="javascript:void(0);" class="ks-avatar">
+          <img src="assets/img/avatars/avatar-3.jpg" width="36" height="36">
+        </a>
+        <div class="ks-reply-box">
+          <div class="ks-name">
+            <a href="javascript:void(0);">Eric George</a>
+            <span class="ks-time">04:01 pm</span>
+          </div>
+          <div class="ks-message"><a href="javascript:void(0);" class="ks-reply-to">@a.frolov</a>, Why didn't he come and talk to me himse...</div>
+          <div class="ks-controls">
+            <a href="javascript:void(0);" class="ks-control">Edit</a>
+            <a href="javascript:void(0);" class="ks-control">Delete</a>
+          </div>
+        </div>
+      </div>
+      <div class="ks-reply">
+        <a href="javascript:void(0);" class="ks-avatar">
+          <img src="assets/img/avatars/avatar-11.jpg" width="36" height="36">
+        </a>
+        <div class="ks-reply-box">
+          <div class="ks-name">
+            <a href="javascript:void(0);">Eric George</a>
+            <span class="ks-time">just now</span>
+          </div>
+          <div class="ks-message">Why didn't he come and talk to me himse...</div>
+          <div class="ks-controls">
+            <a href="javascript:void(0);" (click)="addReply()" class="ks-control">Reply</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ks-comment">
+    <div class="ks-body">
+      <a href="javascript:void(0);" class="ks-avatar">
+        <img src="assets/img/avatars/avatar-7.jpg" width="36" height="36">
+      </a>
+      <div class="ks-comment-box">
+        <div class="ks-name">
+          <a href="javascript:void(0);">Eric George</a>
+          <span class="ks-time">just now</span>
+        </div>
+        <div class="ks-message"><a href="javascript:void(0);" class="ks-reply-to">@a.frolov</a>, Perhaps you'll take me out one day - or do I have to make an appointment?</div>
+        <div class="ks-controls">
+          <a href="javascript:void(0);" (click)="addReply()" class="ks-control">Reply</a>
+          <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Registration Form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="ks-new-comment">
+      <!-- About Yourself textarea -->
+      <div class="form-group" [ngClass]="{'has-error': (!comment.valid && comment.dirty), 'has-success': (comment.value && comment.valid)}">
+        <textarea  [id]="textareaComment" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="comment" capitalize class="form-control"></textarea>
+        <span *ngIf="comment.errors?.maxlength && comment.dirty " class="help-block form-error" translate>{{'validation.about-yourself-length'}}</span>
+      </div>     
+    </div>
+    <div class="form-group text-center">
+      <button [disabled]="!form.valid || submitted " type="submit" class="btn btn-default" translate>{{'auth-form.sign-up'}}</button>
+    </div>
+  </form>
+ 
+</div>

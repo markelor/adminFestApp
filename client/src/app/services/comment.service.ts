@@ -4,9 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { LocalizeRouterService } from 'localize-router';
 @Injectable()
 export class CommentService {
-  private domain = this.authService.domain;
-  private route;
-  private language;
+  public domain = this.authService.domain;
+  public route;
   constructor(
     private authService: AuthService,
     private localizeService:LocalizeRouterService,
@@ -19,9 +18,9 @@ export class CommentService {
     return this.http.post<any>(this.domain + 'comment/newComment', comment);
   }
    // Function to get ccategories from the database
-  public getComments(language) {
-    this.language=language;
-    return this.http.get<any>(this.domain + 'comment/getComments/'+language);
+  public getComments(id,language) {
+    this.route= id+'/';
+    return this.http.get<any>(this.domain + 'comment/getComments/' + this.route+language);
   }
   // Function to edit a comment
   public editComment(comment) {

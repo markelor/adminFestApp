@@ -4,6 +4,8 @@ import { LocalizeRouterService } from 'localize-router';
 import { Comment } from '../../class/comment';
 import { AuthService } from '../../services/auth.service';
 import { CommentService } from '../../services/comment.service';
+import { AuthGuard} from '../../pages/guards/auth.guard';
+import { ActivatedRoute,Router,NavigationEnd } from '@angular/router';
 declare let $: any;
 @Component({
   selector: 'app-comment',
@@ -15,14 +17,18 @@ export class CommentComponent implements OnInit {
   private message;
   private messageClass;
   private commentClass:Comment=new Comment();
+  private comments;
   private submitted:boolean = false;
   @Input() inputEventId: string;
 
   constructor(
-  	private formBuilder:FormBuilder,
-  	private localizeService: LocalizeRouterService,
-    private authService:AuthService,
-    private commentService:CommentService
+  private formBuilder:FormBuilder,
+  private localizeService: LocalizeRouterService,
+  private authService:AuthService,
+  private commentService:CommentService,
+  private router:Router,
+  private activatedRoute: ActivatedRoute,
+  private authGuard:AuthGuard
   ) {
     this.createForm();  //Create Angular form when components load
   }
@@ -30,7 +36,7 @@ export class CommentComponent implements OnInit {
   private createForm() {
     this.form = this.formBuilder.group({
       // Comment Input
-      'comment': ['', Validators.compose([Validators.maxLength(300)])]
+      'comment': ['', Validators.compose([Validators.required,Validators.maxLength(300)])]
     });
     this.comment = this.form.controls['comment'];
   }
@@ -69,46 +75,65 @@ export class CommentComponent implements OnInit {
         	this.form.controls['comment'].setValue(' '+this.form.get('comment').value);      
         }
      	this.form.controls['comment'].setValue('@' + 'author' + this.form.get('comment').value);
-     	$("#comment").focus();
+     	$("#textareaComment").focus();
   	} 
 
   }
    private onSubmit(){
     if (this.form.valid) {
-      if (this.form.valid) {
-        if(this.form.get('comment').value.match(/(^|[^@\w])@(\w{1,15})\b/)){
-          var mentionedUsers = this.form.get('comment').value.replace(/(^|[^@\w])@(\w{1,15})\b/g,'@271$2@272').match(/@271(.*?)@272/g).join().replace(/@271/g,'').replace(/@272/g,'').split(',');
-          console.log(mentionedUsers);
-        }                                                                                      
-        console.log(this.form.get('comment').value);
-        var span= this.markdown(this.form.get('comment').value);
-        console.log(span)
-      this.commentClass.setEventId=this.inputEventId;
-      this.commentClass.setCreatedBy=this.authService.user.username;
-      this.commentClass.setComment=span;
-      this.commentClass.setMentionedUsers=mentionedUsers;
-      //this.commentClass.setOriginCommentId=
-      this.submitted = true;
-      // Function to save comment into database
-      this.commentService.newComment(this.commentClass).subscribe(data => {
-        // Check if event was saved to database or not
-        if (!data.success) {
+      // Get authentication to send comment
+      this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
+        if(!authentication.success){
+          this.authGuard.redirectUrl=this.router.url;
+          this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
+        }else{
+          if(this.form.get('comment').value.match(/(^|[^@\w])@(\w{1,15})\b/)){
+              var mentionedUsers = this.form.get('comment').value.replace(/(^|[^@\w])@(\w{1,15})\b/g,'@271$2@272').match(/@271(.*?)@272/g).join().replace(/@271/g,'').replace(/@272/g,'').split(',');
+              console.log(mentionedUsers);
+          }                                                                                      
+          console.log(this.form.get('comment').value);
+          var span= this.markdown(this.form.get('comment').value);
+          console.log(span)
+          this.commentClass.setEventId=this.inputEventId;
+          this.commentClass.language=this.localizeService.parser.currentLang;
+          this.commentClass.setCreatedBy=this.authService.user.username;
+          this.commentClass.setComment=span;
+          this.commentClass.setMentionedUsers=mentionedUsers;
+          //this.commentClass.setOriginCommentId=
+          this.submitted = true;
+          // Function to save comment into database
+          this.commentService.newComment(this.commentClass).subscribe(data => {
+            console.log(data);
+            // Check if event was saved to database or not
+            if (!data.success) {
 
-          this.submitted = false; // Enable submit button
-        } else {
-          this.createForm(); // Reset all form fields
-          this.submitted = false; // Enable submit button
-      
+              this.submitted = false; // Enable submit button
+            } else {
+              this.createForm(); // Reset all form fields
+              this.submitted = false; // Enable submit button
+          
+            }
+          }); 
         }
-      });  
-    }   
-
-           
-    }  
-    
-  }
+      }); 
+    }                   
+  }     
+  
 
   ngOnInit() {
+    this.commentService.getComments(this.inputEventId,this.localizeService.parser.currentLang).subscribe(data => {
+      console.log(data);
+      // Check if event was saved to database or not
+      if (!data.success) {
+
+        this.submitted = false; // Enable submit button
+      } else {
+        this.createForm(); // Reset all form fields
+        this.submitted = false; // Enable submit button
+    
+      }
+    });
+
   }
 
 }

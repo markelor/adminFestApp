@@ -96,6 +96,6 @@ const placeSchema = new Schema({
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });
-
+placeSchema.index({ createdAt: -1 }); // schema level
 // Export Module/Schema
 module.exports = mongoose.model('Place', placeSchema);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { EventService } from '../../../services/event.service';
+import { ObservableService } from '../../../services/observable.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../../guards/auth.guard';
@@ -20,6 +21,7 @@ export class SeeEventComponent implements OnInit {
   constructor(
     private authService:AuthService,
     private eventService:EventService,
+    private observableService:ObservableService,
     private localizeService:LocalizeRouterService,
     private translate:TranslateService,
     private router:Router,
@@ -62,23 +64,26 @@ export class SeeEventComponent implements OnInit {
       }
     });  
   }
-  private passCoordinates(){
-    var market_info={
-      title:this.bindContent.transform(this.archeologyDetail,this.language,'title',undefined),
-      theme:this.bindContent.transform(this.archeologyDetail,this.language,'theme',undefined), // Theme field
-      class:this.bindContent.transform(this.archeologyDetail,this.language,'class',undefined), // Class field
-      lat:this.archeologyDetail.coordinates.lat, // Lat field
-      lng:this.archeologyDetail.coordinates.lng // Lng field
-    }
-    this.observableService.mapType="create-theme-coordinates";
-    this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
-  }*/
+  */
+    private passCoordinates(){
+      var market_info={
+        title:this.event.title,
+        icon:this.categories[this.categories.length-1].icons[0].url, // Event field
+        lat:this.event.place.coordinates.lat, // Lat field
+        lng:this.event.place.coordinates.lng, // Lng field
+      }
+      this.observableService.mapType="event-form-coordinates";
+      this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
+  }
   private getEvent(){
     this.eventService.getEvent(this.activatedRoute.snapshot.params['id'],this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         this.event=data.event;
         this.categories=data.categories;
         this.initializeGalleryImages(this.event.images.poster);
+        setTimeout(() => {
+          this.passCoordinates();
+        });
 
         /*this.images=[];
         this.archeologyDetail=data.theme;
@@ -174,6 +179,7 @@ export class SeeEventComponent implements OnInit {
   private reactionClick(currentReaction){
     this.reactionStaticModalShow(currentReaction,this.existReactionAndUsernames,this.allReactions);
   }*/
+
   private scrollComment(){
     $("#comment").focus();
   }

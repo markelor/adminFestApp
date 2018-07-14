@@ -775,6 +775,8 @@ module.exports = (router) => {
             language = "es";
         }
         var token = req.headers['authorization']; // Create token found in headers
+        console.log(req.path);
+        console.log(route+language);
         if (req.path === '/allThemes/' + language && req.method === 'GET') {
             next();
         } else if (req.path === '/eventsSearch/' + route + language && req.method === 'GET') {
@@ -791,6 +793,9 @@ module.exports = (router) => {
             next();
         } else if (req.path === '/getApplicationObservations/' + route + language && req.method === 'GET') {
             next();
+
+        } else if (req.path === '/getComments/' + route + language && req.method === 'GET') {
+            next()
         } else {
             // Check if token was found in headers
             if (!token) {

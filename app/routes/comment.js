@@ -2,11 +2,24 @@ const User = require('../models/user'); // Import User Model Schema
 const Event = require('../models/event'); // Import Event Model Schema
 const Comment = require('../models/comment'); // Import Event Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
-const es = require('../config/translate/es'); // Import translate es
-const eu = require('../config/translate/eu'); // Import translate eu
-const en = require('../config/translate/en'); // Import translate en
+const configAws = require('../config/aws'); // Import database configuration
+const es = require('../translate/es'); // Import translate es
+const eu = require('../translate/eu'); // Import translate eu
+const en = require('../translate/en'); // Import translate en
+const nodemailer = require('nodemailer');
+const emailConfig = require('../config/email'); // Mongoose Email
+var ObjectId = require('mongodb').ObjectId;
 module.exports = (router) => {
-
+        // create reusable transporter object using the default SMTP transport
+    var transporter = nodemailer.createTransport({
+        host: emailConfig.host,
+        port: emailConfig.port,
+        secure: emailConfig.secure,
+        auth: {
+            user: emailConfig.email,
+            pass: emailConfig.password
+        }
+    });
     /* ===============================================================
        CREATE NEW comment
     =============================================================== */
@@ -28,6 +41,7 @@ module.exports = (router) => {
                     if (!req.body.createdBy) {
                         res.json({ success: false, message: eval(language + '.newComment.createdByProvidedError') }); // Return error
                     } else {
+                        console.log("ona");
                         // Create the event object for insertion into database
                         const comment = new Comment({
                             eventId: req.body.eventId,
@@ -69,5 +83,41 @@ module.exports = (router) => {
                 }
             }
         }
-    });
+    });   
+    /* ===============================================================
+       GET Comments
+    =============================================================== */
+router.get('/getComments/:id/:language', (req, res) => {
+    var language = req.params.language;
+    if (!language) {
+        res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+    } else {
+        if (!req.params.id) {
+            res.json({ success: false, message: eval(language + '.getComment.idProvidedError') }); // Return error
+        } else {
+            Comment.aggregate([{
+                $match: {
+                    eventId:ObjectId(req.params.id)
+                }
+            }, {
+                // Join with Place table
+                $lookup: {
+                    from: "users", // other table name
+                    localField: "createdBy", // placeId of Comment table field
+                    foreignField: "username", // _id of Place table field
+                    as: "user" // alias for userinfo table
+                }
+            }, { $unwind: "$user" }]).exec(function(err, comments) {
+                // Check if places were found in database
+                if (!comments) {
+                    res.json({ success: false, message: eval(language + '.commentsSearch.commentsError') }); // Return error of no places found
+                } else {
+                    res.json({ success: true, comments: comments }); // Return success and place 
+                }
+            });
+        }
+    }
+});
+    
+    return router;
 };

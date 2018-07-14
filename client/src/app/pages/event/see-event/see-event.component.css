@@ -1,7 +1,8 @@
-ngx-gallery {
-  position: relative;
+
+ngx-gallery /deep/ ngx-gallery-image {
   z-index: 0;
 }
+
 .more {
   position: absolute;
   /* margin: 0px; */

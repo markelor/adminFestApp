@@ -2,6 +2,7 @@ export class Comment{
 	createdBy: string;
     eventId: string;
     originCommentId: Array<string>;
+    language:string;
     mentionedUsers: Array<string>;   
     comment: string;
     createdAt: number;
@@ -24,6 +25,12 @@ export class Comment{
     }
     set setOriginCommentId(originCommentId:Array<string>) {
         this.originCommentId = originCommentId;
+    }
+    get getLanguage():string {
+        return this.language;
+    }
+    set setLanguage(language:string) {
+        this.language = language;
     }
     get getMentionedUsers():Array<string> {
         return this.mentionedUsers;

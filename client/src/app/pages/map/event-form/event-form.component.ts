@@ -33,6 +33,7 @@ export class EventFormComponent implements OnInit{
     this.observableService.notifyOther({option: this.observableService.mapClickType,lat:$event.coords.lat,lng:$event.coords.lng});
   }
   private addMarker(data){
+    console.log(data);
     this.lat=Number(data.lat);
     this.lng=Number(data.lng);
     //this.map._mapsWrapper.setCenter({lat: this.lat, lng: this.lng}));

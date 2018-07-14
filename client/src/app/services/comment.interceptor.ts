@@ -25,12 +25,12 @@ export class CommentInterceptor implements HttpInterceptor {
 		    'language':this.localizeService.parser.currentLang
 		  }
 		});
-	}else if(request.url===this.domain+"comment/getComments/"+this.commentService.language){
+	}else if(request.url===this.domain+"comment/getComments/"+this.commentService.route+this.localizeService.parser.currentLang){
 		request = request.clone({
 		  setHeaders: {
 		    'Content-Type': 'application/json',
-		    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
-		    'language':this.commentService.language
+		    'language':this.localizeService.parser.currentLang,
+		    'route':this.commentService.route
 		  }
 		});              
     }else if(request.url===this.domain+"comment/editComment"){

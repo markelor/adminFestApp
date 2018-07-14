@@ -88,6 +88,7 @@ const observationSchema = new Schema({
     updatedAt: { type: Date, required: true },
     expiredAt: { type: Date, required: false }
 });
+observationSchema.index({ createdAt: -1 }); // schema level
 
 // Export Module/Schema
 module.exports = mongoose.model('Observation', observationSchema);

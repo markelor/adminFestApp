@@ -58,6 +58,7 @@ const serviceTypeSchema = new Schema({
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });
+serviceTypeSchema.index({ createdAt: -1 }); // schema level
 
 // Export Module/Schema
 module.exports = mongoose.model('ServiceType', serviceTypeSchema);

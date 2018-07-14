@@ -349,7 +349,8 @@ module.exports = (router) => {
                             $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
                             _id: ObjectId(req.params.id)
                         }
-                    }, {
+                    },
+                    {
                         // Join with Place table
                         $lookup: {
                             from: "places", // other table name

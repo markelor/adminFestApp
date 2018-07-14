@@ -132,6 +132,6 @@ const applicationSchema = new Schema({
     createdAt: { type: Date, required: true },
     updatedAt: { type: Date, required: true }
 });
-
+applicationSchema.index({ createdAt: -1 }); // schema level
 // Export Module/Schema
 module.exports = mongoose.model('Application', applicationSchema);

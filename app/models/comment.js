@@ -29,8 +29,8 @@ const commentValidators = [
 ];
 // Comment Model Definition
 const commentSchema = new Schema({
-    eventId:{ type: String, required: true},
-    originCommentId: { type: String, required: false },
+    eventId:{ type: Schema.Types.ObjectId, required: true},
+    originCommentId: { type: Schema.Types.ObjectId, required: false, default:null },
     mentionedUsers:{type: Array, required: false},
     comment: { type: String, required: true, validate: commentValidators },
     createdBy: { type: String, required: true },
@@ -45,6 +45,7 @@ const commentSchema = new Schema({
         angryBy:{ type: Array, required: false }
     }
 });
+commentSchema.index({ createdAt: -1 }); // schema level
 
 // Export Module/Schema
 module.exports = mongoose.model('Comment', commentSchema);

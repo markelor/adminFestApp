@@ -90,6 +90,7 @@ const serviceSchema = new Schema({
     updatedAt: { type: Date, required: true },
     expiredAt: { type: Date, required: false }
 });
+serviceSchema.index({ createdAt: -1 }); // schema level
 
 // Export Module/Schema
 module.exports = mongoose.model('Service', serviceSchema);

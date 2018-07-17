@@ -10,7 +10,6 @@ import { FileUploaderService} from '../../../services/file-uploader.service';
 import { FileUploader,FileUploaderOptions,FileItem } from 'ng2-file-upload';
 import { TitleValidator } from '../../../validators';
 import { Category } from '../../../class/category';
-import { GroupByPipe } from '../../../shared/pipes/group-by.pipe';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthGuard} from '../../../pages/guards/auth.guard';
 const URL = 'http://localhost:8080/fileUploader/uploadImages/category-icon';
@@ -50,7 +49,6 @@ export class CategoryFormComponent implements OnInit {
     private categoryService:CategoryService,
     private observableService:ObservableService,
     private authService:AuthService,
-    private groupByPipe:GroupByPipe,
     private router:Router,
     private fileUploaderService:FileUploaderService,
     private authGuard: AuthGuard,

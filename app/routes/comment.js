@@ -10,7 +10,7 @@ const nodemailer = require('nodemailer');
 const emailConfig = require('../config/email'); // Mongoose Email
 var ObjectId = require('mongodb').ObjectId;
 module.exports = (router) => {
-        // create reusable transporter object using the default SMTP transport
+    // create reusable transporter object using the default SMTP transport
     var transporter = nodemailer.createTransport({
         host: emailConfig.host,
         port: emailConfig.port,
@@ -41,11 +41,15 @@ module.exports = (router) => {
                     if (!req.body.createdBy) {
                         res.json({ success: false, message: eval(language + '.newComment.createdByProvidedError') }); // Return error
                     } else {
-                        console.log("ona");
+                        if (!req.body.parentId) {
+                            req.body.parentId = null;
+                        }
                         // Create the event object for insertion into database
                         const comment = new Comment({
+                            firstParentId: req.body.firstParentId,
+                            parentId: req.body.parentId,
+                            level: req.body.level,
                             eventId: req.body.eventId,
-                            originCommentId: req.body.originCommentId,
                             mentionedUsers: req.body.mentionedUsers,
                             comment: req.body.comment,
                             createdBy: req.body.createdBy,
@@ -83,41 +87,59 @@ module.exports = (router) => {
                 }
             }
         }
-    });   
+    });
     /* ===============================================================
        GET Comments
     =============================================================== */
-router.get('/getComments/:id/:language', (req, res) => {
-    var language = req.params.language;
-    if (!language) {
-        res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
-    } else {
-        if (!req.params.id) {
-            res.json({ success: false, message: eval(language + '.getComment.idProvidedError') }); // Return error
+    router.get('/getComments/:id/:language', (req, res) => {
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
-            Comment.aggregate([{
-                $match: {
-                    eventId:ObjectId(req.params.id)
-                }
-            }, {
-                // Join with Place table
-                $lookup: {
-                    from: "users", // other table name
-                    localField: "createdBy", // placeId of Comment table field
-                    foreignField: "username", // _id of Place table field
-                    as: "user" // alias for userinfo table
-                }
-            }, { $unwind: "$user" }]).exec(function(err, comments) {
-                // Check if places were found in database
-                if (!comments) {
-                    res.json({ success: false, message: eval(language + '.commentsSearch.commentsError') }); // Return error of no places found
-                } else {
-                    res.json({ success: true, comments: comments }); // Return success and place 
-                }
-            });
+            if (!req.params.id) {
+                res.json({ success: false, message: eval(language + '.getComment.idProvidedError') }); // Return error
+            } else {
+                Comment.aggregate([{
+                        $match: {
+                            eventId: ObjectId(req.params.id)
+                        },
+                    }, {
+                        $sort: {
+                            createdAt: 1
+                        }
+                    }, {
+                        // Join with Place table
+                        $lookup: {
+                            from: "users", // other table name
+                            localField: "createdBy", // placeId of Comment table field
+                            foreignField: "username", // _id of Place table field
+                            as: "user" // alias for userinfo table
+                        }
+                    }, { $unwind: "$user" },
+
+                    {
+                        $group: {
+                            _id: { $ifNull: ["$firstParentId", "$_id"] },
+                            groupComments: { $push: "$$ROOT" }
+                        },
+                    },
+                    {
+                        $sort: {
+                            _id: -1,
+                        }
+                    }
+                ]).exec(function(err, comments) {
+                    // Check if places were found in database
+                    if (!comments) {
+                        console.log(comments);
+                        res.json({ success: false, message: err }); // Return error of no places found
+                    } else {
+                        res.json({ success: true, comments: comments }); // Return success and place 
+                    }
+                });
+            }
         }
-    }
-});
-    
+    });
+
     return router;
 };

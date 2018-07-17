@@ -1,72 +1,49 @@
 <div class="card panel panel-default ks-comments-section" [ngClass]="{'ks-no-arrow' : !isArrow}">
-  <div class="ks-comment">
-    <div class="ks-body">
-      <a href="javascript:void(0);" class="ks-avatar">
-        <img src="assets/img/avatars/avatar-7.jpg" width="36" height="36">
-      </a>
-      <div class="ks-comment-box">
-        <div class="ks-name">
-          <a href="javascript:void(0);">Eric George</a>
-          <span class="ks-time">just now</span>
-        </div>
-        <div class="ks-message">Why didn't he come and talk to me himself?</div>
-        <div class="ks-controls">
-          <a href="javascript:void(0);" (click)="addReply()" class="ks-control">Reply</a>
-          <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
-        </div>
-      </div>
-    </div>
-    <div class="ks-replies">
-      <div class="ks-reply">
-        <a href="javascript:void(0);" class="ks-avatar">
-          <img src="assets/img/avatars/avatar-3.jpg" width="36" height="36">
-        </a>
-        <div class="ks-reply-box">
-          <div class="ks-name">
-            <a href="javascript:void(0);">Eric George</a>
-            <span class="ks-time">04:01 pm</span>
+  <div *ngIf="comments" class="ks-comment">
+    <ng-container *ngFor="let firstComments of comments">
+      <ng-container *ngFor="let comment of firstComments.groupComments">
+        <div *ngIf="comment.level===0" class="ks-body">
+          <a href="javascript:void(0);" class="ks-avatar">
+            <img src="{{comment.user.currentAvatar}}" width="36" height="36">
+          </a>
+          <div class="ks-comment-box">
+            <div class="ks-name">
+              <a href="javascript:void(0);">{{comment.createdBy}}</a>
+              <span class="ks-time">{{comment.createdAt | timezone}}</span>
+            </div>
+            <div [innerHTML]="comment.comment" class="ks-message"></div>
+            <div class="ks-controls">
+              <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
+              <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
+              <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
+            </div>
           </div>
-          <div class="ks-message"><a href="javascript:void(0);" class="ks-reply-to">@a.frolov</a>, Why didn't he come and talk to me himse...</div>
-          <div class="ks-controls">
-            <a href="javascript:void(0);" class="ks-control">Edit</a>
-            <a href="javascript:void(0);" class="ks-control">Delete</a>
-          </div>
-        </div>
-      </div>
-      <div class="ks-reply">
-        <a href="javascript:void(0);" class="ks-avatar">
-          <img src="assets/img/avatars/avatar-11.jpg" width="36" height="36">
-        </a>
-        <div class="ks-reply-box">
-          <div class="ks-name">
-            <a href="javascript:void(0);">Eric George</a>
-            <span class="ks-time">just now</span>
-          </div>
-          <div class="ks-message">Why didn't he come and talk to me himse...</div>
-          <div class="ks-controls">
-            <a href="javascript:void(0);" (click)="addReply()" class="ks-control">Reply</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="ks-comment">
-    <div class="ks-body">
-      <a href="javascript:void(0);" class="ks-avatar">
-        <img src="assets/img/avatars/avatar-7.jpg" width="36" height="36">
-      </a>
-      <div class="ks-comment-box">
-        <div class="ks-name">
-          <a href="javascript:void(0);">Eric George</a>
-          <span class="ks-time">just now</span>
-        </div>
-        <div class="ks-message"><a href="javascript:void(0);" class="ks-reply-to">@a.frolov</a>, Perhaps you'll take me out one day - or do I have to make an appointment?</div>
-        <div class="ks-controls">
-          <a href="javascript:void(0);" (click)="addReply()" class="ks-control">Reply</a>
-          <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
-        </div>
-      </div>
-    </div>
+        </div> 
+      </ng-container>  
+      <ng-container *ngFor="let response of firstComments.groupComments">
+            <div *ngIf="response.level!==0" class="ks-replies">
+              <div class="ks-reply">
+                <a href="javascript:void(0);" class="ks-avatar">
+                  <img src="{{response.user.currentAvatar}}" width="36" height="36">
+                </a>
+                <div class="ks-reply-box">
+                  <div class="ks-name">
+                    <a href="javascript:void(0);">{{response.createdBy}}</a>
+                    <span class="ks-time">{{response.createdAt | timezone}}</span>
+                  </div>
+                  <div [innerHTML]="response.comment" class="ks-message"></div>
+                  <div class="ks-controls">
+                    <a href="javascript:void(0);" (click)="addReply(response)" class="ks-control">Reply</a>
+                    <a href="javascript:void(0);" class="ks-control">Edit</a>
+                    <a href="javascript:void(0);" class="ks-control">Delete</a>
+                    <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
+                    <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
+                  </div>
+                </div>
+              </div>
+          </div> 
+      </ng-container>
+    </ng-container>
   </div>
   <!-- Comment Form -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">

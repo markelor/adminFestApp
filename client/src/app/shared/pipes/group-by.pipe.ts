@@ -9,14 +9,12 @@ export class GroupByPipe implements PipeTransform {
     if(!value) {
         return null;
     }
-    const groupedObj = value.reduce((prev, cur)=> {
-      if(field==='firstOriginCommentId'&&!cur.originCommentId.length){
-        console.log("bat");
+    console.log(field);
+    const groupedObj = value.reduce((prev, cur)=> {;
+      if(field==='originCommentId'&&!cur.originCommentId.length){
         cur.firstOriginCommentId=cur._id;
         cur.reply=false;
-      }else if(field==='firstOriginCommentId'&&cur.originCommentId.length){
-        console.log("bestiak");
-        console.log(cur.originCommentId[0]);
+      }else if(field==='originCommentId'&&cur.originCommentId.length){
         cur.firstOriginCommentId=cur.originCommentId[0];       
         cur.reply=true;
       }else if(field==='firstParentId'&&!cur.firstParentId){

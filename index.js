@@ -37,6 +37,7 @@ app.use(bodyParser.json({limit: "50mb"})); // parse application/json
 app.use(express.static(__dirname + '/client/src/')); // Provide static directory for frontend
 app.use('/authentication', authentication); // Use Authentication 
 app.use('/event', event); // Use Event 
+app.use('/category', category); // Use Category 
 app.use('/place', place); // Use Place 
 app.use('/application', application); // Use Application 
 app.use('/service', service); // Use Service 

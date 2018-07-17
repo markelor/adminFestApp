@@ -1,18 +1,32 @@
 export class Comment{
-	createdBy: string;
+    firstParentId:string;
+    parentId: string;
+    level:number;
     eventId: string;
-    originCommentId: Array<string>;
+	createdBy: string;
     language:string;
     mentionedUsers: Array<string>;   
     comment: string;
     createdAt: number;
     updatedAt: number ; 
     reactions: object;
-     get getCreatedBy():string {
-        return this.createdBy;
+    get getFirstParentId():string {
+        return this.firstParentId;
     }
-    set setCreatedBy(createdBy:string) {
-        this.createdBy = createdBy;
+    set setFirstParentId(firstParentId:string) {
+        this.firstParentId = firstParentId;
+    }
+    get getParentId():string {
+        return this.parentId;
+    }
+    set setParentId(parentId:string) {
+        this.parentId = parentId;
+    }
+    get getLevel():number {
+        return this.level;
+    }
+    set setLevel(level:number) {
+        this.level = level;
     }
     get getEventId():string {
         return this.eventId;
@@ -20,12 +34,12 @@ export class Comment{
     set setEventId(eventId:string) {
         this.eventId = eventId;
     }
-    get getOriginCommentId():Array<string> {
-        return this.originCommentId;
+    get getCreatedBy():string {
+        return this.createdBy;
     }
-    set setOriginCommentId(originCommentId:Array<string>) {
-        this.originCommentId = originCommentId;
-    }
+    set setCreatedBy(createdBy:string) {
+        this.createdBy = createdBy;
+    }  
     get getLanguage():string {
         return this.language;
     }
@@ -44,7 +58,7 @@ export class Comment{
     set setComment(comment:string) {
         this.comment = comment;
     }
-     get getCreatedAt():number {
+    get getCreatedAt():number {
         return this.createdAt;
     }
     set setCreatedAt(createdAt:number) {

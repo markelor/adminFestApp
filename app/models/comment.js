@@ -29,8 +29,10 @@ const commentValidators = [
 ];
 // Comment Model Definition
 const commentSchema = new Schema({
+    firstParentId: { type: Schema.Types.ObjectId, required: false, default: null },
+    parentId: { type: Schema.Types.ObjectId, required: false, default: null },
+    level: { type: Number, required: true, default: 0 },
     eventId:{ type: Schema.Types.ObjectId, required: true},
-    originCommentId: { type: Schema.Types.ObjectId, required: false, default:null },
     mentionedUsers:{type: Array, required: false},
     comment: { type: String, required: true, validate: commentValidators },
     createdBy: { type: String, required: true },

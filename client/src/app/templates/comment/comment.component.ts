@@ -6,10 +6,12 @@ import { AuthService } from '../../services/auth.service';
 import { CommentService } from '../../services/comment.service';
 import { AuthGuard} from '../../pages/guards/auth.guard';
 import { ActivatedRoute,Router,NavigationEnd } from '@angular/router';
+import { GroupByPipe } from '../../shared/pipes/group-by.pipe';
 declare let $: any;
 @Component({
   selector: 'app-comment',
-  templateUrl: './comment.component.html'
+  templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.css'],
 })
 export class CommentComponent implements OnInit {
   private form:FormGroup;
@@ -20,7 +22,9 @@ export class CommentComponent implements OnInit {
   private comments;
   private submitted:boolean = false;
   @Input() inputEventId: string;
-
+  private parentId=null;
+  private firstParentId=null;
+  private level;
   constructor(
   private formBuilder:FormBuilder,
   private localizeService: LocalizeRouterService,
@@ -28,7 +32,8 @@ export class CommentComponent implements OnInit {
   private commentService:CommentService,
   private router:Router,
   private activatedRoute: ActivatedRoute,
-  private authGuard:AuthGuard
+  private authGuard:AuthGuard,
+  private groupByPipe:GroupByPipe
   ) {
     this.createForm();  //Create Angular form when components load
   }
@@ -51,7 +56,7 @@ export class CommentComponent implements OnInit {
     initControls.initialize();
   }
   private  markdown(string) {
-    string = string.replace(/(^|[^@\w])@(\w{1,15})\b/g, '<span class="reply">$2</span>');
+    string = string.replace(/(^|[^@\w])@(\w{1,15})\b/g, '<span class="ks-reply-to">@$2</span>');
     string = string.replace(/\*\*(.+)\*\*/g, '<strong>$1</strong>');
     string = string.replace(/__(.+)__/g, '<strong>$1</strong>');
     string = string.replace(/\*(.+)\*/g, '<em>$1</em>');
@@ -61,20 +66,35 @@ export class CommentComponent implements OnInit {
     return string;
 };
 
-  private addReply(){
-  	if (!this.form.get('comment').value) {
-        this.form.controls['comment'].setValue('');
+  private addReply(comment){
+    this.parentId=comment._id;
+    this.level=comment.level+1;
+    if(comment.firstParentId){
+      this.firstParentId=comment.firstParentId;
+    }else{
+      this.firstParentId=comment._id;
     }
-  	if(this.form.get('comment').value.search('@' + 'author')===-1){
-  		console.log(this.form.get('comment').value[0]);
-  		if (this.form.get('comment').value[0] === '@') {
+  	if (!this.form.get('comment').value) {
+      this.form.controls['comment'].setValue('');
+    }
+  	if(this.form.get('comment').value.search('@' + comment.createdBy)===-1){
+  		if (this.form.get('comment').value.substring(
+        this.form.get('comment').value.lastIndexOf("<p>") + 3, 
+        this.form.get('comment').value.lastIndexOf("</p>")
+      )[0] === '@') {
   			console.log("a");
-			this.form.controls['comment'].setValue(', '+this.form.get('comment').value);
-        } else {
-        	console.log("b");
-        	this.form.controls['comment'].setValue(' '+this.form.get('comment').value);      
-        }
-     	this.form.controls['comment'].setValue('@' + 'author' + this.form.get('comment').value);
+  			this.form.controls['comment'].setValue(', '+this.form.get('comment').value.substring(
+        this.form.get('comment').value.lastIndexOf("<p>") + 3, 
+        this.form.get('comment').value.lastIndexOf("</p>")
+        ));
+      }else {
+      	console.log("b");
+      	this.form.controls['comment'].setValue(' '+this.form.get('comment').value.substring(
+        this.form.get('comment').value.lastIndexOf("<p>") + 3, 
+        this.form.get('comment').value.lastIndexOf("</p>")
+        ));      
+      }
+     	this.form.controls['comment'].setValue('@' + comment.createdBy + this.form.get('comment').value);
      	$("#textareaComment").focus();
   	} 
 
@@ -89,17 +109,24 @@ export class CommentComponent implements OnInit {
         }else{
           if(this.form.get('comment').value.match(/(^|[^@\w])@(\w{1,15})\b/)){
               var mentionedUsers = this.form.get('comment').value.replace(/(^|[^@\w])@(\w{1,15})\b/g,'@271$2@272').match(/@271(.*?)@272/g).join().replace(/@271/g,'').replace(/@272/g,'').split(',');
-              console.log(mentionedUsers);
           }                                                                                      
           console.log(this.form.get('comment').value);
-          var span= this.markdown(this.form.get('comment').value);
+          var span= this.markdown(this.form.get('comment').value.substring(
+          this.form.get('comment').value.lastIndexOf("<p>") + 3, 
+          this.form.get('comment').value.lastIndexOf("</p>")
+          ));                            
           console.log(span)
+                        console.log(mentionedUsers);
           this.commentClass.setEventId=this.inputEventId;
           this.commentClass.language=this.localizeService.parser.currentLang;
           this.commentClass.setCreatedBy=this.authService.user.username;
           this.commentClass.setComment=span;
           this.commentClass.setMentionedUsers=mentionedUsers;
-          //this.commentClass.setOriginCommentId=
+          if(mentionedUsers){
+            this.commentClass.setParentId=this.parentId;
+            this.commentClass.firstParentId=this.firstParentId; 
+            this.commentClass.level=this.level;
+          }     
           this.submitted = true;
           // Function to save comment into database
           this.commentService.newComment(this.commentClass).subscribe(data => {
@@ -113,7 +140,7 @@ export class CommentComponent implements OnInit {
               this.submitted = false; // Enable submit button
           
             }
-          }); 
+          });
         }
       }); 
     }                   
@@ -122,15 +149,13 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
     this.commentService.getComments(this.inputEventId,this.localizeService.parser.currentLang).subscribe(data => {
-      console.log(data);
       // Check if event was saved to database or not
       if (!data.success) {
-
         this.submitted = false; // Enable submit button
       } else {
         this.createForm(); // Reset all form fields
         this.submitted = false; // Enable submit button
-    
+        this.comments=data.comments;
       }
     });
 

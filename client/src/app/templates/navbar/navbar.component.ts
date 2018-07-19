@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../services/auth.service';
-//import { ThemeService } from '../../services/theme.service';
+import { EventService } from '../../services/event.service';
 import { Subject } from 'rxjs/Subject';
 import { ActivatedRoute,Router,NavigationEnd } from '@angular/router';
 import { ObservableService} from '../../services/observable.service';
@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
 	private selected:number;
   private avatar:string;
   private search:boolean;
-  private themesSearch;
+  private eventsSearch;
   private searchTerm = new Subject<string>();
   private screen:boolean;
   private subscription: Subscription;
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
     private activatedRoute:ActivatedRoute,
     private authService:AuthService,
     private router:Router,
-    //private themeService:ThemeService,
+    private eventService:EventService,
     private observableService:ObservableService,
     private spacePipe:SpacePipe) {
     this.changeLanguage(this.localizeService.parser.currentLang);
@@ -88,14 +88,15 @@ export class NavbarComponent implements OnInit {
             }
         }
       });
-    /*this.themeService.themeSearch(this.searchTerm,this.localizeService.parser.currentLang).subscribe(data=>{
+    this.eventService.eventSearch(this.searchTerm,this.localizeService.parser.currentLang).subscribe(data=>{
+      console.log(data);
       if(data.success){
-        this.themesSearch=data.themes; 
+        this.eventsSearch=data.events; 
         if(!$('.ks-search-form.nav-item.dropdown.show')[0]){
           $('.ks-search-form.nav-item.dropdown').addClass('show');
         }   
       }     
-    });*/
+    });
   }
 
 }

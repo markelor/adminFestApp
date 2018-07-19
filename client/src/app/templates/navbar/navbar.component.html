@@ -19,18 +19,18 @@
             <span class="la la-search"></span>
           </a>
           <!-- BEGIN NAVBAR LANGUAGES -->
-          <!--<div *ngIf="searchTerm.observers[0].destination.key" class="ks-wrapper-search ks-scrollable search-container">
-            <a *ngFor="let theme of themesSearch" href="javascript:void(0);" class="dropdown-item ks-message">
+          <div *ngIf="searchTerm.observers[0].destination.key" class="ks-wrapper-search ks-scrollable search-container">
+            <a *ngFor="let event of eventsSearch" href="javascript:void(0);" class="dropdown-item ks-message">
               <div class="ks-avatar ks-online">
-                <img src="{{theme.images[0].location}}" width="36" height="36">
+                <img *ngIf="event.images.poster[0]" src="{{event.images.poster[0].url}}" width="36" height="36">
               </div>
               <div class="ks-info">
-                <div class="ks-user-name">{{theme | safeHtml : lag:'title'}}</div>
-                <div class="ks-text" [innerHTML]="theme | safeHtml : lag:'description'"></div>
-                <div class="ks-datetime">{{theme | safeHtml : lag:'createdAt' | capitalize }}</div>
+                <div class="ks-user-name">{{event.title}}</div>
+                <div class="ks-text" [innerHTML]="event.description"></div>
+                <div class="ks-datetime">{{event.createdAt | timezone}}</div>
               </div>
             </a>
-          </div>-->
+          </div>
           <div class="ks-wrapper">
             <div class="input-icon icon-right icon icon-lg icon-color-primary">
               <input (keyup)="searchTerm.next($event.target.value)" id="input-group-icon-text" type="text" class="form-control" autocomplete="off" placeholder="{{'navbar.search'|translate}}">

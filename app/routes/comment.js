@@ -105,7 +105,7 @@ module.exports = (router) => {
                         },
                     }, {
                         $sort: {
-                            createdAt: 1
+                            updatedAt: 1
                         }
                     }, {
                         // Join with Place table

@@ -104,6 +104,7 @@ export class CommentComponent implements OnInit {
       // Get authentication to send comment
       this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
         if(!authentication.success){
+          this.authService.logout();
           this.authGuard.redirectUrl=this.router.url;
           this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
         }else{

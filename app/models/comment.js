@@ -7,11 +7,11 @@ const Schema = mongoose.Schema; // Import Schema from Mongoose
 // Validate Function to check comment length
 let commentLengthChecker = (comment) => {
     // Check if comment exists
-    if (!comment[0]) {
+    if (!comment) {
         return false; // Return error
     } else {
         // Check comment length
-        if (comment[0].length < 1 || comment[0].length > 300) {
+        if (comment.length < 1 || comment.length > 300) {
             return false; // Return error if comment length requirement is not met
         } else {
             return true; // Return comment as valid

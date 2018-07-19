@@ -278,7 +278,7 @@
     "observations-length": "Maximum characters: 1000.",
     "discovery-length": "Maximum characters: 1000.",
     "bibliography-length": "Maximum characters: 1000.",
-    "comment-length": "Maximum characters: 1500.",
+    "comment-length": "Maximum characters: 300.",
     "entityName-length": "Minimum characters: 5, Maximum characters: 35.",
     "entityName-validation": "Entity name must not have any special characters."
   },

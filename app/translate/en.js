@@ -360,6 +360,13 @@ module.exports = {
         saveError: "Could not edit observation. Error: ",
         success: "Observation edited!"
     },
+    editComment: {
+        idProvidedError: 'Comment ID was not provided.',
+        createdByProvidedError: 'Username was not provided.',
+        commentProvidedError: 'Comment was not provided.',
+        saveError: "Could not edit comment. Error: ",
+        success: "Comment edited!"
+    },
     deleteCategory: {
         idProvidedError: 'Category ID was not provided.',
         deleteError: "The category could not be deleted, it is being used by events.",

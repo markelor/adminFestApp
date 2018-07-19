@@ -359,6 +359,13 @@ module.exports = {
         saveError: "Ezin izan da oharra aldatu. Akatsa: ",
         success: "Oharra aldatu da!"
     },
+    editComment: {
+        idProvidedError: 'Ez da iruzkinaren IDa eman.',
+        createdByProvidedError: 'Iruzkinaren erabiltzailea ez da eman.',
+        commentProvidedError: 'Iruzkina ez da eman.',
+        saveError: "Ezin izan da iruzkina aldatu. Akatsa: ",
+        success: "Iruzkina aldatu da!"
+    },
     deleteCategory: {
         idProvidedError: 'Ez da kategoriaren IDa eman.',
         deleteError: "Ezin izan da kategoria ezabatu, ekintza batek erabiltzen du.",

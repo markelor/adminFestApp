@@ -14,35 +14,49 @@
             <div [innerHTML]="comment.comment" class="ks-message"></div>
             <div class="ks-controls">
               <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
+              <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
               <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
               <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
             </div>
           </div>
         </div> 
-      </ng-container>  
-      <ng-container *ngFor="let response of firstComments.groupComments">
-            <div *ngIf="response.level!==0" class="ks-replies">
-              <div class="ks-reply">
-                <a href="javascript:void(0);" class="ks-avatar">
-                  <img src="{{response.user.currentAvatar}}" width="36" height="36">
-                </a>
-                <div class="ks-reply-box">
-                  <div class="ks-name">
-                    <a href="javascript:void(0);">{{response.createdBy}}</a>
-                    <span class="ks-time">{{response.createdAt | timezone}}</span>
-                  </div>
-                  <div [innerHTML]="response.comment" class="ks-message"></div>
-                  <div class="ks-controls">
-                    <a href="javascript:void(0);" (click)="addReply(response)" class="ks-control">Reply</a>
-                    <a href="javascript:void(0);" class="ks-control">Edit</a>
-                    <a href="javascript:void(0);" class="ks-control">Delete</a>
-                    <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
-                    <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
-                  </div>
-                </div>
+        <div *ngIf="comment.level!==0" class="ks-replies">
+          <div class="ks-reply">
+            <a href="javascript:void(0);" class="ks-avatar">
+              <img src="{{comment.user.currentAvatar}}" width="36" height="36">
+            </a>
+            <div class="ks-reply-box">
+              <div class="ks-name">
+                <a href="javascript:void(0);">{{comment.createdBy}}</a>
+                <span class="ks-time">{{comment.createdAt | timezone}}</span>
               </div>
-          </div> 
-      </ng-container>
+              <div [innerHTML]="comment.comment" class="ks-message"></div>
+              <div class="ks-controls">
+                <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
+                <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
+                <a href="javascript:void(0);" (click)="deleteComment(comment)" class="ks-control">Delete</a>
+                <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
+                <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <!-- Comment Edit Form -->
+        <form *ngIf="editId===comment._id" [formGroup]="formEdit" (ngSubmit)="onSubmitEdit(comment)" class="form-container">
+          <div class="ks-new-comment">
+            <!-- Comment Edit textarea -->
+            <div class="form-group" [ngClass]="{'has-error': (!commentEdit.valid && commentEdit.dirty), 'has-success': (commentEdit.value && commentEdit.valid)}">
+              <textarea [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="commentEdit" capitalize class="form-control"></textarea>
+              <!-- Validation -->
+              <span *ngIf="commentEdit.errors?.required && commentEdit.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
+              <span *ngIf="commentEdit.errors?.maxlength && commentEdit.dirty " class="help-block form-error" translate>{{'validation.comment-length'}}</span>
+            </div>     
+          </div>
+          <div class="form-group text-center">
+            <button [disabled]="!formEdit.valid || submittedEdit " type="submit" class="btn btn-default" translate>{{'auth-form.sign-up'}}</button>
+          </div>
+        </form>
+      </ng-container>  
     </ng-container>
   </div>
   <!-- Comment Form -->
@@ -53,7 +67,7 @@
         <textarea  [id]="textareaComment" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="comment" capitalize class="form-control"></textarea>
         <!-- Validation -->
         <span *ngIf="comment.errors?.required && comment.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-        <span *ngIf="comment.errors?.maxlength && comment.dirty " class="help-block form-error" translate>{{'validation.about-yourself-length'}}</span>
+        <span *ngIf="comment.errors?.maxlength && comment.dirty " class="help-block form-error" translate>{{'validation.comment-length'}}</span>
       </div>     
     </div>
     <div class="form-group text-center">

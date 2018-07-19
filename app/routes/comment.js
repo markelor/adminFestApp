@@ -105,7 +105,7 @@ module.exports = (router) => {
                         },
                     }, {
                         $sort: {
-                            updatedAt: 1
+                            createdAt: 1
                         }
                     }, {
                         // Join with Place table
@@ -131,12 +131,189 @@ module.exports = (router) => {
                 ]).exec(function(err, comments) {
                     // Check if places were found in database
                     if (!comments) {
-                        console.log(comments);
                         res.json({ success: false, message: err }); // Return error of no places found
                     } else {
                         res.json({ success: true, comments: comments }); // Return success and place 
                     }
                 });
+            }
+        }
+    });
+    /* ===============================================================
+        Route to update/edit a comment
+    =============================================================== */
+    router.put('/editComment', function(req, res) {
+        var language = req.body.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            // Check if id was provided
+            if (!req.body._id) {
+                res.json({ success: false, message: eval(language + '.editComment.idProvidedError') }); // Return error
+            } else {
+                // Check if comment was provided
+                if (!req.body.comment) {
+                    res.json({ success: false, message: eval(language + '.editComment.commentProvidedError') }); // Return error message
+                } else {
+                    // Check if comment createdBy was provided
+                    if (!req.body.createdBy) {
+                        res.json({ success: false, message: eval(language + '.editComment.createdByProvidedError') }); // Return error
+                    } else {
+                        var editUser = req.body.createdBy; // Assign _id from comment to be editted to a variable
+                        if (req.body.firstParentId) var newCommentFirstParentId = req.body.firstParentId; // Check if a change to firstParentId was requested
+                        if (req.body.parentId) var newCommentParentId = req.body.parentId; // Check if a change to parentId was requested
+                        if (req.body.level) var newCommentLevel = req.body.level; // Check if a change to level was requested
+                        if (req.body.eventId) var newCommentEventId = req.body.eventId; // Check if a change to eventIdLevel was requeste
+                        if (req.body.mentionedUsers) var newCommentMentionedUsers = req.body.mentionedUsers; // Check if a change to mentionedUsers was requested
+                        if (req.body.comment) var newCommentComment = req.body.comment; //Check if a change to comment was requested
+                        if (req.body.createdBy) var newCommentCreatedBy = req.body.createdBy; // Check if a change to createdBy was requested
+                        // Look for logged in user in database to check if have appropriate access
+                        User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                            if (err) {
+                                // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                var mailOptions = {
+                                    from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                    to: [emailConfig.email],
+                                    subject: ' Find one 1 edit comment error ',
+                                    text: 'The following error has been reported in Kultura: ' + err,
+                                    html: 'The following error has been reported in Kultura:<br><br>' + err
+                                };
+                                // Function to send e-mail to myself
+                                transporter.sendMail(mailOptions, function(err, info) {
+                                    if (err) {
+                                        console.log(err); // If error with sending e-mail, log to console/terminal
+                                    } else {
+                                        console.log(info); // Log success message to console if sent
+                                        console.log(user.email); // Display e-mail that it was sent to
+                                    }
+                                });
+                                res.json({ success: false, message: eval(language + '.general.generalError') });
+                            } else {
+                                // Check if logged in user is found in database
+                                if (!mainUser) {
+                                    res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                } else {
+                                    // Look for user in database
+                                    User.findOne({ username: editUser }, function(err, user) {
+                                        if (err) {
+                                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                            var mailOptions = {
+                                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                to: [emailConfig.email],
+                                                subject: ' Find one 2 edit comment error ',
+                                                text: 'The following error has been reported in Kultura: ' + err,
+                                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                                            }; // Function to send e-mail to myself
+                                            transporter.sendMail(mailOptions, function(err, info) {
+                                                if (err) {
+                                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                                } else {
+                                                    console.log(info); // Log success message to console if sent
+                                                    console.log(user.email); // Display e-mail that it was sent to
+                                                }
+                                            });
+                                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                                        } else {
+                                            // Check if user is in database
+                                            if (!user) {
+                                                res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                            } else {
+                                                var saveErrorPermission = false;
+                                                // Check if is owner
+                                                if (mainUser._id.toString() === user._id.toString()) {} else {
+                                                    // Check if the current permission is 'admin'
+                                                    if (mainUser.permission === 'admin') {
+                                                        // Check if user making changes has access
+                                                        if (user.permission === 'admin') {
+                                                            saveErrorPermission = language + '.general.adminOneError';
+                                                        } else {}
+                                                    } else {
+                                                        // Check if the current permission is moderator
+                                                        if (mainUser.permission === 'moderator') {
+                                                            // Check if contributor making changes has access
+                                                            if (user.permission === 'contributor') {} else {
+                                                                saveErrorPermission = language + '.general.adminOneError';
+                                                            }
+                                                        } else {
+                                                            saveErrorPermission = language + '.general.permissionError';
+                                                        }
+                                                    }
+                                                }
+                                                //check saveError permision to save changes or not
+                                                if (saveErrorPermission) {
+                                                    res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                                } else {
+                                                    // Look for comment in database
+                                                    Comment.findOne({ _id: req.body._id }, function(err, comment) {
+                                                        if (err) {
+                                                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                            var mailOptions = {
+                                                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                                to: [emailConfig.email],
+                                                                subject: ' Find one 3 edit comment error ',
+                                                                text: 'The following error has been reported in Kultura: ' + err,
+                                                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                            }; // Function to send e-mail to myself
+                                                            transporter.sendMail(mailOptions, function(err, info) {
+                                                                if (err) {
+                                                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                                                } else {
+                                                                    console.log(info); // Log success message to console if sent
+                                                                    console.log(user.email); // Display e-mail that it was sent to
+                                                                }
+                                                            });
+                                                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                        } else {
+                                                            // Check if comment is in database
+                                                            if (!comment) {
+                                                                res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                                            } else {
+                                                                if (newCommentFirstParentId)
+                                                                    comment.firstParentId = newCommentFirstParentId; // Assign new firstParentId to comment in database
+                                                                if (newCommentParentId)
+                                                                    comment.parentId = newCommentParentId; // Assign new parentId to comment in database
+                                                                if (newCommentLevel)
+                                                                    comment.level = newCommentLevel; // Assign new level to comment in database
+                                                                if (newCommentEventId)
+                                                                    comment.eventId = newCommentEventId; // Assign new eventIdLevel to comment in database
+                                                                if (newCommentMentionedUsers)
+                                                                    comment.mentionedUsers = newCommentMentionedUsers; // Assign new mentionedUsers to comment in database
+                                                                if (newCommentComment)
+                                                                    comment.comment = newCommentComment; // Assign newComment to comment in database
+                                                                if (newCommentCreatedBy)
+                                                                    comment.createdBy = newCommentCreatedBy; // Assign new createdBy to comment in database
+                                                                comment.updatedAt = Date.now();
+                                                                // Save comment into database
+                                                                comment.save((err, comment) => {
+                                                                    // Check if error
+                                                                    if (err) {
+                                                                        // Check if error is a validation error
+                                                                        if (err.errors) {
+                                                                            if (err.errors['comment']) {
+                                                                                res.json({ success: false, message: eval(language + err.errors['comment'].message) }); // Return error message
+                                                                            } else {
+                                                                                res.json({ success: false, message: err }); // Return general error message
+                                                                            }
+                                                                        } else {
+                                                                            res.json({ success: false, message: eval(language + '.editComment.saveError'), err }); // Return general error message
+                                                                        }
+                                                                    } else {
+                                                                        res.json({ success: true, message: eval(language + '.editComment.success') }); // Return success message
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
             }
         }
     });

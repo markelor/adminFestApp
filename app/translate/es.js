@@ -359,6 +359,13 @@ module.exports = {
         saveError: "No se pudo editar la observación. Error: ",
         success: "¡Observación editada!"
     },
+    editComment: {
+        idProvidedError: 'El ID del comentario, no fue proporcionado.',
+        createdByProvidedError: 'El nombre de usuario no fue proporcionado.',
+        commentProvidedError: 'El comentario no fue proporcionado.',
+        saveError: "No se pudo editar el comentario. Error: ",
+        success: "¡Comentario editado!"
+    },
     deleteCategory: {
         idProvidedError: 'El ID de la categoría, no fue proporcionado.',
         deleteError: "No se pudo eliminar la categoría, está siendo utilizado por eventos.",

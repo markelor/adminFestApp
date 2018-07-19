@@ -30,6 +30,21 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+  private getDatePoster(datetime){
+    var date=new Date(datetime)
+    var result=
+                {
+                  "month":date.getMonth()+1,
+                  "day":date.getDate(),
+                  "dayNumber":date.getDate(),
+                  "hour":date.getHours()+":"+date.getMinutes(),
+                };
+    return result;
+  }
+  private getMonthShort(number){
+    //number 0-11;
+    
+  }
   ngOnInit() {
   	this.getEvents();
     this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

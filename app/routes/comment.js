@@ -168,6 +168,7 @@ module.exports = (router) => {
                         if (req.body.mentionedUsers) var newCommentMentionedUsers = req.body.mentionedUsers; // Check if a change to mentionedUsers was requested
                         if (req.body.comment) var newCommentComment = req.body.comment; //Check if a change to comment was requested
                         if (req.body.createdBy) var newCommentCreatedBy = req.body.createdBy; // Check if a change to createdBy was requested
+                        if (req.body.deleted) var newCommentDeleted = req.body.deleted; // Check if a change to deleted was requested
                         // Look for logged in user in database to check if have appropriate access
                         User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
                             if (err) {
@@ -283,6 +284,8 @@ module.exports = (router) => {
                                                                     comment.comment = newCommentComment; // Assign newComment to comment in database
                                                                 if (newCommentCreatedBy)
                                                                     comment.createdBy = newCommentCreatedBy; // Assign new createdBy to comment in database
+                                                                if (newCommentDeleted)
+                                                                    comment.deleted = newCommentDeleted; // Assign new deleted to comment in database
                                                                 comment.updatedAt = Date.now();
                                                                 // Save comment into database
                                                                 comment.save((err, comment) => {

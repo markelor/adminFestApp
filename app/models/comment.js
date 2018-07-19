@@ -36,6 +36,7 @@ const commentSchema = new Schema({
     mentionedUsers:{type: Array, required: false},
     comment: { type: String, required: true, validate: commentValidators },
     createdBy: { type: String, required: true },
+    deleted: { type: Boolean, required: true, default:false },
     createdAt: { type: Date, required: true, default: Date.now() },
     updatedAt: { type: Date, required: true, default: Date.now() },
     reactions:{

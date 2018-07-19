@@ -22,24 +22,35 @@
               </h5>
               <div *ngIf="!event.showCollapse" class="card-block">
                 <!-- Date/Time -->
-                <p class="time"><span class="la la-clock-o ks-icon"></span> {{event.start}} </p>
-                <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-img ks-thumbnail img-responsive">
+                <div class="event-datetime">
+                  <div class="event-datetime-month" >{{'dates.month.short.'+getDatePoster(event.start).month | translate}}</div>
+                  <div class="event-datetime-date">
+                    <div class="event-datetime-day" [innerHTML]="getDatePoster(event.start).day"></div>
+                    <div class="event-datetime-day-num" [innerHTML]="getDatePoster(event.start).dayNumber"></div>
+                    <div class="event-datetime-hour" [innerHTML]="getDatePoster(event.start).hour"></div>
+                  </div>
+                </div>
+                <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-image ks-thumbnail img-responsive">
+                <img *ngIf="event.images.poster.length==0" src="https://s3-eu-west-1.amazonaws.com/culture-bucket/event-poster/irudi+gabe.png" class="post-image ks-thumbnail img-responsive">
                 <div class="ks-text description" [innerHTML]="event.description"></div>
                 <div class="ks-actions">
+                  <!--
                   <p class="time">
                     <span class="la la-user ks-icon"></span>
                     <span translate>{{'event.created-by'}}</span> {{event.createdBy}}
                   </p>
                   <button [routerLink]="['/event-route','see-route',event._id] | localize" class="btn btn-success right" translate>{{'event.see-event'}}</button>
+                -->
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
                     <span class="la la-comment-o ks-icon"></span>
                   <span class="ks-amount">1</span>
                   </span>
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
                     <span class="la la-heart-o ks-icon"></span>
-                    <span class="ks-amount">3</span>
+                  <span class="ks-amount">3</span>
                   </span>
                 </div>
+                <!--
                 <div class="ks-likes-block">
                   <div class="ks-users">
                     <a href="#" class="ks-user">
@@ -60,6 +71,7 @@
                   </div>
                   <span class="ks-text">and 103 other like this</span>
                 </div>
+                -->
                 <div class="ks-comments">
                 </div>
               </div>

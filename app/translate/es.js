@@ -425,5 +425,4 @@ module.exports = {
     comments: {
         commentsError: "No se encontraron comentarios."
     }
-
 };

@@ -305,5 +305,11 @@
     "you": "Tú",
     "you-and": "Tú y",
     "others": "personas más"
-  }
+  },
+    "dates": {
+        "month": {
+            "short": ["Urt","Ots","Mar","Api","Mai","Eka","Uzt","Abu","Ira","Urr","Aza","Abe"],
+            "long": ["Urtarrila","Otsaila","Martxoa","Apirila","Maiatza","Ekaina","Uztaila","Abuztua","Iraila","Urria","Azaroa","Abendua"]
+        }
+    }
 }

@@ -1,6 +1,6 @@
 <div class="card panel panel-default ks-comments-section" [ngClass]="{'ks-no-arrow' : !isArrow}">
   <div *ngIf="comments" class="ks-comment">
-    <ng-container *ngFor="let firstComments of comments">
+    <ng-container *ngFor="let firstComments of comments; let i=index;">
       <ng-container *ngFor="let comment of firstComments.groupComments">
         <div *ngIf="comment.level===0" class="ks-body">
           <a href="javascript:void(0);" class="ks-avatar">
@@ -15,6 +15,7 @@
             <div class="ks-controls">
               <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
               <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
+              <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
               <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
               <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
             </div>
@@ -34,7 +35,7 @@
               <div class="ks-controls">
                 <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
                 <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
-                <a href="javascript:void(0);" (click)="deleteComment(comment)" class="ks-control">Delete</a>
+                <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
                 <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
                 <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
               </div>

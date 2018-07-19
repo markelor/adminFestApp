@@ -73,11 +73,25 @@ export class CommentComponent implements OnInit {
     string = string.replace(/``(.+)``/g, '<code>$1</code>');
     string = string.replace(/`(.+)`/g, '<code>$1</code>');
     return string;
-};
+  };
   private editComment(comment){
     this.editId=comment._id;
     this.commentEdit.setValue(comment.comment);
-
+  }
+  private deleteComment(comment,index){
+    console.log(index);
+    this.editId=undefined;
+    if(this.comments[index].groupComments.some(c=> c.parentId === comment._id)){
+      console.log("2");
+      //edit comment
+      comment.deleted=true;
+      console.log(comment.comment);
+      this.onSubmitEdit(comment);
+ 
+    }else{
+      //delete comment   
+      console.log("1");       
+    }
   }
 
   private addReply(comment){
@@ -114,96 +128,91 @@ export class CommentComponent implements OnInit {
 
   }
   private onSubmitEdit(comment){
-    if (this.formEdit.valid) {
-      // Get authentication to send comment
-      this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
-        if(!authentication.success){
-          this.authService.logout();
-          this.authGuard.redirectUrl=this.router.url;
-          this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
-        }else{
+    // Get authentication to send comment
+    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
+      if(!authentication.success){
+        this.authService.logout();
+        this.authGuard.redirectUrl=this.router.url;
+        this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
+      }else{
+        if(this.formEdit.get('commentEdit').value){
           if(this.formEdit.get('commentEdit').value.match(/(^|[^@\w])@(\w{1,15})\b/)){
-              var mentionedUsers = this.formEdit.get('commentEdit').value.replace(/(^|[^@\w])@(\w{1,15})\b/g,'@271$2@272').match(/@271(.*?)@272/g).join().replace(/@271/g,'').replace(/@272/g,'').split(',');
+            var mentionedUsers = this.formEdit.get('commentEdit').value.replace(/(^|[^@\w])@(\w{1,15})\b/g,'@271$2@272').match(/@271(.*?)@272/g).join().replace(/@271/g,'').replace(/@272/g,'').split(',');
           }                                                                                      
           console.log(this.formEdit.get('commentEdit').value);
           var span= this.markdown(this.formEdit.get('commentEdit').value.substring(
           this.formEdit.get('commentEdit').value.lastIndexOf("<p>") + 3, 
           this.formEdit.get('commentEdit').value.lastIndexOf("</p>")
-          ));                            
-          console.log(span)
-          console.log(mentionedUsers);
-          
-          comment.comment=span;
-          comment.language=this.localizeService.parser.currentLang;
-          comment.mentionedUsers=mentionedUsers; 
-          this.submittedEdit = true;
-          // Function to save comment into database
-          this.commentService.editComment(comment).subscribe(data => {
-            console.log(data);
-            // Check if event was saved to database or not
-            if (!data.success) {
-
-              this.submittedEdit = false; // Enable submit button
-            } else {
-              this.createForm(); // Reset all form fields
-              this.submittedEdit = false; // Enable submit button
-          
-            }
-          });
+          ));
+            console.log(span)
+            console.log(mentionedUsers);
+            
+            comment.comment=span;
+            comment.mentionedUsers=mentionedUsers; 
         }
-      }); 
-    }                   
+        comment.language=this.localizeService.parser.currentLang;                     
+        this.submittedEdit = true;
+        // Function to save comment into database
+        this.commentService.editComment(comment).subscribe(data => {
+          console.log(data);
+          // Check if event was saved to database or not
+          if (!data.success) {
+
+            this.submittedEdit = false; // Enable submit button
+          } else {
+            this.createForm(); // Reset all form fields
+            this.submittedEdit = false; // Enable submit button
+        
+          }
+        });
+      }
+    });                 
   }   
   private onSubmit(){
-    if (this.form.valid) {
-      // Get authentication to send comment
-      this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
-        if(!authentication.success){
-          this.authService.logout();
-          this.authGuard.redirectUrl=this.router.url;
-          this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
-        }else{
-          if(this.form.get('comment').value.match(/(^|[^@\w])@(\w{1,15})\b/)){
-              var mentionedUsers = this.form.get('comment').value.replace(/(^|[^@\w])@(\w{1,15})\b/g,'@271$2@272').match(/@271(.*?)@272/g).join().replace(/@271/g,'').replace(/@272/g,'').split(',');
-          }                                                                                      
-          console.log(this.form.get('comment').value);
-          var span= this.markdown(this.form.get('comment').value.substring(
-          this.form.get('comment').value.lastIndexOf("<p>") + 3, 
-          this.form.get('comment').value.lastIndexOf("</p>")
-          ));                            
-          console.log(span)
-          console.log(mentionedUsers);
-          this.commentClass.setEventId=this.inputEventId;
-          this.commentClass.language=this.localizeService.parser.currentLang;
-          this.commentClass.setCreatedBy=this.authService.user.username;
-          this.commentClass.setComment=span;
-          this.commentClass.setMentionedUsers=mentionedUsers;
-          if(mentionedUsers){
-            this.commentClass.setParentId=this.parentId;
-            this.commentClass.firstParentId=this.firstParentId; 
-            this.commentClass.level=this.level;
-          }     
-          this.submitted = true;
-          // Function to save comment into database
-          this.commentService.newComment(this.commentClass).subscribe(data => {
-            console.log(data);
-            // Check if event was saved to database or not
-            if (!data.success) {
-
-              this.submitted = false; // Enable submit button
-            } else {
-              this.createForm(); // Reset all form fields
-              this.submitted = false; // Enable submit button
-          
-            }
-          });
-        }
-      }); 
-    }                   
+    // Get authentication to send comment
+    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
+      if(!authentication.success){
+        this.authService.logout();
+        this.authGuard.redirectUrl=this.router.url;
+        this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]); // Return error and route to login page
+      }else{
+        if(this.form.get('comment').value.match(/(^|[^@\w])@(\w{1,15})\b/)){
+            var mentionedUsers = this.form.get('comment').value.replace(/(^|[^@\w])@(\w{1,15})\b/g,'@271$2@272').match(/@271(.*?)@272/g).join().replace(/@271/g,'').replace(/@272/g,'').split(',');
+        }                                                                                      
+        console.log(this.form.get('comment').value);
+        var span= this.markdown(this.form.get('comment').value.substring(
+        this.form.get('comment').value.lastIndexOf("<p>") + 3, 
+        this.form.get('comment').value.lastIndexOf("</p>")
+        ));                            
+        console.log(span)
+        console.log(mentionedUsers);
+        this.commentClass.setEventId=this.inputEventId;
+        this.commentClass.language=this.localizeService.parser.currentLang;
+        this.commentClass.setCreatedBy=this.authService.user.username;
+        this.commentClass.setComment=span;
+        this.commentClass.setMentionedUsers=mentionedUsers;
+        if(mentionedUsers){
+          this.commentClass.setParentId=this.parentId;
+          this.commentClass.firstParentId=this.firstParentId; 
+          this.commentClass.level=this.level;
+        }     
+        this.submitted = true;
+        // Function to save comment into database
+        this.commentService.newComment(this.commentClass).subscribe(data => {
+          console.log(data);
+          // Check if event was saved to database or not
+          if (!data.success) {
+            this.submitted = false; // Enable submit button
+          } else {
+            this.createForm(); // Reset all form fields
+            this.submitted = false; // Enable submit button
+            this.getComments();
+          }
+        });
+      }
+    });                 
   }     
-  
-
-  ngOnInit() {
+  private getComments(){
     this.commentService.getComments(this.inputEventId,this.localizeService.parser.currentLang).subscribe(data => {
       // Check if event was saved to database or not
       if (!data.success) {
@@ -214,7 +223,10 @@ export class CommentComponent implements OnInit {
         this.comments=data.comments;
       }
     });
+  }
 
+  ngOnInit() {
+    this.getComments();
   }
 
 }

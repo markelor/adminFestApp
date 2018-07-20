@@ -8,28 +8,84 @@
 .post-image {
   float: left;
   margin: 5px 20px 15px 0px;
+  /*
   width: 20%;
   height: auto;
+  */
+  width: auto;
+  height: 115px;
 }
 
 .event-datetime {
   float: left;
   margin: 5px 20px 15px 0px;
-  width: 10%;
+  width: fit-content;
   height: auto;
-  border: solid 2px;
+  border: solid 1px;
   border-radius: 5px;
+  position: relative;
+  border-color: #dee0e1;
 }
+
 .event-datetime-month {
   display: inline-block;
-  -webkit-transform: rotate(-90deg); 
+  background-color: #2b3034;
+  border-radius: 5px 0 0 5px;
+  position: absolute;
+  height: 100%;
+  width: 30px;
+}
+
+.event-datetime-month span {
+  display: inline-block;
+  -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
+  color: #ffffff;
+  margin-top: 10px;
+  font-weight: bolder;
 }
+
 .event-datetime-date {
-  display: inline-block;
+  padding-left: 25px;
+}
+
+.event-datetime-day {
+  padding: 5px 10px 5px 13px;
+  border-radius: 5px 5px 0 0;
+  color:#ffffff;
+  font-weight: bold;
+  background-color: var(--main-color);
+}
+
+.event-datetime-day-num {
+  padding-left: 5px;
+  font-size: 25pt;
+  text-align: center;
+}
+
+.event-datetime-hour {
+  padding-left: 5px;
+  font-size: 15pt;
+  text-align: center;
+}
+
+.view-event{
+  color:#bbbbbb;
+  font-size: 20pt;
+  margin-left: 30px;
+  padding:3px;
+}
+
+.view-event:hover{
+  background-color:#333;
+  color:#ffffff;
+  font-size: 20pt;
+  margin-left: 30px;
+  border-radius: 50px;
+  padding:3px;
 }
 
 .description p {

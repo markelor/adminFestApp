@@ -34,12 +34,14 @@ export class HomeComponent implements OnInit {
   }
   private getDatePoster(datetime){
     var date=new Date(datetime);
+    var monthName=moment(date).tz("Europe/Madrid").format('MMM');
+    var dayName=moment(date).tz("Europe/Madrid").format('dd');
     var result=
                 {
-                  "month":date.getMonth()+1,
-                  "day":date.getDate(),
-                  "dayNumber":date.getDate(),
-                  "hour":date.getHours()+":"+date.getMinutes(),
+                  "month":monthName[0].toUpperCase() + monthName.substring(1),
+                  "day":dayName[0].toUpperCase() + dayName.substring(1),
+                  "dayNumber":moment(date).tz("Europe/Madrid").format('DD'),
+                  "hour":moment(date).tz("Europe/Madrid").format('HH:mm'),
                 };
     return result;
   }

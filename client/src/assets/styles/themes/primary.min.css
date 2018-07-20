@@ -19,9 +19,9 @@
   background: var(--main-color);
 }
 
-.ks-navbar .nav-item {
+/*.ks-navbar .nav-item {
   border-color: var(--main-dark-color);
-}
+}*/
 
 .ks-navbar .nav-item:hover {
   -webkit-transition: background .3s ease;
@@ -208,11 +208,11 @@
 .ks-navbar>.ks-wrapper>.nav>.ks-navbar-actions>.ks-notifications>.dropdown-menu>.tab-content>.tab-pane .ks-notification>.ks-info>.ks-text {
   color: #db4935
 }
-
+/*
 .ks-navbar>.ks-wrapper>.nav>.ks-navbar-actions>.ks-user {
   border-right: 1px solid var(--main-dark-color)
 }
-
+*/
 .ks-navbar .ks-dropdown-grid {
   border: none
 }

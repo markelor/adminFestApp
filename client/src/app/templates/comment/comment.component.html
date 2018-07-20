@@ -14,8 +14,8 @@
             <div [innerHTML]="comment.comment" class="ks-message"></div>
             <div class="ks-controls">
               <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
-              <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
-              <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
+              <a href="javascript:void(0);" *ngIf="authService.user && comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
+              <a href="javascript:void(0);" *ngIf="authService.user && comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
               <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
               <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
             </div>
@@ -34,8 +34,8 @@
               <div [innerHTML]="comment.comment" class="ks-message"></div>
               <div class="ks-controls">
                 <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
-                <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
-                <a href="javascript:void(0);" *ngIf="comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
+                <a href="javascript:void(0);" *ngIf="authService.user && comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
+                <a href="javascript:void(0);" *ngIf="authService.user && comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
                 <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
                 <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
               </div>

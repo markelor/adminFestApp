@@ -403,6 +403,11 @@ module.exports = {
         saveError: "No se pudo eliminar la observación. Error: ",
         success: "¡Observación eliminada!"
     },
+          deleteComment: {
+        usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
+        idProvidedError: 'El ID del comentario, no fue proporcionado.',
+        success: "¡Comentario eliminado!"
+    },
     addThemeReaction: {
         idProvidedError: 'El ID del tema, no fue proporcionado.',
         reactionProvidedError: 'La reacción del tema no fue proporcionada.',

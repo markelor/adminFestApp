@@ -79,18 +79,24 @@ export class CommentComponent implements OnInit {
     this.commentEdit.setValue(comment.comment);
   }
   private deleteComment(comment,index){
-    console.log(index);
     this.editId=undefined;
     if(this.comments[index].groupComments.some(c=> c.parentId === comment._id)){
-      console.log("2");
       //edit comment
       comment.deleted=true;
-      console.log(comment.comment);
       this.onSubmitEdit(comment);
  
     }else{
       //delete comment   
-      console.log("1");       
+      this.commentService.deleteComment(this.authService.user.username,comment._id,this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success){ 
+          this.messageClass = 'alert alert-success ks-solid'; // Set bootstrap success class
+          this.message = data.message; // Set success messag
+          this.getComments();
+        }else{
+          this.messageClass = 'alert alert-danger ks-solid'; // Set bootstrap error class
+          this.message = data.message; // Set error message
+        }
+      });       
     }
   }
 

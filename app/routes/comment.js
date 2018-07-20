@@ -116,6 +116,15 @@ module.exports = (router) => {
                             as: "user" // alias for userinfo table
                         }
                     }, { $unwind: "$user" },
+                    {
+                        // Join with Place table
+                        $lookup: {
+                            from: "users", // other table name
+                            localField: "createdBy", // placeId of Comment table field
+                            foreignField: "username", // _id of Place table field
+                            as: "user" // alias for userinfo table
+                        }
+                    }, { $unwind: "$user" },
 
                     {
                         $group: {
@@ -320,6 +329,135 @@ module.exports = (router) => {
             }
         }
     });
-
+    /* ===============================================================
+        Route to delete a comment
+    =============================================================== */
+    router.delete('/deleteComment/:username/:id/:language', function(req, res) {
+        var language = req.params.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            // Check if username was provided
+            if (!req.params.username) {
+                res.json({ success: false, message: eval(language + '.deleteComment.usernameProvidedError') }); // Return error
+            } else {
+                // Check if comment id was provided
+                if (!req.params.id) {
+                    res.json({ success: false, message: eval(language + '.deleteComment.idProvidedError') }); // Return error
+                } else {
+                    var deleteUser = req.params.username; // Assign the username from request parameters to a variable
+                    // Look for logged in user in database to check if have appropriate access
+                    User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                        if (err) {
+                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                            var mailOptions = {
+                                from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                                to: [emailConfig.email],
+                                subject: ' Find one 1 delete comment error ',
+                                text: 'The following error has been reported in Kultura: ' + err,
+                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                            };
+                            // Function to send e-mail to myself
+                            transporter.sendMail(mailOptions, function(err, info) {
+                                if (err) {
+                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                } else {
+                                    console.log(info); // Log success message to console if sent
+                                    console.log(user.email); // Display e-mail that it was sent to
+                                }
+                            });
+                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                        } else {
+                            // Check if logged in user is found in database
+                            if (!mainUser) {
+                                res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                            } else {
+                                // Look for user in database
+                                User.findOne({ username: deleteUser }, function(err, user) {
+                                    if (err) {
+                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                        var mailOptions = {
+                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                            to: [emailConfig.email],
+                                            subject: ' Find one 2 delete comment error ',
+                                            text: 'The following error has been reported in Kultura: ' + err,
+                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                        }; // Function to send e-mail to myself
+                                        transporter.sendMail(mailOptions, function(err, info) {
+                                            if (err) {
+                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                            } else {
+                                                console.log(info); // Log success message to console if sent
+                                                console.log(user.email); // Display e-mail that it was sent to
+                                            }
+                                        });
+                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                    } else {
+                                        // Check if user is in database
+                                        if (!user) {
+                                            res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                        } else {
+                                            var saveErrorPermission = false;
+                                            // Check if is owner
+                                            if (mainUser._id.toString() === user._id.toString()) {} else {
+                                                // Check if the current permission is 'admin'
+                                                if (mainUser.permission === 'admin') {
+                                                    // Check if user making changes has access
+                                                    if (user.permission === 'admin') {
+                                                        saveErrorPermission = language + '.general.adminOneError';
+                                                    } else {}
+                                                } else {
+                                                    // Check if the current permission is moderator
+                                                    if (mainUser.permission === 'moderator') {
+                                                        // Check if contributor making changes has access
+                                                        if (user.permission === 'contributor') {} else {
+                                                            saveErrorPermission = language + '.general.adminOneError';
+                                                        }
+                                                    } else {
+                                                        saveErrorPermission = language + '.general.permissionError';
+                                                    }
+                                                }
+                                            }
+                                            //check saveError permision to save changes or not
+                                            if (saveErrorPermission) {
+                                                res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                            } else {
+                                                // Fine the user that needs to be deleted
+                                                Comment.findOneAndRemove({ _id: req.params.id }, function(err, comment) {
+                                                    if (err) {
+                                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                                        var mailOptions = {
+                                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                                            to: [emailConfig.email],
+                                                            subject: ' Find one and remove for delete comment ',
+                                                            text: 'The following error has been reported in Kultura: ' + err,
+                                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                                        };
+                                                        // Function to send e-mail to myself
+                                                        transporter.sendMail(mailOptions, function(err, info) {
+                                                            if (err) {
+                                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                                            } else {
+                                                                console.log(info); // Log success message to console if sent
+                                                                console.log(user.email); // Display e-mail that it was sent to
+                                                            }
+                                                        });
+                                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                                    } else {
+                                                        res.json({ success: true, message: eval(language + '.deleteComment.success') }); // Return success message
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    });
     return router;
 };

@@ -5,6 +5,7 @@ import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../guards/auth.guard';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -27,11 +28,12 @@ export class HomeComponent implements OnInit {
     this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.events = data.events; // Assign array to use in HTML
+              console.log(moment(this.events[0].start).tz("Europe/Madrid").format('MMM'));
       }
     });
   }
   private getDatePoster(datetime){
-    var date=new Date(datetime)
+    var date=new Date(datetime);
     var result=
                 {
                   "month":date.getMonth()+1,
@@ -46,6 +48,7 @@ export class HomeComponent implements OnInit {
     
   }
   ngOnInit() {
+    moment.locale(this.localizeService.parser.currentLang);
   	this.getEvents();
     this.subscriptionLanguage =this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.localizeService.parser.currentLang=event.lang;

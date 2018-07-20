@@ -403,6 +403,11 @@ module.exports = {
         saveError: "Ezin izan da oharra ezabatu. Akatsa: ",
         success: "Oharra ezabatu da!"
     },
+        deleteComment: {
+        usernameProvidedError: 'Erabiltzaile izena ez da eman.',
+        idProvidedError: 'Ez da iruzkinaren IDa eman.',
+        success: "Iruzkina ezabatu da!"
+    },
     addThemeReaction: {
         idProvidedError: 'Ez da gaiaren IDa eman.',
         reactionProvidedError: 'La reacción del tema no fue proporcionada.',

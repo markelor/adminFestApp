@@ -404,6 +404,11 @@ module.exports = {
         saveError: "Could not delete observation. Error: ",
         success: "Observation deleted!"
     },
+    deleteComment: {
+        usernameProvidedError: 'Username was not provided.',
+        idProvidedError: 'Comment ID was not provided.',
+        success: "Comment deleted!"
+    },
     addThemeReaction: {
         idProvidedError: 'Theme ID was not provided',
         reactionProvidedError: 'Theme reaction was not provided',

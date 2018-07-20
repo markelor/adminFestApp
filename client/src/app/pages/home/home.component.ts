@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   private getDatePoster(datetime){
     var date=new Date(datetime);
     var monthName=moment(date).tz("Europe/Madrid").format('MMM');
-    var dayName=moment(date).tz("Europe/Madrid").format('dd');
+    var dayName=moment(date).tz("Europe/Madrid").format('dddd');
     var result=
                 {
                   "month":monthName[0].toUpperCase() + monthName.substring(1),

@@ -25,19 +25,20 @@
               <div *ngIf="!event.showCollapse" class="card-block">
                 <!-- Date/Time -->
                 <div class="event-datetime">
-                  <div class="event-datetime-month"><span>
-                  {{getDatePoster(event.start).month}}
-                  </span>
-                  </div>
-                  <div class="event-datetime-date">
-                    <div class="event-datetime-day" [innerHTML]="getDatePoster(event.start).day"></div>
-                    <div class="event-datetime-day-num" [innerHTML]="getDatePoster(event.start).dayNumber"></div>
-                    <div class="event-datetime-hour"><span class="la la-clock-o ks-icon"></span>{{getDatePoster(event.start).hour}}</div>
+                  <div class="event-datetime-day" [innerHTML]="getDatePoster(event.start).day"></div>
+                  <div class="event-datetime-subcontainer">
+                    <div class="event-datetime-month">
+                      <span>{{getDatePoster(event.start).month}}</span>
+                    </div>
+                    <div class="event-datetime-date">
+                      <div class="event-datetime-day-num" [innerHTML]="getDatePoster(event.start).dayNumber"></div>
+                      <div class="event-datetime-hour"><span class="la la-clock-o ks-icon"></span>{{getDatePoster(event.start).hour}}</div>
+                    </div>
                   </div>
                 </div>
                 <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-image ks-thumbnail img-responsive">
                 <img *ngIf="event.images.poster.length==0" src="https://s3-eu-west-1.amazonaws.com/culture-bucket/event-poster/irudi+gabe.png" class="post-image ks-thumbnail img-responsive">
-                <div class="ks-text description" [innerHTML]="event.description"></div>
+                <div class="ks-text " [innerHTML]="event.description"></div>
                 <div class="ks-actions">
                   <!--
                   <p class="time">

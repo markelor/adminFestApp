@@ -257,39 +257,42 @@ module.exports = (router) => {
             if (!req.params.username) {
                 res.json({ success: false, message: eval(language + '.userEvents.usernameProvidedError') }); // Return error
             } else {
-                Event.find({
-                    $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
-                    $or: [{ createdBy: req.params.username }, { translation: { $elemMatch: { createdBy: req.params.username } } }]
-                }).sort({ 'start': 1 }).exec((err, events) => {
-                    // Check if error was found or not
-                    if (err) {
-                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
-                        var mailOptions = {
-                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
-                            to: [emailConfig.email], // list of receivers
-                            subject: ' Find 1 userEvents error ',
-                            text: 'The following error has been reported in Kultura: ' + err,
-                            html: 'The following error has been reported in Kultura:<br><br>' + err
-                        };
-                        // Function to send e-mail to myself
-                        transporter.sendMail(mailOptions, function(err, info) {
-                            if (err) {
-                                console.log(err); // If error with sending e-mail, log to console/terminal
-                            } else {
-                                console.log(info); // Log success message to console if sent
-                                console.log(user.email); // Display e-mail that it was sent to
-                            }
-                        });
-                        res.json({ success: false, message: eval(language + '.general.generalError') });
-                    } else {
-                        // Check if events were found in database
-                        if (!events) {
-                            res.json({ success: false, message: eval(language + '.userEvents.eventsError') }); // Return error of no events found
-                        } else {
-                            res.json({ success: true, events: events }); // Return success and events array
+
+                Event.aggregate([{
+                        $match: {
+                            $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
+                            $or: [{ createdBy: req.params.username }, { translation: { $elemMatch: { createdBy: req.params.username } } }]
                         }
+                    }, {
+                        // Join with Place table
+                        $lookup: {
+                            from: "places", // other table name
+                            localField: "placeId", // placeId of Event table field
+                            foreignField: "_id", // _id of Place table field
+                            as: "place" // alias for userinfo table
+                        }
+                    }, {
+                        $sort: {
+                            start: -1
+                        }
+                    }, { $unwind: "$place" },
+                    // Join with Category table
+                    {
+                        $lookup: {
+                            from: "categories",
+                            localField: "categoryId",
+                            foreignField: "_id",
+                            as: "category"
+                        }
+                    }, { $unwind: "$category" },
+                ]).exec(function(err, events) {
+                    // Check if places were found in database
+                    if (!events) {
+                        res.json({ success: false, message: eval(language + '.userEvents.eventsError') }); // Return error of no places found
+                    } else {
+                        res.json({ success: true, events: events }); // Return success and place 
                     }
-                }); // Sort events from newest to oldest
+                });
             }
         }
     });
@@ -302,10 +305,6 @@ module.exports = (router) => {
             res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
         } else {
             Event.aggregate([{
-                    $match: {
-                        $or: [{ language: language }, { translation: { $elemMatch: { language: language } } }]
-                    }
-                }, {
                     // Join with Place table
                     $lookup: {
                         from: "places", // other table name

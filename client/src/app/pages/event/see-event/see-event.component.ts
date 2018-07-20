@@ -36,18 +36,28 @@ export class SeeEventComponent implements OnInit {
 
   }
   private initializeGalleryImages(images){
-    this.galleryImages = [
-      {
+    if(images.length>0){
+      this.galleryImages = [
+        {
           small: images[0].url,
           medium:images[0].url ,
           big: images[0].url
-      }
-    ];      
+        }
+      ];
+    }else{
+      this.galleryImages = [
+        {
+            small:'assets/img/defaults/event/default-'+this.localizeService.parser.currentLang+'.png',
+            medium:'assets/img/defaults/event/default-'+this.localizeService.parser.currentLang+'.png',
+            big:'assets/img/defaults/event/default-'+this.localizeService.parser.currentLang+'.png'
+        }
+      ];
+    }    
   }
-  /*private addReaction(reaction){
-    this.themeService.addReactionTheme(this.bindContent.transform(this.archeologyDetail,this.language,'_id',undefined),reaction,this.localizeService.parser.currentLang).subscribe(data=>{
+  private addReaction(reaction){
+    this.eventService.addReactionEvent(this.event._id,reaction,this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
-        this.getSingleTheme();
+        //this.getSingleEvent();
       }else{
         if(data.authentication===false){
           this.authService.logout();
@@ -58,13 +68,13 @@ export class SeeEventComponent implements OnInit {
     });  
   }
   private deleteReaction(){
-    this.themeService.deleteReactionTheme(this.bindContent.transform(this.archeologyDetail,this.language,'_id',undefined),this.localizeService.parser.currentLang).subscribe(data=>{
+    this.eventService.deleteReactionEvent(this.event._id,this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
-        this.getSingleTheme();
+        //this.getSingleEvent();
       }
     });  
   }
-  */
+  
     private passCoordinates(){
       var market_info={
         title:this.event.title,

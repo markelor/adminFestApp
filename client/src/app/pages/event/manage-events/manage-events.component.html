@@ -26,46 +26,49 @@
               </h5>
               <div *ngIf="!event.showCollapse" class="card-block">
                 <!-- Date/Time -->
-                <p class="time"><span class="la la-clock-o ks-icon"></span> {{event.start}} </p>
-                <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-img ks-thumbnail img-responsive">
-                <div class="ks-text description" [innerHTML]="event.description"></div>
-                <div class="ks-actions">
-                  <p class="time">
-                    <span class="la la-user ks-icon"></span>
-                    <span translate>{{'event.created-by'}}</span> {{event.createdBy}}
-                  </p>
-                  <button [routerLink]="['/event-route','manage-route','edit-route',event._id] | localize" class="btn btn-success right" translate>{{'event.edit-event'}}</button>
-                  <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
-                    <span class="la la-comment-o ks-icon"></span>
-                  <span class="ks-amount">1</span>
-                  </span>
-                  <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
-                    <span class="la la-heart-o ks-icon"></span>
-                    <span class="ks-amount">3</span>
-                  </span>
-                </div>
-                <div class="ks-likes-block">
-                  <div class="ks-users">
-                    <a href="#" class="ks-user">
-                      <img class="ks-avatar" src="assets/img/avatars/avatar-1.jpg" width="26" height="26">
-                    </a>
-                    <a href="#" class="ks-user">
-                      <img class="ks-avatar" src="assets/img/avatars/avatar-7.jpg" width="26" height="26">
-                    </a>
-                    <a href="#" class="ks-user">
-                      <img class="ks-avatar" src="assets/img/avatars/avatar-11.jpg" width="26" height="26">
-                    </a>
-                    <a href="#" class="ks-user">
-                      <img class="ks-avatar" src="assets/img/avatars/avatar-2.jpg" width="26" height="26">
-                    </a>
-                    <a href="#" class="ks-user">
-                      <img class="ks-avatar" src="assets/img/avatars/avatar-6.jpg" width="26" height="26">
-                    </a>
+                <div class="event-datetime">
+                  <div class="event-datetime-day" [innerHTML]="getDatePoster(event.start).day"></div>
+                  <div class="event-datetime-subcontainer">
+                    <div class="event-datetime-month">
+                      <span>{{getDatePoster(event.start).month}}</span>
+                    </div>
+                    <div class="event-datetime-date">
+                      <div class="event-datetime-day-num" [innerHTML]="getDatePoster(event.start).dayNumber"></div>
+                      <div class="event-datetime-hour"><span class="la la-clock-o ks-icon"></span>{{getDatePoster(event.start).hour}}</div>
+                    </div>
                   </div>
-                  <span class="ks-text">and 103 other like this</span>
                 </div>
-                <div class="ks-comments">
+                <div class="event-datetime">
+                  <div class="event-datetime-day" [innerHTML]="getDatePoster(event.end).day"></div>
+                  <div class="event-datetime-subcontainer">
+                    <div class="event-datetime-month">
+                      <span>{{getDatePoster(event.start).month}}</span>
+                    </div>
+                    <div class="event-datetime-date">
+                      <div class="event-datetime-day-num" [innerHTML]="getDatePoster(event.end).dayNumber"></div>
+                      <div class="event-datetime-hour"><span class="la la-clock-o ks-icon"></span>{{getDatePoster(event.end).hour}}</div>
+                    </div>
+                  </div>
                 </div>
+                <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-image ks-thumbnail img-responsive">
+                <img *ngIf="event.images.poster.length==0" src="assets/img/defaults/irudi+gabe.png" class="post-image ks-thumbnail img-responsive">
+                <div class="ks-text" [innerHTML]="event.description"></div>
+                <!-- Category info-->
+                  <div class="col-sm-6">
+                    <p>
+                      <span>
+                        <strong translate>{{'event-form.category'}}</strong>: 
+                      </span>
+                      <ng-container *ngFor="let category of categories">
+                        <span *ngIf="category.language===localizeService.parser.currentLang&&!category.firstParentId">{{category.title}}</span>
+                        <span *ngIf="category.language===localizeService.parser.currentLang&&category.firstParentId">- {{category.title}} </span>
+                        <ng-container *ngFor="let translation of category.translation">
+                          <span *ngIf="translation.language===localizeService.parser.currentLang&&!translation.firstParentId">{{translation.title}}</span>
+                          <span *ngIf="translation.language===localizeService.parser.currentLang&&translation.firstParentId">- {{translation.title}} </span>
+                        </ng-container>
+                      </ng-container>
+                    </p>
+                  </div>
               </div>
             </article>
             <ngb-pagination *ngIf="events" [collectionSize]="events.length" [(page)]="page" [pageSize]="1" [maxSize]="5" [boundaryLinks]="true" size="lg"></ngb-pagination>

@@ -45,10 +45,6 @@ export class HomeComponent implements OnInit {
                 };
     return result;
   }
-  private getMonthShort(number){
-    //number 0-11;
-    
-  }
   ngOnInit() {
     moment.locale(this.localizeService.parser.currentLang);
   	this.getEvents();

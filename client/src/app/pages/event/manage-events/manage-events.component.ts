@@ -6,6 +6,7 @@ import { LocalizeRouterService } from 'localize-router';
 import { AuthGuard} from '../../guards/auth.guard';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-manage-events',
   templateUrl: './manage-events.component.html',
@@ -32,8 +33,22 @@ export class ManageEventsComponent implements OnInit {
       }
     });
   }
+  private getDatePoster(datetime){
+    var date=new Date(datetime);
+    var monthName=moment(date).tz("Europe/Madrid").format('MMM');
+    var dayName=moment(date).tz("Europe/Madrid").format('dddd');
+    var result=
+                {
+                  "month":monthName[0].toUpperCase() + monthName.substring(1),
+                  "day":dayName[0].toUpperCase() + dayName.substring(1),
+                  "dayNumber":moment(date).tz("Europe/Madrid").format('DD'),
+                  "hour":moment(date).tz("Europe/Madrid").format('HH:mm'),
+                };
+    return result;
+  }
   ngOnInit() {
   	// Get authentication on page load
+    moment.locale(this.localizeService.parser.currentLang);
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){
         this.authService.logout();

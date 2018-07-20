@@ -249,7 +249,9 @@
     "delete": "Delete",
     "edit": "Edit",
     "reply": "Reply",
-    "hideReplies": "Hide Replies"
+    "hideReplies": "Hide Replies",
+    "deleted":"Deleted",
+    "deleted-text":"The user has deleted the comment."
   },
   "validation":
   {

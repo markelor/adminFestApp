@@ -251,7 +251,9 @@
     "delete": "Delete",
     "edit": "Edit",
     "reply": "Reply",
-    "hideReplies": "Hide Replies"
+    "hideReplies": "Hide Replies",
+    "deleted":"Ezabatuta",
+    "deleted-text":"Erabiltzaileak iruzkina ezabatu du."
   },
   "validation":
   {

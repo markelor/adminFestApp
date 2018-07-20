@@ -313,6 +313,10 @@ module.exports = (router) => {
                         foreignField: "_id", // _id of Place table field
                         as: "place" // alias for userinfo table
                     }
+                }, {
+                    $sort: {
+                        start: -1
+                    }
                 }, { $unwind: "$place" },
                 // Join with Category table
                 {

@@ -99,6 +99,10 @@ export class CommentComponent implements OnInit {
       });       
     }
   }
+  private recoverComment(comment){
+    comment.deleted=false;
+    this.onSubmitEdit(comment);
+  }
 
   private addReply(comment){
     this.parentId=comment._id;

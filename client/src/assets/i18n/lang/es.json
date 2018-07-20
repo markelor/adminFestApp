@@ -250,7 +250,9 @@
     "delete": "Delete",
     "edit": "Edit",
     "reply": "Reply",
-    "hideReplies": "Hide Replies"
+    "hideReplies": "Hide Replies",
+    "deleted":"Eliminado",
+    "deleted-text":"El usuario ha eliminado el comentario."
   },
   "validation":
   {

@@ -4,40 +4,48 @@
       <ng-container *ngFor="let comment of firstComments.groupComments">
         <div *ngIf="comment.level===0" class="ks-body">
           <a href="javascript:void(0);" class="ks-avatar">
-            <img src="{{comment.user.currentAvatar}}" width="36" height="36">
+            <img *ngIf="!comment.deleted" src="{{comment.user.currentAvatar}}" width="36" height="36">
+            <img *ngIf="comment.deleted" src="assets/img/defaults/deleted-comment.png" width="36" height="36">  
           </a>
           <div class="ks-comment-box">
             <div class="ks-name">
-              <a href="javascript:void(0);">{{comment.createdBy}}</a>
+              <a *ngIf="!comment.deleted" href="javascript:void(0);">{{comment.createdBy}}</a>
+              <a *ngIf="comment.deleted" href="javascript:void(0);" translate>{{'comment.deleted'}}</a>
               <span class="ks-time">{{comment.createdAt | timezone}}</span>
             </div>
-            <div [innerHTML]="comment.comment" class="ks-message"></div>
+            <div *ngIf="!comment.deleted" [innerHTML]="comment.comment" class="ks-message"></div>
+            <div *ngIf="comment.deleted" class="ks-message" translate>{{'comment.deleted-text'}}</div>
             <div class="ks-controls">
-              <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
-              <a href="javascript:void(0);" *ngIf="authService.user && comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
-              <a href="javascript:void(0);" *ngIf="authService.user && comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
-              <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
-              <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
+              <a href="javascript:void(0);" *ngIf="authService.user && !comment.deleted" (click)="addReply(comment)" class="ks-control">Reply</a>
+              <a href="javascript:void(0);" *ngIf="authService.user && !comment.deleted && comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
+              <a href="javascript:void(0);" *ngIf="authService.user  && !comment.deleted && comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
+              <a href="javascript:void(0);" *ngIf="!comment.deleted" class="ks-control">Hide Replies</a>
+              <a href="javascript:void(0);" *ngIf="!comment.deleted" class="ks-control">View 36 Replies</a>
+              <a href="javascript:void(0);" *ngIf="authService.user && comment.deleted && comment.createdBy===authService.user.username" (click)="recoverComment(comment)" class="ks-control">Berreskuratu</a>
             </div>
           </div>
         </div> 
         <div *ngIf="comment.level!==0" class="ks-replies">
           <div class="ks-reply">
             <a href="javascript:void(0);" class="ks-avatar">
-              <img src="{{comment.user.currentAvatar}}" width="36" height="36">
+              <img *ngIf="!comment.deleted" src="{{comment.user.currentAvatar}}" width="36" height="36">
+              <img *ngIf="comment.deleted" src="assets/img/defaults/deleted-comment.png" width="36" height="36">
             </a>
             <div class="ks-reply-box">
               <div class="ks-name">
-                <a href="javascript:void(0);">{{comment.createdBy}}</a>
+                <a *ngIf="!comment.deleted" href="javascript:void(0);">{{comment.createdBy}}</a>
+                <a *ngIf="comment.deleted" href="javascript:void(0);" translate>{{'comment.deleted'}}</a>
                 <span class="ks-time">{{comment.createdAt | timezone}}</span>
               </div>
-              <div [innerHTML]="comment.comment" class="ks-message"></div>
+              <div *ngIf="!comment.deleted"[innerHTML]="comment.comment" class="ks-message"></div>
+              <div *ngIf="comment.deleted" class="ks-message" translate>{{'comment.deleted-text'}}</div>
               <div class="ks-controls">
-                <a href="javascript:void(0);" (click)="addReply(comment)" class="ks-control">Reply</a>
-                <a href="javascript:void(0);" *ngIf="authService.user && comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
-                <a href="javascript:void(0);" *ngIf="authService.user && comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
-                <a href="javascript:void(0);" class="ks-control">Hide Replies</a>
-                <a href="javascript:void(0);" class="ks-control">View 36 Replies</a>
+                <a href="javascript:void(0);" *ngIf="authService.user && !comment.deleted" (click)="addReply(comment)" class="ks-control">Reply</a>
+                <a href="javascript:void(0);" *ngIf="authService.user && !comment.deleted && comment.createdBy===authService.user.username" (click)="editComment(comment)" class="ks-control">Edit</a>
+                <a href="javascript:void(0);" *ngIf="authService.user  && !comment.deleted && comment.createdBy===authService.user.username" (click)="deleteComment(comment,i)" class="ks-control">Delete</a>
+                <a href="javascript:void(0);" *ngIf="!comment.deleted" class="ks-control">Hide Replies</a>
+                <a href="javascript:void(0);" *ngIf="!comment.deleted" class="ks-control">View 36 Replies</a>
+                 <a href="javascript:void(0);" *ngIf="authService.user && comment.deleted && comment.createdBy===authService.user.username" (click)="recoverComment(comment)" class="ks-control">Berreskuratu</a>
               </div>
             </div>
           </div>

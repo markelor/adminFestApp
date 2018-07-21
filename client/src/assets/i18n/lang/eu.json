@@ -260,6 +260,7 @@
     "required": "Eremu hau derrigorrezkoa da.",
     "start-validation": "Hasiera data __/__/____ formatuan.",
     "end-validation": "Bukaera data __/__/____ formatuan.",
+    "compare-date-validation": "Bukaera datak, hasierakoak baino handiagoa izan beahar du.",
     "name-length": "Gutxienezko karaktereak: 5, Gehienezko karaktereak: 35.",
     "name-validation": "Izenak ezin du karaktere berezirik izan.",
     "username-length": "Gutxienezko karaktereak: 3, Gehienezko karaktereak: 15.",

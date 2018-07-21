@@ -258,6 +258,7 @@
     "required": "This field is required.",
     "start-validation": "Start date in format __ / __ / ____.",
     "end-validation": "End date in format __ / __ / ____.",
+    "compare-date-validation": "The final date must be greater than the start date.",
     "name-length": "Minimum characters: 5, Maximum characters: 35.",
     "name-validation": "Name must not have any special characters.",
     "username-length": "Minimum characters: 3, Maximum characters: 15.",

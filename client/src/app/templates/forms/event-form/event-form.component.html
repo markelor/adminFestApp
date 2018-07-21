@@ -166,7 +166,7 @@
     </div>
     <!-- End date -->
     <div class="col-sm-6">
-      <div class="form-group required" [ngClass]="{'has-error': (!end.valid && end.dirty), 'has-success': (end.valid)}">
+      <div class="form-group required" [ngClass]="{'has-error': ((!end.valid && end.dirty) ||  end >= start), 'has-success': (end.valid &&  end < start)}">
         <label for="inputEnd" translate>{{'event-form.end'}}</label>
         <div class="input-group icon">
           <input [formControl]="end" ngbDatepicker #calendarEnd="ngbDatepicker" type="text" class="form-control ks-placeholder-mask-input" placeholder="yyyy-mm-dd" id="inputEnd">
@@ -178,8 +178,8 @@
         </div>
         <!-- Validation -->
         <span *ngIf="end.errors?.required && end.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
-        <!--<span *ngIf="end.errors?.validateDate && end.dirty" class="help-block form-error" translate>
-                    {{'validation.end-validation'}}</span>-->
+        <span *ngIf="end.valid && end.value | compareDate:timeEnd :start.value:timeStart" class="help-block form-error" translate>
+        {{'validation.compare-date-validation'}}</span>
       </div>
     </div>
     <!-- End time-->
@@ -307,7 +307,7 @@
     <!-- Submit Button -->
     <div class="col-sm-12">
       <div class="form-group text-center">
-        <button [disabled]="!form.valid || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'event-form.send'}}</button>
+        <button [disabled]="!form.valid || end.value | compareDate:timeEnd :start.value:timeStart || submitted " type="submit" class="btn btn-default btn-auth" translate>{{'event-form.send'}}</button>
       </div>
     </div>
   </div>

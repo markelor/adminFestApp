@@ -6,6 +6,7 @@ import * as moment from 'moment-timezone';
 export class TimezonePipe implements PipeTransform {
 
   transform(time:any): Array<any> {
+  	console.log("hemen");
   	if(time){
   	 return moment(time).tz("Europe/Madrid").format('YYYY-MM-DD HH:mm');
   	}

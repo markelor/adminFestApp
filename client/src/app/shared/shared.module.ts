@@ -24,6 +24,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { PipesPipe } from './pipes.pipe';
 import { EventCategoryPipe } from './pipes/event-category.pipe';
 import { TimezonePipe } from './pipes/timezone.pipe';
+import { CompareDatePipe } from './pipes/compare-date.pipe';
 import { DecodePipe } from './pipes/decode.pipe';
 
 @NgModule({
@@ -55,6 +56,7 @@ import { DecodePipe } from './pipes/decode.pipe';
     PipesPipe,
     EventCategoryPipe,
     TimezonePipe,
+    CompareDatePipe,
     DecodePipe
   ],
   exports: [
@@ -81,6 +83,7 @@ import { DecodePipe } from './pipes/decode.pipe';
     ClickOutsideDirective,
     EventCategoryPipe,
     TimezonePipe,
+    CompareDatePipe,
     DecodePipe
   ]
 })

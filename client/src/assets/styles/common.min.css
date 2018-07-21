@@ -5934,7 +5934,7 @@ pre[class*=language-]+h6 {
   margin: 0!important
 }
 
-.card-header:first-child {
+.card-header:first-child,.card-header:nth-child(2) {
   -webkit-border-radius: 0;
   border-radius: 10px 10px 0 0;
 }
@@ -6616,6 +6616,17 @@ h6 .badge {
   -webkit-border-radius: 2px;
   border-radius: 2px;
   opacity: 1!important
+}
+.tooltip .arrow{
+ content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+
 }
 
 .pagination {

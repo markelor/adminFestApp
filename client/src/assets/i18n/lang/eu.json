@@ -133,7 +133,8 @@
     "general-info": "Informazio Orokorra",
     "like": "Atsegin dut",
     "comment": "Iruzkina utzi",
-    "share": "Partekatu"
+    "share": "Partekatu",
+    "free": "Doan"
 
   },
   "application":
@@ -199,7 +200,7 @@
     "lng": "Koordenatuak E-M (Lng)",
     "check": "Egiaztatau",
     "locations-exists":"Existitzen diren kokapenak",
-    "location": "kokapena",
+    "location": "Kokapena",
     "description": "Deskribapena",
     "observations": "Oharrak",
     "discovery": "Aurkikuntza",

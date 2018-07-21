@@ -8,8 +8,8 @@
               <h5 class="card-header">
                 <span class="ks-text"> {{event.title}}</span>
                 <span class="ks-text">
-                  <i [routerLink]="['/event-route','manage-route','edit-route',event._id] | localize" class="la la-edit ks-text" style="color:#ffffff"></i>
-                {{'event.edit-event' | translate}}
+                  <i [routerLink]="['/event-route','see-route',event._id] | localize" class="la la-eye ks-icon view-event"></i>
+                  <i [routerLink]="['/event-route','manage-route','edit-route',event._id] | localize" class="la la-edit edit-event"></i>
                 </span>
                 <div class="ks-controls">
                   <!-- showCollapse-->
@@ -51,15 +51,16 @@
                   </div>
                 </div>
                 <img *ngIf="event.images.poster.length>0" src="{{event.images.poster[0].url}}" class="post-image ks-thumbnail img-responsive">
-                <img *ngIf="event.images.poster.length==0" src="assets/img/defaults/irudi+gabe.png" class="post-image ks-thumbnail img-responsive">
+                <img *ngIf="event.images.poster.length==0" src="assets/img/defaults/event/default-{{localizeService.parser.currentLang}}.png" class="post-image ks-thumbnail img-responsive">
                 <div class="ks-text" [innerHTML]="event.description"></div>
-                <!-- Category info-->
+                <div class="col-sm-12 details-container">
+                  <!-- Category info-->
                   <div class="col-sm-6">
                     <p>
                       <span>
                         <strong translate>{{'event-form.category'}}</strong>: 
                       </span>
-                      <ng-container *ngFor="let category of categories">
+                      <ng-container *ngFor="let category of event.categories">
                         <span *ngIf="category.language===localizeService.parser.currentLang&&!category.firstParentId">{{category.title}}</span>
                         <span *ngIf="category.language===localizeService.parser.currentLang&&category.firstParentId">- {{category.title}} </span>
                         <ng-container *ngFor="let translation of category.translation">
@@ -69,6 +70,27 @@
                       </ng-container>
                     </p>
                   </div>
+                  <div class="col-sm-6">
+                    <p>
+                      <span>
+                        <strong translate>{{'event-form.location'}}</strong>: 
+                      </span>
+                      <span *ngIf="event.place.language===localizeService.parser.currentLang||event.place.translation.length===0">{{event.place.municipality.name}} - {{event.place.location}} </span>
+                      <ng-container *ngFor="let translation of event.place.translation">
+                        <span *ngIf="translation.language===localizeService.parser.currentLang">{{translation.municipality.name}} - {{translation.location}} </span>
+                      </ng-container>
+                    </p>
+                  </div>
+                  <div class="col-sm-3">
+                    <p>
+                      <span>
+                        <strong translate>{{'application-form.price'}}</strong>: 
+                      </span>
+                      <span *ngIf="event.price===0">{{'event.free'|translate}} </span>
+                      <span *ngIf="event.price!=0">{{event.price}} €</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </article>
             <ngb-pagination *ngIf="events" [collectionSize]="events.length" [(page)]="page" [pageSize]="1" [maxSize]="5" [boundaryLinks]="true" size="lg"></ngb-pagination>

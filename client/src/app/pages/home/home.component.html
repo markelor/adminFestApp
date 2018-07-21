@@ -6,24 +6,14 @@
           <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <article [hidden]="event.showAll" *ngFor="let event of events let i=index;" class="card panel ks-widget ks-widget-post">
               <h5 class="card-header">
-                <span class="ks-text"> {{event.title}} 
-                  <a [routerLink]="['/event-route','see-route',event._id] | localize"><span class="la la-eye ks-icon view-event"></span></a>
-                </span>
-
                 <ng-container *ngFor="let translation of event.translation">
                   <span *ngIf="translation.language===localizeService.parser.currentLang" class="ks-text"> {{translation.title}} 
-                    <a [routerLink]="['/event-route','see-route',event._id] | localize">
-                      <span class="la la-eye ks-icon view-event">               
-                      </span>
-                    </a>
                   </span>
-                  <span *ngIf="event.language===localizeService.parser.currentLang" class="ks-text"> {{event.title}} 
-                    <a [routerLink]="['/event-route','see-route',event._id] | localize">
-                      <span class="la la-eye ks-icon view-event">                   
-                      </span>
-                    </a>
-                  </span>
+                  <i [routerLink]="['/event-route','see-route',event._id] | localize" class="la la-eye ks-icon view-event"></i>
                 </ng-container>
+                  <span *ngIf="event.language===localizeService.parser.currentLang||event.translation.length===0" class="ks-text"> {{event.title}} 
+                  <i [routerLink]="['/event-route','see-route',event._id] | localize" class="la la-eye ks-icon view-event"></i>
+                  </span>
                 <div class="ks-controls">
                   <!-- showCollapse-->
                   <a *ngIf="!event.showCollapse" (click)="event.showCollapse = !event.showCollapse" class="ks-control">
@@ -64,11 +54,11 @@
                 -->
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
                     <span class="la la-comment-o ks-icon"></span>
-                  <span class="ks-amount">1</span>
+                  <span class="ks-amount">{{event.comments.length}}</span>
                   </span>
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
                     <span class="la la-heart-o ks-icon"></span>
-                  <span class="ks-amount">3</span>
+                  <span class="ks-amount">{{event.reactions.angryBy.length +event.reactions.hahaBy.length +event.reactions.likeBy.length +event.reactions.loveBy.length +event.reactions.sadBy.length +event.reactions.wowBy.length}}</span>
                   </span>
                 </div>
                 <!--

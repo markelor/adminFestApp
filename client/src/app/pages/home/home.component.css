@@ -91,6 +91,11 @@ position: sticky;
   cursor: pointer;
 }
 
+.bs-tooltip-top{
+  margin :20px;
+  background-color: red;
+}
+
 .description p {
   margin: 0 0 0px;
 }

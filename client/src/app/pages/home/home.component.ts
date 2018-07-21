@@ -28,14 +28,27 @@ export class HomeComponent implements OnInit {
     this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.events = data.events; // Assign array to use in HTML
-              console.log(moment(this.events[0].start).tz("Europe/Madrid").format('MMM'));
+              console.log(data);
       }
     });
   }
   private getDatePoster(datetime){
+    moment.updateLocale('eu', {
+      calendar : {lastDay : '[Atzo]' , sameDay : '[Gaur]' , nextDay : '[Bihar]' , lastWeek : '[last] dddd [at] LT' , nextWeek : 'dddd [at] LT' , sameElse : 'L'}
+    });
+    moment.updateLocale('es', {
+      calendar : {lastDay : '[Ayer]' , sameDay : '[Hoy]' , nextDay : '[Mañana]' , lastWeek : '[last] dddd [at] LT' , nextWeek : 'dddd [at] LT' , sameElse : 'L'}
+    });
     var date=new Date(datetime);
-    var monthName=moment(date).tz("Europe/Madrid").format('MMM');
-    var dayName=moment(date).tz("Europe/Madrid").format('dddd');
+    var now=new Date();
+    var daysDiff=moment(date).tz("Europe/Madrid").diff(moment(now),'days');
+    var monthName=moment(date).locale(this.localizeService.parser.currentLang).tz("Europe/Madrid").format('MMM');
+    var dayName;
+    if(daysDiff==0||daysDiff==1){
+      dayName=moment(date).locale(this.localizeService.parser.currentLang).tz("Europe/Madrid").calendar();
+    }else{
+      dayName=moment(date).locale(this.localizeService.parser.currentLang).tz("Europe/Madrid").format('dddd');
+    }
     var result=
                 {
                   "month":monthName[0].toUpperCase() + monthName.substring(1),

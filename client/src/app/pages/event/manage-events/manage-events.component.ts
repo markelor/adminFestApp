@@ -39,12 +39,12 @@ export class ManageEventsComponent implements OnInit {
     var monthName=moment(date).tz("Europe/Madrid").format('MMM');
     var dayName=moment(date).tz("Europe/Madrid").format('dddd');
     var result=
-                {
-                  "month":monthName[0].toUpperCase() + monthName.substring(1),
-                  "day":dayName[0].toUpperCase() + dayName.substring(1),
-                  "dayNumber":moment(date).tz("Europe/Madrid").format('DD'),
-                  "hour":moment(date).tz("Europe/Madrid").format('HH:mm'),
-                };
+      {
+        "month":monthName[0].toUpperCase() + monthName.substring(1),
+        "day":dayName[0].toUpperCase() + dayName.substring(1),
+        "dayNumber":moment(date).tz("Europe/Madrid").format('DD'),
+        "hour":moment(date).tz("Europe/Madrid").format('HH:mm'),
+      };
     return result;
   }
   ngOnInit() {

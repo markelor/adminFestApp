@@ -1,4 +1,4 @@
-import { Component, OnInit,ElementRef,Injectable,Input } from '@angular/core';
+import { Component, OnInit,ElementRef,Injectable,Input,Output,EventEmitter } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder,FormArray, Validators } from '@angular/forms';
 import { NgbDatepickerI18n } from '@ng-bootstrap/ng-bootstrap';
 import { TitleValidator,LatitudeValidator,LongitudeValidator,DateValidator } from '../../../validators';
@@ -117,6 +117,7 @@ export class EventFormComponent implements OnInit {
   private hasAnotherDropZoneOver:boolean = false;
   private subscriptionLanguage: Subscription;
   private subscriptionObservableMapClick: Subscription;
+   @Output() RefreshEvent = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
@@ -628,6 +629,8 @@ export class EventFormComponent implements OnInit {
       } else {
         this.messageClass = 'alert alert-success ks-solid'; // Return success class
         this.message = data.message; // Return success message
+         this.RefreshEvent.emit({event: this.inputEvent,categories:this.inputCategories});
+        this.inputEvent=data.event;
         // Clear form data after two seconds
         setTimeout(() => {
           //this.newPost = false; // Hide form

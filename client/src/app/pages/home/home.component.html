@@ -67,12 +67,19 @@
                   <button [routerLink]="['/event-route','see-route',event._id] | localize" class="btn btn-success right" translate>{{'event.see-event'}}</button>
                 -->
                   <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share">
-                    <span class="la la-comment-o ks-icon"></span>
-                  <span class="ks-amount" placement="top" ngbTooltip="Kakatza">{{event.comments.length}}</span>
+                    <span class="la la-comment-o ks-icon" ngbTooltip={{getCommentators(event.comments)}}></span>
+                    <span class="ks-amount" >{{event.comments.length}}</span>
                   </span>
-                  <span class="ks-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
-                    <span class="la la-heart-o ks-icon"></span>
-                  <span class="ks-amount">{{event.reactions.angryBy.length +event.reactions.hahaBy.length +event.reactions.likeBy.length +event.reactions.loveBy.length +event.reactions.sadBy.length +event.reactions.wowBy.length}}</span>
+                  <span class="ks-control reaction-box" data-toggle="tooltip" data-placement="top" title="" data-original-title="Like">
+                    <span *ngIf="event.reactions.likeBy.length>0" ngbTooltip={{getReactioners(event.reactions.likeBy,1)}} class="reaction reaction-like" ></span>
+                    <span *ngIf="event.reactions.loveBy.length>0" ngbTooltip={{getReactioners(event.reactions.loveBy,1)}} class="reaction reaction-love" ></span>
+                    <span *ngIf="event.reactions.hahaBy.length>0" ngbTooltip={{getReactioners(event.reactions.hahaBy,1)}} class="reaction reaction-haha" ></span>
+                    <span *ngIf="event.reactions.wowBy.length>0" ngbTooltip={{getReactioners(event.reactions.wowBy,1)}} class="reaction reaction-wow" ></span>
+                    <span *ngIf="event.reactions.sadBy.length>0" ngbTooltip={{getReactioners(event.reactions.sadBy,1)}} class="reaction reaction-sad" ></span>
+                    <span *ngIf="event.reactions.angryBy.length>0" ngbTooltip={{getReactioners(event.reactions.angryBy,1)}} class="reaction reaction-angry" ></span>
+                    <span *ngIf="(event.reactions.angryBy.length+event.reactions.hahaBy.length+event.reactions.likeBy.length+event.reactions.loveBy.length+event.reactions.sadBy.length+event.reactions.wowBy.length==0)" class="reaction reaction-like" ></span>
+                    
+                  <span ngbTooltip={{getReactioners(event.reactions,6)}} class="ks-amount">{{event.reactions.angryBy.length +event.reactions.hahaBy.length+event.reactions.likeBy.length+event.reactions.loveBy.length+event.reactions.sadBy.length+event.reactions.wowBy.length}}</span>
                   </span>
                 </div>
                 <!--
@@ -96,9 +103,9 @@
                   </div>
                   <span class="ks-text">and 103 other like this</span>
                 </div>
-                -->
                 <div class="ks-comments">
                 </div>
+                -->
               </div>
             </article>
             <!--<ngb-pagination *ngIf="events" [collectionSize]="events.length" [(page)]="page" [pageSize]="1" [maxSize]="5" [boundaryLinks]="true" size="lg"></ngb-pagination>-->

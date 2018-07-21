@@ -58,6 +58,61 @@ export class HomeComponent implements OnInit {
                 };
     return result;
   }
+  private getCommentators(comments){
+    var commentator=[];
+    var response ='';
+    var j=0;
+    for (var i = comments.length - 1; i >= 0; i--) {
+      if(commentator.indexOf(comments[i].createdBy)<0){
+        commentator.push(comments[i].createdBy);
+        if(j!=0){
+          response+='\n';
+        }
+        response+=comments[i].createdBy;
+        j++;
+      }
+    }
+    return response;
+  }
+
+  private getReactioners(reactions,amount){
+    var reactioner=[];
+    var response ='';
+    var j=0;
+    if(amount==1){
+      for (var i = reactions.length - 1; i >= 0; i--) {
+        if(reactioner.indexOf(reactions[i])<0){
+          reactioner.push(reactions[i]);
+          if(j!=0){
+            response+='\n';
+          }
+          response+=reactions[i];
+          j++;
+        }
+      }
+    }else{
+      var reaction;
+      for(var k=0;k<amount;k++){
+        if(k==0){reaction=reactions.likeBy}
+        else if(k==1){reaction=reactions.loveBy}
+        else if(k==2){reaction=reactions.hahaBy}
+        else if(k==3){reaction=reactions.wowBy}
+        else if(k==4){reaction=reactions.angryBy}
+        else if(k==5){reaction=reactions.sadBy}
+        for (var i = reaction.length - 1; i >= 0; i--) {
+          if(reactioner.indexOf(reaction[i])<0){
+            reactioner.push(reaction[i]);
+            if(j!=0){
+              response+='\n';
+            }
+            response+=reaction[i];
+            j++;
+          }
+        }
+      }
+    }
+    return response;
+  }
   ngOnInit() {
     moment.locale(this.localizeService.parser.currentLang);
   	this.getEvents();

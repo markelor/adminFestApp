@@ -174,6 +174,50 @@ position: sticky;
   transform: rotate(-45deg);
 }
 
+
+.reaction-box:hover{
+  margin-left: 0px;
+}
+.reaction {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  transform: scale(1, 1);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  margin-bottom:-4px;
+  margin-right: -13px;
+}
+
+.reaction-like {
+  background-image: url('../../../assets/img/reactions/reactions_like.png');
+}
+
+.reaction-love {
+  background-image: url('../../../assets/img/reactions/reactions_love.png');
+}
+
+.reaction-haha {
+  background-image: url('../../../assets/img/reactions/reactions_haha.png');
+}
+
+.reaction-wow {
+  background-image: url('../../../assets/img/reactions/reactions_wow.png');
+}
+
+.reaction-sad {
+  background-image: url('../../../assets/img/reactions/reactions_sad.png');
+}
+
+.reaction-angry {
+  background-image: url('../../../assets/img/reactions/reactions_angry.png');
+}
+
+.ks-control{
+  margin-right: 5px;
+}
+
 .description p {
   margin: 0 0 0px;
 }

@@ -6611,21 +6611,24 @@ h6 .badge {
 
 .tooltip-inner {
   max-width: 220px;
-  padding: 10px 21px;
+  padding: 5px 21px;
   background-color: #333;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  opacity: 1!important
+  opacity: 1!important;
+  margin-bottom: 3px;
+  white-space: pre-line;
 }
+
 .tooltip .arrow{
     content: " ";
     position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
+    top: 90%; /* At the bottom of the tooltip */
     left: 50%;
-    margin-left: -5px;
+    margin-left: 3px;
     border-width: 5px;
     border-style: solid;
-    border-color: black transparent transparent transparent;
+    border-color: #333 transparent transparent transparent;
 
 }
 

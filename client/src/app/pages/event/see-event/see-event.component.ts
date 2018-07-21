@@ -191,7 +191,9 @@ export class SeeEventComponent implements OnInit {
   }*/
 
   private scrollComment(){
-    $("#comment").focus();
+    console.log("ara");
+    $("html, body").animate({ scrollTop: $('#textareaScroll').offset().top }, 1000);
+    //var editor=$("#textareaComment").froalaEditor('events.focus', true);
   }
 
 

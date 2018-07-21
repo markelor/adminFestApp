@@ -72,8 +72,8 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
     <div class="ks-new-comment">
       <!-- Comment textarea -->
-      <div class="form-group" [ngClass]="{'has-error': (!comment.valid && comment.dirty), 'has-success': (comment.value && comment.valid)}">
-        <textarea  [id]="textareaComment" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="comment" capitalize class="form-control"></textarea>
+      <div id="textareaScroll" class="form-group" [ngClass]="{'has-error': (!comment.valid && comment.dirty), 'has-success': (comment.value && comment.valid)}">
+        <textarea  id="textareaComment" [froalaEditor]="froalaOptions" (froalaInit)="initializeFroala($event)" formControlName="comment" capitalize class="form-control"></textarea>
         <!-- Validation -->
         <span *ngIf="comment.errors?.required && comment.dirty" class="help-block form-error" translate>{{'validation.required'}}</span>
         <span *ngIf="comment.errors?.maxlength && comment.dirty " class="help-block form-error" translate>{{'validation.comment-length'}}</span>

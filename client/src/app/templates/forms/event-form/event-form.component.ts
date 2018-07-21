@@ -609,7 +609,7 @@ export class EventFormComponent implements OnInit {
             municipality:{
               name:this.form.get('municipality').value
             },
-            location:this.form.get('location').value
+            location:location
           }
           this.inputEvent.place.translation.push(placeTranslationObj);           
         }

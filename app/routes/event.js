@@ -780,7 +780,7 @@ module.exports = (router) => {
                                                                                             res.json({ success: false, message: eval(language + '.editEvent.saveError'), err }); // Return general error message
                                                                                         }
                                                                                     } else {
-                                                                                        res.json({ success: true, message: eval(language + '.editEvent.success') }); // Return success message
+                                                                                        res.json({ success: true,event:event, message: eval(language + '.editEvent.success') }); // Return success message
                                                                                     }
                                                                                 });
                                                                             }

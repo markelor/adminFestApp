@@ -26,6 +26,9 @@ import { EventCategoryPipe } from './pipes/event-category.pipe';
 import { TimezonePipe } from './pipes/timezone.pipe';
 import { CompareDatePipe } from './pipes/compare-date.pipe';
 import { DecodePipe } from './pipes/decode.pipe';
+import { DateNamePipe } from './pipes/date-name.pipe';
+import { CommentsPipe } from './pipes/comments.pipe';
+import { ReactionsPipe } from './pipes/reactions.pipe';
 
 @NgModule({
   imports: [
@@ -57,7 +60,10 @@ import { DecodePipe } from './pipes/decode.pipe';
     EventCategoryPipe,
     TimezonePipe,
     CompareDatePipe,
-    DecodePipe
+    DecodePipe,
+    DateNamePipe,
+    CommentsPipe,
+    ReactionsPipe
   ],
   exports: [
     TouchspinDirective,
@@ -84,7 +90,10 @@ import { DecodePipe } from './pipes/decode.pipe';
     EventCategoryPipe,
     TimezonePipe,
     CompareDatePipe,
-    DecodePipe
+    DecodePipe,
+    DateNamePipe,
+    CommentsPipe,
+    ReactionsPipe
   ]
 })
 export class SharedModule { }

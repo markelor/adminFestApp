@@ -6623,7 +6623,7 @@ h6 .badge {
 .tooltip .arrow{
     content: " ";
     position: absolute;
-    top: 90%; /* At the bottom of the tooltip */
+    bottom: -7px; /* At the bottom of the tooltip */
     left: 50%;
     margin-left: 3px;
     border-width: 5px;

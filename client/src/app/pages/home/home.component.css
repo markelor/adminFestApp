@@ -175,9 +175,11 @@ position: sticky;
 }
 
 
-.reaction-box:hover{
-  margin-left: 0px;
+.reaction:hover{
+  margin-right: 0px;
+  padding:20px;
 }
+
 .reaction {
   display: inline-block;
   width: 20px;
@@ -187,7 +189,8 @@ position: sticky;
   background-size: cover;
   background-position: center center;
   margin-bottom:-4px;
-  margin-right: -13px;
+  margin-right: -8px;
+  padding:10px;
 }
 
 .reaction-like {
@@ -212,6 +215,11 @@ position: sticky;
 
 .reaction-angry {
   background-image: url('../../../assets/img/reactions/reactions_angry.png');
+}
+
+.ks-amount-reactions{
+  margin-left: 7px;
+  padding:4px;
 }
 
 .ks-control{

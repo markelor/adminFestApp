@@ -118,6 +118,16 @@ position: sticky;
   cursor: pointer;
 }
 
+.language-done{
+  color:#ffffff;
+  font-weight: lighter;
+}
+
+.language-pendant{
+  color:#87bef5;
+  font-weight: lighter;
+}
+
 .description p {
   margin: 0 0 0px;
 }

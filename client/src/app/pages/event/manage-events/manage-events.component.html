@@ -6,10 +6,14 @@
           <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <article [hidden]="event.showAll || page===i+1" *ngFor="let event of events let i=index;" class="card panel ks-widget ks-widget-post">
               <h5 class="card-header">
-                <span class="ks-text"> {{event.title}}</span>
-                <span class="ks-text">
-                  <i [routerLink]="['/event-route','see-route',event._id] | localize" class="la la-eye ks-icon view-event"></i>
+                <span class="ks-text"> {{event.title}}
+                <i [routerLink]="['/event-route','see-route',event._id] | localize" class="la la-eye ks-icon view-event"></i>
                   <i [routerLink]="['/event-route','manage-route','edit-route',event._id] | localize" class="la la-edit edit-event"></i>
+                  </span>
+                <span class="ks-text"> 
+                  <span class="language-done"><i class="la la-language"></i>eu</span>
+                  <span class="language-pendant"><i class="la la-language"></i>es</span>
+                  <span class="language-pendant"><i class="la la-language"></i>en</span>
                 </span>
                 <div class="ks-controls">
                   <!-- showCollapse-->

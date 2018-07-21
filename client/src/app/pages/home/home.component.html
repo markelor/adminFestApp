@@ -5,13 +5,19 @@
         <div class="row">
           <section class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <article [hidden]="event.showAll" *ngFor="let event of events let i=index;" class="card panel ks-widget ks-widget-post">
+              <div *ngIf="event.price===0" class="ribbon-free ribbon-top-left">
+                <span >{{'event.free'|translate}} </span>
+              </div>
+              <div *ngIf="event.price!=0" class="ribbon ribbon-top-left">
+                <span>{{event.price}} €</span>
+              </div>
               <h5 class="card-header">
                 <ng-container *ngFor="let translation of event.translation">
-                  <span *ngIf="translation.language===localizeService.parser.currentLang" class="ks-text"> {{translation.title}} 
+                  <span *ngIf="translation.language===localizeService.parser.currentLang" class="ks-text event-title"> {{translation.title}} 
                   <i [routerLink]="['/event-route','see-route',event._id] | localize" class="la la-eye ks-icon view-event"></i>
                   </span>
                 </ng-container>
-                  <span *ngIf="event.language===localizeService.parser.currentLang||event.translation.length===0" class="ks-text"> {{event.title}} 
+                  <span *ngIf="event.language===localizeService.parser.currentLang||event.translation.length===0" class="ks-text  event-title"> {{event.title}} 
                   <i [routerLink]="['/event-route','see-route',event._id] | localize" class="la la-eye ks-icon view-event"></i>
                   </span>
                 <div class="ks-controls">
@@ -68,12 +74,6 @@
                     <span class="la la-heart-o ks-icon"></span>
                   <span class="ks-amount">{{event.reactions.angryBy.length +event.reactions.hahaBy.length +event.reactions.likeBy.length +event.reactions.loveBy.length +event.reactions.sadBy.length +event.reactions.wowBy.length}}</span>
                   </span>
-                  <button type="button" class="btn btn-outline-secondary mr-2" ngbTooltip="What a great tip!" triggers="manual" #t="ngbTooltip" (click)="t.open()">
-  Click me to open a tooltip
-</button>
-<button type="button" class="btn btn-outline-secondary mr-2" (click)="t.close()">
-  Click me to close a tooltip
-</button>
                 </div>
                 <!--
                 <div class="ks-likes-block">

@@ -242,6 +242,16 @@ module.exports = {
         saveError: "No se pudo guardar el comentario. Error:",
         success: "¡Comentario guardado!"
     },
+    newEventReaction: {
+        idProvidedError: 'El ID del evento, no fue proporcionado.',
+        reactionProvidedError: 'La reacción del evento no fue proporcionada.',
+        eventError: "No se encontró el evento.",
+        userError: "No se encontró el usuario.",
+        ownError: "No puedes reaccionar a tu propia publicación.",
+        likedBeforeError: "Ya has reaacionado a esta publicación. ",
+        saveError: "No se pudo añadir la reacción. Error: ",
+        success: "!Reacción añadida!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "El usurio de los eventos no fue proporcionado.",
@@ -403,27 +413,17 @@ module.exports = {
         saveError: "No se pudo eliminar la observación. Error: ",
         success: "¡Observación eliminada!"
     },
-          deleteComment: {
+    deleteComment: {
         usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
         idProvidedError: 'El ID del comentario, no fue proporcionado.',
         success: "¡Comentario eliminado!"
     },
-    addThemeReaction: {
-        idProvidedError: 'El ID del tema, no fue proporcionado.',
-        reactionProvidedError: 'La reacción del tema no fue proporcionada.',
-        themeError: "No se encontró el tema.",
+    deleteEventReaction: {
+        idProvidedError: 'El ID del evento, no fue proporcionado.',
+        eventError: "No se encontró el evento.",
         userError: "No se encontró el usuario.",
         ownError: "No puedes reaccionar a tu propia publicación.",
-        likedBeforeError: "Ya has reaacionado a esta publicación. ",
-        saveError: "No se pudo añadir la reacción. Error: ",
-        success: "!Reacción añadida!"
-    },
-    deleteThemeReaction: {
-        idProvidedError: 'El ID del tema, no fue proporcionado.',
-        themeError: "No se encontró el tema.",
-        userError: "No se encontró el usuario.",
-        ownError: "No puedes reaccionar a tu propia publicación.",
-        quitBeforeError: "Ya has dejado de reaccionar este post",
+        quitBeforeError: "Ya has dejado de reaccionar este evento",
         saveError: "No se pudo eliminar la reacción. Error: ",
         success: "¡Reacción eliminada!"
     },

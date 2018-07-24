@@ -243,6 +243,16 @@ module.exports = {
         saveError: "Could not save comment. Error:",
         success: "Comment saved!"
     },
+    newEventReaction: {
+        idProvidedError: 'Event ID was not provided',
+        reactionProvidedError: 'Event reaction was not provided',
+        eventError: "No event was found.",
+        userError: "No user was found.",
+        ownError: "You cannot react to your own publication.",
+        likedBeforeError: "You already liked this post. ",
+        saveError: "Could not save reaction. Error:",
+        success: "Reacction added!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "Events username is not provided.",
@@ -409,22 +419,12 @@ module.exports = {
         idProvidedError: 'Comment ID was not provided.',
         success: "Comment deleted!"
     },
-    addThemeReaction: {
-        idProvidedError: 'Theme ID was not provided',
-        reactionProvidedError: 'Theme reaction was not provided',
-        themeError: "No theme was found.",
+    deleteEventReaction: {
+        idProvidedError: 'Event ID was not provided',
+        eventError: "No event was found.",
         userError: "No user was found.",
         ownError: "You cannot react to your own publication.",
-        likedBeforeError: "You already liked this post. ",
-        saveError: "Could not save reaction. Error:",
-        success: "Reacction added!"
-    },
-    deleteThemeReaction: {
-        idProvidedError: 'Theme ID was not provided',
-        themeError: "No theme was found.",
-        userError: "No user was found.",
-        ownError: "You cannot react to your own publication.",
-        quitBeforeError: "You already quit the reaction to this post",
+        quitBeforeError: "You already quit the reaction to this event",
         saveError: "Could not delete reaction. Error: ",
         success: "Reaction deleted!"
     },

@@ -61,9 +61,9 @@ export class EventService {
     return this.http.delete<any>(this.domain + 'event/deleteEvent/'+this.route+language);
   }
   // Function to like a theme post
-  public addReactionEvent(id,reaction,language) {
+  public newReactionEvent(id,reaction,language) {
     const eventData = { id: id,reaction:reaction,language:language };
-    return this.http.put<any>(this.domain + 'event/addReactionEvent', eventData);
+    return this.http.put<any>(this.domain + 'event/newReactionEvent', eventData);
   }
   // Function to dislike a theme post
   public deleteReactionEvent(id,language) {

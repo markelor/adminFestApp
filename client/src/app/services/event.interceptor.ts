@@ -78,6 +78,24 @@ export class EventInterceptor implements HttpInterceptor {
             'language':this.localizeService.parser.currentLang
           }
         });    
+     }else if(request.url===this.domain+"event/newReactionEvent"){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });
+     
+     }else if(request.url===this.domain+"event/deleteReactionEvent"){
+        request = request.clone({
+          setHeaders: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+            'language':this.localizeService.parser.currentLang
+          }
+        });
+     
      }else{    
         /*request = request.clone({
           setHeaders: {

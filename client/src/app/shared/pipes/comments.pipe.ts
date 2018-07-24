@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CommentsPipe implements PipeTransform {
 
   transform(comments: any): any {
-    console.log(comments)
   	var commentator=[];
     var response ='';
     var j=0;

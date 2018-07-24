@@ -359,7 +359,7 @@ module.exports = (router) => {
             Event.aggregate([ // Join with Place table
                 {
                     $match: {
-                        "start": { $gte : new Date() }
+                        "start": { $gte: new Date() }
                     }
                 }, {
                     // Join with Place table
@@ -780,7 +780,7 @@ module.exports = (router) => {
                                                                                             res.json({ success: false, message: eval(language + '.editEvent.saveError'), err }); // Return general error message
                                                                                         }
                                                                                     } else {
-                                                                                        res.json({ success: true,event:event, message: eval(language + '.editEvent.success') }); // Return success message
+                                                                                        res.json({ success: true, event: event, message: eval(language + '.editEvent.success') }); // Return success message
                                                                                     }
                                                                                 });
                                                                             }
@@ -1124,6 +1124,215 @@ module.exports = (router) => {
             }
         }
     });
+    /* ===============================================================
+        Route to add reaction
+    =============================================================== */
+    router.put('/newReactionEvent', (req, res) => {
+        var language = req.body.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            // Check if id was passed provided in request body
+            if (!req.body.id) {
 
+                res.json({ success: false, message: eval(language + '.newEventReaction.idProvidedError') }); // Return error message
+            } else {
+                if (!req.body.reaction) {
+                    res.json({ success: false, message: eval(language + '.newEventReaction.reactionProvidedError') }); // Return error message
+                } else {
+                    // Search the database with id
+                    Event.findOne({
+                        _id: req.body.id
+                    }, (err, event) => {
+                        // Check if error was encountered
+                        if (err) {
+                            // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                            var mailOptions = {
+                                from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                to: [emailConfig.email], // list of receivers
+                                subject: ' Find 1 addReactionEvent error ',
+                                text: 'The following error has been reported in Kultura: ' + err,
+                                html: 'The following error has been reported in Kultura:<br><br>' + err
+                            };
+
+                            // Function to send e-mail to myself
+                            transporter.sendMail(mailOptions, function(err, info) {
+                                if (err) {
+                                    console.log(err); // If error with sending e-mail, log to console/terminal
+                                } else {
+                                    console.log(info); // Log success message to console if sent
+                                    console.log(user.email); // Display e-mail that it was sent to
+                                }
+                            });
+                            res.json({ success: false, message: eval(language + '.general.generalError') });
+                        } else {
+                            // Check if id matched the id of a event post in the database
+                            if (!event) {
+                                res.json({ success: false, message: eval(language + '.newEventReaction.eventError') }); // Return error message
+                            } else {
+                                // Get data from user that is signed in
+                                User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                                    // Check if error was found
+                                    if (err) {
+                                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                        var mailOptions = {
+                                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                            to: [emailConfig.email], // list of receivers
+                                            subject: ' Find one 2 addReactionEvent event error ',
+                                            text: 'The following error has been reported in Kultura: ' + err,
+                                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                                        };
+
+                                        // Function to send e-mail to myself
+                                        transporter.sendMail(mailOptions, function(err, info) {
+                                            if (err) {
+                                                console.log(err); // If error with sending e-mail, log to console/terminal
+                                            } else {
+                                                console.log(info); // Log success message to console if sent
+                                                console.log(user.email); // Display e-mail that it was sent to
+                                            }
+                                        });
+                                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                                    } else {
+                                        // Check if id of user in session was found in the database
+                                        if (!user) {
+                                            res.json({ success: false, message: eval(language + '.newEventReaction.userError') }); // Return error message
+                                        } else {
+                                            var reactions = ['like', 'love', 'haha', 'wow', 'sad', 'angry'];
+                                            var insert = false;
+                                            var limit = false;
+                                            // Check if the user who liked the post has already liked the event post before
+                                            for (var i = 0; i < reactions.length && !limit; i++) {
+                                                if (eval('event.reactions.' + reactions[i] + 'By').includes(user.username)) {
+                                                    limit = true;
+                                                    if (req.body.reaction === reactions[i]) {
+                                                        res.json({ success: false, message: eval(language + '.newEventReaction.likedBeforeError') }); // Return error message
+                                                    } else {
+                                                        //Delete reaction
+                                                        insert = true;
+                                                        eval('event.reactions.' + reactions[i] + 'By').splice(eval('event.reactions.' + reactions[i] + 'By').indexOf(user.username), 1);
+                                                    }
+                                                }
+                                            }
+                                            if (insert || !limit) {
+                                                // Save event post data
+                                                eval('event.reactions.' + req.body.reaction + 'By').push(user.username);
+                                                event.save((err) => {
+                                                    // Check if error was found
+                                                    if (err) {
+                                                        res.json({ success: false, message: eval(language + '.newEventReaction.saveError'), err }); // Return general error message
+                                                    } else {
+                                                        res.json({ success: true, message: eval(language + '.newEventReaction.success') }); // Return error message
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            } // Check if id was passed provided in request body
+        }
+    });
+    /* ===============================================================
+       DISLIKE event POST
+    =============================================================== */
+    router.put('/deleteReactionEvent', (req, res) => {
+        var language = req.body.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "No se encontro el lenguaje" }); // Return error
+        } else {
+            // Check if id was provided inside the request body
+            if (!req.body.id) {
+                res.json({ success: false, message: eval(language + '.deleteEventReaction.idProvidedError') }); // Return error message
+            } else {
+                // Search database for event post using the id
+                Event.findOne({
+                    _id: req.body.id
+                }, (err, event) => {
+                    // Check if error was found
+                    if (err) {
+                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                        var mailOptions = {
+                            from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                            to: [emailConfig.email], // list of receivers
+                            subject: ' Find one 1 deleteReactionEvent error ',
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                        };
+                        // Function to send e-mail to myself
+                        transporter.sendMail(mailOptions, function(err, info) {
+                            if (err) {
+                                console.log(err); // If error with sending e-mail, log to console/terminal
+                            } else {
+                                console.log(info); // Log success message to console if sent
+                                console.log(user.email); // Display e-mail that it was sent to
+                            }
+                        });
+                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                    } else {
+                        // Check if event post with the id was found in the database
+                        if (!event) {
+                            res.json({ success: false, message: eval(language + '.deleteEventReaction.eventError') }); // Return error message
+                        } else {
+                            // Get data of user who is logged in
+                            User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                                // Check if error was found
+                                if (err) {
+                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+
+                                    var mailOptions = {
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                        to: [emailConfig.email], // list of receivers
+                                        subject: ' Find one 2 deleteReactionEvent error ',
+                                        text: 'The following error has been reported in Kultura: ' + err,
+                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                    };
+                                    // Function to send e-mail to myself
+                                    transporter.sendMail(mailOptions, function(err, info) {
+                                        if (err) {
+                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                        } else {
+                                            console.log(info); // Log success message to console if sent
+                                            console.log(user.email); // Display e-mail that it was sent to
+                                        }
+                                    });
+                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                } else {
+                                    // Check if user was found in the database
+                                    if (!user) {
+                                        res.json({ success: false, message: eval(language + '.deleteEventReaction.userError') }); // Return error message
+                                    } else {
+                                        // Check if the user who disliked the post has already liked the event post before
+                                        var reactions = ['like', 'love', 'haha', 'wow', 'sad', 'angry'];
+                                        for (var i = 0; i < reactions.length; i++) {
+                                            if (eval('event.reactions.' + reactions[i] + 'By').includes(user.username)) {
+                                                //delete reactions
+                                                eval('event.reactions.' + reactions[i] + 'By').splice(eval('event.reactions.' + reactions[i] + 'By').indexOf(user.username), 1);
+                                                // Save event post data
+                                                event.save((err) => {
+                                                    // Check if error was found
+                                                    if (err) {
+                                                        res.json({ success: false, message: eval(language + '.deleteEventReaction.saveError'), err }); // Return general error message
+                                                    } else {
+                                                        res.json({ success: true, message: eval(language + '.deleteEventReaction.success') }); // Return error message
+                                                    }
+                                                });
+                                            }
+
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
     return router;
 };

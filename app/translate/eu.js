@@ -242,6 +242,16 @@ module.exports = {
         saveError: "Iruzkina ezin da gorde. Errorea:",
         success: "Iruzkina gorde da!"
     },
+    newEventReaction: {
+        idProvidedError: 'Ez da ekintzaren IDa eman.',
+        reactionProvidedError: 'Ekintzaren erreakzioa ez da eman.',
+        eventError: "Ekintza ez da aurkitu.",
+        userError: "Erabiltzailea ez da aurkitu.",
+        ownError: "Ezin diozu zeure publikazioari erreakziorik egin.",
+        likedBeforeError: "Publicazio oni erreakzioa jada egin diozu. ",
+        saveError: "Ezin izan da erreakzioa gehitu. Akatsa: ",
+        success: "Erreakzioa gehitu da!"
+    },
     //userEvents
     userEvents: {
         usernameProvidedError: "Ekintzen erabiltzailea ez da eman.",
@@ -403,27 +413,17 @@ module.exports = {
         saveError: "Ezin izan da oharra ezabatu. Akatsa: ",
         success: "Oharra ezabatu da!"
     },
-        deleteComment: {
+    deleteComment: {
         usernameProvidedError: 'Erabiltzaile izena ez da eman.',
         idProvidedError: 'Ez da iruzkinaren IDa eman.',
         success: "Iruzkina ezabatu da!"
     },
-    addThemeReaction: {
-        idProvidedError: 'Ez da gaiaren IDa eman.',
-        reactionProvidedError: 'La reacción del tema no fue proporcionada.',
-        themeError: "Gaia ez da aurkitu.",
-        userError: "Erabiltzailea ez da aurkitu.",
-        ownError: "Ezin diozu zeure publikazioari erreakziorik egin.",
-        likedBeforeError: "Publicazio oni erreakzioa jada egin diozu. ",
-        saveError: "Ezin izan da erreakzioa gehitu. Akatsa: ",
-        success: "Erreakzioa gehitu da!"
-    },
-    deleteThemeReaction: {
-        idProvidedError: 'Ez da gaiaren IDa eman.',
-        themeError: "Gaia ez da aurkitu.",
+    deleteEventReaction: {
+        idProvidedError: 'Ez da ekintzaren IDa eman.',
+        eventError: "Ekintza ez da aurkitu.",
         userError: "Erabiltzailea ez da aurkitu.",
         ownError: "Ezin diozu zeure publicazioari erreakziorik egin.",
-        quitBeforeError: "Ya has dejado de reaccionar este post",
+        quitBeforeError: "Ekintza hau erreakzionatzeari utzi diozu",
         saveError: "Ezin izan da erreakzioa ezabatu. Akatsa: ",
         success: "Erreakzioa ezabatu da!"
     },

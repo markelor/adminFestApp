@@ -8,7 +8,8 @@ import { AuthGuard} from '../../guards/auth.guard';
 import { ActivatedRoute,Router,NavigationEnd } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import { BindContentPipe } from '../../../shared/pipes/bind-content.pipe';
-
+import { ReactionsModalComponent } from './reactions-modal/reactions-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-see-event',
   templateUrl: './see-event.component.html',
@@ -31,7 +32,8 @@ export class SeeEventComponent implements OnInit {
     private router:Router,
     private bindContent:BindContentPipe,
     private activatedRoute: ActivatedRoute,
-    private authGuard:AuthGuard) { }
+    private authGuard:AuthGuard,
+    private modalService:NgbModal) { }
   private initializeGalleryOptions(){
     this.galleryOptions = [
       { thumbnails: false },
@@ -80,15 +82,15 @@ export class SeeEventComponent implements OnInit {
     });  
   }
   
-    private passCoordinates(){
-      var market_info={
-        title:this.event.title,
-        icon:this.categories[this.categories.length-1].icons[0].url, // Event field
-        lat:this.event.place.coordinates.lat, // Lat field
-        lng:this.event.place.coordinates.lng, // Lng field
-      }
-      this.observableService.mapType="event-form-coordinates";
-      this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
+  private passCoordinates(){
+    var market_info={
+      title:this.event.title,
+      icon:this.categories[this.categories.length-1].icons[0].url, // Event field
+      lat:this.event.place.coordinates.lat, // Lat field
+      lng:this.event.place.coordinates.lng, // Lng field
+    }
+    this.observableService.mapType="event-form-coordinates";
+    this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
   }
   private initReactions(){
     this.reactions=['like','love','haha','wow','sad','angry'];
@@ -102,18 +104,6 @@ export class SeeEventComponent implements OnInit {
       if(this.authService.user){
         if (this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By').includes(this.authService.user.username)) {           
           myReaction=true;
-          //change my username
-
-          for (var j = 0; j < this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By').length; j++) {
-            if(this.authService.user.username===this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By')[j]){
-              this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By').splice(j,1);
-              this.translate.get('reaction.you').subscribe(
-              you => {
-                this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By').splice(0,0,you);
-
-              });
-            }
-          }
         var translateReaction=this.translate.get('reaction.'+this.reactions[i]).subscribe(
           data => {   
             $(".like-btn-emo").removeClass().addClass('like-btn-emo').addClass('like-btn-'+this.reactions[i]);
@@ -123,7 +113,10 @@ export class SeeEventComponent implements OnInit {
       }
       reactionsCount= reactionsCount+this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By').length;
       //reactions and count reactions to modal;
-      var reactionAndUsernamesObj={reaction:this.reactions[i],usernames:this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By')};
+      var reactionAndUsernamesObj={
+        reaction:this.reactions[i],
+        usernames:this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By')
+      };
       this.existReactionAndUsernames.push(reactionAndUsernamesObj);
       this.allReactions=this.allReactions.concat(this.bindContent.transform(this.event,'reactions',this.reactions[i]+'By'));
     } 
@@ -186,15 +179,17 @@ export class SeeEventComponent implements OnInit {
   }
    //reactions modal
 
-  /*private reactionStaticModalShow(currentReaction,existReactionAndUsernames,allReactions) {
+  private reactionStaticModalShow(currentReaction,existReactionAndUsernames,allReactions) {
     const activeModal = this.modalService.open(ReactionsModalComponent, {backdrop: 'static'});
     activeModal.componentInstance.currentReaction = currentReaction;
     activeModal.componentInstance.existReactionAndUsernames = existReactionAndUsernames;
 
   }
   private reactionClick(currentReaction){
+    console.log(this.existReactionAndUsernames);
+    console.log(this.allReactions);
     this.reactionStaticModalShow(currentReaction,this.existReactionAndUsernames,this.allReactions);
-  }*/
+  }
 
   private scrollComment(){
     $("html, body").animate({ scrollTop: $('#textareaScroll').offset().top }, 1000);

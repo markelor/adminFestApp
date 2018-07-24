@@ -58,7 +58,7 @@ export class EventFormComponent implements OnInit{
   }
   private onSvgInserted(event,m){
     var icon={
-      url:"data:image/svg+xml;utf-8,"+this.bindPipe.transform(event).changingThisBreaksApplicationSecurity.outerHTML,
+      url:"data:image/svg+xml;utf-8,"+this.bindPipe.transform(event,undefined,undefined).changingThisBreaksApplicationSecurity.outerHTML,
       scaledSize: {
         height: 40,
         width: 40

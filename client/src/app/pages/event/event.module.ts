@@ -15,16 +15,18 @@ import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { ShareButtonsModule } from '@ngx-share/buttons';
+import { ReactionsModalComponent } from './see-event/reactions-modal/reactions-modal.component';
 
 @NgModule({
   imports: [
   	CommonModule,FormsModule,EventRoutingModule,ReactiveFormsModule,TranslateModule,SharedModule,TemplatesModule,DataTablesModule,NgbModule,NgxGalleryModule,ShareButtonsModule.forRoot(),MapModule
   ],
-  declarations: [SeeEventComponent,CreateEventComponent, ManageEventsComponent,EditEventComponent],
+  declarations: [SeeEventComponent,CreateEventComponent, ManageEventsComponent,EditEventComponent,ReactionsModalComponent],
   providers: [
    {provide: COMPOSITION_BUFFER_MODE, useValue: false}
   ],
     entryComponents: [
+      ReactionsModalComponent
   ]
 })
 export  class EventModule { }

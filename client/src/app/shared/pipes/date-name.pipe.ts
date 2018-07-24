@@ -8,10 +8,13 @@ export class DateNamePipe implements PipeTransform {
 
   transform(datetime: any,locale:any): any {
   	moment.updateLocale('eu', {
-      calendar : {lastDay : '[Atzo]' , sameDay : '[Gaur]' , nextDay : '[Bihar]' , lastWeek : '[last] dddd [at] LT' , nextWeek : 'dddd [at] LT' , sameElse : 'L'}
+      calendar : {lastDay : '[Atzo]' , sameDay : '[Gaur]' , nextDay : '[Bihar]' , lastWeek : '[aurreko] dddd' , nextWeek : 'dddd' , sameElse : 'L'}
     });
     moment.updateLocale('es', {
-      calendar : {lastDay : '[Ayer]' , sameDay : '[Hoy]' , nextDay : '[Mañana]' , lastWeek : '[last] dddd [at] LT' , nextWeek : 'dddd [at] LT' , sameElse : 'L'}
+      calendar : {lastDay : '[Ayer]' , sameDay : '[Hoy]' , nextDay : '[Mañana]' , lastWeek : '[pasado] dddd' , nextWeek : 'dddd' , sameElse : 'L'}
+    });
+      moment.updateLocale('en', {
+      calendar : {lastDay : '[Yesterday]' , sameDay : '[Today]' , nextDay : '[Tomorrow]' , lastWeek : '[last] dddd' , nextWeek : 'dddd' , sameElse : 'L'}
     });
     var date=new Date(datetime);
     var now=new Date();

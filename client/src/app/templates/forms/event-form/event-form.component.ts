@@ -117,7 +117,7 @@ export class EventFormComponent implements OnInit {
   private hasAnotherDropZoneOver:boolean = false;
   private subscriptionLanguage: Subscription;
   private subscriptionObservableMapClick: Subscription;
-   @Output() RefreshEvent = new EventEmitter();
+  @Output() RefreshEvent = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,

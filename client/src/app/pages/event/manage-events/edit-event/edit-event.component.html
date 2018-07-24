@@ -35,10 +35,10 @@
                       <app-event-form *ngIf="event" [inputOperation]="'edit'" [inputLanguage]="'eu'" [(inputEvent)]="event" [inputCategories]="categories" (RefreshEvent)="refreshEvent($event)"></app-event-form>
                     </div>
                     <div class="tab-pane nav-es" id="tab2" role="tabpanel">
-                      <app-event-form *ngIf="event" [inputOperation]="'edit'" [inputLanguage]="'es'" [(inputEvent)]="event" [inputCategories]="categories"></app-event-form>
+                      <app-event-form *ngIf="event" [inputOperation]="'edit'" [inputLanguage]="'es'" [(inputEvent)]="event" [inputCategories]="categories" (RefreshEvent)="refreshEvent($event)"></app-event-form>
                     </div>
                     <div class="tab-pane nav-en" id="tab3" role="tabpanel">
-                     <app-event-form *ngIf="event" [inputOperation]="'edit'" [inputLanguage]="'en'" [(inputEvent)]="event" [inputCategories]="categories"></app-event-form>
+                     <app-event-form *ngIf="event" [inputOperation]="'edit'" [inputLanguage]="'en'" [(inputEvent)]="event" [inputCategories]="categories" (RefreshEvent)="refreshEvent($event)"></app-event-form>
                     </div>
                   </div>
                 </div>

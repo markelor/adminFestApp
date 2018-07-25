@@ -33,6 +33,14 @@ export class CommentInterceptor implements HttpInterceptor {
 		    'route':this.commentService.route
 		  }
 		});              
+    }else if(request.url===this.domain+"comment/getCommentsNotification/"+this.commentService.route+this.localizeService.parser.currentLang){
+		request = request.clone({
+		  setHeaders: {
+		    'Content-Type': 'application/json',
+		    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+		    'language':this.localizeService.parser.currentLang
+		  }
+		});              
     }else if(request.url===this.domain+"comment/editComment"){
 		request = request.clone({
 		  setHeaders: {
@@ -42,7 +50,15 @@ export class CommentInterceptor implements HttpInterceptor {
 		  }
 		});       
     }
-    else if(request.url===this.domain+"comment/deleteComment/"+this.commentService.route+this.localizeService.parser.currentLang){
+    else if(request.url===this.domain+"comment/editCommentsNotification"){
+		request = request.clone({
+		  setHeaders: {
+		    'Content-Type': 'application/json',
+		    'Authorization': 'Bearer '+this.authService.authToken, // Attach token
+		    'language':this.localizeService.parser.currentLang
+		  }
+		});                 
+    }else if(request.url===this.domain+"comment/deleteComment/"+this.commentService.route+this.localizeService.parser.currentLang){
         request = request.clone({
           setHeaders: {
             'Content-Type': 'application/json',

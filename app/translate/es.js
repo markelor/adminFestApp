@@ -306,6 +306,12 @@ module.exports = {
         userError: "No se encontró el usuario.",
         observationError: "No se encontro la observación."
     },
+    //getComment
+    getComment: {
+        idProvidedError: "El ID del comentario no fue proporcionado.",
+        usernameProvidedError: "El usurio del comentario no fue proporcionado.",
+        commentError: "No se encontro el comentario."
+    },
     //getPlacesCoordinates
     getPlacesCoordinates: {
         provinceProvidedError: 'La provincia no fue proporcionada.',
@@ -371,6 +377,7 @@ module.exports = {
     },
     editComment: {
         idProvidedError: 'El ID del comentario, no fue proporcionado.',
+        usernameProvidedError: 'El nombre de usuario no fue proporcionado.',
         createdByProvidedError: 'El nombre de usuario no fue proporcionado.',
         commentProvidedError: 'El comentario no fue proporcionado.',
         saveError: "No se pudo editar el comentario. Error: ",

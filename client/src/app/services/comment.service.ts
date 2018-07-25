@@ -17,14 +17,27 @@ export class CommentService {
   public newComment(comment) {
     return this.http.post<any>(this.domain + 'comment/newComment', comment);
   }
-   // Function to get ccategories from the database
+   // Function to get comments from the database
   public getComments(id,language) {
     this.route= id+'/';
     return this.http.get<any>(this.domain + 'comment/getComments/' + this.route+language);
   }
+     // Function to get comments notification from the database
+  public getCommentsNotification(username,language) {
+    this.route= username+'/';
+    return this.http.get<any>(this.domain + 'comment/getCommentsNotification/' + this.route+language);
+  }
   // Function to edit a comment
   public editComment(comment) {
     return this.http.put<any>(this.domain + 'comment/editComment',comment);
+  }
+  // Function to edit comments notifications from the database
+  public editCommentsNotification(username,language) {
+    var data={
+      username:username,
+      language:language
+    }
+    return this.http.put<any>(this.domain + 'comment/editCommentsNotification',data);
   }
   // Function to delete a comment
   public deleteComment(username,id,language) {

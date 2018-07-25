@@ -73,9 +73,9 @@
         <!-- END NAVBAR LANGUAGES -->
         <!-- BEGIN NAVBAR MESSAGES -->
         <div class="nav-item dropdown ks-messages">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <a (click)="editCommentsNotification()" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             <span class="la la-envelope ks-icon" aria-hidden="true">
-              <span class="badge badge-pill badge-info">3</span>
+              <span *ngIf="notificationComments" class="badge badge-pill badge-info">{{notificationComments[0].groupComments.length}}</span>
             </span>
             <span class="ks-text">Messages</span>
           </a>
@@ -98,46 +98,18 @@
             <div class="tab-content">
               <div class="tab-pane ks-messages-tab active" id="ks-navbar-messages-inbox" role="tabpanel">
                 <div class="ks-wrapper ks-scrollable">
-                  <a href="#" class="ks-message">
+                <ng-container *ngFor="let notificationComent of notificationComments">
+                  <a *ngFor="let groupComment of notificationComent.groupComments" href="#" class="ks-message">
                     <div class="ks-avatar ks-online">
-                      <img src="assets/img/avatars/avatar-1.jpg" width="36" height="36">
+                      <img src="{{groupComment.user.currentAvatar}}" width="36" height="36">
                     </div>
                     <div class="ks-info">
-                      <div class="ks-user-name">Emily Carter</div>
-                      <div class="ks-text">In golf, Danny Willett (pictured) wins the M...</div>
-                      <div class="ks-datetime">1 minute ago</div>
+                      <div class="ks-user-name">{{groupComment.createdBy}}</div>
+                      <div class="ks-text" [innerHTML]="groupComment.comment"></div>
+                      <div class="ks-datetime">{{groupComment.createdAt | timezone}}</div>
                     </div>
                   </a>
-                  <a href="#" class="ks-message">
-                    <div class="ks-avatar ks-online">
-                      <img src="assets/img/avatars/avatar-5.jpg" width="36" height="36">
-                    </div>
-                    <div class="ks-info">
-                      <div class="ks-user-name">Emily Carter</div>
-                      <div class="ks-text">In golf, Danny Willett (pictured) wins the M...</div>
-                      <div class="ks-datetime">1 minute ago</div>
-                    </div>
-                  </a>
-                  <a href="#" class="ks-message">
-                    <div class="ks-avatar ks-offline">
-                      <img src="assets/img/avatars/placeholders/ava-36.png" width="36" height="36">
-                    </div>
-                    <div class="ks-info">
-                      <div class="ks-user-name">Emily Carter</div>
-                      <div class="ks-text">In golf, Danny Willett (pictured) wins the M...</div>
-                      <div class="ks-datetime">1 minute ago</div>
-                    </div>
-                  </a>
-                  <a href="#" class="ks-message">
-                    <div class="ks-avatar ks-offline">
-                      <img src="assets/img/avatars/avatar-4.jpg" width="36" height="36">
-                    </div>
-                    <div class="ks-info">
-                      <div class="ks-user-name">Emily Carter</div>
-                      <div class="ks-text">In golf, Danny Willett (pictured) wins the M...</div>
-                      <div class="ks-datetime">1 minute ago</div>
-                    </div>
-                  </a>
+                </ng-container>
                 </div>
                 <div class="ks-view-all">
                   <a href="#">View all</a>

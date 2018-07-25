@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalizeRouterService } from 'localize-router';
 import { AuthService } from '../../services/auth.service';
 import { EventService } from '../../services/event.service';
+import { CommentService } from '../../services/comment.service';
 import { Subject } from 'rxjs/Subject';
 import { ActivatedRoute,Router,NavigationEnd } from '@angular/router';
 import { ObservableService} from '../../services/observable.service';
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
   private avatar:string;
   private search:boolean;
   private eventsSearch;
+  private notificationComments;
   private searchTerm = new Subject<string>();
   private screen:boolean;
   private subscription: Subscription;
@@ -31,6 +33,7 @@ export class NavbarComponent implements OnInit {
     private authService:AuthService,
     private router:Router,
     private eventService:EventService,
+    private commentService:CommentService,
     private observableService:ObservableService,
     private spacePipe:SpacePipe) {
     this.changeLanguage(this.localizeService.parser.currentLang);
@@ -62,8 +65,7 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
     this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]);
   }
-
-  ngOnInit() {
+  private resizeWindow(){
     var that=this;
     $( window ).resize(function() {
       if($(window).width() >1225 && $(window).width()<=1500){
@@ -73,23 +75,25 @@ export class NavbarComponent implements OnInit {
         that.screen=false;
       }
     });
-
-  	this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(data=>{
+  }
+  private getAndChangeAvatar(){
+    this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(data=>{
       if(data.success){
         this.avatar=data.user.currentAvatar;
       }  
     });
     //Change avatar
     this.observableService.avatarType="current-avatar";
-      this.subscription=this.observableService.notifyObservable.subscribe(res => {    
-        if (res.hasOwnProperty('option') && res.option === 'current-avatar') {
-          if(res.data){  
-              this.avatar=res.data;
-            }
-        }
-      });
+    this.subscription=this.observableService.notifyObservable.subscribe(res => {    
+      if (res.hasOwnProperty('option') && res.option === 'current-avatar') {
+        if(res.data){  
+            this.avatar=res.data;
+          }
+      }
+    });
+  }
+  private eventSearch(){
     this.eventService.eventSearch(this.searchTerm,this.localizeService.parser.currentLang).subscribe(data=>{
-      console.log(data);
       if(data.success){
         this.eventsSearch=data.events; 
         if(!$('.ks-search-form.nav-item.dropdown.show')[0]){
@@ -97,6 +101,32 @@ export class NavbarComponent implements OnInit {
         }   
       }     
     });
+  }
+  private getCommentsNotification(){
+    if(this.authService.user){
+      this.commentService.getCommentsNotification(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success){
+          this.notificationComments=data.comments;
+        }     
+      });
+    }
+
+  }
+  private editCommentsNotification(){
+    if(this.authService.user){
+      this.commentService.editCommentsNotification(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data=>{
+        if(data.success){
+          this.notificationComments=data.comments;
+        }     
+      });
+    }
+  }
+
+  ngOnInit() {   
+    this.resizeWindow();
+    this.getAndChangeAvatar();
+    this.eventSearch();
+    this.getCommentsNotification();
   }
 
 }

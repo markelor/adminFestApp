@@ -306,6 +306,12 @@ module.exports = {
         userError: "Erabiltzailea ez da aurkitu.",
         observationError: "Ez da oharra aurkitu."
     },
+    //getComment
+    getComment: {
+        idProvidedError: "Iruzkinaren IDa ez da eman.",
+        usernameProvidedError: "Iruzkinaren erabiltzailea ez da eman.",
+        commentError: "Ez da iruzkina aurkitu."
+    },
     //getPlacesCoordinates
     getPlacesCoordinates: {
         provinceProvidedError: 'Probintzia ez da eman.',
@@ -371,6 +377,7 @@ module.exports = {
     },
     editComment: {
         idProvidedError: 'Ez da iruzkinaren IDa eman.',
+        usernameProvidedError: 'Erabiltzaile izena ez da eman.',
         createdByProvidedError: 'Iruzkinaren erabiltzailea ez da eman.',
         commentProvidedError: 'Iruzkina ez da eman.',
         saveError: "Ezin izan da iruzkina aldatu. Akatsa: ",

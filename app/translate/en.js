@@ -307,6 +307,12 @@ module.exports = {
         userError: "No user found.",
         observationError: "No observation found."
     },
+    //getComment
+    getComment: {
+        idProvidedError: "Comment ID is not provided.",
+        usernameProvidedError: "Comment username is not provided.",
+        commentError: "No comment found.",
+    },
     //getPlacesCoordinates
     getPlacesCoordinates: {
         provinceProvidedError: 'Province was not provided.',
@@ -372,6 +378,7 @@ module.exports = {
     },
     editComment: {
         idProvidedError: 'Comment ID was not provided.',
+        usernameProvidedError: 'Username was not provided.',
         createdByProvidedError: 'Username was not provided.',
         commentProvidedError: 'Comment was not provided.',
         saveError: "Could not edit comment. Error: ",

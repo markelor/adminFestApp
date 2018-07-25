@@ -44,13 +44,19 @@ module.exports = (router) => {
                         if (!req.body.parentId) {
                             req.body.parentId = null;
                         }
+                        var mentionedArray = [];
+                        if (req.body.mentionedUsers) {
+                            for (var i = 0; i < req.body.mentionedUsers.length; i++) {
+                                mentionedArray.push({ username: req.body.mentionedUsers[i], readed: false });
+                            }
+                        }
                         // Create the event object for insertion into database
                         const comment = new Comment({
                             firstParentId: req.body.firstParentId,
                             parentId: req.body.parentId,
                             level: req.body.level,
                             eventId: req.body.eventId,
-                            mentionedUsers: req.body.mentionedUsers,
+                            mentionedUsers: mentionedArray,
                             comment: req.body.comment,
                             createdBy: req.body.createdBy,
                             createdAt: Date.now(),
@@ -117,16 +123,6 @@ module.exports = (router) => {
                         }
                     }, { $unwind: "$user" },
                     {
-                        // Join with Place table
-                        $lookup: {
-                            from: "users", // other table name
-                            localField: "createdBy", // placeId of Comment table field
-                            foreignField: "username", // _id of Place table field
-                            as: "user" // alias for userinfo table
-                        }
-                    }, { $unwind: "$user" },
-
-                    {
                         $group: {
                             _id: { $ifNull: ["$firstParentId", "$_id"] },
                             groupComments: { $push: "$$ROOT" }
@@ -135,6 +131,73 @@ module.exports = (router) => {
                     {
                         $sort: {
                             _id: -1,
+                        }
+                    }
+                ]).exec(function(err, comments) {
+                    // Check if places were found in database
+                    if (!comments) {
+                        res.json({ success: false, message: err }); // Return error of no places found
+                    } else {
+                        res.json({ success: true, comments: comments }); // Return success and place 
+                    }
+                });
+            }
+        }
+    });
+    /* ===============================================================
+       GET Comments
+    =============================================================== */
+    router.get('/getCommentsNotification/:username/:language', (req, res) => {
+        var language = req.params.language;
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            if (!req.params.username) {
+                res.json({ success: false, message: eval(language + '.getComment.usernameProvidedError') }); // Return error
+            } else {
+                Comment.aggregate([{
+                        $match: {
+                            "mentionedUsers.username": req.params.username
+                        },
+                    }, {
+                        $sort: {
+                            createdAt: -1
+                        }
+                    }, {
+                        // Join with Place table
+                        $lookup: {
+                            from: "users", // other table name
+                            localField: "createdBy", // placeId of Comment table field
+                            foreignField: "username", // _id of Place table field
+                            as: "user" // alias for userinfo table
+                        }
+                    }, { $unwind: "$user" },
+                    {
+                        $project: {
+                            title: 1,
+                            comment: 1,
+                            "user.currentAvatar": 1,
+                            createdAt: 1,
+                            mentionedUsers: {
+                                $filter: {
+                                    input: "$mentionedUsers",
+                                    as: "mentionedUser",
+                                    cond: {
+                                        $eq: ["$$mentionedUser.username", req.params.username]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: "$mentionedUsers.readed",
+                            groupComments: { $push: "$$ROOT" }
+                        }
+                    },
+                    {
+                        $sort: {
+                            _id: 1,
                         }
                     }
                 ]).exec(function(err, comments) {
@@ -287,13 +350,18 @@ module.exports = (router) => {
                                                                     comment.level = newCommentLevel; // Assign new level to comment in database
                                                                 if (newCommentEventId)
                                                                     comment.eventId = newCommentEventId; // Assign new eventIdLevel to comment in database
-                                                                if (newCommentMentionedUsers)
-                                                                    comment.mentionedUsers = newCommentMentionedUsers; // Assign new mentionedUsers to comment in database
+                                                                if (newCommentMentionedUsers) {
+                                                                    var mentionedArray = [];
+                                                                    for (var i = 0; i < newCommentMentionedUsers.length; i++) {
+                                                                        mentionedArray.push({ username: newCommentMentionedUsers[i], readed: false });
+                                                                    }
+                                                                    comment.mentionedUsers = mentionedArray; // Assign new mentionedUsers to comment in database
+                                                                }
                                                                 if (newCommentComment)
                                                                     comment.comment = newCommentComment; // Assign newComment to comment in database
                                                                 if (newCommentCreatedBy)
                                                                     comment.createdBy = newCommentCreatedBy; // Assign new createdBy to comment in database
-                                                                if (newCommentDeleted!==undefined)
+                                                                if (newCommentDeleted !== undefined)
                                                                     comment.deleted = newCommentDeleted; // Assign new deleted to comment in database
                                                                 comment.updatedAt = Date.now();
                                                                 // Save comment into database
@@ -329,6 +397,126 @@ module.exports = (router) => {
             }
         }
     });
+    /* ===============================================================
+         Route to update/edit a comments notification
+     =============================================================== */
+    router.put('/editCommentsNotification', function(req, res) {
+        var language = req.body.language;
+        // Check if language was provided
+        if (!language) {
+            res.json({ success: false, message: "Ez da hizkuntza aurkitu" }); // Return error
+        } else {
+            // Check if id was provided
+            if (!req.body.username) {
+                res.json({ success: false, message: eval(language + '.editComment.usernameProvidedError') }); // Return error
+            } else {
+                // Look for logged in user in database to check if have appropriate access
+                User.findOne({ _id: req.decoded.userId }, function(err, mainUser) {
+                    if (err) {
+                        // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                        var mailOptions = {
+                            from: "Fred Foo 👻 <" + emailConfig.email + ">", // sender address
+                            to: [emailConfig.email],
+                            subject: ' Find one 1 edit comment error ',
+                            text: 'The following error has been reported in Kultura: ' + err,
+                            html: 'The following error has been reported in Kultura:<br><br>' + err
+                        };
+                        // Function to send e-mail to myself
+                        transporter.sendMail(mailOptions, function(err, info) {
+                            if (err) {
+                                console.log(err); // If error with sending e-mail, log to console/terminal
+                            } else {
+                                console.log(info); // Log success message to console if sent
+                                console.log(user.email); // Display e-mail that it was sent to
+                            }
+                        });
+                        res.json({ success: false, message: eval(language + '.general.generalError') });
+                    } else {
+                        // Check if logged in user is found in database
+                        if (!mainUser) {
+                            res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                        } else {
+                            // Look for user in database
+                            User.findOne({ username: req.body.username }, function(err, user) {
+                                if (err) {
+                                    // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
+                                    var mailOptions = {
+                                        from: "Fred Foo 👻" < +emailConfig.email + ">", // sender address
+                                        to: [emailConfig.email],
+                                        subject: ' Find one 2 edit comment error ',
+                                        text: 'The following error has been reported in Kultura: ' + err,
+                                        html: 'The following error has been reported in Kultura:<br><br>' + err
+                                    }; // Function to send e-mail to myself
+                                    transporter.sendMail(mailOptions, function(err, info) {
+                                        if (err) {
+                                            console.log(err); // If error with sending e-mail, log to console/terminal
+                                        } else {
+                                            console.log(info); // Log success message to console if sent
+                                            console.log(user.email); // Display e-mail that it was sent to
+                                        }
+                                    });
+                                    res.json({ success: false, message: eval(language + '.general.generalError') });
+                                } else {
+                                    // Check if user is in database
+                                    if (!user) {
+                                        res.json({ success: false, message: eval(language + '.editUser.userError') }); // Return error
+                                    } else {
+                                        var saveErrorPermission = false;
+                                        // Check if is owner
+                                        if (mainUser._id.toString() === user._id.toString()) {} else {
+                                            // Check if the current permission is 'admin'
+                                            if (mainUser.permission === 'admin') {
+                                                // Check if user making changes has access
+                                                if (user.permission === 'admin') {
+                                                    saveErrorPermission = language + '.general.adminOneError';
+                                                } else {}
+                                            } else {
+                                                // Check if the current permission is moderator
+                                                if (mainUser.permission === 'moderator') {
+                                                    // Check if contributor making changes has access
+                                                    if (user.permission === 'contributor') {} else {
+                                                        saveErrorPermission = language + '.general.adminOneError';
+                                                    }
+                                                } else {
+                                                    saveErrorPermission = language + '.general.permissionError';
+                                                }
+                                            }
+                                        }
+                                        //check saveError permision to save changes or not
+                                        if (saveErrorPermission) {
+                                            res.json({ success: false, message: eval(saveErrorPermission) }); // Return error
+                                        } else {
+                                            Comment.update({
+                                                //$or: [{ language: language }, { translation: { $elemMatch: { language: language } } }],
+                                                $and: [{ "mentionedUsers.username": req.body.username }, { "mentionedUsers.readed": false }],
+                                            }, { $set: { "mentionedUsers.$.readed": true } }, { multi: true }, function(err, comments) {
+                                                // Check if error
+                                                if (err) {
+                                                    // Check if error is a validation error
+                                                    if (err.errors) {
+                                                        if (err.errors['comment']) {
+                                                            res.json({ success: false, message: eval(language + err.errors['comment'].message) }); // Return error message
+                                                        } else {
+                                                            res.json({ success: false, message: err }); // Return general error message
+                                                        }
+                                                    } else {
+                                                        res.json({ success: false, message: eval(language + '.editComment.saveError'), err }); // Return general error message
+                                                    }
+                                                } else {
+                                                    res.json({ success: true, message: eval(language + '.editComment.success') }); // Return success message
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+
     /* ===============================================================
         Route to delete a comment
     =============================================================== */

@@ -75,7 +75,10 @@
         <div class="nav-item dropdown ks-messages">
           <a (click)="editCommentsNotification()" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             <span class="la la-envelope ks-icon" aria-hidden="true">
-              <span *ngIf="notificationComments" class="badge badge-pill badge-info">{{notificationComments[0].groupComments.length}}</span>
+            <ng-container *ngFor="let notificationComment of notificationComments">
+              <span *ngIf="!notificationComment._id[0]" class="badge badge-pill badge-info">{{notificationComment.groupComments.length}}</span>
+            </ng-container>
+
             </span>
             <span class="ks-text">Messages</span>
           </a>

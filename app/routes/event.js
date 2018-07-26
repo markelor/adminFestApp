@@ -359,7 +359,7 @@ module.exports = (router) => {
             Event.aggregate([ // Join with Place table
                 {
                     $match: {
-                        "start": { $gte: new Date() }
+                        "end": { $gte: new Date() }
                     }
                 }, {
                     // Join with Place table

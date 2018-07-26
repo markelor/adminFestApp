@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { PagesRoutingModule } from './pages.routing.module';
 import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { PagesComponent } from './pages.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
@@ -40,7 +41,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
     CommonModule,TranslateModule,PagesRoutingModule,TemplatesModule,NgbModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyA21VpWm94ik9EItX4mkB1RBxrsdXCH1Mw'
-    }),InlineSVGModule.forRoot()
+    }),AgmSnazzyInfoWindowModule,InlineSVGModule.forRoot()
   ],
   declarations: [
     PagesComponent

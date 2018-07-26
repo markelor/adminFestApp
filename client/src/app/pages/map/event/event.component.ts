@@ -10,16 +10,13 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css']
 })
-export class EventComponent  {
-  private language:string;	
-  private title: string = 'My first AGM project';
-  private lat: number = 51.678418;
-  private lng: number = 7.809007;
-  private zoom: number = 2;
+export class EventComponent  {	
+  private title: string = 'Titulua';
+  private lat: number = 42.88305555555556;
+  private lng: number = -1.9355555555555555;
+  private zoom: number = 9;
   private markers: marker[]=[];
   private events;
-  private eventRoute:string;
-  private classRoute:string;
   private subscription:Subscription;
   constructor(private localizeService:LocalizeRouterService,
     private activatedRoute: ActivatedRoute,
@@ -27,123 +24,76 @@ export class EventComponent  {
     private eventService:EventService,
     private translate:TranslateService,
     private bindPipe: BindContentPipe) { 
-    this.subscription=router.events.subscribe(event => {
-      if(event instanceof NavigationEnd) {
-        //Get thematic
-      this.translate.get('map-route').subscribe(
-      data => {
-        if(event.url.split('/')[2]===data){
-          this.init();
-        }
-
-      });     
-      }
-    });
+    
   }
   private clickedMarker(label: string, index: number) {
     console.log(`clicked the marker: ${label || index}`)
   }
-  private addMarker(i,icon){
+  private handleSVG(svg: SVGElement, parent: Element | null): SVGElement {
+    svg.setAttribute('width', '80');
+    svg.setAttribute('height', '80');
+    return svg;
+  }
+  private onSvgInserted(event,m){
+    var icon={
+      url:"data:image/svg+xml;utf-8,"+this.bindPipe.transform(event,undefined,undefined).changingThisBreaksApplicationSecurity.outerHTML,
+      scaledSize: {
+        height: 40,
+        width: 40
+      }
+    }
+    m.icon=icon;
+  }
+  private addMarker(data){
+    console.log(data);
+    this.lat=Number(data.place.coordinates.lat);
+    this.lng=Number(data.place.coordinates.lng);
+    //this.map._mapsWrapper.setCenter({lat: this.lat, lng: this.lng}));
     this.markers.push({      
-      lat: Number(this.events[i].coordinates.lat),
-      lng: Number(this.events[i].coordinates.lng),
-      icon:"assets/img/icons/"+icon+".svg",
-      labelOptions: {
-        /*color: '#CC0000',
+      lat: Number(data.place.coordinates.lat),
+      lng: Number(data.place.coordinates.lng),
+      customInfo: data.categories[0].icons[0].url,
+      /*labelOptions: {
+        color: '#CC0000',
         fontFamily: '',
         fontSize: '14px',
-        fontWeight: 'bold',*/
-        //text: this.bindPipe.transform(this.events[i],this.language,'title',undefined),
-       },
+        fontWeight: 'bold',
+        text: data.title
+       },*/
       draggable: true
     });
-
   }
-  /*private organizedEvents(events){
-    this.events = events; // Assign array to use in HTML
-    for (var i = 0; i < this.events.length; i++) {  
-      //Get class
-      if (this.bindPipe.transform(this.events[i],this.language,'class',undefined)){
-        this.translate.get('map-icon.'+this.bindPipe.transform(this.events[i],this.language,'class',undefined)).subscribe(
-        data => {
-          this.addMarker(i,data);
-        });  
-
-      }else{
-        this.translate.get('map-icon.'+this.bindPipe.transform(this.events[i],this.language,'event',undefined)).subscribe(
-        data => {
-          this.addMarker(i,data);
-        });  
-      }
-    } 
-  }
-  */
-
- /* private getAllEventsThematic(thematic) {
-    // Function to GET all events from database
-    this.eventService.getAllEventsThematic(thematic,true,this.language).subscribe(data => {
-    	if(data.success){
-    		this.organizedEvents(data.events);     	
-    	}
-    });
-  }
-
-  private getAllEventsClass(thematic,event,eventClass) {
-    // Function to GET all events from database by class
-    this.eventService.getAllEventsClass(thematic,event,eventClass,this.language).subscribe(data => {
+    // Function to get all user events from the database
+  private getEvents() {
+    this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
-        this.organizedEvents(data.events);      
+        this.events = data.events; // Assign array to use in HTML
+        this.markers=[];
+        for (var i = 0; i < this.events.length; ++i) {    
+          this.addMarker(this.events[i]);
+        }
       }
     });
   }
-  
-  private getAllEventsEvent(thematic,event) {
-    // Function to GET all events from database by event
-    this.eventService.getAllEventsEvent(thematic,event,this.language).subscribe(data => {
-      if(data.success){
-        this.organizedEvents(data.events);          
+  ngOnInit() {
+    this.getEvents();
+    /*this.observableService.mapType="event-form-coordinates";
+    this.subscription=this.observableService.notifyObservable.subscribe(res => {
+      if (res.hasOwnProperty('option') && res.option === this.observableService.mapType) {
+        this.markers=[];
+        this.addMarker(res.value);
       }
-    });
-  }*/
-
-  private init() {
-    this.markers=[];
-    this.eventRoute=this.activatedRoute.snapshot.params['event']; 
-    this.classRoute=this.activatedRoute.snapshot.params['class'];
-  	this.language=this.localizeService.parser.currentLang;
-    //Get thematic
-      this.translate.get('all-route').subscribe(
-      all => {
-      //Get thematic
-        this.translate.get('create-event.thematic-archeology').subscribe(
-        thematic => { 
-          /*if(this.classRoute){
-            if(all===this.classRoute){
-              this.getAllEventsEvent(thematic,this.eventRoute);
-            }else{
-              this.getAllEventsClass(thematic,this.eventRoute,this.classRoute);
-            } 
-          }else if(this.eventRoute){
-            if(all===this.eventRoute){
-            this.getAllEventsThematic(thematic);
-            }else{
-              this.getAllEventsEvent(thematic,this.eventRoute);
-            }
-          }  */                  
-        });  
-      });  	
+    }); */   
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }	
 
 }
 // just an interface for type safety.
 interface marker {
-	lat: number;
-	lng: number;
-  icon:string;
-	labelOptions?: object;
-	draggable: boolean;
+  lat: number;
+  lng: number;
+  icon?:object;
+  customInfo:string;
+  labelOptions?: object;
+  draggable: boolean;
 }
 

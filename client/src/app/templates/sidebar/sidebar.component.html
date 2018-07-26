@@ -30,6 +30,13 @@
         <a class="dropdown-item" [routerLink]="['/event-route','manage-route'] | localize" routerLinkActive="ks-active" translate><span class="ks-icon la la-cog"></span>{{'menu.manage'}}</a>
       </div>
     </li>
+    <!--Map item-->
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/map-route'] | localize">
+        <span class="ks-icon la la-map"></span>
+        <span translate>{{'menu.map'}}</span>
+    </a>
+    </li>
     <!--Application item-->
     <li class="nav-item dropdown">
       <div class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">

@@ -178,6 +178,7 @@ module.exports = (router) => {
                             comment: 1,
                             "user.currentAvatar": 1,
                             createdAt: 1,
+                            eventId:1,
                             mentionedUsers: {
                                 $filter: {
                                     input: "$mentionedUsers",

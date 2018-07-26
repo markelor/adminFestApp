@@ -12,6 +12,7 @@ export const routes:Routes=[
 	    { path: 'admin-route',loadChildren: './administrator/administrator.module#AdministratorModule'},
 	    { path: 'category-route',loadChildren: './category/category.module#CategoryModule'},
 	    { path: 'event-route',loadChildren: './event/event.module#EventModule'},
+	    { path: 'map-route',loadChildren: './map/map.module#MapModule'},
 	    { path: 'application-route',loadChildren: './application/application.module#ApplicationModule'},
 	    { path: 'service-route',loadChildren: './service/service.module#ServiceModule'},
 	    { path: 'service-type-route',loadChildren: './service-type/service-type.module#ServiceTypeModule'},

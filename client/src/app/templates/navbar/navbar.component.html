@@ -102,7 +102,7 @@
               <div class="tab-pane ks-messages-tab active" id="ks-navbar-messages-inbox" role="tabpanel">
                 <div class="ks-wrapper ks-scrollable">
                 <ng-container *ngFor="let notificationComent of notificationComments">
-                  <a *ngFor="let groupComment of notificationComent.groupComments" href="#" class="ks-message">
+                  <a *ngFor="let groupComment of notificationComent.groupComments" href="javascript:void(0)" [routerLink]="['/event-route','see-route',groupComment.eventId] | localize"  class="ks-message">
                     <div class="ks-avatar ks-online">
                       <img src="{{groupComment.user.currentAvatar}}" width="36" height="36">
                     </div>

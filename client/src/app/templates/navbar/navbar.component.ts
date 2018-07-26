@@ -108,7 +108,6 @@ export class NavbarComponent implements OnInit {
        
         if(data.success){
           this.notificationComments=data.comments;
-          console.log(this.notificationComments);
         }     
       });
     }

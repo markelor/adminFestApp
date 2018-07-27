@@ -20,6 +20,14 @@
                   <span *ngIf="event.language===localizeService.parser.currentLang||event.translation.length===0" class="ks-text  event-title"> {{event.title}} 
                   <i [routerLink]="['/event-route','see-route',event._id] | localize" class="la la-eye ks-icon view-event"></i>
                   </span>
+                  <div class="ks-text-translation"> 
+                  <span *ngIf="event | hasBeenTranslatedPipe:'eu'" class="language-done"><i class="la la-language"></i>eu</span>
+                  <span *ngIf="event | hasBeenTranslatedPipe:'es'" class="language-done"><i class="la la-language"></i>es</span>
+                  <span *ngIf="event | hasBeenTranslatedPipe:'en'" class="language-done"><i class="la la-language"></i>en</span>
+                  <span *ngIf="!(event | hasBeenTranslatedPipe:'eu')" class="language-pendant"><i class="la la-language"></i>eu</span>
+                  <span *ngIf="!(event | hasBeenTranslatedPipe:'es')" class="language-pendant"><i class="la la-language"></i>es</span>
+                  <span *ngIf="!(event | hasBeenTranslatedPipe:'en')" class="language-pendant"><i class="la la-language"></i>en</span>
+                </div>
                 <div class="ks-controls">
                   <!-- showCollapse-->
                   <a *ngIf="!event.showCollapse" (click)="event.showCollapse = !event.showCollapse" class="ks-control">

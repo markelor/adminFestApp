@@ -29,6 +29,7 @@ import { DecodePipe } from './pipes/decode.pipe';
 import { DateNamePipe } from './pipes/date-name.pipe';
 import { CommentsPipe } from './pipes/comments.pipe';
 import { ReactionsPipe } from './pipes/reactions.pipe';
+import { HasBeenTranslatedPipe } from './pipes/has-been-translated.pipe';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { ReactionsPipe } from './pipes/reactions.pipe';
     DecodePipe,
     DateNamePipe,
     CommentsPipe,
-    ReactionsPipe
+    ReactionsPipe,
+    HasBeenTranslatedPipe
   ],
   exports: [
     TouchspinDirective,
@@ -93,7 +95,8 @@ import { ReactionsPipe } from './pipes/reactions.pipe';
     DecodePipe,
     DateNamePipe,
     CommentsPipe,
-    ReactionsPipe
+    ReactionsPipe,
+    HasBeenTranslatedPipe
   ]
 })
 export class SharedModule { }

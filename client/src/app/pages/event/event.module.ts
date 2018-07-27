@@ -16,6 +16,7 @@ import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { ShareButtonsModule } from '@ngx-share/buttons';
 import { ReactionsModalComponent } from './see-event/reactions-modal/reactions-modal.component';
+import { HasBeenTranslatedPipe } from "../../shared/pipes/has-been-translated.pipe";
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { ReactionsModalComponent } from './see-event/reactions-modal/reactions-m
   ],
   declarations: [SeeEventComponent,CreateEventComponent, ManageEventsComponent,EditEventComponent,ReactionsModalComponent],
   providers: [
-   {provide: COMPOSITION_BUFFER_MODE, useValue: false}
+   {provide: COMPOSITION_BUFFER_MODE, useValue: false},HasBeenTranslatedPipe
   ],
     entryComponents: [
       ReactionsModalComponent

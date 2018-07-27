@@ -84,50 +84,61 @@ position: sticky;
 .view-event{
   font-size: 20pt;
   margin-left: 30px;
-  padding:3px;
+  padding:8px 8px 8px 12px;
+  border-left: solid 1px #79bcf4;
+  border-radius: 0px 3px 3px 0px;
+  
 }
 
 .view-event:hover{
-  background-color:#333;
-  color:#ffffff;
+   background-color:#0e58a2;
   font-size: 20pt;
-  margin-left: 30px;
-  border-radius: 50px;
-  padding:3px;
-  -webkit-box-shadow: 0px 0px 3px 5px rgba(51,51,51,1);
-  -moz-box-shadow: 0px 0px 3px 5px rgba(51,51,51,1);
-  box-shadow: 0px 0px 3px 5px rgba(51,51,51,1);
   cursor: pointer;
 }
 
 .edit-event{
   font-size: 20pt;
-  margin-left: 30px;
-  padding:3px;
+  padding:8px 8px 8px 12px;
+  border-left: solid 1px #79bcf4;
+  border-radius: 0px 3px 3px 0px;
+
 }
 
 .edit-event:hover{
-  background-color:#333;
-  font-size: 20pt;
-  margin-left: 30px;
-  border-radius: 50px;
-  padding:3px;
-  -webkit-box-shadow: 0px 0px 3px 5px rgba(51,51,51,1);
-  -moz-box-shadow: 0px 0px 3px 5px rgba(51,51,51,1);
-  box-shadow: 0px 0px 3px 5px rgba(51,51,51,1);
+  background-color:#0e58a2;
   cursor: pointer;
+}
+
+.ks-text-translation{
+  padding:8px 8px 8px 12px;
+  border-left: solid 1px #79bcf4;
 }
 
 .language-done{
   color:#ffffff;
   font-weight: lighter;
+  font-size: 14pt;
+  cursor: pointer;
+  border-radius: 3px;
+  padding:2px;
+}
+
+.language-done:hover{
+  background-color:#0e58a2;
 }
 
 .language-pendant{
   color:#87bef5;
   font-weight: lighter;
+  font-size: 14pt;
+  cursor:pointer;
+  border-radius: 3px;
+  padding:2px;
 }
 
+.language-pendant:hover{
+  background-color:#0e58a2;
+}
 .description p {
   margin: 0 0 0px;
 }

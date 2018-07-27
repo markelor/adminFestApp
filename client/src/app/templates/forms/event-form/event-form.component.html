@@ -21,7 +21,7 @@
     <!-- Category -->
     <div formArrayName="categories" class="col-sm-12">
       <label for="selectCategory" translate>{{'event-form.category'}}</label>
-      <div *ngFor="let category of form.get('categories').controls; let i = index;">
+      <div *ngFor="let category of form.get('categories').controls | disableCategories:disableCategories; let i = index;">
         <div class="form-group required" [ngClass]="{'has-error': (!category.valid && category.dirty), 'has-success': (category.valid)}">
           <div [formGroupName]="i">
             <select formControlName="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.value,i)">
@@ -77,10 +77,10 @@
     <div class="col-sm-12">
       <div class="form-group required">
         <label for="fileUploadPoster" translate>{{'event-form.images'}}</label>
-        <button class="btn btn-primary ks-btn-file d-block">
+        <button [disabled]="disableUploader" class="btn btn-primary ks-btn-file d-block">
           <span class="la la-cloud-upload ks-icon"></span>
           <span class="ks-text" translate>{{'event-form.choose-images'}}</span>
-          <input id="photos" class="form-control" type="file" ng2FileSelect [uploader]="uploader" />
+          <input *ngIf="!disableUploader" id="photos" class="form-control" type="file" ng2FileSelect [uploader]="uploader" />
         </button>
       </div>
       <div *ngIf="uploader?.queue?.length>0">
@@ -111,7 +111,7 @@
                 <span *ngIf="item.isError"><i class="ion-close-round"></i></span>
               </td>
               <td nowrap>
-                <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                <button *ngIf="!disableUploader" type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
                   <span class="fa fa-trash" translate>{{'event-form.delete'}}</span>
                 </button>
               </td>

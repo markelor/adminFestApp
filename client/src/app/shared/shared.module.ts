@@ -30,6 +30,7 @@ import { DateNamePipe } from './pipes/date-name.pipe';
 import { CommentsPipe } from './pipes/comments.pipe';
 import { ReactionsPipe } from './pipes/reactions.pipe';
 import { HasBeenTranslatedPipe } from './pipes/has-been-translated.pipe';
+import { DisableCategoriesPipe} from './pipes/disable-categories.pipe';
 
 @NgModule({
   imports: [
@@ -65,7 +66,8 @@ import { HasBeenTranslatedPipe } from './pipes/has-been-translated.pipe';
     DateNamePipe,
     CommentsPipe,
     ReactionsPipe,
-    HasBeenTranslatedPipe
+    HasBeenTranslatedPipe,
+    DisableCategoriesPipe
   ],
   exports: [
     TouchspinDirective,
@@ -96,7 +98,8 @@ import { HasBeenTranslatedPipe } from './pipes/has-been-translated.pipe';
     DateNamePipe,
     CommentsPipe,
     ReactionsPipe,
-    HasBeenTranslatedPipe
+    HasBeenTranslatedPipe,
+    DisableCategoriesPipe
   ]
 })
 export class SharedModule { }

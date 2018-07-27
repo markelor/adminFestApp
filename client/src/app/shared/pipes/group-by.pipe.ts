@@ -9,7 +9,6 @@ export class GroupByPipe implements PipeTransform {
     if(!value) {
         return null;
     }
-    console.log(field);
     const groupedObj = value.reduce((prev, cur)=> {;
       if(field==='originCommentId'&&!cur.originCommentId.length){
         cur.firstOriginCommentId=cur._id;
@@ -27,7 +26,6 @@ export class GroupByPipe implements PipeTransform {
       }
       return prev;
     }, {});
-    console.log(Object.keys(groupedObj).map(key => ({ key, value: groupedObj[key] })));
     return Object.keys(groupedObj).map(key => ({ key, value: groupedObj[key] }));
   }
 }

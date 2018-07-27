@@ -8,6 +8,7 @@ import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
 import { ModalComponent } from './modal/modal.component';
 import { SharedModule } from "../shared/shared.module";
 import { GroupByPipe } from '../shared/pipes/group-by.pipe';
+import { DisableCategoriesPipe } from '../shared/pipes/disable-categories.pipe';
 import { SpacePipe } from '../shared/pipes/space.pipe';
 import { BindContentPipe } from '../shared/pipes/bind-content.pipe';
 import { CompareDatePipe } from '../shared/pipes/compare-date.pipe';
@@ -46,7 +47,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
     NavbarComponent,SidebarComponent,RightSidebarComponent,ModalComponent,EventFormComponent,ApplicationFormComponent,CategoryFormComponent,FormsComponent,ServiceFormComponent,ServiceTypeFormComponent,ObservationFormComponent,CommentComponent
     ],
    providers:[
-   	GroupByPipe,SpacePipe,BindContentPipe,CompareDatePipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}
+   	GroupByPipe,SpacePipe,BindContentPipe,CompareDatePipe,DisableCategoriesPipe,{provide: COMPOSITION_BUFFER_MODE, useValue: false}
    ],
   entryComponents: [
     ModalComponent

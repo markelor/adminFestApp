@@ -196,7 +196,7 @@ module.exports = (router) => {
                 if (!req.body.password) {
                     res.json({ success: false, message: eval(language + '.login.passwordError') }); // Password was not provided
                 } else {
-                    User.findOne({ username: loginUser }).select('email username password active currentAvatar').exec(function(err, user) {
+                    User.findOne({ username: loginUser }).select('email username password active currentAvatar permission').exec(function(err, user) {
                         if (err) {
                             // Create an e-mail object that contains the error. Set to automatically send it to myself for troubleshooting.
                             var mailOptions = {
@@ -235,6 +235,7 @@ module.exports = (router) => {
                                         token: token,
                                         user: {
                                             username: user.username,
+                                            permission:user.permission,
                                             currentAvatar: user.currentAvatar
                                         }
                                     }); // Return success and token to frontend

@@ -117,6 +117,8 @@ export class EventFormComponent implements OnInit {
   private hasAnotherDropZoneOver:boolean = false;
   private subscriptionLanguage: Subscription;
   private subscriptionObservableMapClick: Subscription;
+  private disableCategories=false;
+  private disableUploader=false;
   @Output() RefreshEvent = new EventEmitter();
 
   constructor(
@@ -211,6 +213,11 @@ export class EventFormComponent implements OnInit {
   private initializeForm(){
     if(this.inputEvent){
       this.inputEventCopy=JSON.parse(JSON.stringify(this.inputEvent));
+
+
+      if(this.inputLanguage.createdBy!==this.authService.user.username && this.authService.user.permission!=="admin"){     
+        this.disableForm();
+      }
       //general event translation
       if(this.inputEvent.language===this.inputLanguage){
         this.title.setValue(this.inputEvent.title);
@@ -401,16 +408,24 @@ export class EventFormComponent implements OnInit {
     }); 
   }
   // Enable new categories form
-  private enableFormNewEventForm() {
+  private enableForm() {
     this.form.enable(); // Enable form
-    $('#textareaDescription').froalaEditor('edit.on');
+    this.disableCategories=false;  
+    this.disableUploader=false;
+    this.submitted=false;
+    $('#textareaDescription'+this.localizeService.parser.currentLang).froalaEditor('edit.on');
     this.froalaEvent.getEditor()('html.set', '');
   }
 
   // Disable new categories form
-  private disableFormNewEventForm() {
-    this.form.disable(); // Disable form
-    $('#textareaDescription').froalaEditor('edit.off');
+  private disableForm() {
+    this.form.disable();
+    this.disableCategories=true;
+    setTimeout(() => {
+      $('#textareaDescription'+this.inputLanguage).froalaEditor('edit.off');
+    },1000);     
+    this.disableUploader=true;
+    this.submitted=true;
   }
 
   // Function to display new categories form
@@ -483,9 +498,8 @@ export class EventFormComponent implements OnInit {
         // Clear form data after two seconds
         setTimeout(() => {
           //this.newPost = false; // Hide form
-          this.submitted = false; // Enable submit button
           this.message = false; // Erase error/success message
-          this.enableFormNewEventForm(); // Enable the form fields
+          this.enableForm(); // Enable the form fields
           this.participants=[];
         }, 2000);
       }
@@ -624,8 +638,7 @@ export class EventFormComponent implements OnInit {
         this.deleteUploadImages('descriptionAll',this.imagesDescription);
         this.messageClass = 'alert alert-danger ks-solid'; // Return error class
         this.message = data.message; // Return error message
-        this.submitted = true; // Enable submit button
-        this.enableFormNewEventForm(); // Enable form
+        this.enableForm(); // Enable form
       } else {
         this.messageClass = 'alert alert-success ks-solid'; // Return success class
         this.message = data.message; // Return success message
@@ -828,7 +841,7 @@ export class EventFormComponent implements OnInit {
           this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]);
         }
         this.uploadAllSuccess=false;
-        this.enableFormNewEventForm(); // Enable form
+        this.enableForm(); // Enable form
       }else{
         var file={
           size:responseJson.file[0].size,
@@ -904,7 +917,7 @@ export class EventFormComponent implements OnInit {
         this.participant.setValue("");
       }
     }
-  ngOnInit() {
+  ngOnInit() {console.log(this.authService.user);
     this.initializeForm();
     this.mapClickPlace();
     this.location.valueChanges.subscribe(data=>{

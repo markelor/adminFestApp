@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
     this.eventService.getEvents(this.localizeService.parser.currentLang).subscribe(data => {
       if(data.success){
         this.events = data.events; // Assign array to use in HTML
-              console.log(data);
       }
     });
   }

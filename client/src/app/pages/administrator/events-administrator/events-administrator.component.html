@@ -33,16 +33,16 @@
                 <td *ngIf="translation.language===localizeService.parser.currentLang" [innerHTML]="translation.description"></td>
               </ng-container>
               <!--Category-->
-              <td *ngIf="event.category.language===localizeService.parser.currentLang">{{event.category.title}}</td>
-              <ng-container *ngFor="let translation of event.category.translation">
+              <td *ngIf="event.categories[event.categories.length-1].language===localizeService.parser.currentLang">{{event.categories[event.categories.length-1].title}}</td>
+              <ng-container *ngFor="let translation of event.categories[event.categories.length-1].translation">
                 <td *ngIf="translation.language===localizeService.parser.currentLang">
                   {{translation.title}}
                 </td>
               </ng-container>
               <!--Category icon-->
-              <td *ngIf="event.category.icons.length>0" [inlineSVG]="event.category.icons[0].url" [onSVGLoaded]="handleSVG"></td>
+              <td *ngIf="event.categories[event.categories.length-1].icons.length>0" [inlineSVG]="event.categories[event.categories.length-1].icons[0].url" [onSVGLoaded]="handleSVG"></td>
               <!--Price-->
-              <td *ngIf="event.price">{{event.price}}€</td>
+              <td>{{event.price}}€</td>
               <!--Province and Municipality and location-->
               <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.province.name}}</td>
               <td *ngIf="event.place.language===localizeService.parser.currentLang">{{event.place.municipality.name }}</td>

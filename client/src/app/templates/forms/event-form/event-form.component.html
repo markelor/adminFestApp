@@ -197,7 +197,7 @@
     </div>
     <!-- Province -->
     <div class="col-sm-6">
-      <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value)}">
+      <div class="form-group required" [ngClass]="{'has-error': (!province.value && province.dirty), 'has-success': (province.value && province.valid)}">
         <label for="selectProvinceEvent" translate>{{'event-form.province'}}</label>
         <select [formControl]="province" class="form-control" id="selectProvinceEvent" (change)="onSelectedProvince($event.target.selectedIndex-1)">
           <option value="" translate>{{'event-form.select-province'}}</option>
@@ -211,7 +211,7 @@
     </div>
     <!-- Municipality -->
     <div class="col-sm-6">
-      <div class="form-group required" [ngClass]="{'has-error': (!municipality.value && municipality.dirty), 'has-success': (municipality.value)}">
+      <div class="form-group required" [ngClass]="{'has-error': (!municipality.value && municipality.dirty), 'has-success': (municipality.value && municipality.valid)}">
         <label for="selectMunicipalityEvent" translate>{{'event-form.municipality'}}</label>
         <select [formControl]="municipality" class="form-control" id="selectMunicipalityEvent" (change)="onSelectedMunicipality($event.target.selectedIndex-1)">
           <option value="" translate>{{'event-form.select-municipality'}}</option>
@@ -225,7 +225,7 @@
     </div>
     <!-- Location exists-->
     <div *ngIf="!location.value && locationsExistsEvent.length > 0" class="col-sm-12">
-      <div class="form-group required" [ngClass]="{'has-error': (!locationsExists.value && locationsExists.dirty), 'has-success': (locationsExists.value)}">
+      <div class="form-group required" [ngClass]="{'has-error': (!locationsExists.value && locationsExists.dirty), 'has-success': (locationsExists.value && location.valid)}">
         <label for="selectLocationsExistsEvent" translate>{{'event-form.locations-exists'}}</label>
         <select [formControl]="locationsExists" class="form-control" id="selectLocationsExistsEvent" (change)="onSelectedLocationsExists($event.target.selectedIndex-1)">
           <option value="" translate>{{'event-form.select-locations-exists'}}</option>

@@ -213,20 +213,27 @@ export class EventFormComponent implements OnInit {
   private initializeForm(){
     if(this.inputEvent){
       this.inputEventCopy=JSON.parse(JSON.stringify(this.inputEvent));
-
-
-      if(this.inputLanguage.createdBy!==this.authService.user.username && this.authService.user.permission!=="admin"){     
-        this.disableForm();
-      }
       //general event translation
       if(this.inputEvent.language===this.inputLanguage){
+        if(this.inputEvent.createdBy!==this.authService.user.username && this.authService.user.permission!=="admin"){     
+          this.disableForm();
+        }
         this.title.setValue(this.inputEvent.title);
         this.description.setValue(this.inputEvent.description);
         this.observations.setValue(this.inputEvent.observations);
         this.imagesDescription=this.inputEvent.images.description;     
       }else{
+        this.disableCategories=true;
+        this.province.disable();
+        this.municipality.disable();
+        this.price.disable();
+        this.lat.disable();
+        this.lng.disable();
         for (var i = 0; i < this.inputEvent.translation.length; ++i) {
           if(this.inputEvent.translation[i].language===this.inputLanguage){
+            if(this.inputEvent.translation[i].createdBy!==this.authService.user.username && this.authService.user.permission!=="admin"){     
+              this.disableForm();
+            }
             this.title.setValue(this.inputEvent.translation[i].title);
             this.description.setValue(this.inputEvent.translation[i].description);
             this.observations.setValue(this.inputEvent.translation[i].observations);
@@ -263,6 +270,9 @@ export class EventFormComponent implements OnInit {
       this.placeService.getGeonamesJson('province',this.inputLanguage,'euskal-herria').subscribe(provincesEvent => {
         this.provincesEvent=provincesEvent.geonames;
         if(this.inputEvent.place.language===this.inputLanguage){
+          if(this.inputEvent.createdBy===this.authService.user.username || this.authService.user.permission==="admin"){     
+            this.form.get('municipality').enable(); // Enable municipality field
+          }
           this.province.setValue(this.inputEvent.place.province.name);    
         }else{
           var traductionProvince=false;
@@ -285,7 +295,6 @@ export class EventFormComponent implements OnInit {
       if(this.inputEvent.place.municipality){
         this.placeService.getGeonamesJson('municipality',this.inputLanguage,this.inputEvent.place.province.name.toLowerCase()).subscribe(municipalitiesEvent => {
           this.municipalitiesEvent=municipalitiesEvent.geonames;
-          this.form.get('municipality').enable(); // Enable municipality field
           if(this.inputEvent.place.language===this.inputLanguage){
             //Location validation
             this.placeService.getPlacesCoordinates(this.inputEvent.place.province.name,this.inputEvent.place.municipality.name,this.inputLanguage).subscribe(data=>{
@@ -317,7 +326,8 @@ export class EventFormComponent implements OnInit {
                   }
                 }); 
               }
-            } 
+            }
+
             if(!traductionProvince){
               for (var i = 0; i < this.municipalitiesEvent.length; ++i) { 
                 if(this.municipalitiesEvent[i].geonameId===this.inputEvent.place.municipality.geonameId){ 
@@ -686,7 +696,18 @@ export class EventFormComponent implements OnInit {
   }
    // Function on seleccted categories
   private onSelectedCategory(value,level){
-    var index=this.levelCategories[level].value.map(c => c.title).indexOf(value.split(' ')[1])
+    var index;
+    for (var i = 0; i < this.levelCategories[level].value.length; ++i) {
+      if(this.levelCategories[level].value[i].language===this.localizeService.parser.currentLang && this.levelCategories[level].value[i].title===value.split(' ')[1]){
+        index=i;
+      }else{
+        for (var j = 0; j < this.levelCategories[level].value[i].translation.length; ++j) {
+          if(this.levelCategories[level].value[i].translation[j].language===this.localizeService.parser.currentLang){
+            index=j;
+          }
+        } 
+      }
+    }
     if (index===-1){
       // remove
         for (var i = this.form.controls['categories'].value.length - 1; i >= level+1; i--) {
@@ -912,11 +933,11 @@ export class EventFormComponent implements OnInit {
       });  
   }
   private addParticipant() {
-      if(this.participant.value && !this.participants.includes(this.participant.value)){
-        this.participants.push(this.participant.value);
-        this.participant.setValue("");
-      }
+    if(this.participant.value && !this.participants.includes(this.participant.value)){
+      this.participants.push(this.participant.value);
+      this.participant.setValue("");
     }
+  }
   ngOnInit() {console.log(this.authService.user);
     this.initializeForm();
     this.mapClickPlace();

@@ -11,11 +11,11 @@ import { BindContentPipe } from '../../../shared/pipes/bind-content.pipe';
   styleUrls: ['./event-form.component.css']
 })
 export class EventFormComponent implements OnInit{
-  private lat: number = 42.88305555555556;
-  private lng: number = -1.9355555555555555;
-  private zoom: number = 8;
+  public lat: number = 42.88305555555556;
+  public lng: number = -1.9355555555555555;
+  public zoom: number = 8;
   private coordinates;
-  private markers: marker[]=[];
+  public markers: marker[]=[];
   private subscription:Subscription;
   constructor(
     private localizeService:LocalizeRouterService,
@@ -28,7 +28,7 @@ export class EventFormComponent implements OnInit{
   private clickedMarker(label: string, index: number) {
     console.log(`clicked the marker: ${label || index}`)
   }
-  private placeClick($event){
+  public placeClick($event){
     this.observableService.mapClickType="map-click-place";
     this.observableService.notifyOther({option: this.observableService.mapClickType,lat:$event.coords.lat,lng:$event.coords.lng});
   }

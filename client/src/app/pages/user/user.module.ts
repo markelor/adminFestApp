@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileComponent } from './profile/profile.component';
 import { UserRoutingModule } from './user.routing';
-import { ImageCropperComponent } from "ngx-img-cropper";
+import { ImageCropperModule } from "ngx-img-cropper";
 import { FileUploadModule } from 'ng2-file-upload';
 import { DataTablesModule } from 'angular-datatables';
 import { UserComponent } from './user.component';
@@ -13,9 +13,9 @@ import { DecodePipe } from '../../shared/pipes/decode.pipe';
 import { InlineSVGModule } from 'ng-inline-svg';
 @NgModule({
   imports: [
-    CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule,DataTablesModule,InlineSVGModule
+    CommonModule,TranslateModule,UserRoutingModule,FileUploadModule,TemplatesModule,SharedModule,DataTablesModule,InlineSVGModule,ImageCropperModule,
   ],
-  declarations: [ProfileComponent,ImageCropperComponent, UserComponent],
+  declarations: [ProfileComponent,UserComponent],
   providers:[DecodePipe]
 })
 

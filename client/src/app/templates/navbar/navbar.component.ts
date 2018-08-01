@@ -16,15 +16,15 @@ declare let $: any;
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-	private lag:string;
-	private language:string;
+	public lag:string;
+	public language:string;
 	private selected:number;
-  private avatar:string;
-  private search:boolean;
-  private eventsSearch;
-  private notificationComments;
-  private searchTerm = new Subject<string>();
-  private screen:boolean;
+  public avatar:string;
+  public search:boolean;
+  public eventsSearch;
+  public notificationComments;
+  public searchTerm = new Subject<string>();
+  public screen:boolean;
   private subscription: Subscription;
   constructor(
     private localizeService: LocalizeRouterService,
@@ -55,13 +55,13 @@ export class NavbarComponent implements OnInit {
   }
   private msg:string;
   
-  private onClickOutside() {
+  public onClickOutside() {
     if(this.search){
       $('.ks-search-close').click();
       this.search=false;
     }
   }
-  private logout(){
+  public logout(){
     this.authService.logout();
     this.router.navigate([this.localizeService.translateRoute('/sign-in-route')]);
   }
@@ -113,7 +113,7 @@ export class NavbarComponent implements OnInit {
     }
 
   }
-  private editCommentsNotification(){
+  public editCommentsNotification(){
     if(this.authService.user){
       this.commentService.editCommentsNotification(this.authService.user.username,this.localizeService.parser.currentLang).subscribe(data=>{
         if(data.success){

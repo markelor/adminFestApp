@@ -54,20 +54,22 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
   providers: [{provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}] // define custom NgbDatepickerI18n provider
 })
 export class EventComponent  {	
-  private form:FormGroup;
-  private category:AbstractControl;
-  private title: string = 'Titulua';
-  private categories;
+  public form:FormGroup;
+  public category:AbstractControl;
+  public title: string = 'Titulua';
+  public categories;
   private startTimestamp;
   private endTimestamp;
-  private lat: number = 42.88305555555556;
-  private lng: number = -1.9355555555555555;
-  private zoom: number = 9;
-  private markers: marker[]=[];
+  public lat: number = 42.88305555555556;
+  public lng: number = -1.9355555555555555;
+  public zoom: number = 9;
+  public markers: marker[]=[];
+  public timeStart = {hour: 0, minute: 0};
+  public timeEnd = {hour: 0, minute: 0};
   private events;
-  private start:AbstractControl;
-  private end:AbstractControl;
-  private price:AbstractControl;
+  public start:AbstractControl;
+  public end:AbstractControl;
+  public price:AbstractControl;
   private subscription:Subscription;
   private selectedCategory;
   constructor(
@@ -145,7 +147,7 @@ export class EventComponent  {
       draggable: true
     });
   }
-  private onSelectedCategory(value){
+  public onSelectedCategory(value){
     this.selectedCategory=value;
   
   }
@@ -168,7 +170,7 @@ export class EventComponent  {
       }   
     });
   }
-  private onEventSubmit(){
+  public onEventSubmit(){
     this.markers=[];
     this.startTimestamp=new Date(this.form.get('start').value.year,this.form.get('start').value.month-1,this.form.get('start').value.day,0,0);
     this.endTimestamp=new Date(this.form.get('end').value.year,this.form.get('end').value.month-1,this.form.get('end').value.day,0,0);

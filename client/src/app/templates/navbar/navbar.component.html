@@ -15,11 +15,11 @@
       <!-- BEGIN NAVBAR MENU -->
       <div class="ks-navbar-menu">
         <form class="ks-search-form nav-item dropdown" click-outside (clickOutside)="onClickOutside()">
-          <a class="ks-search-open" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true" (click)="search = 'true'">
+          <a class="ks-search-open" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true" (click)="search = true">
             <span class="la la-search"></span>
           </a>
           <!-- BEGIN NAVBAR LANGUAGES -->
-          <div *ngIf="searchTerm.observers[0].destination.key" class="ks-wrapper-search ks-scrollable search-container">
+          <div *ngIf="eventsSearch" class="ks-wrapper-search ks-scrollable search-container">
             <a *ngFor="let event of eventsSearch" href="javascript:void(0);" class="dropdown-item ks-message">
               <div class="ks-avatar ks-online">
                 <img *ngIf="event.images.poster[0]" src="{{event.images.poster[0].url}}" width="36" height="36">
@@ -39,7 +39,7 @@
               </span>
             </div>
             <a class="ks-search-close">
-              <span class="la la-close" (click)="search = 'false'"></span>
+              <span class="la la-close" (click)="search = false"></span>
             </a>
           </div>
         </form>

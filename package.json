@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build":"cd client && ng build --prod --build-optimizer && cd .. && node index.js"
+    "build": "cd client && ng build --prod --build-optimizer && cd .. && node index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,11 @@
   "author": "Kodekoop",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/angular-fontawesome": "^0.1.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.2",
+    "@fortawesome/free-brands-svg-icons": "^5.2.0",
+    "@fortawesome/free-solid-svg-icons": "^5.2.0",
+    "@ngx-share/core": "^5.3.1",
     "aws-sdk": "^2.222.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",

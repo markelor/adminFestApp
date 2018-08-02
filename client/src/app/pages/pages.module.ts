@@ -35,12 +35,14 @@ import { FileUploaderInterceptor } from '../services/file-uploader.interceptor';
 import { ApplicationInterceptor } from '../services/application.interceptor';
 import { CommentInterceptor } from '../services/comment.interceptor';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { ShareButtonsModule } from '@ngx-share/buttons';
 @NgModule({
   imports: [
     CommonModule,TranslateModule,PagesRoutingModule,TemplatesModule,NgbModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyA21VpWm94ik9EItX4mkB1RBxrsdXCH1Mw'
-    }),AgmSnazzyInfoWindowModule,InlineSVGModule.forRoot()
+    }),AgmSnazzyInfoWindowModule,InlineSVGModule.forRoot(),
+    ShareButtonsModule.forRoot()
   ],
   declarations: [
     PagesComponent

@@ -14,13 +14,13 @@ import { TemplatesModule } from '../../templates/templates.module';
 import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 import { ManageEventsComponent } from './manage-events/manage-events.component';
 import { NgxGalleryModule } from 'ngx-gallery';
-//import { ShareButtonsModule } from '@ngx-share/buttons';
+import { ShareButtonsModule } from '@ngx-share/buttons';
 import { ReactionsModalComponent } from './see-event/reactions-modal/reactions-modal.component';
 import { HasBeenTranslatedPipe } from "../../shared/pipes/has-been-translated.pipe";
 
 @NgModule({
   imports: [
-  	CommonModule,FormsModule,EventRoutingModule,ReactiveFormsModule,TranslateModule,SharedModule,TemplatesModule,DataTablesModule,NgbModule,NgxGalleryModule/*ShareButtonsModule.forRoot()*/,MapModule
+  	CommonModule,FormsModule,EventRoutingModule,ReactiveFormsModule,TranslateModule,SharedModule,TemplatesModule,DataTablesModule,NgbModule,NgxGalleryModule,ShareButtonsModule,MapModule
   ],
   declarations: [SeeEventComponent,CreateEventComponent, ManageEventsComponent,EditEventComponent,ReactionsModalComponent],
   providers: [

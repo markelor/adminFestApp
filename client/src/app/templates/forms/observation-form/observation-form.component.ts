@@ -58,19 +58,19 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
   providers: [{provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}] // define custom NgbDatepickerI18n provider
 })
 export class ObservationFormComponent implements OnInit {
-  private message;
-  private messageClass;
-  private submitted:boolean = false;
-  private form:FormGroup;
+  public message;
+  public messageClass;
+  public submitted:boolean = false;
+  public form:FormGroup;
   @Input() inputOperation:string;
   @Input() inputObservation;
   @Input() inputLanguage;
   private imagesDescription=[];
-  private title:AbstractControl;
-  private description:AbstractControl;
-  private expiredAt:AbstractControl;
-  private timeExpiredAt = {hour: 13, minute: 30};
-  private observation:Observation=new Observation();
+  public title:AbstractControl;
+  public description:AbstractControl;
+  public expiredAt:AbstractControl;
+  public timeExpiredAt = {hour: 13, minute: 30};
+  public observation:Observation=new Observation();
   private froalaSignature;
   private froalaEvent;
   private subscriptionLanguage: Subscription;
@@ -178,7 +178,7 @@ export class ObservationFormComponent implements OnInit {
       }  
     }      
   }
-   private froalaOptions= {
+   public froalaOptions= {
      // Set max image size to 5MB.
     imageMaxSize: 5 * 1024 * 1024,
     // Allow to upload PNG and JPG.
@@ -186,7 +186,7 @@ export class ObservationFormComponent implements OnInit {
     charCounterMax: 20000,
     imageUploadToS3: undefined,
   }
-  private initializeFroala(initControls) {
+  public initializeFroala(initControls) {
     this.froalaEvent=initControls;
     var context=this;
     this.fileUploaderObservation.getSignatureFroala("observation-description",this.localizeObservation.parser.currentLang).subscribe(data=>{
@@ -256,7 +256,7 @@ export class ObservationFormComponent implements OnInit {
     }); 
   }
    
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       if(this.inputOperation==="create"){
         this.submitted = true;

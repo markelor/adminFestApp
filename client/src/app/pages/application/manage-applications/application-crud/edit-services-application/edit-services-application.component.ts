@@ -18,17 +18,17 @@ import { Router,ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-services-application.component.css']
 })
 export class EditServicesApplicationComponent implements OnInit {
-  private message;
-  private messageClass;
+  public message;
+  public messageClass;
   private applicationId;
   private application;
-  private servicesApplication=[];
-  private services;
+  public servicesApplication=[];
+  public services;
   @ViewChildren(DataTableDirective)
   dtElements: QueryList<DataTableDirective>;
-  private dtOptions: any = {};
-  private addTrigger: Subject<any> = new Subject();
-  private deleteTrigger: Subject<any> = new Subject();
+  public dtOptions: any = {};
+  public addTrigger: Subject<any> = new Subject();
+  public deleteTrigger: Subject<any> = new Subject();
   private subscriptionLanguage: Subscription;
   constructor(
     private localizeService:LocalizeRouterService,

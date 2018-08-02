@@ -14,21 +14,22 @@ declare let $: any;
   styleUrls: ['./comment.component.css'],
 })
 export class CommentComponent implements OnInit {
-  private form:FormGroup;
-  private comment:AbstractControl;
-  private formEdit:FormGroup;
-  private commentEdit:AbstractControl;
+  public form:FormGroup;
+  public comment:AbstractControl;
+  public formEdit:FormGroup;
+  public commentEdit:AbstractControl;
   private editId;
-  private message;
-  private messageClass;
+  public message;
+  public messageClass;
   private commentClass:Comment=new Comment();
-  private comments;
-  private submitted:boolean = false;
-  private submittedEdit:boolean = false;
+  public comments;
+  public submitted:boolean = false;
+  public submittedEdit:boolean = false;
   @Input() inputEventId: string;
   private parentId=null;
   private firstParentId=null;
   private level;
+  public isArrow;
   constructor(
   private formBuilder:FormBuilder,
   private localizeService: LocalizeRouterService,
@@ -54,14 +55,14 @@ export class CommentComponent implements OnInit {
     this.comment = this.form.controls['comment'];
     this.commentEdit = this.formEdit.controls['commentEdit'];
   }
-  private froalaOptions= {
+  public froalaOptions= {
      fileUpload: false,
      imageUpload: false,
      imageInsertButtons:[],
      videoUpload: false,
      videoInsertButtons:[]
   }
-  private initializeFroala(initControls) {
+  public initializeFroala(initControls) {
     initControls.initialize();
   }
   private  markdown(string) {
@@ -137,7 +138,7 @@ export class CommentComponent implements OnInit {
   	} 
 
   }
-  private onSubmitEdit(comment){
+  public onSubmitEdit(comment){
     // Get authentication to send comment
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){
@@ -178,7 +179,7 @@ export class CommentComponent implements OnInit {
       }
     });                 
   }   
-  private onSubmit(){
+  public onSubmit(){
     // Get authentication to send comment
     this.authService.getAuthentication(this.localizeService.parser.currentLang).subscribe(authentication => {
       if(!authentication.success){

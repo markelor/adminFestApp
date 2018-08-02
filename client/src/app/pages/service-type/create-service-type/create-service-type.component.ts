@@ -20,18 +20,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-service-type.component.css']
 })
 export class CreateServiceTypeComponent implements OnInit {
-  private message;
+  public message;
   private messageClass;
-  private serviceTypes;
+  public serviceTypes;
   private subscriptionObservableSuccess: Subscription;
   private subscriptionObservableDelete: Subscription;
   private subscriptionLanguage: Subscription;
   private submitted:boolean = false;
   @ViewChild(DataTableDirective)
-  private dtElement: DataTableDirective;
-  private services;
-  private dtOptions: any = {};
-  private dtTrigger: Subject<any> = new Subject();
+  public dtElement: DataTableDirective;
+  public services;
+  public dtOptions: any = {};
+  public dtTrigger: Subject<any> = new Subject();
   constructor(
     private localizeService:LocalizeRouterService,
     private serviceTypeService:ServiceTypeService,

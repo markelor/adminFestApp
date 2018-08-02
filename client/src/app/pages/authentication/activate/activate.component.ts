@@ -9,8 +9,8 @@ import { LocalizeRouterService } from 'localize-router';
   styleUrls: ['../authentication.component.css']
 })
 export class ActivateComponent implements OnInit {
-  private message:boolean;
-  private messageClass:string;
+  public message:boolean;
+  public messageClass:string;
   private temporaryToken:User=new User();
   constructor(private authService:AuthService,private activatedRoute: ActivatedRoute,private router:Router,private localizeService: LocalizeRouterService) { }
 

@@ -14,7 +14,7 @@ import * as moment from 'moment-timezone';
 })
 export class ManageEventsComponent implements OnInit {
   private subscriptionLanguage: Subscription;
-  private events;
+  public events;
   private page :number = 1;
   constructor(
   	private eventService:EventService,

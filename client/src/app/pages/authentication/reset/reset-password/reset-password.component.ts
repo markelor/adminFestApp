@@ -9,11 +9,11 @@ import { LocalizeRouterService } from 'localize-router';
   styleUrls: ['../../authentication.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
-  private form:FormGroup;
-  private username:AbstractControl;
-  private messageClass:string;
-  private message:string;
-  private submitted:boolean = false;
+  public form:FormGroup;
+  public username:AbstractControl;
+  public messageClass:string;
+  public message:string;
+  public submitted:boolean = false;
   private user:User=new User();
   constructor(
     private formBuilder:FormBuilder,
@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
     this.form.enable();
   }
 
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       this.submitted = true; // Used to submit button while is being submitted
       //this.disableForm(); // Disable form while being process

@@ -5,7 +5,7 @@
   </div>
 </div>
 <!-- Event Form -->
-<form [formGroup]="form" (ngSubmit)="onEventSubmit(form.value)" class="form-horizontal">
+<form [formGroup]="form" (ngSubmit)="onEventSubmit()" class="form-horizontal">
   <div class="row">
     <!-- Title -->
     <div class="col-sm-12">
@@ -21,7 +21,7 @@
     <!-- Category -->
     <div formArrayName="categories" class="col-sm-12">
       <label for="selectCategory" translate>{{'event-form.category'}}</label>
-      <div *ngFor="let category of form.get('categories').controls | disableCategories:disableCategories; let i = index;">
+      <div *ngFor="let category of form | formArrayPipe:'categories' | disableCategories:disableCategories; let i = index;">
         <div class="form-group required" [ngClass]="{'has-error': (!category.valid && category.dirty), 'has-success': (category.valid)}">
           <div [formGroupName]="i">
             <select formControlName="category" class="form-control" id="selectCategory" (change)="onSelectedCategory($event.target.value,i)">
@@ -281,7 +281,7 @@
       </div>
     </div>
     <!-- Maps Button with class -->
-    <div *ngIf="form.get('categories').controls.length > 0" class="col-sm-12">
+    <div *ngIf="(form | formArrayPipe:'categories').length > 0" class="col-sm-12">
       <div class="form-group text-center">
         <button [disabled]="!lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'event-form.check'}}</button>
       </div>

@@ -13,15 +13,15 @@ import { LocalizeRouterService } from 'localize-router';
 })
 export class NewPasswordComponent implements OnInit {
 
-  private form:FormGroup;
-  private password:AbstractControl
-  private repeatPassword:AbstractControl;
-  private passwords:FormGroup;
-  private messageClass:string;
-  private message:string;
-  private showForm=true;
+  public form:FormGroup;
+  public password:AbstractControl
+  public repeatPassword:AbstractControl;
+  public passwords:FormGroup;
+  public messageClass:string;
+  public message:string;
+  public showForm=true;
   private token:string;
-  private submitted:boolean = false;
+  public submitted:boolean = false;
   private user:User = new User();
 	constructor(
     private formBuilder:FormBuilder,
@@ -55,7 +55,7 @@ export class NewPasswordComponent implements OnInit {
     this.form.enable();
   }
 
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       this.submitted = true; // Used to submit button while is being submitted
       //this.disableForm(); // Disable form while being process

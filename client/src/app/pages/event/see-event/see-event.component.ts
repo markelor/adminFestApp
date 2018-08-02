@@ -16,7 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./see-event.component.css']
 })
 export class SeeEventComponent implements OnInit {
-  private event;
+  public event;
   private categories;
   private galleryOptions: NgxGalleryOptions[];
   private galleryImages: NgxGalleryImage[];

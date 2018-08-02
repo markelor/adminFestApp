@@ -11,17 +11,18 @@ import { LocalizeRouterService } from 'localize-router';
   styleUrls: ['./user-modal.component.css']
 })
 export class UserModalComponent implements OnInit {
-  private form:FormGroup;
+  public form:FormGroup;
   @Input() oldUser;
-  private name:AbstractControl;
-  private username:AbstractControl;
-  private email:AbstractControl;
-  private aboutYourself:AbstractControl;
-  private permission:AbstractControl;
-  private emailValid:boolean=true;
-  private emailMessage;
-  private usernameValid:boolean=true;
-  private usernameMessage;
+  public name:AbstractControl;
+  public username:AbstractControl;
+  public email:AbstractControl;
+  public aboutYourself:AbstractControl;
+  public permission:AbstractControl;
+  public emailValid:boolean=true;
+  public emailMessage;
+  public usernameValid:boolean=true;
+  public usernameMessage;
+  public modalHeader;
   constructor(
     private localizeService:LocalizeRouterService,
     private formBuilder:FormBuilder,
@@ -51,7 +52,7 @@ export class UserModalComponent implements OnInit {
     this.aboutYourself = this.form.controls['aboutYourself'];
   }
   // Function to check if e-mail is taken
-  private checkEmail() {
+  public checkEmail() {
     // Function from authentication file to check if e-mail is taken
     this.authService.checkEmail(this.form.get('email').value,this.localizeService.parser.currentLang).subscribe(data => {
       // Check if success true or false was returned from API
@@ -66,7 +67,7 @@ export class UserModalComponent implements OnInit {
   }
 
   // Function to check if username is available
-  private checkUsername() {
+  public checkUsername() {
     // Function from authentication file to check if username is taken
     this.authService.checkUsername(this.form.get('username').value,this.localizeService.parser.currentLang).subscribe(data => {
       // Check if success true or success false was returned from API

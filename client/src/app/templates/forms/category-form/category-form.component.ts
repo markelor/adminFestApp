@@ -19,21 +19,21 @@ const URL = 'http://localhost:8080/fileUploader/uploadImages/category-icon';
   styleUrls: ['./category-form.component.css']
 })
 export class CategoryFormComponent implements OnInit {
-  private message;
-  private messageClass;
-  private submitted:boolean = false;
-  private form:FormGroup;
+  public message;
+  public messageClass;
+  public submitted:boolean = false;
+  public form:FormGroup;
   @Input() inputOperation:string;
   @Input() inputCategory;
   @Input() inputParentCategories;
   @Input() inputLanguage;
-  private title:AbstractControl;
-  private description:AbstractControl;
-  private parentCategory:AbstractControl;
+  public title:AbstractControl;
+  public description:AbstractControl;
+  public parentCategory:AbstractControl;
   private category:Category=new Category();
   private iconsCategory=[];
   private subscriptionObservable: Subscription;
-  private uploader:FileUploader = new FileUploader({
+  public uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'category-icon',
     isHTML5: true,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','image/svg+xml'],
@@ -186,7 +186,7 @@ export class CategoryFormComponent implements OnInit {
       }
     });
   }
-  private onSelectedParentCategory(index){
+  public onSelectedParentCategory(index){
     if(index===-1){
       this.form.controls['parentCategory'].setValue("");
       if(this.inputCategory){
@@ -250,7 +250,7 @@ export class CategoryFormComponent implements OnInit {
       }
     }
   }
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       this.submitted = true;
       //this.disableForm();

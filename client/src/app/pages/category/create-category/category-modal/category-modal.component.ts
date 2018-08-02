@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class CategoryModalComponent implements OnInit {
   private tabLanguage:string;
+  public modalHeader;
   @Input() inputCategory;
   @Input() inputParentCategories;
   constructor(

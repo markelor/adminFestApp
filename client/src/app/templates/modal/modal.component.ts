@@ -11,6 +11,8 @@ import { LocalizeRouterService } from 'localize-router';
 })
 
 export class ModalComponent implements OnInit {
+  public modalHeader;
+  public modalContent;
 
   constructor(private localizeService:LocalizeRouterService, private activeModal: NgbActiveModal,private authService: AuthService,
     private observableService: ObservableService,private router: Router) {

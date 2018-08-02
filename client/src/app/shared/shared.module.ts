@@ -31,6 +31,7 @@ import { CommentsPipe } from './pipes/comments.pipe';
 import { ReactionsPipe } from './pipes/reactions.pipe';
 import { HasBeenTranslatedPipe } from './pipes/has-been-translated.pipe';
 import { DisableCategoriesPipe} from './pipes/disable-categories.pipe';
+import { FormArrayPipe} from './pipes/form-array.pipe';
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import { DisableCategoriesPipe} from './pipes/disable-categories.pipe';
     CommentsPipe,
     ReactionsPipe,
     HasBeenTranslatedPipe,
-    DisableCategoriesPipe
+    DisableCategoriesPipe,
+    FormArrayPipe
   ],
   exports: [
     TouchspinDirective,
@@ -99,7 +101,8 @@ import { DisableCategoriesPipe} from './pipes/disable-categories.pipe';
     CommentsPipe,
     ReactionsPipe,
     HasBeenTranslatedPipe,
-    DisableCategoriesPipe
+    DisableCategoriesPipe,
+    FormArrayPipe
   ]
 })
 export class SharedModule { }

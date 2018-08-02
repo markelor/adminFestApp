@@ -15,14 +15,14 @@ import { LocalizeRouterService } from 'localize-router';
   styleUrls: ['../authentication.component.css']
 })
 export class LoginComponent implements OnInit {
-  private form:FormGroup;
-  private username:AbstractControl;
-  private password:AbstractControl;
-  private messageClass:string;
-  private message:string;
-  private submitted:boolean = false;
+  public form:FormGroup;
+  public username:AbstractControl;
+  public password:AbstractControl;
+  public messageClass:string;
+  public message:string;
+  public submitted:boolean = false;
   private previousUrl;
-  private emailActivateExpired;
+  public emailActivateExpired;
   private user:User=new User();
 
   constructor(
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
     this.form.enable(); // Enable form
   }
 
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       this.submitted = true; // Used to submit button while is being submitted
       //this.disableForm(); // Disable form while being process

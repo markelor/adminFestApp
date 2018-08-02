@@ -16,16 +16,16 @@ const URL = 'http://localhost:8080/fileUploader/uploadImages/user-profile';
 
 export class ProfileComponent implements OnInit {
    	private image: any;
-    private data: any;
-    private profileCropperSettings: CropperSettings;
+    public data: any;
+    public profileCropperSettings: CropperSettings;
     private images=[];
 	private uploadOptions;
     private hasBaseDropZoneOver: boolean = false;
     private hasAnotherDropZoneOver: boolean = false;
     private uploadAllSuccess:Boolean=true;
-    private avatars=[];
-    private selectedAvatar=false;
-    private uploader:FileUploader = new FileUploader({
+    public avatars=[];
+    public selectedAvatar=false;
+    public uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'user-profile',
     isHTML5: true,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','image/svg+xml'],
@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit {
 	    this.profileCropperSettings.cropperDrawSettings.strokeWidth = 2;
 	    this.data = {};
     }
-    private uploadBase64(){
+    public uploadBase64(){
       const uploadData = {
        username:this.authService.user.username,
        language:this.localizeService.parser.currentLang,
@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit {
       	}
       }); 
     }
-    private fileChangeListener($event){
+    public fileChangeListener($event){
 	  this.image = new Image();
 	  var file:File = $event.target.files[0];
 	  var fileReader: FileReader = new FileReader();

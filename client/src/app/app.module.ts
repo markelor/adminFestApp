@@ -7,6 +7,10 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { AppTranslationModule } from './app.translation.module';
 import { HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 @NgModule({
   declarations: [
     AppComponent
@@ -19,7 +23,13 @@ import { HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
     ReactiveFormsModule,
     PagesModule,
     AppRoutingModule,
-    AppTranslationModule
+    AppTranslationModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        authScheme: 'JWT '
+      }
+    })
 
   ],
   providers: [],

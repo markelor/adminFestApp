@@ -1,11 +1,13 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/angular",
+    "outDir": "..dist/out-tsc/app",
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "types": ["jasmine"]
   },
+
+"lib": ["es2017", "dom"],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

@@ -13,21 +13,21 @@ declare let $: any;
 })
 export class RegisterComponent implements OnInit {
 
-  private form:FormGroup;
-  private name:AbstractControl;
-  private username:AbstractControl;
-  private email:AbstractControl;
-  private password:AbstractControl;
-  private repeatPassword:AbstractControl;
-  private passwords:FormGroup;
-  private aboutYourself:AbstractControl;
-  private message;
-  private messageClass;
-  private submitted:boolean = false;
-  private emailValid:boolean=true;
-  private emailMessage;
-  private usernameValid:boolean=true;
-  private usernameMessage;
+  public form:FormGroup;
+  public name:AbstractControl;
+  public username:AbstractControl;
+  public email:AbstractControl;
+  public password:AbstractControl;
+  public repeatPassword:AbstractControl;
+  public passwords:FormGroup;
+  public aboutYourself:AbstractControl;
+  public message;
+  public messageClass;
+  public submitted:boolean = false;
+  public emailValid:boolean=true;
+  public emailMessage;
+  public usernameValid:boolean=true;
+  public usernameMessage;
   private user:User=new User();
 
   constructor(
@@ -72,7 +72,7 @@ export class RegisterComponent implements OnInit {
     this.form.enable(); // Enable form
   }
 
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       this.submitted = true;
       //this.disableForm();
@@ -105,7 +105,7 @@ export class RegisterComponent implements OnInit {
     
   }
   // Function to check if e-mail is taken
-  private checkEmail() {
+  public checkEmail() {
     // Function from authentication file to check if e-mail is taken
     this.authService.checkEmail(this.form.get('email').value,this.localizeService.parser.currentLang).subscribe(data => {
       // Check if success true or false was returned from API
@@ -120,7 +120,7 @@ export class RegisterComponent implements OnInit {
   }
 
   // Function to check if username is available
-  private checkUsername() {
+  public checkUsername() {
     // Function from authentication file to check if username is taken
     this.authService.checkUsername(this.form.get('username').value,this.localizeService.parser.currentLang).subscribe(data => {
       // Check if success true or success false was returned from API

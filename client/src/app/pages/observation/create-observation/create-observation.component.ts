@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class CreateObservationComponent implements OnInit {
   constructor(
-    private localizeService:LocalizeRouterService,
+    public localizeService:LocalizeRouterService,
     private authService:AuthService,
     private translate: TranslateService,
     private router:Router,

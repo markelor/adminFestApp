@@ -17,14 +17,14 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./observations-administrator.component.css']
 })
 export class ObservationsAdministratorComponent implements OnInit {
-  private messageClass;
-  private message;
-  private observations;
+  public messageClass;
+  public message;
+  public observations;
   @ViewChild(DataTableDirective)
-  private dtElement: DataTableDirective;
+  public dtElement: DataTableDirective;
   private subscriptionObservable: Subscription;
-  private dtOptions: any = {};
-  private dtTrigger: Subject<any> = new Subject();
+  public dtOptions: any = {};
+  public dtTrigger: Subject<any> = new Subject();
   private subscriptionLanguage: Subscription;
   constructor(
   	private observationService:ObservationService,

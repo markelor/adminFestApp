@@ -12,7 +12,7 @@ import { Router,ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-event.component.css']
 })
 export class EditEventComponent implements OnInit {
-  private event;
+  public event;
   private categories;
   constructor(
   	private eventService:EventService,

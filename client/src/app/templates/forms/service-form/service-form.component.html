@@ -147,7 +147,7 @@
     <!-- Maps Button with class -->
     <div class="col-sm-12">
       <div class="form-group text-center">
-        <button [disabled]="!lat.valid || !lng.valid" (click)="passCoordinates()" type="button" class="btn btn-default btn-auth" translate>{{'event-form.check'}}</button>
+        <button [disabled]="!lat.valid || !lng.valid" (click)="passCoordinates(undefined)" type="button" class="btn btn-default btn-auth" translate>{{'event-form.check'}}</button>
       </div>
     </div>
     <!-- Description -->

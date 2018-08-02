@@ -17,17 +17,17 @@ import { Router,ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-observations-application.component.css']
 })
 export class EditObservationsApplicationComponent implements OnInit {
-  private message;
-  private messageClass;
+  public message;
+  public messageClass;
   private applicationId;
   private application;
-  private observationsApplication=[];
-  private observations;
+  public observationsApplication=[];
+  public observations;
   @ViewChildren(DataTableDirective)
   dtElements: QueryList<DataTableDirective>;
-  private dtOptions: any = {};
-  private addTrigger: Subject<any> = new Subject();
-  private deleteTrigger: Subject<any> = new Subject();
+  public dtOptions: any = {};
+  public addTrigger: Subject<any> = new Subject();
+  public deleteTrigger: Subject<any> = new Subject();
   private subscriptionLanguage: Subscription;
   constructor(
     private localizeService:LocalizeRouterService,

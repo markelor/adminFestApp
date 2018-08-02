@@ -35,7 +35,6 @@ import { FileUploaderInterceptor } from '../services/file-uploader.interceptor';
 import { ApplicationInterceptor } from '../services/application.interceptor';
 import { CommentInterceptor } from '../services/comment.interceptor';
 import { InlineSVGModule } from 'ng-inline-svg';
-
 @NgModule({
   imports: [
     CommonModule,TranslateModule,PagesRoutingModule,TemplatesModule,NgbModule.forRoot(),

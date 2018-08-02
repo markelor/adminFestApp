@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { LocalizeRouterService } from 'localize-router';
-import { tokenNotExpired } from 'angular2-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AuthService {
@@ -12,7 +12,10 @@ export class AuthService {
   public permission;
   public route;
 
-  constructor(private http: HttpClient, private localizeService: LocalizeRouterService
+  constructor(
+    private http: HttpClient,
+    private localizeService: LocalizeRouterService,
+    public jwtHelper: JwtHelperService
   ) {
    
    } 
@@ -164,7 +167,7 @@ export class AuthService {
   }
   // Function to check if user is logged in
   public loggedIn() {
-    return tokenNotExpired();
+    return !this.jwtHelper.isTokenExpired(this.authToken);
   }
 
 }

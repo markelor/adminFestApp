@@ -61,32 +61,32 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
   providers: [{provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}] // define custom NgbDatepickerI18n provider
 })
 export class ServiceFormComponent implements OnInit {
-  private message;
-  private messageClass;
-  private submitted:boolean = false;
-  private form:FormGroup;
+  public message;
+  public messageClass;
+  public submitted:boolean = false;
+  public form:FormGroup;
   @Input() inputOperation:string;
   @Input() inputService;
   @Input() inputLanguage;
   private imagesDescription=[];
-  private title:AbstractControl;
-  private description:AbstractControl;
-  private serviceType:AbstractControl;
-  private province:AbstractControl;
-  private municipality:AbstractControl;
-  private locationsExists:AbstractControl;
-  private location:AbstractControl;
-  private lat:AbstractControl;
-  private lng:AbstractControl;
-  private expiredAt:AbstractControl;
-  private timeExpiredAt = {hour: 13, minute: 30};
-  private serviceTypes;
+  public title:AbstractControl;
+  public description:AbstractControl;
+  public serviceType:AbstractControl;
+  public province:AbstractControl;
+  public municipality:AbstractControl;
+  public locationsExists:AbstractControl;
+  public location:AbstractControl;
+  public lat:AbstractControl;
+  public lng:AbstractControl;
+  public expiredAt:AbstractControl;
+  public timeExpiredAt = {hour: 13, minute: 30};
+  public serviceTypes;
   private service:Service=new Service();
   private place:Place=new Place();
   private selectedPlace;
-  private locationsExistsService=[];
-  private provincesService;
-  private municipalitiesService;
+  public locationsExistsService=[];
+  public provincesService;
+  public municipalitiesService;
   private serviceTypeIcon;
   private froalaSignature;
   private froalaEvent;
@@ -330,7 +330,7 @@ export class ServiceFormComponent implements OnInit {
       }
     }
   }
-  private froalaOptions= {
+  public froalaOptions= {
      // Set max image size to 5MB.
     imageMaxSize: 5 * 1024 * 1024,
     // Allow to upload PNG and JPG.
@@ -338,7 +338,7 @@ export class ServiceFormComponent implements OnInit {
     charCounterMax: 20000,
     imageUploadToS3: undefined,
   }
-  private initializeFroala(initControls) {
+  public initializeFroala(initControls) {
     this.froalaEvent=initControls;
     var context=this;
     this.fileUploaderService.getSignatureFroala("service-description",this.localizeService.parser.currentLang).subscribe(data=>{
@@ -465,7 +465,7 @@ export class ServiceFormComponent implements OnInit {
       } 
     }); 
   }
-    private onSelectedServiceType(index){
+  public onSelectedServiceType(index){
     if(index===-1){
       this.form.controls['serviceType'].setValue("");
     }else{
@@ -474,7 +474,7 @@ export class ServiceFormComponent implements OnInit {
     }
   }
   // Function on seleccted service province
-  private onSelectedProvince(index){
+  public onSelectedProvince(index){
     if (index===-1){
       this.form.get('municipality').disable(); // Disable municipality field
     }else{
@@ -487,7 +487,7 @@ export class ServiceFormComponent implements OnInit {
     this.form.controls['municipality'].setValue("");
   }
   // Function on seleccted service municipality
-  private onSelectedMunicipality(index){
+  public onSelectedMunicipality(index){
     if(index!==-1){
       var coordinates={
         lat:this.municipalitiesService[index].lat,
@@ -543,7 +543,7 @@ export class ServiceFormComponent implements OnInit {
       });
     }
   }
-  private passCoordinates(defaultCoordinates){
+  public passCoordinates(defaultCoordinates){
     if (defaultCoordinates){
       var market_info={
         title:this.form.get('title').value,
@@ -565,7 +565,7 @@ export class ServiceFormComponent implements OnInit {
     this.observableService.notifyOther({option: this.observableService.mapType, value: market_info});
   }
  
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       if(this.inputOperation==="create"){
         this.submitted = true;

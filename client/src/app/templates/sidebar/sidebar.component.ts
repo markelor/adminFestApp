@@ -11,7 +11,7 @@ declare let $: any;
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
-  private permission;
+  public permission;
  
   constructor(
     private authService:AuthService,

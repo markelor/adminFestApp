@@ -21,18 +21,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-category.component.css']
 })
 export class CreateCategoryComponent implements OnInit {
-  private message;
-  private messageClass;
+  public message;
+  public messageClass;
   private subscriptionObservableSuccess: Subscription;
   private subscriptionObservableDelete: Subscription;
   private subscriptionLanguage: Subscription;
   private submitted:boolean = false;
-  private parentCategories;
+  public parentCategories;
   @ViewChild(DataTableDirective)
-  private dtElement: DataTableDirective;
-  private categories;
-  private dtOptions: any = {};
-  private dtTrigger: Subject<any> = new Subject();
+  public dtElement: DataTableDirective;
+  public categories;
+  public dtOptions: any = {};
+  public dtTrigger: Subject<any> = new Subject();
   constructor(
     private localizeService:LocalizeRouterService,
     private categoryService:CategoryService,

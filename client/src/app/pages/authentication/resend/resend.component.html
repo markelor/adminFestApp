@@ -7,10 +7,6 @@
                     <!-- Custom Success/Error Message -->
                     <div [ngClass]="messageClass">
                         {{ message }}
-                        <a *ngIf="emailActivateExpired" [routerLink]="['/resend-route'] | localize">
-                          <!-- Button to Resend an Activation Link -->
-                          <button type="button" class="btn btn-success" translate>{{'auth-form.resend-link'}}</button>
-                        </a>
                     </div>
                     <h4 class="ks-header" translate>{{'auth-form.activate-account-title'}}</h4>
                     <!-- Username Field -->

@@ -7,11 +7,7 @@
   </div>
   <div class="modal-body">
     <!-- Registration Form -->
-    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-container">
-      <!-- Custom Success/Error Message -->
-      <div [ngClass]="messageClass">
-        {{message}}
-      </div>
+    <form [formGroup]="form" class="form-container">
       <!-- Permission -->
       <div class="form-group required" [ngClass]="{'has-error': (!permission.valid && permission.dirty), 'has-success': (permission.valid)}">
         <div class="input-icon icon-left icon-lg icon-color-primary">

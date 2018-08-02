@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ManageApplicationsComponent implements OnInit {
   private subscriptionLanguage: Subscription;
-  private applications;
+  public applications;
   constructor(
   	private applicationService:ApplicationService,
   	private authService:AuthService,

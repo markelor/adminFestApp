@@ -12,7 +12,7 @@ import { Router,ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-application.component.css']
 })
 export class EditApplicationComponent implements OnInit {
-  private application;
+  public application;
   constructor(
   	private applicationService:ApplicationService,
   	private authService:AuthService,

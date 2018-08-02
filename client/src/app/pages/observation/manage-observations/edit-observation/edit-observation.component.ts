@@ -12,7 +12,7 @@ import { Router,ActivatedRoute } from '@angular/router';
   styleUrls: ['./edit-observation.component.css']
 })
 export class EditObservationComponent implements OnInit {
-  private observation;
+  public observation;
   constructor(
   	private observationService:ObservationService,
   	private authService:AuthService,

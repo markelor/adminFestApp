@@ -14,12 +14,12 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./users-administrator.component.css']
 })
 export class UsersAdministratorComponent implements OnInit {
-  private users;
-  private messageClass;
-  private message;
+  public users;
+  public messageClass;
+  public message;
   private subscription: Subscription;
-  private dtOptions: any = {};
-  private dtTrigger: Subject<any> = new Subject();
+  public dtOptions: any = {};
+  public dtTrigger: Subject<any> = new Subject();
   constructor(private localizeService:LocalizeRouterService,
     private authService:AuthService,
     private observableService:ObservableService,

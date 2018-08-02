@@ -20,7 +20,7 @@ const comment = require('./app/routes/comment')(router); // Import Comment Route
 const fileUploader = require('./app/routes/fileUploader')(router); // Import File Uploader Routes
 var bodyParser = require('body-parser'); // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 const cors = require('cors'); // CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
-
+const port=process.env.PORT || 8080;
 // Database Connection
 mongoose.connect(databaseConfig.uri, (err) => {
     if (err) {
@@ -34,7 +34,7 @@ mongoose.connect(databaseConfig.uri, (err) => {
 app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000})); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json({limit: "50mb"})); // parse application/json
-app.use(express.static(__dirname + '/client/src/')); // Provide static directory for frontend
+app.use(express.static(__dirname + '/dist')); // Provide static directory for frontend
 app.use('/authentication', authentication); // Use Authentication 
 app.use('/event', event); // Use Event 
 app.use('/category', category); // Use Category 
@@ -46,10 +46,10 @@ app.use('/observation', observation); // Use Observation
 app.use('/comment', comment); // Use Comment  
 app.use('/fileUploader', fileUploader); // Use FileUploader
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/src/index.html'));
+    res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
 
 // Start Server: Listen on port 8080
-app.listen(8080, () => {
-    console.log('Listening on port 8080');
+app.listen(port, () => {
+    console.log('Listening on port '+port);
 });

@@ -61,31 +61,31 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
   providers: [{provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}] // define custom NgbDatepickerI18n provider
 })
 export class ApplicationFormComponent implements OnInit {
-  private message;
+  public message;
   private messageClass;
-  private submitted:boolean = false;
+  public submitted:boolean = false;
   private parentCategories;
-  private form:FormGroup;
+  public form:FormGroup;
   @Input() inputOperation:string;
   @Input() inputApplication;
   @Input() inputLanguage;
-  private title:AbstractControl;
-  private entityName:AbstractControl;
-  private user:AbstractControl;
-  private license:AbstractControl;
-  private condition:AbstractControl;
-  private price:AbstractControl;
-  private expiredAt:AbstractControl;
-  private timeExpiredAt = {hour: 13, minute: 30};
+  public title:AbstractControl;
+  public entityName:AbstractControl;
+  public user:AbstractControl;
+  public license:AbstractControl;
+  public condition:AbstractControl;
+  public price:AbstractControl;
+  public expiredAt:AbstractControl;
+  public timeExpiredAt = {hour: 13, minute: 30};
   private categories;
   private application:Application=new Application();
   private imagesApplication=[];
-  private search:boolean=true;
-  private usersSearch;
-  private selectedUsers=[];
-  private conditions=[];
-  private searchTerm = new Subject<string>();
-  private uploader:FileUploader = new FileUploader({
+  public search:boolean=true;
+  public usersSearch;
+  public selectedUsers=[];
+  public conditions=[];
+  public searchTerm = new Subject<string>();
+  public uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'application',
     isHTML5: true,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
@@ -205,7 +205,7 @@ export class ApplicationFormComponent implements OnInit {
       }
     }
   }
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       this.submitted = true;
       this.application.setLanguage=this.localizeService.parser.currentLang;
@@ -327,13 +327,13 @@ export class ApplicationFormComponent implements OnInit {
       }
     });   
   }
-  private addUser(index){
+  public addUser(){
     if(this.user.value && !this.selectedUsers.includes(this.user.value) && this.usersSearch.filter(user => user.username === this.user.value).length > 0){
       this.selectedUsers.push(this.user.value);
       this.user.setValue("");
     }
   }
-  private addCondition(index){
+  public addCondition(){
     if(this.condition.value && !this.conditions.includes(this.condition.value)){
       this.conditions.push(this.condition.value);
       this.condition.setValue("");

@@ -68,11 +68,11 @@ export class EventFormComponent implements OnInit {
   private place:Place=new Place();
   private selectedPlace;
   private messageClass;
-  private message;
+  public message;
   //private newPost = false;
   private loadingEvents = false;
-  private form:FormGroup;
-  private submitted:boolean = false;
+  public form:FormGroup;
+  public submitted:boolean = false;
   private imagesPoster=[];
   @Input() inputLanguage;
   @Input() inputOperation:string;
@@ -80,33 +80,33 @@ export class EventFormComponent implements OnInit {
   private inputEventCopy;
   @Input() inputCategories;
   private imagesDescription=[];
-  private title:AbstractControl;
+  public title:AbstractControl;
   private categories: any[] = [];
-  private participant:AbstractControl;
-  private province:AbstractControl;
-  private municipality:AbstractControl;
-  private locationsExists:AbstractControl;
-  private location:AbstractControl;
-  private start:AbstractControl;
-  private end:AbstractControl;
-  private price:AbstractControl;
-  private lat:AbstractControl;
-  private lng:AbstractControl;
-  private description:AbstractControl;
-  private observations:AbstractControl;
-  private timeStart = {hour: 13, minute: 30};
-  private timeEnd = {hour: 13, minute: 30};
+  public participant:AbstractControl;
+  public province:AbstractControl;
+  public municipality:AbstractControl;
+  public locationsExists:AbstractControl;
+  public location:AbstractControl;
+  public start:AbstractControl;
+  public end:AbstractControl;
+  public price:AbstractControl;
+  public lat:AbstractControl;
+  public lng:AbstractControl;
+  public description:AbstractControl;
+  public observations:AbstractControl;
+  public timeStart = {hour: 13, minute: 30};
+  public timeEnd = {hour: 13, minute: 30};
   private categoryId=[];
   private levelCategories=[];
-  private participants=[];
+  public participants=[];
   private categoryIcon;
-  private provincesEvent;
-  private municipalitiesEvent;
-  private locationsExistsEvent=[];
+  public provincesEvent;
+  public municipalitiesEvent;
+  public locationsExistsEvent=[];
   private uploadAllSuccess:Boolean=true;
   private froalaSignature;
   private froalaEvent;
-  private uploader:FileUploader = new FileUploader({
+  public uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'event-poster',
     isHTML5: true,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
@@ -117,8 +117,8 @@ export class EventFormComponent implements OnInit {
   private hasAnotherDropZoneOver:boolean = false;
   private subscriptionLanguage: Subscription;
   private subscriptionObservableMapClick: Subscription;
-  private disableCategories=false;
-  private disableUploader=false;
+  public disableCategories=false;
+  public disableUploader=false;
   @Output() RefreshEvent = new EventEmitter();
 
   constructor(
@@ -450,7 +450,7 @@ export class EventFormComponent implements OnInit {
   private fileOverAnother(e:any):void {
     this.hasAnotherDropZoneOver = e;
   }
-  private onEventSubmit(){
+  public onEventSubmit(){
     this.submitted = true;
     // Create event object from form fields
     this.event.setLanguage=this.localizeService.parser.currentLang;// Language field
@@ -695,7 +695,7 @@ export class EventFormComponent implements OnInit {
     }
   }
    // Function on seleccted categories
-  private onSelectedCategory(value,level){
+  public onSelectedCategory(value,level){
     var index;
     for (var i = 0; i < this.levelCategories[level].value.length; ++i) {
       if(this.levelCategories[level].value[i].language===this.localizeService.parser.currentLang && this.levelCategories[level].value[i].title===value.split(' ')[1]){
@@ -740,7 +740,7 @@ export class EventFormComponent implements OnInit {
     }
   }   
   // Function on seleccted event Continent
-  private onSelectedProvince(index){
+  public onSelectedProvince(index){
     if (index===-1){
       this.form.get('municipality').disable(); // Disable municipality field
     }else{
@@ -753,7 +753,7 @@ export class EventFormComponent implements OnInit {
     this.form.controls['municipality'].setValue("");
   }
   // Function on seleccted event municipality
-  private onSelectedMunicipality(index){
+  public onSelectedMunicipality(index){
     if(index!==-1){
       var coordinates={
         lat:this.municipalitiesEvent[index].lat,
@@ -900,7 +900,7 @@ export class EventFormComponent implements OnInit {
     }
 
   }
-  private froalaOptions= {
+  public froalaOptions= {
      // Set max image size to 5MB.
     imageMaxSize: 5 * 1024 * 1024,
     // Allow to upload PNG and JPG.
@@ -908,7 +908,7 @@ export class EventFormComponent implements OnInit {
     charCounterMax: 20000,
     imageUploadToS3: undefined,
   }
-  private initializeFroala(initControls) {
+  public initializeFroala(initControls) {
     this.froalaEvent=initControls;
     var context=this;
     this.fileUploaderService.getSignatureFroala("event-description",this.localizeService.parser.currentLang).subscribe(data=>{
@@ -932,7 +932,7 @@ export class EventFormComponent implements OnInit {
         }); 
       });  
   }
-  private addParticipant() {
+  public addParticipant() {
     if(this.participant.value && !this.participants.includes(this.participant.value)){
       this.participants.push(this.participant.value);
       this.participant.setValue("");

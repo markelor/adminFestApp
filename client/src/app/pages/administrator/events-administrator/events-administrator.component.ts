@@ -17,14 +17,14 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./events-administrator.component.css']
 })
 export class EventsAdministratorComponent implements OnInit {
-  private messageClass;
-  private message;
-  private events;
+  public messageClass;
+  public message;
+  public events;
   @ViewChild(DataTableDirective)
-  private dtElement: DataTableDirective;
+  public dtElement: DataTableDirective;
   private subscriptionObservable: Subscription;
-  private dtOptions: any = {};
-  private dtTrigger: Subject<any> = new Subject();
+  public dtOptions: any = {};
+  public dtTrigger: Subject<any> = new Subject();
   private subscriptionLanguage: Subscription;
   constructor(
   	private eventService:EventService,

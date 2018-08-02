@@ -20,18 +20,18 @@ const URL = 'http://localhost:8080/fileUploader/uploadImages/service-type-icon';
   styleUrls: ['./service-type-form.component.css']
 })
 export class ServiceTypeFormComponent implements OnInit {
-  private message;
-  private messageClass;
-  private submitted:boolean = false;
-  private form:FormGroup;
+  public message;
+  public messageClass;
+  public submitted:boolean = false;
+  public form:FormGroup;
   @Input() inputOperation:string;
   @Input() inputServiceType;
   @Input() inputLanguage;
-  private title:AbstractControl;
+  public title:AbstractControl;
   private serviceType:ServiceType=new ServiceType();
   private iconsServiceType=[];
   private subscriptionObservable: Subscription;
-  private uploader:FileUploader = new FileUploader({
+  public uploader:FileUploader = new FileUploader({
     url: URL,itemAlias: 'service-type-icon',
     isHTML5: true,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','image/svg+xml'],
@@ -75,7 +75,7 @@ export class ServiceTypeFormComponent implements OnInit {
    private enableForm(){
     this.form.enable(); // Enable form
   }
-  private initializeForm(){  
+  public initializeForm(){  
     if(this.inputServiceType){
       var hasTranslation=false;
       for (var i = 0; i < this.inputServiceType.translation.length; ++i) {
@@ -203,7 +203,7 @@ export class ServiceTypeFormComponent implements OnInit {
       }
     }
   }
-  private onSubmit(){
+  public onSubmit(){
     if (this.form.valid) {
       this.submitted = true;
       //this.disableForm();

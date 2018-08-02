@@ -19,13 +19,13 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ManageServicesComponent implements OnInit {
   private messageClass;
-  private message;
-  private services;
+  public message;
+  public services;
   @ViewChild(DataTableDirective)
-  private dtElement: DataTableDirective;
+  public dtElement: DataTableDirective;
   private subscriptionObservable: Subscription;
-  private dtOptions: any = {};
-  private dtTrigger: Subject<any> = new Subject();
+  public dtOptions: any = {};
+  public dtTrigger: Subject<any> = new Subject();
   private subscriptionLanguage: Subscription;
   constructor(
     private serviceService:ServiceService,
